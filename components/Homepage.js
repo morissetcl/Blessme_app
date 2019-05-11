@@ -3,9 +3,7 @@ import { StyleSheet, View, Text, Button, Image, Animated, TouchableOpacity, Acti
 import Connexion from './Connexion'
 
 export default class Homepage extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = { header: null };
   render() {
     return (
       <View>

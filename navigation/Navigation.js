@@ -24,7 +24,7 @@ const SearchStackNavigator = createStackNavigator(
   },
   {
     headerTintColor: 'red',
-    initialRouteName: 'Homepage'
+    initialRouteName: 'Prayers'
   }
 )
 
