@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, Image, Animated, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Divider, Avatar, Card, ListItem, Button, Icon } from 'react-native-elements'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPenSquare, faComment } from '@fortawesome/free-solid-svg-icons'
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
@@ -15,14 +15,45 @@ export default class PrayerRequestCard extends React.Component {
   }
   render() {
     return (
-      <Card title={this.state.body}>
-        <Text>{this.state.title}</Text>
-        <Button
-          icon={<FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#ffff' } />}
-          backgroundColor='#03A9F4'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='VIEW NOW' />
+      <Card title={<Avatar rounded title="MD" />} >
+        <Text style = {styles.created_at}>2 days ago</Text>
+        <Text style = {styles.card_title}> {this.state.title}</Text>
+
+        <Text numberOfLines={7} >{this.state.body}</Text>
+        <View style = {styles.card_actions}>
+          <TouchableOpacity>
+            <FontAwesomeIcon icon={ faPenSquare } size={24} color={ '#444444' } style = {styles.button}/>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FontAwesomeIcon icon={ faComment } size={24} color={ '#444444' } style = {styles.button}/>
+          </TouchableOpacity>
+        </View>
       </Card>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  card_title: {
+    textAlign: 'center',
+    marginBottom: 10,
+    fontWeight: 'bold'
+  },
+  created_at: {
+    position:'relative',
+    top: -25,
+    left: 45
+  },
+  button: {
+    padding: 10
+  },
+  card_actions: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    position: 'relative',
+    top: 10,
+    paddingTop: 5,
+    paddingBottom: 5
+  }
+});

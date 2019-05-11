@@ -27,10 +27,10 @@ export default class Prayers extends Component {
         </View>
         <View style = {styles.bottom_buttons}>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#ffff' } />
+            <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text>coucou</Text>
+            <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
         </View>
       </View>
@@ -40,7 +40,7 @@ export default class Prayers extends Component {
 
 const styles = StyleSheet.create({
   bottom_buttons: {
-    backgroundColor: '#01676b',
+    backgroundColor: '#fafafa',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -48,15 +48,16 @@ const styles = StyleSheet.create({
     bottom:0,
     left:0,
     width: '100%',
-    height: '10 %',
-    alignItems: 'center'
+    height: '8%',
+    alignItems: 'center',
+    elevation: 1
   },
   container: {
-    flex: 1,                            // Take up all screen
-    backgroundColor: 'red'
+    flex: 1,
+    backgroundColor: '#FFFFFF' // background tab color
   },
   content: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: '#eaeaea'
   }
 })

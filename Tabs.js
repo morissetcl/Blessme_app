@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
   },
   // Active tab container
   tabContainerActive: {
-    borderBottomColor: '#49beb7',       // White bottom border for active tabs
+    borderBottomColor: '#49beb7'       // White bottom border for active tabs
   },
   // Tab text
   tabText: {
-    color: '#FFFFFF',
+    color: '#444444',
     fontWeight: 'bold',
     textAlign: 'center',
   },
