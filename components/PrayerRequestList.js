@@ -21,7 +21,7 @@ export default class PrayerRequestList extends React.Component {
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
-      return <PrayerRequestCard prayer_request= { response } key={index} />
+      return <PrayerRequestCard prayer_request= { response } key={index} style={styles.ok} />
     });
 
     return (
@@ -48,7 +48,10 @@ const styles = StyleSheet.create({
     left: 150
   },
   container_prayer_request_card: {
-    paddingBottom: '11%'
+    paddingBottom: '9%'
+  },
+  ok: {
+    width: '100%'
   },
   container: {
      flexDirection: 'column',
