@@ -19,7 +19,7 @@ export default class Prayers extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
-              <PrayerRequestList/>
+              <PrayerRequestList navigation={this.props.navigation}/>
             </View>
             <View title="INTERCESSION" style={styles.content}>
             </View>

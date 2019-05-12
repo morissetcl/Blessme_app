@@ -8,7 +8,8 @@ export default class PrayerRequestList extends React.Component {
     super(props);
     this.state = {
       prayersRequests: [],
-      loaded: false
+      loaded: false,
+      navigation: this.props.navigation
     };
   }
 
@@ -21,7 +22,7 @@ export default class PrayerRequestList extends React.Component {
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
-      return <PrayerRequestCard prayer_request= { response } key={index} style={styles.ok} />
+      return <PrayerRequestCard prayer_request={ response } navigation={ this.state.navigation } key={index} style={styles.ok} />
     });
 
     return (

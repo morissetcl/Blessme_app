@@ -10,18 +10,26 @@ export default class PrayerRequestCard extends React.Component {
     this.state = {
       title: props.prayer_request['title'],
       body: props.prayer_request['body'],
-      user: props.prayer_request['user']
+      user: props.prayer_request['user'],
+      prayerId: props.prayer_request['id'],
+      navigation: this.props.navigation
     }
   }
+
+  goToPrayer(prayerId) {
+    console.log(this.props)
+    this.state.navigation.navigate('Prayer', { prayerId: prayerId })
+  }
+
   render() {
     return (
-      <Card title={<Avatar rounded title="MD" />} >
+      <Card title={<Avatar rounded title="MD" />}>
         <Text style = {styles.created_at}>2 days ago</Text>
         <Text style = {styles.card_title}> {this.state.title}</Text>
 
         <Text numberOfLines={7} style = {styles.card_body}>{this.state.body}</Text>
         <View style = {styles.card_actions}>
-          <TouchableOpacity>
+          <TouchableOpacity  onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
             <FontAwesomeIcon icon={ faPenSquare } size={24} color={ '#FFFFFF' } style = {styles.button}/>
           </TouchableOpacity>
           <TouchableOpacity>
