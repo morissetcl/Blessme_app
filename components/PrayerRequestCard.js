@@ -12,30 +12,35 @@ export default class PrayerRequestCard extends React.Component {
       body: props.prayer_request['body'],
       user: props.prayer_request['user'],
       prayerId: props.prayer_request['id'],
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      numberOfLines: this.props.numberOfLines,
+      needLink: this.props.needLink
     }
   }
 
   goToPrayer(prayerId) {
-    this.state.navigation.navigate('Prayer', { prayerId: prayerId })
+    if (this.state.needLink) {
+      this.state.navigation.navigate('Prayer', { prayerId: prayerId })
+    }
   }
 
   render() {
     return (
-      <Card title={<Avatar rounded title="MD" />}>
-        <Text style = {styles.created_at}>2 days ago</Text>
-        <Text style = {styles.card_title}> {this.state.title}</Text>
-
-        <Text numberOfLines={7} style = {styles.card_body}>{this.state.body}</Text>
-        <View style = {styles.card_actions}>
-          <TouchableOpacity  onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
-            <FontAwesomeIcon icon={ faPenSquare } size={24} color={ '#FFFFFF' } style = {styles.button}/>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#FFFFFF' } style = {styles.button}/>
-          </TouchableOpacity>
-        </View>
-      </Card>
+      <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
+        <Card title={<Avatar rounded title="MD" />}>
+          <Text style = {styles.created_at}>2 days ago</Text>
+          <Text style = {styles.card_title}> {this.state.title}</Text>
+          <Text numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
+          <View style = {styles.card_actions}>
+            <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
+              <FontAwesomeIcon icon={ faPenSquare } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      </TouchableOpacity>
     );
   }
 }
