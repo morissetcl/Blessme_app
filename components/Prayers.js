@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default class Prayers extends Component {
-  static navigationOptions = { header: null };
-
   constructor(props) {
     super(props);
     this.state = { loading: true };
@@ -19,7 +17,7 @@ export default class Prayers extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
-              <PrayerRequestList/>
+              <PrayerRequestList navigation={this.props.navigation}/>
             </View>
             <View title="INTERCESSION" style={styles.content}>
             </View>
