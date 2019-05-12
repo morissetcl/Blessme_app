@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native'
 import PrayerRequestList from './PrayerRequestList'
 import Tabs from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default class Prayers extends Component {
   static navigationOptions = { header: null };
@@ -30,6 +30,9 @@ export default class Prayers extends Component {
             <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
           <TouchableOpacity>
+            <FontAwesomeIcon icon={ faPlusCircle } size={36} color={ '#FFFFFF' } style = {styles.add_prayer} />
+          </TouchableOpacity>
+          <TouchableOpacity>
             <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
         </View>
@@ -39,6 +42,11 @@ export default class Prayers extends Component {
 }
 
 const styles = StyleSheet.create({
+  add_prayer: {
+    borderRadius: 30,
+    backgroundColor: '#ff8b6a',
+    padding: 15
+  },
   bottom_buttons: {
     backgroundColor: '#fafafa',
     display: 'flex',
@@ -48,7 +56,7 @@ const styles = StyleSheet.create({
     bottom:0,
     left:0,
     width: '100%',
-    height: '8%',
+    height: '10%',
     alignItems: 'center',
     elevation: 1
   },
