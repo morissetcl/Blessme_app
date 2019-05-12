@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native'
+import { StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { getPrayerRequest } from '../api/PrayerRequest'
 
 export default class Prayer extends Component {
   static navigationOptions = { header: null };
@@ -7,15 +8,27 @@ export default class Prayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerId: this.props.prayerId
+      prayerId: props.navigation.state.params.prayerId,
+      loaded: false,
+      prayerRequest: []
     }
-    console.log(this.state.prayerId)
+  }
+
+  componentDidMount() {
+    getPrayerRequest(this.state.prayerId).then(data => {
+      this.setState({ prayerRequest: data })
+      this.setState({ loaded: true })
+    })
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>je suis une prière</Text>
+      { this.state.loaded ?
+        <Text>{ this.state.prayerRequest.title }</Text>
+        :
+        <ActivityIndicator size="large" style = {styles.loader} />
+      }
       </View>
     );
   }

@@ -17,7 +17,6 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   goToPrayer(prayerId) {
-    console.log(this.props)
     this.state.navigation.navigate('Prayer', { prayerId: prayerId })
   }
 

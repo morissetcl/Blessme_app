@@ -19,6 +19,7 @@ export default class PrayerRequestList extends React.Component {
       this.setState({ loaded: true })
     })
   }
+
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
