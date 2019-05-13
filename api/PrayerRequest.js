@@ -7,7 +7,6 @@ export function getAllPrayersRequests() {
 
 
 export function getPrayerRequest(prayerId) {
-  console.log(prayerId)
   const url = 'https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/' + prayerId
   return fetch(url)
     .then((response) => response.json())
