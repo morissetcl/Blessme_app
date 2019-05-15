@@ -65,7 +65,7 @@ export default class Connexion extends React.Component {
     return (
       <View style={styles.container}>
       {this.state.logged ?
-        <Prayers />
+        <Prayers navigation={ this.props.navigation }/>
         :
         <View>
           <Form>

@@ -6,7 +6,7 @@ export default class Homepage extends React.Component {
   render() {
     return (
       <View>
-        <Connexion style = {styles.coucou}/>
+        <Connexion style = {styles.coucou} navigation={this.props.navigation}/>
       </View>
     );
   }
