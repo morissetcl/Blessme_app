@@ -20,7 +20,7 @@ export default class PrayerRequestCard extends React.Component {
 
   goToPrayer(prayerId) {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: prayerId })
+      this.props.navigation.navigate('Prayer', { prayerId: prayerId })
     }
   }
 
