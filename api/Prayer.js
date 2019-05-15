@@ -1,14 +1,15 @@
 export function createPrayer(params) {
-  const prayerId = 3
-  return fetch(`https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/${3}/comments`, {
+  const prayerId = params['prayerId']
+  return fetch(`https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/${prayerId}/comments`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  user_id: params['userId'],
-                  body: params['b']
+                  email: params['currentUserEmail'],
+                  body: params['body'],
+                  prayer_request_id: prayerId
                 })
               })
 }

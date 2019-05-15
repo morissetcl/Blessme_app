@@ -51,7 +51,7 @@ export default class Prayer extends Component {
               size={28} color={ '#49beb7' }
               style = {styles.add_prayer}
               onPress={(value) => {
-                this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail })
+                this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId })
               }}
              />
           </TouchableOpacity>

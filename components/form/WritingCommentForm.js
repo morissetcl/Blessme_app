@@ -3,17 +3,21 @@ import { TouchableHighlight, TextInput, StyleSheet, View, Text, Button, Touchabl
 import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
+import { createPrayer } from '../../api/Prayer'
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       prayerTitle: props.navigation.state.params.prayerRequest.title,
-      currentUserEmail: props.navigation.state.params.currentUserEmail
+      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      prayerId: props.navigation.state.params.prayerId,
+      body: '',
     }
   }
 
   addPrayer() {
+    createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId })
   }
 
   render() {
@@ -27,6 +31,7 @@ export default class WritingCommentForm extends Component {
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
+          onChangeText={(body) => this.setState({body})}
           style={styles.comment_input}
         />
       </View>
