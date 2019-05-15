@@ -8,7 +8,8 @@ export default class WritingCommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerTitle: props.navigation.state.params.prayerRequest.title
+      prayerTitle: props.navigation.state.params.prayerRequest.title,
+      currentUserEmail: props.navigation.state.params.currentUserEmail
     }
   }
 

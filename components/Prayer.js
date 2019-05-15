@@ -13,7 +13,8 @@ export default class Prayer extends Component {
       prayerId: props.navigation.state.params.prayerId,
       loaded: false,
       prayerRequest: [],
-      navigation: props.navigation
+      navigation: props.navigation,
+      currentUserEmail: props.navigation.state.params.currentUserEmail
     }
   }
 
@@ -50,7 +51,7 @@ export default class Prayer extends Component {
               size={28} color={ '#49beb7' }
               style = {styles.add_prayer}
               onPress={(value) => {
-                this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest })
+                this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail })
               }}
              />
           </TouchableOpacity>

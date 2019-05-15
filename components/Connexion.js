@@ -65,7 +65,7 @@ export default class Connexion extends React.Component {
     return (
       <View style={styles.container}>
       {this.state.logged ?
-        <Prayers navigation={ this.props.navigation }/>
+        <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email }/>
         :
         <View>
           <Form>

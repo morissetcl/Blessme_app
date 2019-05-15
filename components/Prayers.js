@@ -10,7 +10,8 @@ export default class Prayers extends Component {
     super(props);
     this.state = {
       loading: true ,
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      currentUserEmail: this.props.currentUserEmail
     };
   }
 
@@ -20,7 +21,7 @@ export default class Prayers extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
-              <PrayerRequestList navigation={this.state.navigation}/>
+              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail }/>
             </View>
             <View title="INTERCESSION" style={styles.content}>
             </View>
