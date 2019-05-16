@@ -16,15 +16,16 @@ export default class WritingCommentForm extends Component {
     }
   }
 
-  addPrayer() {
+  addPrayer(prayerId) {
     createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId })
+    this.props.navigation.navigate("Prayer", { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })
   }
 
   render() {
     return (
       <View style={styles.container} >
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
-        <Text style={styles.publish_button} onPress={(value) => { this.addPrayer() }}>Publier</Text>
+        <Text style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}>Publier</Text>
         <Divider style={styles.divider} />
         <TextInput
           placeholder={ 'Écrivez votre prière..' }
