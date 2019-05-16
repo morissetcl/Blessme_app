@@ -63,9 +63,9 @@ export default class Connexion extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
       {this.state.logged ?
-        <Prayers/>
+        <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email }/>
         :
         <View>
           <Form>
@@ -101,6 +101,10 @@ export default class Connexion extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: '#FFFFFF' // background tab color
+  },
   coucou: {
     width: '80%',
   },

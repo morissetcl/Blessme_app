@@ -8,7 +8,11 @@ import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 export default class Prayers extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true };
+    this.state = {
+      loading: true ,
+      navigation: this.props.navigation,
+      currentUserEmail: this.props.currentUserEmail
+    };
   }
 
   render() {
@@ -17,7 +21,7 @@ export default class Prayers extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
-              <PrayerRequestList navigation={this.props.navigation}/>
+              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail }/>
             </View>
             <View title="INTERCESSION" style={styles.content}>
             </View>

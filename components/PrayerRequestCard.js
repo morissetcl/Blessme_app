@@ -14,13 +14,14 @@ export default class PrayerRequestCard extends React.Component {
       prayerId: props.prayer_request['id'],
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
-      needLink: this.props.needLink
+      needLink: this.props.needLink,
+      currentUserEmail: this.props.currentUserEmail
     }
   }
 
   goToPrayer(prayerId) {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: prayerId })
+      this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })
     }
   }
 

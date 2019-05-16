@@ -6,10 +6,12 @@ import PrayerRequestCard from './PrayerRequestCard'
 export default class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       prayersRequests: [],
       loaded: false,
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      currentUserEmail: this.props.currentUserEmail
     };
   }
 
@@ -23,7 +25,7 @@ export default class PrayerRequestList extends React.Component {
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
-      return <PrayerRequestCard prayer_request={ response } navigation={ this.state.navigation } numberOfLines={7} key={index} style={styles.ok} needLink={true} />
+      return <PrayerRequestCard prayer_request={ response } currentUserEmail={ this.state.currentUserEmail } navigation={ this.state.navigation } numberOfLines={7} key={index} style={styles.ok} needLink={true} />
     });
 
     return (

@@ -4,6 +4,7 @@ import Homepage from '../components/Homepage'
 import Connexion from '../components/Connexion'
 import Prayers from '../components/Prayers'
 import Prayer from '../components/Prayer'
+import WritingCommentForm from '../components/form/WritingCommentForm'
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -17,6 +18,16 @@ const SearchStackNavigator = createStackNavigator(
       screen: Connexion,
       navigationOptions: {
         header: null
+      },
+    },
+    WritingCommentForm: {
+      screen: WritingCommentForm,
+      navigationOptions: {
+        title: 'Prière',
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7'
+        }
       },
     },
     Prayer: {
@@ -38,7 +49,7 @@ const SearchStackNavigator = createStackNavigator(
   },
   {
     headerTintColor: 'red',
-    initialRouteName: 'Prayers'
+    initialRouteName: 'Connexion'
   }
 )
 
