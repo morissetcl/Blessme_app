@@ -13,3 +13,10 @@ export function createPrayer(params) {
                 })
               })
 }
+
+export function getPrayers(prayerId) {
+  const url = `https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/${prayerId}/comments`
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}
