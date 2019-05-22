@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { TouchableHighlight, Modal, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { ScrollView, TouchableHighlight, Modal, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { getPrayerRequest } from '../api/PrayerRequest'
+import { getPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
+import PrayerCard from './PrayerCard'
+import { NavigationEvents } from 'react-navigation';
+
 import WritingCommentForm from './form/WritingCommentForm'
 
 export default class Prayer extends Component {
@@ -14,7 +18,10 @@ export default class Prayer extends Component {
       loaded: false,
       prayerRequest: [],
       navigation: props.navigation,
-      currentUserEmail: props.navigation.state.params.currentUserEmail
+      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      prayers: [],
+      prayersLoaded: false,
+      prayersList: []
     }
   }
 
@@ -25,19 +32,38 @@ export default class Prayer extends Component {
     })
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  retrieveAllPrayers(prayerId) {
+    this.setState({ prayersLoaded: true, prayers: [] })
+    getPrayers(prayerId).then(data => {
+      this.state.prayers.push(data.prayer_request_comments)
+      var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
+      this.state.prayersList = prayers.map((response, index) => {
+        return <PrayerCard prayer={ response } key={index} />
+      });
+      this.setState({ prayersLoaded: true })
+    })
   }
 
   render() {
+
+
     return (
       <View style={styles.container}>
+      <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
       { this.state.loaded ?
-        <View style={styles.prayer_card} >
-          <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} />
-        </View>
-
-        :
+        <ScrollView>
+          <View style={styles.prayer_card} >
+            <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} />
+              { this.state.prayersLoaded ?
+                <View style={styles.prayer_list} >
+                  { this.state.prayersList }
+                </View>
+                :
+                <ActivityIndicator size="large" style = {styles.loader} />
+              }
+          </View>
+        </ScrollView>
+          :
         <ActivityIndicator size="large" style = {styles.loader} />
       }
       { this.state.loaded ?
@@ -70,7 +96,7 @@ export default class Prayer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF' // background tab color
+    backgroundColor: '#eaeaea' // background tab color
   },
   loader: {
     color:"#0000ff",
@@ -82,6 +108,10 @@ const styles = StyleSheet.create({
   },
   prayer_card: {
     paddingTop: 20
+  },
+  prayer_list: {
+    paddingTop: 20,
+    paddingBottom: 40
   },
   bottom_buttons: {
     backgroundColor: '#fafafa',
