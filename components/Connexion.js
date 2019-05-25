@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
-import { Container, Item, Form, Input, Button, Label } from "native-base";
+import { Item, Form, Input, Label } from "native-base";
 import * as firebase from "firebase";
 import Prayers from './Prayers'
 

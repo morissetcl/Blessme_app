@@ -3,37 +3,42 @@ import { TouchableHighlight, TextInput, StyleSheet, View, Text, Button, Touchabl
 import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
-import { createPrayer } from '../../api/Prayer'
+import { createPrayerRequestAndRedirect, retrievePrayerRequestId } from '../../api/PrayerRequest'
 
-export default class WritingCommentForm extends Component {
+export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerTitle: props.navigation.state.params.prayerRequest.title,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
-      prayerId: props.navigation.state.params.prayerId,
-      body: '',
+      title: '',
+      body: ''
     }
   }
 
-  addPrayer(prayerId) {
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId })
-    this.props.navigation.navigate("Prayer", { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })
+  addPrayerRequest() {
+    createPrayerRequestAndRedirect({ currentUserEmail: 'koala@yahoo.fr', body: this.state.body , title: this.state.title, navigation: this.props.navigation })
   }
 
   render() {
     return (
       <View style={styles.container} >
-        <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
-        <Text style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}>Publier</Text>
+      <Text style={styles.publish_button} onPress={(value) => {     this.addPrayerRequest() }}>Publier</Text>
+        <TextInput
+          placeholder={ 'Une courte phrase résumant votre demande' }
+          inputStyle={{ width: '100%', color: 'black' }}
+          underlineColorAndroid="transparent"
+          multiline
+          onChangeText={(title) => this.setState({title})}
+          style={styles.input}
+        />
         <Divider style={styles.divider} />
         <TextInput
-          placeholder={ 'Écrivez votre prière..' }
+          placeholder={ 'Écrivez votre demande de prière la plus détaillée possible.' }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
           onChangeText={(body) => this.setState({body})}
-          style={styles.comment_input}
+          style={styles.input}
         />
       </View>
     );
@@ -63,12 +68,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontWeight: 'bold'
   },
-  comment_input: {
+  input: {
     marginTop: 30,
-    marginLeft: 10
+    marginLeft: 10,
+    marginRight: 10
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    paddingTop:30
   }
 })

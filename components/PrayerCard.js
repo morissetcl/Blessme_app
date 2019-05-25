@@ -1,6 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'
-import { Divider, Avatar, Card, ListItem, Button, Icon } from 'react-native-elements'
+import { StyleSheet, View, Text } from 'react-native'
 
 export default class PrayerCard extends React.Component {
   constructor(props) {

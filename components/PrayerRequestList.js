@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Card, StyleSheet, View, Text, Button, Image, Animated, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, ActivityIndicator } from 'react-native'
 import { getAllPrayersRequests } from '../api/PrayerRequest'
 import PrayerRequestCard from './PrayerRequestCard'
 

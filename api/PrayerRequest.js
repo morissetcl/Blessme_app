@@ -12,3 +12,23 @@ export function getPrayerRequest(prayerId) {
     .then((response) => response.json())
     .catch((error) => console.error(error))
 }
+
+export function createPrayerRequestAndRedirect(params) {
+  const prayerId = params['prayerId']
+  const navigation = params['navigation']
+  fetch(`https://blessme-serveur.herokuapp.com/api/v1/prayers_requests`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: params['currentUserEmail'],
+      title: params['title'],
+      body: params['body']
+    })
+  }).then(response => response.json())
+    .then(json => {
+      navigation.navigate("Prayer", { prayerId: json.id, currentUserEmail: params['currentUserEmail'] })
+    });
+}

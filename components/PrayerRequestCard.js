@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'
-import { Divider, Avatar, Card, ListItem, Button, Icon } from 'react-native-elements'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { Avatar, Card } from 'react-native-elements'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 
