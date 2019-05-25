@@ -5,6 +5,7 @@ import Connexion from '../components/Connexion'
 import Prayers from '../components/Prayers'
 import Prayer from '../components/Prayer'
 import WritingCommentForm from '../components/form/WritingCommentForm'
+import PrayerRequestForm from '../components/form/PrayerRequestForm'
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -24,6 +25,16 @@ const SearchStackNavigator = createStackNavigator(
       screen: WritingCommentForm,
       navigationOptions: {
         title: 'Prière',
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7'
+        }
+      },
+    },
+    PrayerRequestForm: {
+      screen: PrayerRequestForm,
+      navigationOptions: {
+        title: 'Demande de prière',
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7'

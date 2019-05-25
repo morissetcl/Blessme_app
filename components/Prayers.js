@@ -16,7 +16,6 @@ export default class Prayers extends Component {
     };
   }
 
-
   componentWillMount() {
     createUser({ currentUserEmail: this.state.currentUserEmail })
   }
@@ -38,7 +37,14 @@ export default class Prayers extends Component {
             <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faPlusCircle } size={36} color={ '#FFFFFF' } style = {styles.add_prayer} />
+            <FontAwesomeIcon
+              icon={ faPlusCircle }
+              size={36} color={ '#FFFFFF' }
+              style = {styles.add_prayer}
+              onPress={(value) => {
+                this.state.navigation.navigate('PrayerRequestForm', { currentUserEmail: this.state.currentUserEmail })
+              }}
+             />
           </TouchableOpacity>
           <TouchableOpacity>
             <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />

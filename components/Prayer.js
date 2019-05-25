@@ -45,8 +45,6 @@ export default class Prayer extends Component {
   }
 
   render() {
-
-
     return (
       <View style={styles.container}>
       <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
