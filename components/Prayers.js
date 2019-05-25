@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native'
+import { StyleSheet, View, TouchableOpacity} from 'react-native'
 import PrayerRequestList from './PrayerRequestList'
 import Tabs from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, TouchableHighlight, Modal, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { ScrollView, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { getPrayerRequest } from '../api/PrayerRequest'
 import { getPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Button, Image, Animated, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Connexion from './Connexion'
 
 export default class Homepage extends React.Component {
