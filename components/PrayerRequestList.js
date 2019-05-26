@@ -6,7 +6,6 @@ import PrayerRequestCard from './PrayerRequestCard'
 export default class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       prayersRequests: [],
       loaded: false,
