@@ -1,11 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Navigation from './navigation/Navigation'
+import FlashMessage from "react-native-flash-message";
 
 export default class App extends React.Component {
   render() {
     return (
-      <Navigation/>
+      <View style={{ flex: 1 }}>
+        <Navigation/>
+        <FlashMessage position="top" />
+      </View>
     );
   }
 }

@@ -16,13 +16,14 @@ export default class PrayerRequestForm extends Component {
   }
 
   addPrayerRequest() {
-    createPrayerRequestAndRedirect({ currentUserEmail: 'koala@yahoo.fr', body: this.state.body , title: this.state.title, navigation: this.props.navigation })
+    createPrayerRequestAndRedirect({ currentUserEmail: 'koala@yahoo.fr', body: this.state.body , title: this.state.title, navigation: this.props.navigation, fromForm: true })
   }
 
   render() {
     return (
       <View style={styles.container} >
-      <Text style={styles.publish_button} onPress={(value) => {     this.addPrayerRequest() }}>Publier</Text>
+
+      <Text style={styles.publish_button} onPress={(value) => { this.addPrayerRequest() }}>Publier</Text>
         <TextInput
           placeholder={ 'Une courte phrase résumant votre demande' }
           inputStyle={{ width: '100%', color: 'black' }}

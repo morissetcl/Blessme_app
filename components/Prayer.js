@@ -7,6 +7,7 @@ import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-
 import PrayerRequestCard from './PrayerRequestCard'
 import PrayerCard from './PrayerCard'
 import { NavigationEvents } from 'react-navigation';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import WritingCommentForm from './form/WritingCommentForm'
 
@@ -21,9 +22,18 @@ export default class Prayer extends Component {
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       prayers: [],
       prayersLoaded: false,
-      prayersList: []
+      prayersList: [],
+      fromForm: props.navigation.state.params.fromForm
     }
   }
+
+
+  flashMessageAfterCreate = () => {
+    showMessage({
+      message: "Votre demande a bien été créée.",
+      type: "success"
+    });
+  };
 
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {

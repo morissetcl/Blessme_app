@@ -29,6 +29,6 @@ export function createPrayerRequestAndRedirect(params) {
     })
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { prayerId: json.id, currentUserEmail: params['currentUserEmail'] })
+      navigation.navigate("Prayer", { prayerId: json.id, currentUserEmail: params['currentUserEmail'], fromForm: params['fromForm'] })
     });
 }
