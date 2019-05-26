@@ -7,7 +7,7 @@ export function createPrayer(params) {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  email: params['currentUserEmail'],
+                  email: 'koala@yahoo.fr',
                   body: params['body'],
                   prayer_request_id: prayerId
                 })

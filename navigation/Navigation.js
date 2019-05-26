@@ -60,7 +60,7 @@ const SearchStackNavigator = createStackNavigator(
   },
   {
     headerTintColor: 'red',
-    initialRouteName: 'Connexion'
+    initialRouteName: 'Prayers'
   }
 )
 

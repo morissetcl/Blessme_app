@@ -5,7 +5,6 @@ import { getPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
-import PrayerCard from './PrayerCard'
 import { NavigationEvents } from 'react-navigation';
 
 import WritingCommentForm from './form/WritingCommentForm'
@@ -38,7 +37,10 @@ export default class Prayer extends Component {
       this.state.prayers.push(data.prayer_request_comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
-        return <PrayerCard prayer={ response } key={index} />
+        return <View style={styles.comment_card} key={index}>
+                 <Text style={styles.username}>{response.user.email}</Text>
+                 <Text style={styles.body}>{response.body}</Text>
+               </View>
       });
       this.setState({ prayersLoaded: true })
     })
@@ -123,5 +125,19 @@ const styles = StyleSheet.create({
     height: '10%',
     alignItems: 'center',
     elevation: 1
+  },
+  comment_card: {
+    padding: '2%',
+    marginBottom: '5%',
+    backgroundColor: 'white'
+  },
+  username: {
+    fontWeight: 'bold',
+    color: '#63686e',
+    marginBottom: '2%'
+  },
+  body: {
+    color: '#7d7d7d',
+    paddingLeft: '2%'
   }
 })
