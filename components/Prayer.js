@@ -22,23 +22,27 @@ export default class Prayer extends Component {
       prayers: [],
       prayersLoaded: false,
       prayersList: [],
-      fromForm: props.navigation.state.params.fromForm
+      flashMessage: true
     }
   }
 
-
-  flashMessageAfterCreate = () => {
-    showMessage({
-      message: "Votre demande a bien été créée.",
-      type: "success"
-    });
-  };
 
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {
       this.setState({ prayerRequest: data })
       this.setState({ loaded: true })
     })
+  }
+
+  componentDidUpdate() {
+    if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
+      showMessage({
+        message: 'Votre prière a bien été ajoutée.',
+        type: 'success',
+        icon: 'success'
+      });
+      this.setState({ flashMessage: false })
+    }
   }
 
   retrieveAllPrayers(prayerId) {
