@@ -17,8 +17,7 @@ export default class WritingCommentForm extends Component {
   }
 
   addPrayer(prayerId) {
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId })
-    this.props.navigation.navigate("Prayer", { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })
+    createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId, navigation: this.props.navigation })
   }
 
   render() {

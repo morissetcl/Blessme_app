@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
 import { NavigationEvents } from 'react-navigation';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import WritingCommentForm from './form/WritingCommentForm'
 
@@ -20,15 +21,28 @@ export default class Prayer extends Component {
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       prayers: [],
       prayersLoaded: false,
-      prayersList: []
+      prayersList: [],
+      flashMessage: true
     }
   }
+
 
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {
       this.setState({ prayerRequest: data })
       this.setState({ loaded: true })
     })
+  }
+
+  componentDidUpdate() {
+    if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
+      showMessage({
+        message: 'Votre prière a bien été ajoutée.',
+        type: 'success',
+        icon: 'success'
+      });
+      this.setState({ flashMessage: false })
+    }
   }
 
   retrieveAllPrayers(prayerId) {
