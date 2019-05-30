@@ -11,6 +11,7 @@ export default class PrayerRequestCard extends React.Component {
       title: props.prayer_request['title'],
       body: props.prayer_request['body'],
       user: props.prayer_request['user'],
+      username: props.prayer_request['user']['username'],
       prayerId: props.prayer_request['id'],
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
@@ -29,6 +30,7 @@ export default class PrayerRequestCard extends React.Component {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
         <Card title={<Avatar rounded title="MD" />}>
+          <Text style = {styles.username}> {this.state.username}</Text>
           <Text style = {styles.created_at}>2 days ago</Text>
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
@@ -50,15 +52,24 @@ const styles = StyleSheet.create({
   card_body: {
     flex: 1
   },
+  username: {
+    position:'absolute',
+    top: 8,
+    left: 40,
+    fontWeight: 'bold',
+    color: '#bbbbbb'
+  },
   card_title: {
     textAlign: 'center',
     marginBottom: 10,
     fontWeight: 'bold'
   },
   created_at: {
-    position:'relative',
-    top: -25,
-    left: 45
+    position:'absolute',
+    top: 8,
+    right: 0,
+    fontSize: 12,
+    color: '#bbbbbb'
   },
   button: {
     padding: 10

@@ -10,6 +10,7 @@ export default class Connexion extends React.Component {
     this.state = {
       email: "",
       password: "",
+      username: "",
       logged: false
     };
   }
@@ -59,16 +60,25 @@ export default class Connexion extends React.Component {
       appId: process.env.FIREBASE_MESSAGE_APP_ID
     };
     firebase.initializeApp(firebaseConfig);
+
   }
 
   render() {
     return (
       <View style={styles.container}>
       {this.state.logged ?
-        <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email }/>
+        <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email } username={this.state.username}/>
         :
         <View>
           <Form>
+            <Item floatingLabel>
+              <Label>Username</Label>
+              <Input
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={username => this.setState({ username })}
+              />
+            </Item>
             <Item floatingLabel>
               <Label>Email</Label>
               <Input

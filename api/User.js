@@ -6,7 +6,8 @@ export function createUser(params) {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  email: params['currentUserEmail']
+                  email: params['currentUserEmail'],
+                  username: params['username']
                 })
               })
 }

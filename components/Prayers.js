@@ -12,12 +12,13 @@ export default class Prayers extends Component {
     this.state = {
       loading: true ,
       navigation: this.props.navigation,
-      currentUserEmail: this.props.currentUserEmail
+      currentUserEmail: this.props.currentUserEmail,
+      username: this.props.username
     };
   }
 
   componentWillMount() {
-    createUser({ currentUserEmail: this.state.currentUserEmail })
+    createUser({ currentUserEmail: this.state.currentUserEmail, username: this.state.username })
   }
 
   render() {
@@ -26,7 +27,7 @@ export default class Prayers extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
-              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail }/>
+              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username }/>
             </View>
             <View title="INTERCESSION" style={styles.content}>
             </View>

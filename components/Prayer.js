@@ -18,6 +18,7 @@ export default class Prayer extends Component {
       loaded: false,
       prayerRequest: [],
       navigation: props.navigation,
+      username: props.navigation.state.params.username,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       prayers: [],
       prayersLoaded: false,
@@ -52,7 +53,7 @@ export default class Prayer extends Component {
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
         return <View style={styles.comment_card} key={index}>
-                 <Text style={styles.username}>{response.user.email}</Text>
+                 <Text style={styles.username}>{response.user.username}</Text>
                  <Text style={styles.body}>{response.body}</Text>
                </View>
       });

@@ -9,6 +9,7 @@ export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: props.navigation.state.params.username,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       title: '',
       body: ''
@@ -16,7 +17,7 @@ export default class PrayerRequestForm extends Component {
   }
 
   addPrayerRequest() {
-    createPrayerRequestAndRedirect({ currentUserEmail: 'koala@yahoo.fr', body: this.state.body , title: this.state.title, navigation: this.props.navigation, fromForm: true })
+    createPrayerRequestAndRedirect({ username: this.state.username, currentUserEmail: this.state.currentUserEmail, body: this.state.body , title: this.state.title, navigation: this.props.navigation, fromForm: true })
   }
 
   render() {
