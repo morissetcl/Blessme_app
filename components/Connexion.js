@@ -11,7 +11,8 @@ export default class Connexion extends React.Component {
       email: "",
       password: "",
       username: "",
-      logged: false
+      logged: false,
+      firebaseCheck: false
     };
   }
 
@@ -49,7 +50,7 @@ export default class Connexion extends React.Component {
     }
   };
 
-  componentWillMount(){
+  componentDidMount(){
     var firebaseConfig = {
       apiKey: process.env.FIREBASE_API_KEY,
       authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -60,52 +61,64 @@ export default class Connexion extends React.Component {
       appId: process.env.FIREBASE_MESSAGE_APP_ID
     };
     firebase.initializeApp(firebaseConfig);
-
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.setState({ logged: true })
+        }
+        this.setState({ firebaseCheck: true })
+      }
+    )
   }
 
   render() {
     return (
-      <View style={styles.container}>
-      {this.state.logged ?
-        <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email } username={this.state.username}/>
-        :
-        <View>
-          <Form>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <Input
-                autoCapitalize="none"
-                autoCorrect={false}
-                onChangeText={username => this.setState({ username })}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>Email</Label>
-              <Input
-                autoCapitalize="none"
-                autoCorrect={false}
-                onChangeText={email => this.setState({ email })}
-              />
-            </Item>
-            <Item floatingLabel style={styles.connexion_input}>
-              <Label>Mot de passe</Label>
-              <Input
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                onChangeText={password => this.setState({ password })}
-              />
-            </Item>
-            <TouchableOpacity style={styles.bouton} onPress={() => this.SignUp(this.state.email, this.state.password)} >
-              <Text>Inscription</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.bouton_transparent} onPress={() => this.Login(this.state.email, this.state.password)}>
-              <Text>Déja inscrit ?</Text>
-            </TouchableOpacity>
-          </Form>
+      <View>
+        { this.state.firebaseCheck ?
+          <View style={styles.container}>
+          { this.state.logged ?
+            <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email } username={this.state.username}/>
+            :
+            <View>
+              <Form>
+                <Item floatingLabel>
+                  <Label>Username</Label>
+                  <Input
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={username => this.setState({ username })}
+                  />
+                </Item>
+                <Item floatingLabel>
+                  <Label>Email</Label>
+                  <Input
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={email => this.setState({ email })}
+                  />
+                </Item>
+                <Item floatingLabel style={styles.connexion_input}>
+                  <Label>Mot de passe</Label>
+                  <Input
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={password => this.setState({ password })}
+                  />
+                </Item>
+                <TouchableOpacity style={styles.bouton} onPress={() => this.SignUp(this.state.email, this.state.password)} >
+                  <Text>Inscription</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bouton_transparent} onPress={() => this.Login(this.state.email, this.state.password)}>
+                  <Text>Déja inscrit ?</Text>
+                </TouchableOpacity>
+              </Form>
+            </View>
+          }
+          </View>
+          :
+          <Text>coucou</Text>
+        }
         </View>
-      }
-      </View>
     );
   }
 }
