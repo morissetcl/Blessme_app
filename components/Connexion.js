@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import * as firebase from "firebase";
 import Prayers from './Prayers'
@@ -116,7 +116,7 @@ export default class Connexion extends React.Component {
           }
           </View>
           :
-          <Text>coucou</Text>
+          <ActivityIndicator size="large" style = {styles.loader} />
         }
         </View>
     );
@@ -130,6 +130,14 @@ const styles = StyleSheet.create({
   },
   coucou: {
     width: '80%',
+  },
+  loader: {
+    color:"#0000ff",
+    flex: 1,
+    alignItems: 'center',
+    position: 'absolute',
+    top: 200,
+    left: 150
   },
   bouton_transparent: {
     borderColor: '#01676b',
