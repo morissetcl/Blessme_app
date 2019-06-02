@@ -18,15 +18,12 @@ export default class PrayerRequestCard extends React.Component {
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
-      numberOfPrayer: '-'
+      numberOfPrayer: '-',
+      counterLoaded: false
     }
   }
 
   componentDidMount() {
-    this.commentCounter(this.state.prayerId)
-  }
-
-  componentDidUpdate() {
     this.commentCounter(this.state.prayerId)
   }
 

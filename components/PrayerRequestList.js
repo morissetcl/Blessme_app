@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, View, Image, ActivityIndicator } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl } from 'react-native'
 import { getAllPrayersRequests } from '../api/PrayerRequest'
 import PrayerRequestCard from './PrayerRequestCard'
 
@@ -10,7 +10,8 @@ export default class PrayerRequestList extends React.Component {
       prayersRequests: [],
       loaded: false,
       navigation: this.props.navigation,
-      currentUserEmail: this.props.currentUserEmail
+      currentUserEmail: this.props.currentUserEmail,
+      refreshing: false
     };
   }
 
@@ -21,6 +22,15 @@ export default class PrayerRequestList extends React.Component {
     })
   }
 
+  _onRefresh = () => {
+   this.setState({refreshing: true});
+   this.setState({prayersRequests: []});
+   getAllPrayersRequests().then(data => {
+     this.state.prayersRequests.push(data.prayers_requests)
+     this.setState({refreshing: false});
+   })
+ }
+
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
@@ -30,7 +40,12 @@ export default class PrayerRequestList extends React.Component {
     return (
       <View style={styles.container_prayer_request_card}>
         { this.state.prayersRequests.length > 0  ?
-          <ScrollView>
+          <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />}
+          >
             { prayersRequestsList }
           </ScrollView>
           :
