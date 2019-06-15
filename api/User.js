@@ -11,3 +11,11 @@ export function createUser(params) {
                 })
               })
 }
+
+
+export function getUsers(email) {
+  const url = `https://blessme-serveur.herokuapp.com/api/v1/users/${email}`
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}

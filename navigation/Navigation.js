@@ -6,6 +6,7 @@ import Prayers from '../components/Prayers'
 import Prayer from '../components/Prayer'
 import WritingCommentForm from '../components/form/WritingCommentForm'
 import PrayerRequestForm from '../components/form/PrayerRequestForm'
+import Profile from '../components/Profile'
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -53,6 +54,12 @@ const SearchStackNavigator = createStackNavigator(
     },
     Prayers: {
       screen: Prayers,
+      navigationOptions: {
+        header: null
+      },
+    },
+    Profile: {
+      screen: Profile,
       navigationOptions: {
         header: null
       },
