@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl } from 'react-native'
-import { getAllPrayersRequests } from '../api/PrayerRequest'
+import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest'
 import PrayerRequestCard from './PrayerRequestCard'
 
 export default class PrayerRequestList extends React.Component {
@@ -11,24 +11,34 @@ export default class PrayerRequestList extends React.Component {
       loaded: false,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
-      refreshing: false
+      refreshing: false,
+      profileFeed: this.props.profileFeed
     };
   }
 
   componentDidMount() {
-    getAllPrayersRequests().then(data => {
-      this.state.prayersRequests.push(data.prayers_requests)
-      this.setState({ loaded: true })
-    })
+    this.retrievePrayersRequests();
   }
 
   _onRefresh = () => {
    this.setState({refreshing: true});
    this.setState({prayersRequests: []});
-   getAllPrayersRequests().then(data => {
-     this.state.prayersRequests.push(data.prayers_requests)
-     this.setState({refreshing: false});
-   })
+   this.retrievePrayersRequests();
+   this.setState({refreshing: false});
+ }
+
+ retrievePrayersRequests() {
+   if (this.state.profileFeed) {
+     getUserPrayersRequests(this.state.currentUserEmail).then(data => {
+       this.state.prayersRequests.push(data.user_prayers_requests)
+       this.setState({ loaded: true })
+     })
+   } else {
+     getAllPrayersRequests().then(data => {
+       this.state.prayersRequests.push(data.prayers_requests)
+       this.setState({ loaded: true })
+     })
+   }
  }
 
   render() {
