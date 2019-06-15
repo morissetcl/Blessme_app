@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity} from 'react-native'
 import PrayerRequestList from './PrayerRequestList'
+import HeaderHomepage from './HeaderHomepage'
 import Tabs from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
@@ -24,6 +25,7 @@ export default class Prayers extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <HeaderHomepage navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username }/>
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE" style={styles.content}>
@@ -76,8 +78,8 @@ const styles = StyleSheet.create({
     elevation: 1
   },
   container: {
+    height: '8%',
     flex: 1,
-    backgroundColor: '#FFFFFF' // background tab color
   },
   content: {
     flex: 1,

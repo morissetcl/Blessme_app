@@ -85,7 +85,7 @@ export default class Connexion extends React.Component {
                   <Input
                     autoCapitalize="none"
                     autoCorrect={false}
-                    onChangeText={username => this.setState({ username })}
+                    onChangeText={username => this.setState({username: username })}
                   />
                 </Item>
                 <Item floatingLabel>
