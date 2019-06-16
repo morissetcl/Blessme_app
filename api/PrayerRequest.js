@@ -5,6 +5,12 @@ export function getAllPrayersRequests() {
     .catch((error) => console.error(error))
 }
 
+export function getUserPrayersRequests(email) {
+  const url = 'https://blessme-serveur.herokuapp.com/api/v1/user_prayers_requests/' + email
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}
 
 export function getPrayerRequest(prayerId) {
   const url = 'https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/' + prayerId

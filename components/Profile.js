@@ -7,7 +7,6 @@ import PrayerRequestList from './PrayerRequestList'
 
 export default class Profile extends Component {
   constructor(props) {
-    console.log(props)
     super(props);
     this.state = {
       navigation: props.navigation,
@@ -48,7 +47,7 @@ export default class Profile extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE">
-              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username }/>
+              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
             <View title="INTERCESSION">
               <Text>foufou</Text>
