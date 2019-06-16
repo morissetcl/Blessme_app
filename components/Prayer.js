@@ -46,6 +46,10 @@ export default class Prayer extends Component {
     }
   }
 
+  goToProfile(email) {
+    this.state.navigation.navigate('Profile', { username: this.state.username, userEmail: email })
+  }
+
   retrieveAllPrayers(prayerId) {
     this.setState({ prayersLoaded: true, prayers: [] })
     getPrayers(prayerId).then(data => {
@@ -53,7 +57,12 @@ export default class Prayer extends Component {
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
         return <View style={styles.comment_card} key={index}>
-                 <Text style={styles.username}>{response.user.username}</Text>
+                 <Text
+                  style={styles.username}
+                  onPress={(value) => {
+                    this.goToProfile(response.user.email)
+                  }}
+                  >{response.user.username}</Text>
                  <Text style={styles.body}>{response.body}</Text>
                </View>
       });
