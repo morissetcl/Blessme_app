@@ -19,7 +19,8 @@ export default class PrayerRequestCard extends React.Component {
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
       numberOfPrayer: '-',
-      counterLoaded: false
+      counterLoaded: false,
+      userEmail: props.prayer_request['user']['email']
     }
   }
 
@@ -35,7 +36,7 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username })
+    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail })
   }
 
   commentCounter(prayerId) {

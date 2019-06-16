@@ -12,7 +12,8 @@ export default class PrayerRequestList extends React.Component {
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       refreshing: false,
-      profileFeed: this.props.profileFeed
+      profileFeed: this.props.profileFeed,
+      userEmail: this.props.userEmail
     };
   }
 
@@ -27,9 +28,17 @@ export default class PrayerRequestList extends React.Component {
    this.setState({refreshing: false});
  }
 
+ checkEmailToSearch() {
+   if (this.state.userEmail !== undefined ) {
+     return this.state.userEmail
+   } else {
+     return this.state.currentUserEmail
+   }
+ }
+
  retrievePrayersRequests() {
    if (this.state.profileFeed) {
-     getUserPrayersRequests(this.state.currentUserEmail).then(data => {
+     getUserPrayersRequests(this.checkEmailToSearch()).then(data => {
        this.state.prayersRequests.push(data.user_prayers_requests)
        this.setState({ loaded: true })
      })

@@ -12,14 +12,21 @@ export default class Profile extends Component {
       navigation: props.navigation,
       username: '',
       createdAt: '',
-      currentUserEmail: props.navigation.state.params.currentUserEmail
+      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      userEmail: props.navigation.state.params.userEmail
     };
   }
 
   componentDidMount() {
+    if (this.state.userEmail) {
+      getUsers(this.state.userEmail).then(data => {
+        this.setState({ createdAt: data.created_at, username: data.username });
+      })
+    } else {
       getUsers(this.state.currentUserEmail).then(data => {
-      this.setState({ createdAt: data.created_at, username: data.username });
-    })
+        this.setState({ createdAt: data.created_at, username: data.username });
+      })
+    }
   }
 
   render() {
@@ -47,7 +54,7 @@ export default class Profile extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="PRIERE">
-              <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
+              <PrayerRequestList navigation={this.state.navigation} userEmail={ this.state.userEmail} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
             <View title="INTERCESSION">
               <Text>foufou</Text>
