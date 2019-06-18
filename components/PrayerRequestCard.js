@@ -28,7 +28,6 @@ export default class PrayerRequestCard extends React.Component {
     this.commentCounter(this.state.prayerId)
   }
 
-
   goToPrayer(prayerId) {
     if (this.state.needLink) {
       this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })

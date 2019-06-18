@@ -30,6 +30,10 @@ export default class Profile extends Component {
   }
 
   render() {
+    const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
+    const day = formattedDate.getDate();
+    const month = formattedDate.getMonth();
+    const year = formattedDate.getFullYear();
     return (
       <View style={styles.container}>
         <Header
