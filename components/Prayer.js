@@ -27,7 +27,6 @@ export default class Prayer extends Component {
     }
   }
 
-
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {
       this.setState({ prayerRequest: data })
@@ -77,7 +76,7 @@ export default class Prayer extends Component {
       { this.state.prayersLoaded ?
         <ScrollView>
           <View style={styles.prayer_card} >
-            <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} />
+            <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} navigation={ this.state.navigation } />
             <View style={styles.prayer_list} >
               { this.state.prayersList }
             </View>

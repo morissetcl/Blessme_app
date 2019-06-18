@@ -49,7 +49,7 @@ export default class Profile extends Component {
         />
         <View style={styles.user_informations}>
           <Text style={styles.bold} >{ this.state.username }</Text>
-          <Text>Inscrit depuis { new Date(Date.parse(this.state.createdAt)).toString() }</Text>
+          <Text>Inscrit depuis le { `${day}/${month}/${year}` }</Text>
         </View>
         <View style={styles.container}>
           <Tabs>

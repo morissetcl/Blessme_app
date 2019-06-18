@@ -48,8 +48,8 @@ export default class PrayerRequestCard extends React.Component {
   render() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
-        <Card title={<Avatar rounded title="MD" />}>
-          <Text style = {styles.username} onPress={() => { this.goToProfile(this.state.username) }}> {this.state.username}</Text>
+        <Card title={<Avatar rounded title="MD" onPress={() => { this.goToProfile(this.state.username) }} />}>
+          <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>2 days ago</Text>
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
