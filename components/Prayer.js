@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { getPrayerRequest } from '../api/PrayerRequest'
-import { getPrayers } from '../api/Prayer'
+import { getPrayers, destroyPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
 import { NavigationEvents } from 'react-navigation';
 import { showMessage, hideMessage } from "react-native-flash-message";
-
 import WritingCommentForm from './form/WritingCommentForm'
 
 export default class Prayer extends Component {
@@ -23,7 +22,8 @@ export default class Prayer extends Component {
       prayers: [],
       prayersLoaded: false,
       prayersList: [],
-      flashMessage: true
+      flashMessage: true,
+      numberOfPrayer: ''
     }
   }
 
@@ -49,19 +49,45 @@ export default class Prayer extends Component {
     this.state.navigation.navigate('Profile', { username: this.state.username, userEmail: email })
   }
 
+  destroyActions(commentId, index) {
+    destroyPrayers({ prayerId: this.state.prayerId,  commentId: commentId, navigation: this.state.navigation }).then(() => {
+      showMessage({
+        message: 'Votre prière a bien été supprimée.',
+        type: 'success',
+        icon: 'success'
+      });
+      this.retrieveAllPrayers(this.state.prayerId)
+    });
+  }
+
   retrieveAllPrayers(prayerId) {
     this.setState({ prayersLoaded: true, prayers: [] })
     getPrayers(prayerId).then(data => {
+      this.setState({ numberOfPrayer: data.prayer_request_comments.length })
       this.state.prayers.push(data.prayer_request_comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
-        return <View style={styles.comment_card} key={index}>
+        return <View style={styles.comment_card} key={index} id={index}>
                  <Text
                   style={styles.username}
                   onPress={(value) => {
                     this.goToProfile(response.user.email)
                   }}
                   >{response.user.username}</Text>
+                 {(response.user.email === this.state.currentUserEmail) ?
+                   <View style={styles.actions_button}>
+                   <Text
+                   style={styles.publish_button}
+                   onPress={(value) => {
+                     this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body, commentId: response.id })
+                   }}>Modifier</Text>
+                   <Text
+                   style={styles.delete_button}
+                   onPress={(value) => { this.destroyActions(response.id, index) }}>Supprimer</Text>
+                   </View>
+                   :
+                   <Text ></Text>
+                 }
                  <Text style={styles.body}>{response.body}</Text>
                </View>
       });
@@ -76,7 +102,7 @@ export default class Prayer extends Component {
       { this.state.prayersLoaded ?
         <ScrollView>
           <View style={styles.prayer_card} >
-            <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} navigation={ this.state.navigation } />
+            <PrayerRequestCard prayer_request={ this.state.prayerRequest } numberOfLines={1000} navigation={ this.state.navigation } numberOfPrayer={this.state.numberOfPrayer} />
             <View style={styles.prayer_list} >
               { this.state.prayersList }
             </View>
@@ -158,5 +184,28 @@ const styles = StyleSheet.create({
   body: {
     color: '#7d7d7d',
     paddingLeft: '2%'
+  },
+  publish_button: {
+    position: 'absolute',
+    right: '20%',
+    top: '4%',
+    color: '#207dff',
+    fontWeight: 'bold',
+    borderColor: '#207dff',
+    borderBottomWidth: 2
+  },
+  delete_button: {
+    position: 'absolute',
+    right: '0%',
+    top: '4%',
+    color: '#207dff',
+    fontWeight: 'bold',
+    borderColor: '#207dff',
+    borderBottomWidth: 2
+  },
+  actions_button: {
+    position: 'relative',
+    right: '5%',
+    bottom: '67%',
   }
 })

@@ -4,6 +4,7 @@ import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { createPrayerRequestAndRedirect, retrievePrayerRequestId } from '../../api/PrayerRequest'
+import { showMessage } from "react-native-flash-message";
 
 export default class PrayerRequestForm extends Component {
   constructor(props) {
@@ -17,7 +18,15 @@ export default class PrayerRequestForm extends Component {
   }
 
   addPrayerRequest() {
-    createPrayerRequestAndRedirect({ username: this.state.username, currentUserEmail: this.state.currentUserEmail, body: this.state.body , title: this.state.title, navigation: this.props.navigation, fromForm: true })
+    if (this.state.title.length !== 0 && this.state.body.length !== 0) {
+      createPrayerRequestAndRedirect({ username: this.state.username, currentUserEmail: this.state.currentUserEmail, body: this.state.body , title: this.state.title, navigation: this.props.navigation, fromForm: true })
+    } else {
+      showMessage({
+        message: 'Merci de remplir tous les champs pour ajouter votre demande de prière',
+        type: 'warning',
+        icon: 'warning'
+      });
+    }
   }
 
   render() {
