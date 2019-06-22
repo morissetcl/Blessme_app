@@ -8,7 +8,6 @@ import { showMessage } from "react-native-flash-message";
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
-    console.log(props)
     super(props);
     this.state = {
       prayerTitle: props.navigation.state.params.prayerRequest.title,

@@ -67,8 +67,8 @@ export default class Prayer extends Component {
                    <Text
                    style={styles.publish_button}
                    onPress={(value) => {
-                     this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body, commentId: response.Id })
-                   }}> Edit</Text>
+                     this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body })
+                   }}>Edit</Text>
                    :
                    <Text ></Text>
                  }
