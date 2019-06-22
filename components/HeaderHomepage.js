@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity} from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Header, Avatar, Input, SearchBar } from 'react-native-elements'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { getUsers } from '../api/User';
 
 export default class HeaderHomepage extends Component {
   constructor(props) {
@@ -11,8 +12,15 @@ export default class HeaderHomepage extends Component {
       navigation: props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       username: this.props.username,
-      search: ''
+      search: '',
+      avatarUrl: ''
     };
+  }
+
+  componentDidMount() {
+    getUsers(this.state.currentUserEmail).then(data => {
+      this.setState({ avatarUrl: data.avatar });
+    })
   }
 
   openProfile(prayerId) {
@@ -20,25 +28,29 @@ export default class HeaderHomepage extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.container}>
       <Header
         containerStyle={styles.header}
         placement="left"
         leftComponent={
-          <Avatar rounded title="MD"
+          this.state.avatarUrl ?
+            <Avatar
+              rounded
+              source={{
+                uri:
+                  this.state.avatarUrl,
+              }}
+              onPress={(value) => { this.openProfile() }}
+            />
+          :
+          <Avatar
+            rounded
+            title='?'
             onPress={(value) => { this.openProfile() }}
           />
         }
-        // centerComponent={<SearchBar
-        //                   platform='android'
-        //                   inputStyle={{ backgroundColor: '#fafafa', height: 20 , width: '100%', borderRadius: 5}}
-        //                   containerStyle={{ height: 20, borderRadius: 5 }}
-        //                   inputContainerStyle={{ backgroundColor: '#fafafa', position:'relative', bottom: 18 , borderRadius: 5}}
-        //                   placeholder="Type Here..."
-        //                   onChangeText={this.updateSearch}
-        //                   value={this.state.search}
-        //                 />}
         />
       </View>
     )

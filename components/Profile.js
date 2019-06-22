@@ -13,18 +13,19 @@ export default class Profile extends Component {
       username: '',
       createdAt: '',
       currentUserEmail: props.navigation.state.params.currentUserEmail,
-      userEmail: props.navigation.state.params.userEmail
+      userEmail: props.navigation.state.params.userEmail,
+      avatarUrl: ''
     };
   }
 
   componentDidMount() {
     if (this.state.userEmail) {
       getUsers(this.state.userEmail).then(data => {
-        this.setState({ createdAt: data.created_at, username: data.username });
+        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
       })
     } else {
       getUsers(this.state.currentUserEmail).then(data => {
-        this.setState({ createdAt: data.created_at, username: data.username });
+        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
       })
     }
   }
@@ -35,6 +36,7 @@ export default class Profile extends Component {
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     return (
       <View style={styles.container}>
+        { this.state.avatarUrl !== '' ?
         <Header
           containerStyle={styles.header}
           placement="center"
@@ -44,12 +46,14 @@ export default class Profile extends Component {
               size="large"
               source={{
                 uri:
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                  this.state.avatarUrl,
               }}
               rounded
             />
           }
-        />
+        /> :
+        <Text>''</Text>
+        }
         <View style={styles.user_informations}>
           <Text style={styles.bold} >{ this.state.username }</Text>
           <Text>Membre depuis { memberSince } jours</Text>
