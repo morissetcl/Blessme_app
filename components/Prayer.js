@@ -63,6 +63,15 @@ export default class Prayer extends Component {
                   }}
                   >{response.user.username}</Text>
                  <Text style={styles.body}>{response.body}</Text>
+                 {(response.user.email === this.state.currentUserEmail) ?
+                   <Text
+                   style={styles.publish_button}
+                   onPress={(value) => {
+                     this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body, commentId: response.Id })
+                   }}> Edit</Text>
+                   :
+                   <Text ></Text>
+                 }
                </View>
       });
       this.setState({ prayersLoaded: true })
@@ -158,5 +167,14 @@ const styles = StyleSheet.create({
   body: {
     color: '#7d7d7d',
     paddingLeft: '2%'
+  },
+  publish_button: {
+    position: 'absolute',
+    right: '10%',
+    top: '4%',
+    color: '#207dff',
+    fontWeight: 'bold',
+    borderColor: '#207dff',
+    borderBottomWidth: 2
   }
 })

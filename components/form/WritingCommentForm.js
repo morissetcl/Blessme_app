@@ -3,34 +3,64 @@ import { TouchableHighlight, TextInput, StyleSheet, View, Text, Button, Touchabl
 import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
-import { createPrayer } from '../../api/Prayer'
+import { createPrayer, editPrayer } from '../../api/Prayer'
+import { showMessage } from "react-native-flash-message";
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
+    console.log(props)
     super(props);
     this.state = {
       prayerTitle: props.navigation.state.params.prayerRequest.title,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       prayerId: props.navigation.state.params.prayerId,
-      body: '',
+      body:  props.navigation.state.params.body,
+      editPrayer: props.navigation.state.params.body,
+      commentId: props.navigation.state.params.commentId
     }
   }
 
   addPrayer(prayerId) {
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId, navigation: this.props.navigation })
+    if (this.state.body.length !== 0) {
+      createPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId, navigation: this.props.navigation })
+    } else {
+      showMessage({
+        message: 'Merci de remplir tous les champs pour ajouter votre prière',
+        type: 'warning',
+        icon: 'warning'
+      });
+    }
+  }
+
+  editrayer(prayerId) {
+    if (this.state.body.length !== 0) {
+      editPrayer({ currentUserEmail: this.state.currentUserEmail, body: this.state.body , prayerId: this.state.prayerId, navigation: this.props.navigation, commentId: this.state.commentId })
+    } else {
+      showMessage({
+        message: 'Merci de remplir tous les champs pour modifier votre prière',
+        type: 'warning',
+        icon: 'warning'
+      });
+    }
   }
 
   render() {
+    const bodyEdition = this.state.body ?  this.state.body : ''
     return (
       <View style={styles.container} >
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
-        <Text style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}>Publier</Text>
+        { this.state.editPrayer ?
+          <Text style={styles.publish_button} onPress={(value) => { this.editrayer(this.state.prayerId) }}>Modifier</Text>
+          :
+          <Text style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}>Publier</Text>
+        }
         <Divider style={styles.divider} />
         <TextInput
           placeholder={ 'Écrivez votre prière..' }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
+          value={bodyEdition}
           onChangeText={(body) => this.setState({body})}
           style={styles.comment_input}
         />
