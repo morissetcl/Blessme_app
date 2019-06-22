@@ -16,6 +16,7 @@ export default class PrayerRequestCard extends React.Component {
       username: props.prayer_request['user']['username'],
       prayerId: props.prayer_request['id'],
       navigation: this.props.navigation,
+      createdAt: props.prayer_request['created_at'],
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
@@ -46,12 +47,15 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   render() {
+    const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
+    const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
+    const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
         <NavigationEvents onDidFocus={payload => this.commentCounter(this.state.prayerId)} />
         <Card title={<Avatar rounded title="MD" onPress={() => { this.goToProfile(this.state.username) }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
-          <Text style = {styles.created_at}>2 days ago</Text>
+          <Text style = {styles.created_at}>il y a { createdAtSince } jours</Text>
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
           <View style = {styles.card_actions}>
