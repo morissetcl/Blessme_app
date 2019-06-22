@@ -46,3 +46,23 @@ export function getPrayers(prayerId) {
     .then((response) => response.json())
     .catch((error) => console.error(error))
 }
+
+
+export function destroyPrayers(params) {
+  const prayerId = params['prayerId']
+  const commentId = params['commentId']
+  const navigation = params['navigation']
+  const url = `https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/${prayerId}/comments/${commentId}`
+  return fetch(url, {
+                method: 'DELETE',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  prayer_id: commentId
+                })
+              }).then(response => response)
+                .catch((error) => console.error(error))
+
+}

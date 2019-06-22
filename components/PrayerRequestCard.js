@@ -4,6 +4,7 @@ import { Avatar, Card } from 'react-native-elements'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { getPrayers } from '../api/Prayer'
+import { NavigationEvents } from 'react-navigation';
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ export default class PrayerRequestCard extends React.Component {
   render() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
+        <NavigationEvents onDidFocus={payload => this.commentCounter(this.state.prayerId)} />
         <Card title={<Avatar rounded title="MD" onPress={() => { this.goToProfile(this.state.username) }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>2 days ago</Text>
