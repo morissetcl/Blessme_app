@@ -14,7 +14,7 @@ export default class PrayerRequestCard extends React.Component {
       body: props.prayer_request['body'],
       user: props.prayer_request['user'],
       username: props.prayer_request['user']['username'],
-      avatarUrl: props.prayer_request['user']['avatar']['url'],
+      avatarUrl: props.prayer_request['user']['avatar'],
       prayerId: props.prayer_request['id'],
       navigation: this.props.navigation,
       createdAt: props.prayer_request['created_at'],

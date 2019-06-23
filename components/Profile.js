@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
 import { Header, Avatar, Input, SearchBar } from 'react-native-elements';
 import Tabs from '../Tabs';
-import { getUsers } from '../api/User';
+import { getUsers, updateUser } from '../api/User';
 import PrayerRequestList from './PrayerRequestList'
+import { ImagePicker } from 'expo';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -19,16 +20,27 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    if (this.state.userEmail) {
-      getUsers(this.state.userEmail).then(data => {
-        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
-      })
-    } else {
-      getUsers(this.state.currentUserEmail).then(data => {
-        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
+    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
+    getUsers(email).then(data => {
+      this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
+    })
+  }
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true
+    });
+
+    if (!result.cancelled) {
+      const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
+      updateUser(email, result.base64).then(() => {
+        this.setState({ avatarUrl: result.uri });
       })
     }
-  }
+  };
 
   render() {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
@@ -49,6 +61,8 @@ export default class Profile extends Component {
                   this.state.avatarUrl,
               }}
               rounded
+              showEditButton
+              onEditPress={ this._pickImage }
             />
           }
         /> :
