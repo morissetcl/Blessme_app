@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Button, ActivityIndicator } from 'react-native';
 import { Header, Avatar, Input, SearchBar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
@@ -15,7 +15,8 @@ export default class Profile extends Component {
       createdAt: '',
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       userEmail: props.navigation.state.params.userEmail,
-      avatarUrl: ''
+      avatarUrl: '',
+      avatarLoaded: 'loaded'
     };
   }
 
@@ -35,9 +36,11 @@ export default class Profile extends Component {
     });
 
     if (!result.cancelled) {
+      this.setState({ avatarLoaded: 'loading' });
       const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
       updateUser(email, result.base64).then(() => {
         this.setState({ avatarUrl: result.uri });
+        this.setState({ avatarLoaded: 'loaded' });
       })
     }
   };
@@ -46,28 +49,34 @@ export default class Profile extends Component {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
+    const allowsEditing = this.state.userEmail ? false : true
+
     return (
       <View style={styles.container}>
-        { this.state.avatarUrl !== '' ?
-        <Header
-          containerStyle={styles.header}
-          placement="center"
-          rightComponent={
-            <Avatar
-              containerStyle={styles.avatar}
-              size="large"
-              source={{
-                uri:
-                  this.state.avatarUrl,
-              }}
-              rounded
-              showEditButton
-              onEditPress={ this._pickImage }
-            />
+          { this.state.avatarUrl !== '' ?
+            <Header
+              containerStyle={styles.header}
+              placement="center"
+              rightComponent={
+                this.state.avatarLoaded === 'loaded' ?
+                  <Avatar
+                    containerStyle={styles.avatar}
+                    size="large"
+                    source={{
+                      uri:
+                        this.state.avatarUrl,
+                    }}
+                    rounded
+                    showEditButton={ allowsEditing }
+                    onEditPress={ this._pickImage }
+                  />
+                  :
+                  <ActivityIndicator size="large" style = {styles.loader} />
+                }
+
+            /> :
+            <Text>''</Text>
           }
-        /> :
-        <Text>''</Text>
-        }
         <View style={styles.user_informations}>
           <Text style={styles.bold} >{ this.state.username }</Text>
           <Text>Membre depuis { memberSince } jours</Text>
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     position: 'relative',
-    top: 0
+    top: 10
   },
   user_informations: {
     marginTop: 20,
@@ -107,4 +116,8 @@ const styles = StyleSheet.create({
     height: '8%',
     flex: 1,
   },
+  loader: {
+    color:"red",
+    flex: 1,
+  }
 })
