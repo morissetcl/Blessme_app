@@ -12,6 +12,19 @@ export function createUser(params) {
               })
 }
 
+export function updateUser(email, avatar) {
+  return fetch(`https://blessme-serveur.herokuapp.com/api/v1/users//${email}`, {
+                method: 'PATCH',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  avatar: avatar
+                })
+              })
+}
+
 
 export function getUsers(email) {
   const url = `https://blessme-serveur.herokuapp.com/api/v1/users/${email}`
