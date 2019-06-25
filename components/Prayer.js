@@ -114,12 +114,12 @@ export default class Prayer extends Component {
       { this.state.loaded ?
         <View style = {styles.bottom_buttons}>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faHeart } size={28} color={ '#49beb7' } />
+            <FontAwesomeIcon icon={ faHeart } size={34} color={ '#49beb7' } />
           </TouchableOpacity>
           <TouchableOpacity>
             <FontAwesomeIcon
               icon={ faPenSquare }
-              size={28} color={ '#49beb7' }
+              size={34} color={ '#49beb7' }
               style = {styles.add_prayer}
               onPress={(value) => {
                 this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId })
@@ -127,7 +127,7 @@ export default class Prayer extends Component {
              />
           </TouchableOpacity>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faMicrophone } size={28} color={ '#49beb7' } />
+            <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#49beb7' } />
           </TouchableOpacity>
         </View>
         :

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     left: 150
   },
   container_prayer_request_card: {
-    paddingBottom: '9%'
+    paddingBottom: '7%'
   },
   ok: {
     width: '100%'

@@ -37,9 +37,6 @@ export default class Prayers extends Component {
         </View>
         <View style = {styles.bottom_buttons}>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
-          </TouchableOpacity>
-          <TouchableOpacity>
             <FontAwesomeIcon
               icon={ faPlusCircle }
               size={36} color={ '#FFFFFF' }
@@ -48,9 +45,6 @@ export default class Prayers extends Component {
                 this.state.navigation.navigate('PrayerRequestForm', { currentUserEmail: this.state.currentUserEmail })
               }}
              />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={ faPenSquare } size={28} color={ '#49beb7' } />
           </TouchableOpacity>
         </View>
       </View>
@@ -73,7 +67,7 @@ const styles = StyleSheet.create({
     bottom:0,
     left:0,
     width: '100%',
-    height: '10%',
+    height: '7%',
     alignItems: 'center',
     elevation: 1
   },
