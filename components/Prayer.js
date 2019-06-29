@@ -132,7 +132,7 @@ export default class Prayer extends Component {
               size={34}
               color={ '#49beb7' }
               onPress={(value) => {
-                this.state.navigation.navigate('AudioRecorder')
+                this.state.navigation.navigate('AudioRecorder', { prayerId: this.state.prayerId, currentUserEmail: this.state.currentUserEmail })
               }}
             />
           </TouchableOpacity>

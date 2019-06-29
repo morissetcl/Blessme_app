@@ -3,6 +3,7 @@ import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View }
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faVolumeMute, faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { createPrayer, editPrayer } from '../../api/Prayer'
 
 const BACKGROUND_COLOR = '#FFF8ED';
 const LIVE_COLOR = '#FF0000';
@@ -17,6 +18,8 @@ export default class AudioRecorder extends React.Component {
     this.isSeeking = false;
     this.shouldPlayAtEndOfSeek = false;
     this.state = {
+      prayerId: props.navigation.state.params.prayerId,
+      currentUserEmail: props.navigation.state.params.currentUserEmail,
       fontLoaded : true,
       haveRecordingPermissions: false,
       isLoading: false,
@@ -142,8 +145,13 @@ export default class AudioRecorder extends React.Component {
       // Do nothing -- we are already unloaded.
     }
     const info = await FileSystem.getInfoAsync(this.recording.getURI());
-    console.log(`FILE INFO: ${JSON.stringify(info['uri'])}`);
-    // console.log(FileSystem.readAsStringAsync(info['uri'])
+    console.log(`FILE INFO: ${JSON.stringify(info)}`);
+    const fileBase64 = await FileSystem.readAsStringAsync(
+      this.recording.getURI(),
+      {
+          encoding: FileSystem.EncodingTypes.Base64,
+      });
+    createPrayer({ currentUserEmail: this.state.currentUserEmail, audioUri: fileBase64 , prayerId: this.state.prayerId, navigation: this.props.navigation })
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -182,6 +190,7 @@ export default class AudioRecorder extends React.Component {
       if (this.state.isPlaying) {
         this.sound.pauseAsync();
       } else {
+        console.log(this.status)
         this.sound.playAsync();
       }
     }
