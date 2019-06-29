@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Input, Divider } from 'react-native-elements';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { createPrayer, editPrayer } from '../../api/Prayer'
 import { showMessage } from "react-native-flash-message";
 

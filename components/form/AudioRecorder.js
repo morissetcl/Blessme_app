@@ -205,18 +205,6 @@ export default class AudioRecorder extends React.Component {
     }
   };
 
-  _onMutePressed = () => {
-    if (this.sound != null) {
-      this.sound.setIsMutedAsync(!this.state.muted);
-    }
-  };
-
-  _onVolumeSliderValueChange = value => {
-    if (this.sound != null) {
-      this.sound.setVolumeAsync(3000000);
-    }
-  };
-
   _trySetRate = async (rate, shouldCorrectPitch) => {
     if (this.sound != null) {
       try {
@@ -293,9 +281,7 @@ export default class AudioRecorder extends React.Component {
   }
 
   render() {
-    return !this.state.fontLoaded ? (
-      <View style={styles.emptyContainer} />
-    ) : !this.state.haveRecordingPermissions ? (
+    return !this.state.haveRecordingPermissions ?
       <View style={styles.container}>
         <View />
         <Text style={styles.noPermissionsText}>
@@ -303,44 +289,30 @@ export default class AudioRecorder extends React.Component {
         </Text>
         <View />
       </View>
-    ) : (
+     :
+
       <View style={styles.container}>
-        <View
-          style={[
-            styles.halfScreenContainer,
-            {
-              opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0,
-            },
-          ]}>
-          <View />
           <View style={styles.recordingContainer}>
-            <View />
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onRecordPressed}
-              disabled={this.state.isLoading}>
-              <Text>Record</Text>
-            </TouchableHighlight>
-            <View style={styles.recordingDataContainer}>
-              <View />
-              <Text style={styles.liveText}>
-                {this.state.isRecording ? 'LIVE' : ''}
-              </Text>
-              <View style={styles.recordingDataRowContainer}>
-              <Text style={styles.liveText}>
-                En train de record
-              </Text>
-                <Text style={styles.recordingTimestamp}>
-                  {this._getRecordingTimestamp()}
-                </Text>
-              </View>
-              <View />
+            <View style={styles.roundedIcon}>
+              <TouchableHighlight
+                underlayColor={BACKGROUND_COLOR}
+                onPress={this._onRecordPressed}
+                disabled={this.state.isLoading}>
+                <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#49beb7' } style={styles.iconMicro}/>
+              </TouchableHighlight>
             </View>
-            <View />
-          </View>
+            <View style={styles.timer}>
+              <Text style={styles.recordingTimestamp}>
+                {this._getRecordingTimestamp()}
+              </Text>
+              <Text style={this.state.isRecording ? styles.liveText : styles.liveTextTransparent }>
+                En cours
+              </Text>
+            </View>
           <View />
+
         </View>
+
         <View
           style={[
             styles.halfScreenContainer,
@@ -350,6 +322,7 @@ export default class AudioRecorder extends React.Component {
             },
           ]}>
           <View />
+
           <View style={styles.playbackContainer}>
             <Slider
               style={styles.playbackSlider}
@@ -362,51 +335,35 @@ export default class AudioRecorder extends React.Component {
               {this._getPlaybackTimestamp()}
             </Text>
           </View>
+
           <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
-            <View style={styles.volumeContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onMutePressed}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Text style={styles.liveText}>
-                  VolumeMute
-                </Text>
-              </TouchableHighlight>
-              <Slider
-                style={styles.volumeSlider}
-                value={1}
-                onValueChange={this._onVolumeSliderValueChange}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-              />
-            </View>
             <View style={styles.playStopContainer}>
               <TouchableHighlight
                 underlayColor={BACKGROUND_COLOR}
                 style={styles.wrapper}
                 onPress={this._onPlayPausePressed}
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Text style={styles.liveText}>
-                  Play
-                </Text>
+                <FontAwesomeIcon icon={ faPlay } size={34} color={ '#49beb7' } />
               </TouchableHighlight>
               <TouchableHighlight
                 underlayColor={BACKGROUND_COLOR}
                 style={styles.wrapper}
                 onPress={this._onStopPressed}
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Text style={styles.liveText}>
-                  Stop
-                </Text>
+                <FontAwesomeIcon icon={ faStop } size={34} color={ '#49beb7' } />
               </TouchableHighlight>
             </View>
             <View />
-            <Text style={styles.publish_button} onPress={(value) => { this.addPrayer() }}>Publier</Text>
+            { this.state.isPlaybackAllowed ?
+              <Text style={styles.publish_button} onPress={(value) => { this.addPrayer() }}>Publier</Text>
+              :
+              <Text></Text>
+            }
           </View>
           <View />
         </View>
+
       </View>
-    );
   }
 }
 
@@ -423,7 +380,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: BACKGROUND_COLOR,
     minHeight: 300,
-    maxHeight: 300,
+    maxHeight: '100%',
+    paddingTop: '20%',
+    paddingBottom: '20%'
+  },
+  timer: {
+    paddingLeft: 50,
+    paddingRight: 50,
   },
   noPermissionsText: {
     textAlign: 'center',
@@ -440,30 +403,9 @@ const styles = StyleSheet.create({
   },
   recordingContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    minHeight: 200,
-    maxHeight: 100,
-  },
-  recordingDataContainer: {
-    flex: 1,
+    backgroundColor: 'red',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    minHeight: 30,
-    maxHeight: 30,
-    minWidth: 20 * 3.0,
-    maxWidth: 20 * 3.0,
-  },
-  recordingDataRowContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    minHeight: 20,
-    maxHeight: 30
+    justifyContent: 'center'
   },
   playbackContainer: {
     flex: 1,
@@ -474,14 +416,29 @@ const styles = StyleSheet.create({
     minHeight: 20 * 2.0,
     maxHeight: 20 * 2.0
   },
+  roundedIcon: {
+    borderRadius: 100,
+    backgroundColor: 'green',
+    padding: 60
+  },
   playbackSlider: {
     alignSelf: 'stretch',
   },
   liveText: {
     color: 'black',
+    position: 'relative',
+    top: 40,
+    right: 3
+  },
+  liveTextTransparent: {
+    color: 'transparent',
+    position: 'relative',
+    top: 40
   },
   recordingTimestamp: {
-    paddingLeft: 20,
+    position: 'relative',
+    left: 8,
+    top: 20
   },
   playbackTimestamp: {
     textAlign: 'right',
@@ -490,6 +447,10 @@ const styles = StyleSheet.create({
   },
   image: {
     backgroundColor: BACKGROUND_COLOR,
+  },
+  iconMicro: {
+    position: 'relative',
+    left: 0
   },
   textButton: {
     backgroundColor: 'red',
