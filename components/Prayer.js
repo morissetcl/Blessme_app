@@ -127,7 +127,14 @@ export default class Prayer extends Component {
              />
           </TouchableOpacity>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#49beb7' } />
+            <FontAwesomeIcon
+              icon={ faMicrophone }
+              size={34}
+              color={ '#49beb7' }
+              onPress={(value) => {
+                this.state.navigation.navigate('AudioRecorder')
+              }}
+            />
           </TouchableOpacity>
         </View>
         :
