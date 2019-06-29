@@ -35,7 +35,7 @@ export default class AudioRecorder extends React.Component {
       volume: 1.0,
       rate: 1.0,
       playThroughEarpieceAndroid: true,
-      encoding: ''
+      audioBase64: ''
     };
     this.recordingSettings = JSON.parse(JSON.stringify({
       ...Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
@@ -135,6 +135,10 @@ export default class AudioRecorder extends React.Component {
     });
   }
 
+  addPrayer() {
+    createPrayer({ currentUserEmail: this.state.currentUserEmail, audioUri: this.state.audioBase64, prayerId: this.state.prayerId, navigation: this.props.navigation })
+  }
+
   async _stopRecordingAndEnablePlayback() {
     this.setState({
       isLoading: true,
@@ -151,7 +155,7 @@ export default class AudioRecorder extends React.Component {
       {
           encoding: FileSystem.EncodingTypes.Base64,
       });
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, audioUri: fileBase64 , prayerId: this.state.prayerId, navigation: this.props.navigation })
+    this.setState({audioBase64: fileBase64})
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -190,7 +194,6 @@ export default class AudioRecorder extends React.Component {
       if (this.state.isPlaying) {
         this.sound.pauseAsync();
       } else {
-        console.log(this.status)
         this.sound.playAsync();
       }
     }
@@ -221,14 +224,6 @@ export default class AudioRecorder extends React.Component {
       } catch (error) {
       }
     }
-  };
-
-  _onRateSliderSlidingComplete = async value => {
-    this._trySetRate(value * RATE_SCALE, this.state.shouldCorrectPitch);
-  };
-
-  _onPitchCorrectionPressed = async value => {
-    this._trySetRate(this.state.rate, !this.state.shouldCorrectPitch);
   };
 
   _onSeekSliderValueChange = value => {
@@ -406,24 +401,7 @@ export default class AudioRecorder extends React.Component {
               </TouchableHighlight>
             </View>
             <View />
-          </View>
-          <View style={[styles.buttonsContainerBase, styles.buttonsContainerBottomRow]}>
-            <Text style={styles.timestamp}>Rate:</Text>
-            <Slider
-              style={styles.rateSlider}
-              value={this.state.rate / RATE_SCALE}
-              onSlidingComplete={this._onRateSliderSlidingComplete}
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-            />
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onPitchCorrectionPressed}
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-              <Text>
-                PC: {this.state.shouldCorrectPitch ? 'yes' : 'no'}
-              </Text>
-            </TouchableHighlight>
+            <Text style={styles.publish_button} onPress={(value) => { this.addPrayer() }}>Publier</Text>
           </View>
           <View />
         </View>
@@ -555,5 +533,14 @@ const styles = StyleSheet.create({
   },
   rateSlider: {
     width: 200 / 2.0
+  },
+  publish_button: {
+    position: 'absolute',
+    right: '10%',
+    top: '4%',
+    color: '#207dff',
+    fontWeight: 'bold',
+    borderColor: '#207dff',
+    borderBottomWidth: 2
   },
 });
