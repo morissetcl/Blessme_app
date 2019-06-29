@@ -3,11 +3,12 @@ import { ScrollView, StyleSheet, View, Text, Button, TouchableOpacity, ActivityI
 import { getPrayerRequest } from '../api/PrayerRequest'
 import { getPrayers, destroyPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons'
+import { faPenSquare, faHeart, faMicrophone, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
 import { NavigationEvents } from 'react-navigation';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import WritingCommentForm from './form/WritingCommentForm'
+import * as Expo from 'expo'
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -88,7 +89,22 @@ export default class Prayer extends Component {
                    :
                    <Text ></Text>
                  }
-                 <Text style={styles.body}>{response.body}</Text>
+                 { response.audio ?
+                    <FontAwesomeIcon
+                      icon={ faPlay }
+                      size={24}
+                      color={ '#49beb7' }
+                      onPress={ async() => {
+                        const audioPrayer = Expo.Audio.Sound.createAsync(
+                          { uri: response.audio },
+                          { shouldPlay: true }
+                        );
+                        await audioPrayer
+                      }}
+                    />
+                   :
+                   <Text>{response.body}</Text>
+                 }
                </View>
       });
       this.setState({ prayersLoaded: true })
@@ -127,7 +143,14 @@ export default class Prayer extends Component {
              />
           </TouchableOpacity>
           <TouchableOpacity>
-            <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#49beb7' } />
+            <FontAwesomeIcon
+              icon={ faMicrophone }
+              size={34}
+              color={ '#49beb7' }
+              onPress={(value) => {
+                this.state.navigation.navigate('AudioRecorder', { prayerId: this.state.prayerId, currentUserEmail: this.state.currentUserEmail })
+              }}
+            />
           </TouchableOpacity>
         </View>
         :

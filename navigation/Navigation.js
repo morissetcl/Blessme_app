@@ -7,6 +7,7 @@ import Prayer from '../components/Prayer'
 import WritingCommentForm from '../components/form/WritingCommentForm'
 import PrayerRequestForm from '../components/form/PrayerRequestForm'
 import Profile from '../components/Profile'
+import AudioRecorder from '../components/form/AudioRecorder'
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -64,6 +65,12 @@ const SearchStackNavigator = createStackNavigator(
         header: null
       },
     },
+    AudioRecorder: {
+      screen: AudioRecorder,
+      navigationOptions: {
+        header: null
+      },
+    }
   },
   {
     headerTintColor: 'red',

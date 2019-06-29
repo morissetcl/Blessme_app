@@ -10,6 +10,7 @@ export function createPrayer(params) {
                 body: JSON.stringify({
                   email: params['currentUserEmail'],
                   body: params['body'],
+                  audio: params['audioUri'],
                   prayer_request_id: prayerId
                 })
               }).then(response => response.json())
