@@ -1,14 +1,12 @@
 import React from 'react';
-import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faVolumeMute, faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { createPrayer, editPrayer } from '../../api/Prayer'
 
-const BACKGROUND_COLOR = '#FFF8ED';
-const LIVE_COLOR = '#FF0000';
+const BACKGROUND_COLOR = '#eaeaea';
 const DISABLED_OPACITY = 0.5;
-const RATE_SCALE = 3.0;
 
 export default class AudioRecorder extends React.Component {
   constructor(props) {
@@ -293,14 +291,12 @@ export default class AudioRecorder extends React.Component {
 
       <View style={styles.container}>
           <View style={styles.recordingContainer}>
-            <View style={styles.roundedIcon}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                onPress={this._onRecordPressed}
-                disabled={this.state.isLoading}>
-                <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#49beb7' } style={styles.iconMicro}/>
-              </TouchableHighlight>
-            </View>
+            <TouchableOpacity
+              style={styles.roundedIcon}
+              onPress={this._onRecordPressed}
+              disabled={this.state.isLoading}>
+              <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
+            </TouchableOpacity>
             <View style={styles.timer}>
               <Text style={styles.recordingTimestamp}>
                 {this._getRecordingTimestamp()}
@@ -403,7 +399,6 @@ const styles = StyleSheet.create({
   },
   recordingContainer: {
     flex: 1,
-    backgroundColor: 'red',
     flexDirection: 'column',
     justifyContent: 'center'
   },
@@ -418,7 +413,7 @@ const styles = StyleSheet.create({
   },
   roundedIcon: {
     borderRadius: 100,
-    backgroundColor: 'green',
+    backgroundColor: '#ff8b6a',
     padding: 60
   },
   playbackSlider: {
