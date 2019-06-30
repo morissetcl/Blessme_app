@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faVolumeMute, faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons'
-import { createPrayer, editPrayer } from '../../api/Prayer'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faVolumeMute, faMicrophoneAlt, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { createPrayer, editPrayer } from '../../api/Prayer';
+import Pulse from 'react-native-pulse';
 
 const BACKGROUND_COLOR = '#eaeaea';
 const DISABLED_OPACITY = 0.5;
@@ -295,14 +296,11 @@ export default class AudioRecorder extends React.Component {
               style={styles.roundedIcon}
               onPress={this._onRecordPressed}
               disabled={this.state.isLoading}>
-              <FontAwesomeIcon icon={ faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
+              <FontAwesomeIcon icon={ this.state.isRecording ? faStop : faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
             </TouchableOpacity>
             <View style={styles.timer}>
               <Text style={styles.recordingTimestamp}>
                 {this._getRecordingTimestamp()}
-              </Text>
-              <Text style={this.state.isRecording ? styles.liveText : styles.liveTextTransparent }>
-                En cours
               </Text>
             </View>
           <View />
@@ -333,6 +331,7 @@ export default class AudioRecorder extends React.Component {
           </View>
 
           <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
+          { this.state.isPlaybackAllowed ?
             <View style={styles.playStopContainer}>
               <TouchableHighlight
                 underlayColor={BACKGROUND_COLOR}
@@ -346,15 +345,42 @@ export default class AudioRecorder extends React.Component {
                 style={styles.wrapper}
                 onPress={this._onStopPressed}
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <FontAwesomeIcon icon={ faStop } size={34} color={ '#49beb7' } />
+                <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
               </TouchableHighlight>
+              <Text
+              style={styles.publish_button}
+              onPress={(value) => { this.addPrayer() } }
+              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>Publier</Text>
             </View>
+          :
+            <View></View>
+          }
+
+
             <View />
-            { this.state.isPlaybackAllowed ?
-              <Text style={styles.publish_button} onPress={(value) => { this.addPrayer() }}>Publier</Text>
-              :
-              <Text></Text>
+            <View style={styles.actionButtons}>
+            { this.state.isRecording ?
+              <View>
+                <Pulse
+                  color='orange'
+                  numPulses={3}
+                  diameter={this.state.isRecording ? 400 : 0}
+                  speed={20}
+                  duration={2000}
+                  onPress={this._onRecordPressed}
+                  disabled={this.state.isLoading}
+                />
+
+                <Text style={styles.liveText}>
+                  En cours
+                </Text>
+              </View>
+            :
+             <Text></Text>
             }
+            </View>
+
+
           </View>
           <View />
         </View>
@@ -364,6 +390,11 @@ export default class AudioRecorder extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  actionButtons: {
+    position: 'absolute',
+    bottom: 257,
+    left: '45%'
+  },
   emptyContainer: {
     alignSelf: 'stretch',
     backgroundColor: BACKGROUND_COLOR,
@@ -420,10 +451,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   liveText: {
-    color: 'black',
+    color: 'white',
+    fontWeight: 'bold',
     position: 'relative',
     top: 40,
-    right: 3
+    right: 0
   },
   liveTextTransparent: {
     color: 'transparent',
@@ -432,7 +464,7 @@ const styles = StyleSheet.create({
   },
   recordingTimestamp: {
     position: 'relative',
-    left: 8,
+    left: 10,
     top: 20
   },
   playbackTimestamp: {
@@ -466,9 +498,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: (30 + 10) * 3.0 / 2.0,
-    maxWidth: (30 + 10) * 3.0 / 2.0
+    justifyContent: 'space-around',
+    paddingLeft: 30,
+    paddingRight: 30
   },
   volumeContainer: {
     flex: 1,
@@ -490,10 +522,13 @@ const styles = StyleSheet.create({
   rateSlider: {
     width: 200 / 2.0
   },
+  publishButtonTransparent: {
+    color: 'transparent',
+    fontWeight: 'bold',
+    borderColor: 'transparent',
+    borderBottomWidth: 2
+  },
   publish_button: {
-    position: 'absolute',
-    right: '10%',
-    top: '4%',
     color: '#207dff',
     fontWeight: 'bold',
     borderColor: '#207dff',
