@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faVolumeMute, faMicrophoneAlt, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faHeart, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { createPrayer, editPrayer } from '../../api/Prayer';
 import Pulse from 'react-native-pulse';
 
@@ -279,6 +279,14 @@ export default class AudioRecorder extends React.Component {
     return `${this._getMMSSFromMillis(0)}`;
   }
 
+  refreshPage() {
+    this.sound.pauseAsync(function() {
+      this.setState({isPlaybackAllowed: false})
+      this.setState({recordingDuration: null})
+      this.setState({soundDuration: null})
+    });
+  }
+
   render() {
     return !this.state.haveRecordingPermissions ?
       <View style={styles.container}>
@@ -338,18 +346,18 @@ export default class AudioRecorder extends React.Component {
                 style={styles.wrapper}
                 onPress={this._onPlayPausePressed}
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <FontAwesomeIcon icon={ faPlay } size={34} color={ '#49beb7' } />
+                <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
               </TouchableHighlight>
               <TouchableHighlight
                 underlayColor={BACKGROUND_COLOR}
                 style={styles.wrapper}
-                onPress={this._onStopPressed}
+                onPress={() => { this.setState({isPlaybackAllowed: false, recordingDuration: null, soundDuration: null})} }
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
+                <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' }  />
               </TouchableHighlight>
               <Text
               style={styles.publish_button}
-              onPress={(value) => { this.addPrayer() } }
+              onPress={() => { this.addPrayer() } }
               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>Publier</Text>
             </View>
           :
