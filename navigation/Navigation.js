@@ -68,7 +68,11 @@ const SearchStackNavigator = createStackNavigator(
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
-        header: null
+        title: '',
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7'
+        }
       },
     }
   },
