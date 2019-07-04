@@ -24,7 +24,9 @@ export default class Prayer extends Component {
       prayersLoaded: false,
       prayersList: [],
       flashMessage: true,
-      numberOfPrayer: ''
+      numberOfPrayer: '',
+      soundIsPlaying: false,
+      sound:''
     }
   }
 
@@ -61,6 +63,20 @@ export default class Prayer extends Component {
     });
   }
 
+  playPrayer(audio) {
+    if (this.state.soundIsPlaying === false) {
+      Expo.Audio.setIsEnabledAsync(true)
+      this.setState({ soundIsPlaying: true }, () => {
+        const sound = Expo.Audio.Sound.createAsync({ uri: audio }, { shouldPlay: true });
+        this.setState({sound: sound});
+      });
+    } else {
+      this.setState({ soundIsPlaying: false }, () => {
+        Expo.Audio.setIsEnabledAsync(false)
+      });
+    }
+  }
+
   retrieveAllPrayers(prayerId) {
     this.setState({ prayersLoaded: true, prayers: [] })
     getPrayers(prayerId).then(data => {
@@ -90,18 +106,21 @@ export default class Prayer extends Component {
                    <Text ></Text>
                  }
                  { response.audio ?
+
+                   <View style={styles.playerAudio}>
                     <FontAwesomeIcon
-                      icon={ faPlay }
+                      icon={faPlay}
                       size={24}
                       color={ '#49beb7' }
-                      onPress={ async() => {
-                        const audioPrayer = Expo.Audio.Sound.createAsync(
-                          { uri: response.audio },
-                          { shouldPlay: true }
-                        );
-                        await audioPrayer
-                      }}
+                      onPress={ async() => { this.playPrayer(response.audio)}}
                     />
+                    <FontAwesomeIcon
+                      icon={faStop}
+                      size={24}
+                      color={ '#49beb7' }
+                      onPress={ async() => { this.playPrayer(response.audio)}}
+                    />
+                  </View>
                    :
                    <Text>{response.body}</Text>
                  }
@@ -230,5 +249,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     right: '5%',
     bottom: '67%',
+  },
+  playerAudio: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   }
 })

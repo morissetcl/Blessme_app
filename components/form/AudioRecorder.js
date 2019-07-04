@@ -44,8 +44,6 @@ export default class AudioRecorder extends React.Component {
         outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_AMR_WB,
       }
     }));
-    // // UNCOMMENT THIS TO TEST maxFileSize:
-    // this.recordingSettings.android['maxFileSize'] = 12000;
   }
 
   componentDidMount() {
@@ -277,14 +275,6 @@ export default class AudioRecorder extends React.Component {
       return `${this._getMMSSFromMillis(this.state.recordingDuration)}`;
     }
     return `${this._getMMSSFromMillis(0)}`;
-  }
-
-  refreshPage() {
-    this.sound.pauseAsync(function() {
-      this.setState({isPlaybackAllowed: false})
-      this.setState({recordingDuration: null})
-      this.setState({soundDuration: null})
-    });
   }
 
   render() {
