@@ -22,7 +22,6 @@ export default class PrayerRequestCard extends React.Component {
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
       numberOfPrayer: '-',
-      counterLoaded: false,
       userEmail: props.prayer_request['user']['email']
     }
   }

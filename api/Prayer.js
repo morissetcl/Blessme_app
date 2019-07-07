@@ -11,7 +11,8 @@ export function createPrayer(params) {
                   email: params['currentUserEmail'],
                   body: params['body'],
                   audio: params['audioUri'],
-                  prayer_request_id: prayerId
+                  prayer_request_id: prayerId,
+                  audio_duration: params['soundDuration']
                 })
               }).then(response => response.json())
                 .then(json => {

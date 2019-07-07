@@ -44,11 +44,10 @@ export default class AudioRecorder extends React.Component {
         outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_AMR_WB,
       }
     }));
-    // // UNCOMMENT THIS TO TEST maxFileSize:
-    // this.recordingSettings.android['maxFileSize'] = 12000;
   }
 
   componentDidMount() {
+    Audio.setIsEnabledAsync(true)
     this._askForPermissions();
   }
 
@@ -135,7 +134,7 @@ export default class AudioRecorder extends React.Component {
   }
 
   addPrayer() {
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, audioUri: this.state.audioBase64, prayerId: this.state.prayerId, navigation: this.props.navigation })
+    createPrayer({ currentUserEmail: this.state.currentUserEmail, soundDuration: this.state.soundDuration,audioUri: this.state.audioBase64, prayerId: this.state.prayerId, navigation: this.props.navigation })
   }
 
   async _stopRecordingAndEnablePlayback() {
@@ -279,14 +278,6 @@ export default class AudioRecorder extends React.Component {
     return `${this._getMMSSFromMillis(0)}`;
   }
 
-  refreshPage() {
-    this.sound.pauseAsync(function() {
-      this.setState({isPlaybackAllowed: false})
-      this.setState({recordingDuration: null})
-      this.setState({soundDuration: null})
-    });
-  }
-
   render() {
     return !this.state.haveRecordingPermissions ?
       <View style={styles.container}>
@@ -355,10 +346,10 @@ export default class AudioRecorder extends React.Component {
                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
                 <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' }  />
               </TouchableHighlight>
-              <Text
+              <TouchableOpacity
               style={styles.publish_button}
               onPress={() => { this.addPrayer() } }
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>Publier</Text>
+              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
             </View>
           :
             <View></View>
@@ -542,4 +533,7 @@ const styles = StyleSheet.create({
     borderColor: '#207dff',
     borderBottomWidth: 2
   },
+  button_text: {
+    color: '#207dff'
+  }
 });
