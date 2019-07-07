@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   prayer_list: {
     paddingTop: 20,
-    paddingBottom: 40
+    paddingBottom: 90
   },
   bottom_buttons: {
     backgroundColor: '#fafafa',

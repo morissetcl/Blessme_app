@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +34,8 @@ export default class AudioRecorder extends React.Component {
       volume: 1.0,
       rate: 1.0,
       playThroughEarpieceAndroid: true,
-      audioBase64: ''
+      audioBase64: '',
+      loading: false
     };
     this.recordingSettings = JSON.parse(JSON.stringify({
       ...Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
@@ -134,6 +135,8 @@ export default class AudioRecorder extends React.Component {
   }
 
   addPrayer() {
+    this.setState({loading: true})
+    console.log(this.state.loading)
     createPrayer({ currentUserEmail: this.state.currentUserEmail, soundDuration: this.state.soundDuration,audioUri: this.state.audioBase64, prayerId: this.state.prayerId, navigation: this.props.navigation })
   }
 
@@ -288,103 +291,106 @@ export default class AudioRecorder extends React.Component {
         <View />
       </View>
      :
+       this.state.loading ?
+       <ActivityIndicator size="large" style = {styles.loader} />
 
-      <View style={styles.container}>
-          <View style={styles.recordingContainer}>
-            <TouchableOpacity
-              style={styles.roundedIcon}
-              onPress={this._onRecordPressed}
-              disabled={this.state.isLoading}>
-              <FontAwesomeIcon icon={ this.state.isRecording ? faStop : faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
-            </TouchableOpacity>
-            <View style={styles.timer}>
-              <Text style={styles.recordingTimestamp}>
-                {this._getRecordingTimestamp()}
-              </Text>
-            </View>
-          <View />
+       :
+       <View style={styles.container}>
+           <View style={styles.recordingContainer}>
+             <TouchableOpacity
+               style={styles.roundedIcon}
+               onPress={this._onRecordPressed}
+               disabled={this.state.isLoading}>
+               <FontAwesomeIcon icon={ this.state.isRecording ? faStop : faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
+             </TouchableOpacity>
+             <View style={styles.timer}>
+               <Text style={styles.recordingTimestamp}>
+                 {this._getRecordingTimestamp()}
+               </Text>
+             </View>
+           <View />
 
-        </View>
+         </View>
 
-        <View
-          style={[
-            styles.halfScreenContainer,
-            {
-              opacity:
-                !this.state.isPlaybackAllowed || this.state.isLoading ? DISABLED_OPACITY : 1.0,
-            },
-          ]}>
-          <View />
+         <View
+           style={[
+             styles.halfScreenContainer,
+             {
+               opacity:
+                 !this.state.isPlaybackAllowed || this.state.isLoading ? DISABLED_OPACITY : 1.0,
+             },
+           ]}>
+           <View />
 
-          <View style={styles.playbackContainer}>
-            <Slider
-              style={styles.playbackSlider}
-              value={this._getSeekSliderPosition()}
-              onValueChange={this._onSeekSliderValueChange}
-              onSlidingComplete={this._onSeekSliderSlidingComplete}
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-            />
-            <Text style={styles.playbackTimestamp}>
-              {this._getPlaybackTimestamp()}
-            </Text>
-          </View>
+           <View style={styles.playbackContainer}>
+             <Slider
+               style={styles.playbackSlider}
+               value={this._getSeekSliderPosition()}
+               onValueChange={this._onSeekSliderValueChange}
+               onSlidingComplete={this._onSeekSliderSlidingComplete}
+               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
+             />
+             <Text style={styles.playbackTimestamp}>
+               {this._getPlaybackTimestamp()}
+             </Text>
+           </View>
 
-          <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
-          { this.state.isPlaybackAllowed ?
-            <View style={styles.playStopContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onPlayPausePressed}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={() => { this.setState({isPlaybackAllowed: false, recordingDuration: null, soundDuration: null})} }
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' }  />
-              </TouchableHighlight>
-              <TouchableOpacity
-              style={styles.publish_button}
-              onPress={() => { this.addPrayer() } }
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
-            </View>
-          :
-            <View></View>
-          }
-
-
-            <View />
-            <View style={styles.actionButtons}>
-            { this.state.isRecording ?
-              <View>
-                <Pulse
-                  color='orange'
-                  numPulses={3}
-                  diameter={this.state.isRecording ? 400 : 0}
-                  speed={20}
-                  duration={2000}
-                  onPress={this._onRecordPressed}
-                  disabled={this.state.isLoading}
-                />
-
-                <Text style={styles.liveText}>
-                  En cours
-                </Text>
-              </View>
-            :
-             <Text></Text>
-            }
-            </View>
+           <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
+           { this.state.isPlaybackAllowed ?
+             <View style={styles.playStopContainer}>
+               <TouchableHighlight
+                 underlayColor={BACKGROUND_COLOR}
+                 style={styles.wrapper}
+                 onPress={this._onPlayPausePressed}
+                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
+                 <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
+               </TouchableHighlight>
+               <TouchableHighlight
+                 underlayColor={BACKGROUND_COLOR}
+                 style={styles.wrapper}
+                 onPress={() => { this.setState({isPlaybackAllowed: false, recordingDuration: null, soundDuration: null})} }
+                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
+                 <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' }  />
+               </TouchableHighlight>
+               <TouchableOpacity
+               style={styles.publish_button}
+               onPress={() => { this.addPrayer() } }
+               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
+             </View>
+           :
+             <View></View>
+           }
 
 
-          </View>
-          <View />
-        </View>
+             <View />
+             <View style={styles.actionButtons}>
+             { this.state.isRecording ?
+               <View>
+                 <Pulse
+                   color='orange'
+                   numPulses={3}
+                   diameter={this.state.isRecording ? 400 : 0}
+                   speed={20}
+                   duration={2000}
+                   onPress={this._onRecordPressed}
+                   disabled={this.state.isLoading}
+                 />
 
-      </View>
+                 <Text style={styles.liveText}>
+                   En cours
+                 </Text>
+               </View>
+             :
+              <Text></Text>
+             }
+             </View>
+
+
+           </View>
+           <View />
+         </View>
+
+       </View>
   }
 }
 
