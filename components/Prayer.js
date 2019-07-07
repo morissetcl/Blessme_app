@@ -93,14 +93,15 @@ export default class Prayer extends Component {
                   >{response.user.username}</Text>
                  {(response.user.email === this.state.currentUserEmail) ?
                    <View style={styles.actions_button}>
-                   <Text
+                   <TouchableOpacity
                    style={styles.publish_button}
                    onPress={(value) => {
                      this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body, commentId: response.id })
-                   }}>Modifier</Text>
-                   <Text
+                   }}><Text style={styles.button_text} >Modifier</Text><
+                   /TouchableOpacity>
+                   <TouchableOpacity
                    style={styles.delete_button}
-                   onPress={(value) => { this.destroyActions(response.id, index) }}>Supprimer</Text>
+                   onPress={(value) => { this.destroyActions(response.id, index) }}><Text style={styles.button_text}>Supprimer</Text></TouchableOpacity>
                    </View>
                    :
                    <Text ></Text>
@@ -108,18 +109,23 @@ export default class Prayer extends Component {
                  { response.audio ?
 
                    <View style={styles.playerAudio}>
-                    <FontAwesomeIcon
-                      icon={faPlay}
-                      size={24}
-                      color={ '#49beb7' }
-                      onPress={ async() => { this.playPrayer(response.audio)}}
-                    />
-                    <FontAwesomeIcon
-                      icon={faStop}
-                      size={24}
-                      color={ '#49beb7' }
-                      onPress={ async() => { this.playPrayer(response.audio)}}
-                    />
+                   <TouchableOpacity>
+                      <FontAwesomeIcon
+                        icon={faPlay}
+                        size={24}
+                        color={ '#49beb7' }
+                        onPress={ async() => { this.playPrayer(response.audio)}}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <FontAwesomeIcon
+                        icon={faStop}
+                        size={24}
+                        color={ '#49beb7' }
+                        onPress={ async() => { this.playPrayer(response.audio)}}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.duration} >{response.audio_duration}</Text>
                   </View>
                    :
                    <Text>{response.body}</Text>
@@ -231,7 +237,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '20%',
     top: '4%',
-    color: '#207dff',
     fontWeight: 'bold',
     borderColor: '#207dff',
     borderBottomWidth: 2
@@ -245,6 +250,9 @@ const styles = StyleSheet.create({
     borderColor: '#207dff',
     borderBottomWidth: 2
   },
+  button_text: {
+    color: '#207dff'
+  },
   actions_button: {
     position: 'relative',
     right: '5%',
@@ -254,5 +262,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around'
+  },
+  duration: {
+    color: '#49beb7',
+    borderColor: '#49beb7',
+    borderRadius: 50,
+    borderWidth: 2,
+    paddingTop: 3,
+    paddingLeft: 6,
+    paddingRight: 2,
+    position: 'relative',
+    bottom: 2,
+    fontWeight: 'bold'
   }
 })
