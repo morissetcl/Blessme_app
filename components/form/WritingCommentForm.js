@@ -47,9 +47,9 @@ export default class WritingCommentForm extends Component {
       <View style={styles.container} >
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
         { this.state.editPrayer ?
-          <Text style={styles.publish_button} onPress={(value) => { this.editrayer(this.state.prayerId) }}>Modifier</Text>
+          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.editrayer(this.state.prayerId) }}><Text style={styles.button_text}>Modifier</Text></TouchableOpacity>
           :
-          <Text style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}>Publier</Text>
+          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayer(this.state.prayerId) }}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
         }
         <Divider style={styles.divider} />
         <TextInput
@@ -96,5 +96,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF'
+  },
+  button_text: {
+    color: '#207dff'
   }
 })

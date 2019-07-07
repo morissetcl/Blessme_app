@@ -33,7 +33,7 @@ export default class PrayerRequestForm extends Component {
     return (
       <View style={styles.container} >
 
-      <Text style={styles.publish_button} onPress={(value) => { this.addPrayerRequest() }}>Publier</Text>
+      <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest() }}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
         <TextInput
           placeholder={ 'Une courte phrase résumant votre demande' }
           inputStyle={{ width: '100%', color: 'black' }}
@@ -88,5 +88,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingTop:30
+  },
+  button_text: {
+    color: '#207dff'
   }
 })
