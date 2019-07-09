@@ -94,17 +94,25 @@ export default class Prayer extends Component {
                   >{response.user.username}</Text>
                  {(response.user.email === this.state.currentUserEmail) ?
                    <View style={styles.actions_button}>
-                     <TouchableOpacity>
-                       <FontAwesomeIcon
-                         icon={faCog}
-                         size={16}
-                         color={ '#49beb7' }
-                         onPress={() => { this.setState({ visible: true }); }}
-                       />
+                    { !response.audio ?
+                     <TouchableOpacity
+                       style={styles.publish_button}
+                       onPress={(value) => {
+                         this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId, body: response.body, commentId: response.id })
+                       }}>
+                       <Text style={styles.button_text} >Modifier</Text>
+                    </TouchableOpacity>
+                    :
+                    <Text></Text>
+                  }
+                    <TouchableOpacity
+                     style={styles.delete_button}
+                     onPress={(value) => { this.destroyActions(response.id, index) }}>
+                      <Text style={styles.button_text}>Supprimer</Text>
                     </TouchableOpacity>
                    </View>
                    :
-                   <Text ></Text>
+                   <Text></Text>
                  }
                  { response.audio ?
                    <View style={styles.playerAudio}>
@@ -211,35 +219,36 @@ const styles = StyleSheet.create({
   },
   publish_button: {
     position: 'absolute',
-    right: '20%',
-    top: '4%',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2
-  },
-  delete_button: {
-    position: 'absolute',
-    right: '0%',
+    right: 70,
     top: '4%',
     color: '#207dff',
     fontWeight: 'bold',
     borderColor: '#207dff',
     borderBottomWidth: 2
   },
+  delete_button: {
+    position: 'absolute',
+    right: 0,
+    top: '4%',
+    fontWeight: 'bold',
+    borderColor: '#207dff',
+    borderBottomWidth: 2
+  },
   button_text: {
-    color: '#207dff'
+    color: '#207dff',
+    fontSize: 12
   },
   actions_button: {
-    position: 'absolute',
-    top: 10,
+    position: 'relative',
+    bottom: 30,
     right: 20
   },
   playerAudio: {
-    paddingTop: 15,
+    paddingTop: 5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 30
+    marginBottom: 40
   },
   duration: {
     color: '#49beb7',
