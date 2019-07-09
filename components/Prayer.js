@@ -5,6 +5,7 @@ import { getPrayers, destroyPrayers } from '../api/Prayer'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons'
 import PrayerRequestCard from './PrayerRequestCard'
+import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions'
 import { NavigationEvents } from 'react-navigation';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import WritingCommentForm from './form/WritingCommentForm'
@@ -106,24 +107,23 @@ export default class Prayer extends Component {
                    <Text ></Text>
                  }
                  { response.audio ?
-
                    <View style={styles.playerAudio}>
-                   <TouchableOpacity>
-                      <FontAwesomeIcon
-                        icon={faPlay}
-                        size={24}
-                        color={ '#49beb7' }
-                        onPress={ async() => { this.playPrayer(response.audio)}}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <FontAwesomeIcon
-                        icon={faStop}
-                        size={24}
-                        color={ '#49beb7' }
-                        onPress={ async() => { this.playPrayer(response.audio)}}
-                      />
-                    </TouchableOpacity>
+                     <TouchableOpacity>
+                        <FontAwesomeIcon
+                          icon={faPlay}
+                          size={24}
+                          color={ '#49beb7' }
+                          onPress={ async() => { this.playPrayer(response.audio)}}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <FontAwesomeIcon
+                          icon={faStop}
+                          size={24}
+                          color={ '#49beb7' }
+                          onPress={ async() => { this.playPrayer(response.audio)}}
+                        />
+                      </TouchableOpacity>
                     <Text style={styles.duration} >{response.audio_duration}</Text>
                   </View>
                    :
@@ -152,31 +152,7 @@ export default class Prayer extends Component {
         <ActivityIndicator size="large" style = {styles.loader} />
       }
       { this.state.loaded ?
-        <View style = {styles.bottom_buttons}>
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={ faHeart } size={34} color={ '#49beb7' } />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesomeIcon
-              icon={ faPenSquare }
-              size={34} color={ '#49beb7' }
-              style = {styles.add_prayer}
-              onPress={(value) => {
-                this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest, currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId })
-              }}
-             />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesomeIcon
-              icon={ faMicrophone }
-              size={34}
-              color={ '#49beb7' }
-              onPress={(value) => {
-                this.state.navigation.navigate('AudioRecorder', { prayerId: this.state.prayerId, currentUserEmail: this.state.currentUserEmail })
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+        <PrayerRequestButtonsActions prayerRequest={ this.state.prayerRequest } prayerId={ this.state.prayerId } currentUserEmail={ this.state.currentUserEmail } navigation={ this.state.navigation }/>
         :
         <ActivityIndicator size="large" style = {styles.loader} />
       }
@@ -188,7 +164,7 @@ export default class Prayer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaeaea' // background tab color
+    backgroundColor: '#eaeaea'
   },
   loader: {
     color:"#0000ff",
@@ -221,7 +197,8 @@ const styles = StyleSheet.create({
   comment_card: {
     padding: '2%',
     marginBottom: '5%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flex: 1
   },
   username: {
     fontWeight: 'bold',
@@ -261,7 +238,8 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginBottom: 30
   },
   duration: {
     color: '#49beb7',
