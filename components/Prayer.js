@@ -244,11 +244,11 @@ const styles = StyleSheet.create({
     right: 20
   },
   playerAudio: {
-    paddingTop: 15,
+    paddingTop: 5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 30
+    marginBottom: 40
   },
   duration: {
     color: '#49beb7',
