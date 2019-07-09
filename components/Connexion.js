@@ -166,5 +166,13 @@ const styles = StyleSheet.create({
   },
   connexion_input: {
     marginBottom: '10%'
+  },
+  loader: {
+    color:"#0000ff",
+    flex: 1,
+    alignItems: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%'
   }
 });
