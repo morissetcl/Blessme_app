@@ -22,6 +22,7 @@ export default class PrayerRequestCard extends React.Component {
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
       numberOfPrayer: '-',
+      numberOfAudioPrayer: '-',
       userEmail: props.prayer_request['user']['email']
     }
   }
@@ -42,7 +43,9 @@ export default class PrayerRequestCard extends React.Component {
 
   commentCounter(prayerId) {
     getPrayers(prayerId).then(data => {
-      this.setState({ numberOfPrayer: data.prayer_request_comments.length })
+      this.setState({ numberOfWritingPrayer: data.prayer_request_comments.map(a => a.body).filter(Boolean).length })
+      this.setState({ numberOfAudioPrayer: data.prayer_request_comments.map(a => a.audio).filter(Boolean).length })
+
     })
   }
 
@@ -69,11 +72,14 @@ export default class PrayerRequestCard extends React.Component {
             <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
               <View style = {styles.comment_action_card_contenair}>
                 <FontAwesomeIcon icon={ faComment } size={24} color={ '#FFFFFF' } style = {styles.button}/>
-                <Text style = {styles.number_of_comment}>{ this.state.numberOfPrayer }</Text>
+                <Text style = {styles.number_of_comment}>{ this.state.numberOfWritingPrayer }</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+              <View style = {styles.comment_action_card_contenair}>
+                <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+                <Text style = {styles.number_of_comment}>{ this.state.numberOfAudioPrayer }</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </Card>
