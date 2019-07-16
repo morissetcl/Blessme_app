@@ -27,7 +27,8 @@ export default class Connexion extends React.Component {
       username: "",
       logged: false,
       firebaseCheck: false,
-      errorMessage: ''
+      errorMessage: '',
+      signIn: false
     };
   }
 
@@ -88,7 +89,6 @@ export default class Connexion extends React.Component {
       permissions: ['public_profile', 'email']
     });
     if (type === 'success') {
-      //Firebase credential is created with the Facebook access token``
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       auth.signInAndRetrieveDataWithCredential(credential).catch(error => {
         this.setState({ errorMessage: error.message });
@@ -106,7 +106,11 @@ export default class Connexion extends React.Component {
             <Prayers navigation={ this.props.navigation } currentUserEmail={ firebase.auth().currentUser.email } username={this.state.username}/>
             :
             <View>
-              <ImageBackground source = {require('../assets/prayer_red.jpg')} style = {styles.image} />
+              { this.state.signIn ?
+                <ImageBackground source = {require('../assets/signup.jpg')} style = {styles.image} />
+                :
+                <ImageBackground source = {require('../assets/signin.jpg')} style = {styles.image} />
+              }
               <View style={styles.connexion_from}>
                 <Text style={{color: 'white', fontSize: 30, textAlign: 'center', marginLeft: 30}}>Bless Me.</Text>
                 <Text style={{color: 'white', fontSize: 18, textAlign: 'center', marginTop: 30, marginBottom: 80, marginLeft: 30}}>
@@ -114,16 +118,20 @@ export default class Connexion extends React.Component {
                 </Text>
               </View>
               <View style={styles.form_wrapper}>
-
                 <Form>
-                  <Item floatingLabel>
-                    <Label>Pseudonyme</Label>
-                    <Input
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      onChangeText={username => this.setState({username: username })}
-                    />
-                  </Item>
+                  { !this.state.signIn ?
+                    <Item floatingLabel>
+                      <Label>Pseudonyme</Label>
+                      <Input
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={username => this.setState({username: username })}
+                      />
+                    </Item>
+                    :
+                    <Text></Text>
+                  }
+
                   <Item floatingLabel>
                     <Label>Email</Label>
                     <Input
@@ -141,29 +149,44 @@ export default class Connexion extends React.Component {
                       onChangeText={password => this.setState({ password })}
                     />
                   </Item>
-                  <View style={styles.boutons_wrapper}>
-                    <TouchableOpacity style={styles.bouton} onPress={() => this.SignUp(this.state.email, this.state.password)} >
-                      <Text style={{color: 'white'}}>Inscription</Text>
+                  { !this.state.signIn ?
+                    <View style={styles.boutons_wrapper}>
+                      <TouchableOpacity style={styles.bouton} onPress={() => this.SignUp(this.state.email, this.state.password)} >
+                        <Text style={{color: 'white'}}>Inscription</Text>
+                      </TouchableOpacity>
+                    <Text>Ou connectez-vous via </Text>
+                    <TouchableOpacity
+                      style={styles.bouton_fb}
+                      name="Facebook"
+                      onPress={() => this.handleFacebookButton()}
+                    >
+                      <Text style={styles.facebookButtonText}>
+                        Facebook
+                      </Text>
                     </TouchableOpacity>
-                  <Text>Ou connectez-vous via </Text>
-                  <TouchableOpacity
-                    style={styles.bouton_fb}
-                    name="Facebook"
-                    onPress={() => this.handleFacebookButton()}
-                  >
-                    <Text style={styles.facebookButtonText}>
-                      Facebook
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                  </View>
+                  :
+                  <View style={styles.boutons_wrapper}>
+                    <TouchableOpacity style={styles.bouton} onPress={() => this.Login(this.state.email, this.state.password)} >
+                      <Text style={{color: 'white'}}>Connexion</Text>
+                    </TouchableOpacity>
+                  </View>
+                }
               </Form>
             </View>
-
-            <TouchableOpacity onPress={() => this.SignUp(this.state.email, this.state.password)} >
-              <Text style={{color: 'white', textAlign: 'center'}}>Déja inscrit ?</Text>
-            </TouchableOpacity>
           </View>
           }
+            <View style={styles.inscription_buttons}>
+              { !this.state.signIn ?
+                <TouchableOpacity onPress={() => this.setState({signIn: true})} >
+                  <Text style={{color: 'white', textAlign: 'center'}}>Déja inscrit ?</Text>
+                </TouchableOpacity>
+              :
+                <TouchableOpacity onPress={() => this.setState({signIn: false})} >
+                  <Text style={{color: 'white', textAlign: 'center'}}>Pas encore inscrit ?</Text>
+                </TouchableOpacity>
+              }
+            </View>
           </View>
           :
           <ActivityIndicator size="large" style = {styles.loader} />
@@ -174,13 +197,19 @@ export default class Connexion extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  inscription_buttons: {
+    position: 'absolute',
+    bottom: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0
+  },
   image: {
     flex: 1,
     position: 'absolute',
     width: '100%',
-    height: '120%',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    height: '120%'
   },
   boutons_wrapper: {
     display: 'flex',
