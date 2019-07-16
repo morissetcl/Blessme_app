@@ -68,7 +68,7 @@ const SearchStackNavigator = createStackNavigator(
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
-        title: '',
+        title: 'Prière audio',
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7'
