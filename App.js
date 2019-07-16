@@ -5,6 +5,7 @@ import FlashMessage from "react-native-flash-message";
 
 export default class App extends React.Component {
   render() {
+    console.disableYellowBox = true; 
     return (
       <View style={{ flex: 1 }}>
         <Navigation/>

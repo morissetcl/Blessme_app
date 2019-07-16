@@ -1,9 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
+import { Facebook } from 'expo';
 import * as firebase from "firebase";
 import Prayers from './Prayers'
 import { showMessage } from "react-native-flash-message";
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DB_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.FIREBASE_MESSAGE_APP_ID
+};
+firebase.initializeApp(firebaseConfig);
+export const auth = firebase.auth();
 
 export default class Connexion extends React.Component {
   constructor(props) {
@@ -13,7 +26,8 @@ export default class Connexion extends React.Component {
       password: "",
       username: "",
       logged: false,
-      firebaseCheck: false
+      firebaseCheck: false,
+      errorMessage: ''
     };
   }
 
@@ -60,16 +74,6 @@ export default class Connexion extends React.Component {
   };
 
   componentDidMount(){
-    var firebaseConfig = {
-      apiKey: process.env.FIREBASE_API_KEY,
-      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-      databaseURL: process.env.FIREBASE_DB_URL,
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
-      appId: process.env.FIREBASE_MESSAGE_APP_ID
-    };
-    firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({ logged: true })
@@ -78,6 +82,20 @@ export default class Connexion extends React.Component {
       }
     )
   }
+
+  async handleFacebookButton() {
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
+      permissions: ['public_profile', 'email']
+    });
+    if (type === 'success') {
+      //Firebase credential is created with the Facebook access token``
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      auth.signInAndRetrieveDataWithCredential(credential).catch(error => {
+        this.setState({ errorMessage: error.message });
+      });
+    }
+  }
+
 
   render() {
     return (
@@ -127,9 +145,20 @@ export default class Connexion extends React.Component {
                     <TouchableOpacity style={styles.bouton} onPress={() => this.SignUp(this.state.email, this.state.password)} >
                       <Text style={{color: 'white'}}>Inscription</Text>
                     </TouchableOpacity>
-                  </View>
+                  <Text>Ou connectez-vous via </Text>
+                  <TouchableOpacity
+                    style={styles.bouton_fb}
+                    name="Facebook"
+                    onPress={() => this.handleFacebookButton()}
+                  >
+                    <Text style={styles.facebookButtonText}>
+                      Facebook
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </Form>
             </View>
+
             <TouchableOpacity onPress={() => this.SignUp(this.state.email, this.state.password)} >
               <Text style={{color: 'white', textAlign: 'center'}}>Déja inscrit ?</Text>
             </TouchableOpacity>
@@ -164,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingLeft: '5%',
     paddingRight: '10%',
-    paddingBottom: '10%',
-    margin: '10%',
+    paddingBottom: '5%',
+    margin: '12%',
     borderRadius: 10
   },
   connexion_from: {
@@ -200,11 +229,11 @@ const styles = StyleSheet.create({
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
-    padding: 15,
+    padding: 10,
     display: 'flex',
     alignItems: 'center',
     width: '80%',
-    marginBottom: '2%',
+    marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2
   },
@@ -218,5 +247,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%'
+  },
+  bouton_fb: {
+    marginTop: '5%',
+    borderColor: 'transparent',
+    backgroundColor: '#ff8b6a',
+    padding: 10,
+    display: 'flex',
+    alignItems: 'center',
+    width: '80%',
+    borderRadius: 30,
+    borderWidth: 2,
+    backgroundColor: '#3B5998'
+  },
+  facebookButtonText: {
+    color: '#fff'
+  },
+  space: {
+    height: 17
   }
 });

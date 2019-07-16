@@ -25,7 +25,6 @@ export function updateUser(email, avatar) {
               })
 }
 
-
 export function getUsers(email) {
   const url = `https://blessme-serveur.herokuapp.com/api/v1/users/${email}`
   return fetch(url)
