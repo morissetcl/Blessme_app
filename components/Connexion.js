@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import { Facebook } from 'expo';
 import * as firebase from "firebase";
@@ -75,6 +75,8 @@ export default class Connexion extends React.Component {
   };
 
   componentDidMount(){
+
+
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({ logged: true })
@@ -112,8 +114,8 @@ export default class Connexion extends React.Component {
                 <ImageBackground source = {require('../assets/signin.jpg')} style = {styles.image} />
               }
               <View style={styles.connexion_from}>
-                <Text style={{color: 'white', fontSize: 30, textAlign: 'center', marginLeft: 30}}>Bless Me.</Text>
-                <Text style={{color: 'white', fontSize: 18, textAlign: 'center', marginTop: 30, marginBottom: 80, marginLeft: 30}}>
+                <Text style={{color: 'white', fontSize: 30, textAlign: 'center', margin: Dimensions.get('window').height / 100}}>Bless Me.</Text>
+                <Text style={{color: 'white', fontSize: 18, textAlign: 'center', margin: Dimensions.get('window').height / 100}}>
                   Connectez-vous et commencez à prier pour ceux qui en on besoin.
                 </Text>
               </View>
@@ -179,7 +181,7 @@ export default class Connexion extends React.Component {
             <View style={styles.inscription_buttons}>
               { !this.state.signIn ?
                 <TouchableOpacity onPress={() => this.setState({signIn: true})} >
-                  <Text style={{color: 'white', textAlign: 'center'}}>Déja inscrit ?</Text>
+                  <Text style={{color: 'black', textAlign: 'center'}}>Déja inscrit ?</Text>
                 </TouchableOpacity>
               :
                 <TouchableOpacity onPress={() => this.setState({signIn: false})} >
@@ -199,7 +201,7 @@ export default class Connexion extends React.Component {
 const styles = StyleSheet.create({
   inscription_buttons: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
@@ -208,8 +210,8 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     position: 'absolute',
-    width: '100%',
-    height: '120%'
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height + 35
   },
   boutons_wrapper: {
     display: 'flex',
@@ -227,12 +229,13 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   connexion_from: {
-    paddingTop: '20%',
-    paddingLeft: 20,
-    paddingRight: 50
+    paddingTop: Dimensions.get('window').height / 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   container: {
-    height: '100%',
+    height: Dimensions.get('window').height + 35,
     backgroundColor: '#FFFFFF' // background tab color
   },
   loader: {
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
     padding: 15,
     display: 'flex',
     alignItems: 'center',
-    width: '80%',
+    width: Dimensions.get('window').width - '20%',
     marginBottom: '2%',
     borderRadius: 30,
     borderWidth: 2
