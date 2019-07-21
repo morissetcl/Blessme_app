@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity} from 'react-native'
 import PrayerRequestList from './PrayerRequestList'
+import PrayersList from './PrayersList'
+
 import HeaderHomepage from './HeaderHomepage'
 import Tabs from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -34,6 +36,7 @@ export default class Prayers extends Component {
               <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ false }/>
             </View>
             <View title="Intercessions" style={styles.content}>
+              <PrayersList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ false }/>
             </View>
           </Tabs>
         </View>
