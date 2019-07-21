@@ -30,10 +30,10 @@ export default class Prayers extends Component {
         <HeaderHomepage navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username }/>
         <View style={styles.container}>
           <Tabs>
-            <View title="PRIERE" style={styles.content}>
+            <View title="Demandes" style={styles.content}>
               <PrayerRequestList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ false }/>
             </View>
-            <View title="INTERCESSION" style={styles.content}>
+            <View title="Intercessions" style={styles.content}>
             </View>
           </Tabs>
         </View>

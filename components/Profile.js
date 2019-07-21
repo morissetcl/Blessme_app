@@ -83,10 +83,10 @@ export default class Profile extends Component {
         </View>
         <View style={styles.container}>
           <Tabs>
-            <View title="PRIERE">
+            <View title="Demandes">
               <PrayerRequestList navigation={this.state.navigation} userEmail={ this.state.userEmail} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
-            <View title="INTERCESSION">
+            <View title="Intercessions">
               <Text>foufou</Text>
             </View>
           </Tabs>

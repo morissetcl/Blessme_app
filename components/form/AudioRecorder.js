@@ -382,7 +382,6 @@ export default class AudioRecorder extends React.Component {
            </View>
            <View />
          </View>
-
        </View>
   }
 }
