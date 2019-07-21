@@ -6,6 +6,7 @@ import Tabs from '../Tabs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { createUser } from '../api/User'
+import registerForNotifications from '../services/notifications';
 
 export default class Prayers extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class Prayers extends Component {
 
   componentWillMount() {
     createUser({ currentUserEmail: this.state.currentUserEmail, username: this.state.username })
+    registerForNotifications(this.state.currentUserEmail);
   }
 
   render() {
