@@ -374,10 +374,6 @@ export default class AudioRecorder extends React.Component {
                    onPress={this._onRecordPressed}
                    disabled={this.state.isLoading}
                  />
-
-                 <Text style={styles.liveText}>
-                   En cours
-                 </Text>
                </View>
              :
               <Text></Text>
