@@ -285,7 +285,7 @@ export default class AudioRecorder extends React.Component {
       <View style={styles.container}>
         <View />
         <Text style={styles.noPermissionsText}>
-          You must enable audio recording permissions in order to use this app.
+          Vous devez activer les autorisations d'enregistrement audio pour enregistrer votre prière.
         </Text>
         <View />
       </View>
@@ -379,8 +379,6 @@ export default class AudioRecorder extends React.Component {
               <Text></Text>
              }
              </View>
-
-
            </View>
            <View />
          </View>
@@ -392,8 +390,8 @@ export default class AudioRecorder extends React.Component {
 const styles = StyleSheet.create({
   actionButtons: {
     position: 'absolute',
-    bottom: 257,
-    left: '45%'
+    bottom: 260,
+    left: '53%'
   },
   emptyContainer: {
     alignSelf: 'stretch',
@@ -449,13 +447,6 @@ const styles = StyleSheet.create({
   },
   playbackSlider: {
     alignSelf: 'stretch',
-  },
-  liveText: {
-    color: 'white',
-    fontWeight: 'bold',
-    position: 'relative',
-    top: 40,
-    right: 0
   },
   liveTextTransparent: {
     color: 'transparent',
