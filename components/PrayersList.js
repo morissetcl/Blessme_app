@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl, Text } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl, Text, TouchableOpacity } from 'react-native'
 import { getAllPrayers } from '../api/Prayer'
 import { NavigationEvents } from 'react-navigation';
 
@@ -21,6 +21,10 @@ export default class PrayersList extends React.Component {
     this.retrieveAllPrayers();
   }
 
+  goToPrayerRequest(prayerId) {
+    this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail })
+  }
+
   retrieveAllPrayers() {
     getAllPrayers().then(data => {
       this.state.prayers.push(data.comments)
@@ -31,7 +35,9 @@ export default class PrayersList extends React.Component {
                    <Text
                     style={styles.username}
                     >{response.user.username}</Text>
-                   <Text>{response.body}</Text>
+                   <TouchableOpacity>
+                    <Text onPress={(value) => { this.goToPrayerRequest(response.prayer_request.id) }}>{response.body}</Text>
+                   </TouchableOpacity>
                  </View>
         })
       })
