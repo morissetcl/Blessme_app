@@ -56,7 +56,7 @@ export default class PrayerRequestCard extends React.Component {
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui"
     return (
-      <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }}>
+      <TouchableOpacity activeOpacity={0.7} onPress={(value) => { this.goToPrayer(this.state.prayerId) }} style = {styles.space_between_card}>
         <NavigationEvents onDidFocus={payload => this.commentCounter(this.state.prayerId)} />
         <Card title={<Avatar rounded
                              source={{
@@ -89,6 +89,10 @@ export default class PrayerRequestCard extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  space_between_card: {
+    marginBottom: 10,
+    marginTop: -10
+  },
   number_of_comment: {
     marginLeft: 10,
     color: 'white',

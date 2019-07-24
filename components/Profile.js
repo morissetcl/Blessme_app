@@ -5,6 +5,8 @@ import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
 import PrayerRequestList from './PrayerRequestList'
 import { ImagePicker } from 'expo';
+import PrayersList from './PrayersList'
+import { getUserPrayers } from '../api/Prayer'
 
 export default class Profile extends Component {
   constructor(props) {
@@ -87,7 +89,7 @@ export default class Profile extends Component {
               <PrayerRequestList navigation={this.state.navigation} userEmail={ this.state.userEmail} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
             <View title="Intercessions">
-              <Text>foufou</Text>
+              <PrayersList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ true } requestApi={ getUserPrayers(this.state.currentUserEmail) }/>
             </View>
           </Tabs>
         </View>
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
   },
   container: {
     height: '8%',
-    flex: 1,
+    flex: 1
   },
   loader: {
     color:"red",

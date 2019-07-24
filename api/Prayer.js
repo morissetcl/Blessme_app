@@ -49,6 +49,19 @@ export function getPrayers(prayerId) {
     .catch((error) => console.error(error))
 }
 
+export function getAllPrayers() {
+  const url = `https://blessme-serveur.herokuapp.com/api/v1/all_comments`
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}
+
+export function getUserPrayers(email) {
+  const url = 'https://blessme-serveur.herokuapp.com/api/v1/user_comments/' + email
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}
 
 export function destroyPrayers(params) {
   const prayerId = params['prayerId']
