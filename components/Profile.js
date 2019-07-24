@@ -18,7 +18,8 @@ export default class Profile extends Component {
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       userEmail: props.navigation.state.params.userEmail,
       avatarUrl: '',
-      avatarLoaded: 'loaded'
+      avatarLoaded: 'loaded',
+      loading: false
     };
   }
 
@@ -52,6 +53,7 @@ export default class Profile extends Component {
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     const allowsEditing = this.state.userEmail ? false : true
+    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
 
     return (
       <View style={styles.container}>
@@ -81,7 +83,11 @@ export default class Profile extends Component {
           }
         <View style={styles.user_informations}>
           <Text style={styles.bold} >{ this.state.username }</Text>
-          <Text>Membre depuis { memberSince } jours</Text>
+          { this.state.avatarUrl !== '' ?
+            <Text>Membre depuis { memberSince } jours</Text>
+            :
+            <ActivityIndicator size="large" style = {styles.loader} />
+          }
         </View>
         <View style={styles.container}>
           <Tabs>
@@ -89,7 +95,7 @@ export default class Profile extends Component {
               <PrayerRequestList navigation={this.state.navigation} userEmail={ this.state.userEmail} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
             <View title="Intercessions">
-              <PrayersList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ true } requestApi={ getUserPrayers(this.state.currentUserEmail) }/>
+              <PrayersList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ true } requestApi={ getUserPrayers(email) }/>
             </View>
           </Tabs>
         </View>

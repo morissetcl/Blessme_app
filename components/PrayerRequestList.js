@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eaeaea'
   },
   container_prayer_request_card: {
-    backgroundColor: '#eaeaea'
+    backgroundColor: '#eaeaea',
+    height: '100%'
   }
 });
