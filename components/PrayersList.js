@@ -1,6 +1,5 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl, Text, TouchableOpacity } from 'react-native'
-import { getAllPrayers } from '../api/Prayer'
 import { NavigationEvents } from 'react-navigation';
 
 export default class PrayersList extends React.Component {
@@ -13,7 +12,8 @@ export default class PrayersList extends React.Component {
       currentUserEmail: this.props.currentUserEmail,
       refreshing: false,
       profileFeed: this.props.profileFeed,
-      prayersList: []
+      prayersList: [],
+      requestApi: this.props.requestApi
     };
   }
 
@@ -26,7 +26,7 @@ export default class PrayersList extends React.Component {
   }
 
   retrieveAllPrayers() {
-    getAllPrayers().then(data => {
+    this.state.requestApi.then(data => {
       this.state.prayers.push(data.comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.setState({ prayersList:
@@ -46,7 +46,7 @@ export default class PrayersList extends React.Component {
 
   render() {
     return (
-      <View style={styles.container_prayer_request_card}>
+      <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers()} />
         { this.state.prayers.length > 0  ?
           <ScrollView>
@@ -62,7 +62,10 @@ export default class PrayersList extends React.Component {
 
 const styles = StyleSheet.create({
   container_prayer_request_card: {
-    marginBottom: '6%'
+    backgroundColor: '#eaeaea'
+  },
+  container_prayer_request_card_with_margin: {
+    paddingBottom: '6%'
   },
   add_prayer: {
     borderRadius: 30,

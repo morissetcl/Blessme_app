@@ -53,11 +53,11 @@ export default class PrayerRequestList extends React.Component {
   render() {
     var prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : ['']
     let prayersRequestsList = prayersRequests.map((response, index) => {
-      return <PrayerRequestCard prayer_request={ response } currentUserEmail={ this.state.currentUserEmail } navigation={ this.state.navigation } numberOfLines={7} key={index} style={styles.ok} needLink={true} />
+      return <PrayerRequestCard prayer_request={ response } currentUserEmail={ this.state.currentUserEmail } navigation={ this.state.navigation } numberOfLines={7} key={index} needLink={true} />
     });
 
     return (
-      <View style={styles.container_prayer_request_card}>
+      <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
         { this.state.prayersRequests.length > 0  ?
           <ScrollView refreshControl={
           <RefreshControl
@@ -84,20 +84,11 @@ const styles = StyleSheet.create({
     top: 200,
     left: 150
   },
+  container_prayer_request_card_with_margin: {
+    paddingBottom: '6%',
+    backgroundColor: '#eaeaea'
+  },
   container_prayer_request_card: {
-    paddingBottom: '7%'
-  },
-  ok: {
-    width: '100%'
-  },
-  container: {
-     flexDirection: 'column',
-     justifyContent: 'center',
-     alignItems: 'center',
-     backgroundColor: 'white',
-     height: 600
-  },
-  coucou: {
-    backgroundColor: 'green'
+    backgroundColor: '#eaeaea'
   }
 });
