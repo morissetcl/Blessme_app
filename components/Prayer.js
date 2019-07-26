@@ -10,6 +10,7 @@ import { NavigationEvents } from 'react-navigation';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import WritingCommentForm from './form/WritingCommentForm'
 import * as Expo from 'expo'
+import AudioPrayer from './AudioPrayer';
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -121,24 +122,27 @@ export default class Prayer extends Component {
                  }
                  { response.audio ?
                    <View style={styles.playerAudio}>
-                     <TouchableOpacity>
-                        <FontAwesomeIcon
-                          icon={faPlay}
-                          size={24}
-                          color={ '#49beb7' }
-                          onPress={ async() => { this.playPrayer(response.audio)}}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <FontAwesomeIcon
-                          icon={faStop}
-                          size={24}
-                          color={ '#49beb7' }
-                          onPress={ async() => { this.playPrayer(response.audio)}}
-                        />
-                      </TouchableOpacity>
-                    <Text style={styles.duration} >{response.audio_duration}</Text>
-                  </View>
+                     <AudioPrayer audio={response.audio} duration={response.audio_duration} />
+                   </View>
+                  //  <View style={styles.playerAudio}>
+                  //    <TouchableOpacity>
+                  //       <FontAwesomeIcon
+                  //         icon={faPlay}
+                  //         size={24}
+                  //         color={ '#49beb7' }
+                  //         onPress={ async() => { this.playPrayer(response.audio)}}
+                  //       />
+                  //     </TouchableOpacity>
+                  //     <TouchableOpacity>
+                  //       <FontAwesomeIcon
+                  //         icon={faStop}
+                  //         size={24}
+                  //         color={ '#49beb7' }
+                  //         onPress={ async() => { this.playPrayer(response.audio)}}
+                  //       />
+                  //     </TouchableOpacity>
+                  //   <Text style={styles.duration} >{response.audio_duration}</Text>
+                  // </View>
                    :
                    <Text>{response.body}</Text>
                  }
