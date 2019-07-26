@@ -31,10 +31,16 @@ export default class PrayersList extends React.Component {
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.setState({ prayersList:
         prayers.map((response, index) => {
+          const formattedDate = new Date(Date.parse(response.created_at) * 1000);
+          const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
+          const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
+          const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui"
+
           return <View style={styles.comment_card} key={index} id={index}>
                    <Text
                     style={styles.username}
                     >{response.user.username}</Text>
+                    <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
                    <TouchableOpacity>
                     <Text onPress={(value) => { this.goToPrayerRequest(response.prayer_request.id) }}>{response.body}</Text>
                    </TouchableOpacity>
@@ -62,10 +68,12 @@ export default class PrayersList extends React.Component {
 
 const styles = StyleSheet.create({
   container_prayer_request_card: {
-    backgroundColor: '#eaeaea'
+    backgroundColor: '#eaeaea',
+    height: '100%'
   },
   container_prayer_request_card_with_margin: {
-    paddingBottom: '6%'
+    paddingBottom: '6%',
+    height: '100%'
   },
   add_prayer: {
     borderRadius: 30,
@@ -115,5 +123,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 200,
     left: 150
+  },
+  created_at: {
+    position:'absolute',
+    top: 8,
+    right: 10,
+    fontSize: 12,
+    color: '#bbbbbb'
   }
 })
