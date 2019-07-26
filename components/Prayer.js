@@ -85,6 +85,11 @@ export default class Prayer extends Component {
       this.state.prayers.push(data.prayer_request_comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
+        const formattedDate = new Date(Date.parse(response.created_at) * 1000);
+        const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
+        const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
+        const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui"
+
         return <View style={styles.comment_card} key={index} id={index}>
                  <Text
                   style={styles.username}
@@ -112,7 +117,7 @@ export default class Prayer extends Component {
                     </TouchableOpacity>
                    </View>
                    :
-                   <Text></Text>
+                   <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
                  }
                  { response.audio ?
                    <View style={styles.playerAudio}>
@@ -240,8 +245,8 @@ const styles = StyleSheet.create({
   },
   actions_button: {
     position: 'relative',
-    bottom: 30,
-    right: 20
+    bottom: 27,
+    right: 5
   },
   playerAudio: {
     paddingTop: 5,
@@ -261,5 +266,12 @@ const styles = StyleSheet.create({
     position: 'relative',
     bottom: 2,
     fontWeight: 'bold'
+  },
+  created_at: {
+    position:'absolute',
+    top: 8,
+    right: 12,
+    fontSize: 12,
+    color: '#bbbbbb'
   }
 })
