@@ -37,6 +37,7 @@ export default class Prayer extends Component {
       this.setState({ prayerRequest: data })
       this.setState({ loaded: true })
     })
+    this.retrieveAllPrayers(this.state.prayerId)
   }
 
   componentDidUpdate() {
@@ -61,22 +62,8 @@ export default class Prayer extends Component {
         type: 'success',
         icon: 'success'
       });
-      this.retrieveAllPrayers(this.state.prayerId)
     });
-  }
-
-  playPrayer(audio) {
-    if (this.state.soundIsPlaying === false) {
-      Expo.Audio.setIsEnabledAsync(true)
-      this.setState({ soundIsPlaying: true }, () => {
-        const sound = Expo.Audio.Sound.createAsync({ uri: audio }, { shouldPlay: true });
-        this.setState({sound: sound});
-      });
-    } else {
-      this.setState({ soundIsPlaying: false }, () => {
-        Expo.Audio.setIsEnabledAsync(false)
-      });
-    }
+    this.retrieveAllPrayers(this.state.prayerId)
   }
 
   retrieveAllPrayers(prayerId) {
@@ -124,25 +111,6 @@ export default class Prayer extends Component {
                    <View style={styles.playerAudio}>
                      <AudioPrayer audio={response.audio} duration={response.audio_duration} />
                    </View>
-                  //  <View style={styles.playerAudio}>
-                  //    <TouchableOpacity>
-                  //       <FontAwesomeIcon
-                  //         icon={faPlay}
-                  //         size={24}
-                  //         color={ '#49beb7' }
-                  //         onPress={ async() => { this.playPrayer(response.audio)}}
-                  //       />
-                  //     </TouchableOpacity>
-                  //     <TouchableOpacity>
-                  //       <FontAwesomeIcon
-                  //         icon={faStop}
-                  //         size={24}
-                  //         color={ '#49beb7' }
-                  //         onPress={ async() => { this.playPrayer(response.audio)}}
-                  //       />
-                  //     </TouchableOpacity>
-                  //   <Text style={styles.duration} >{response.audio_duration}</Text>
-                  // </View>
                    :
                    <Text>{response.body}</Text>
                  }
@@ -155,7 +123,6 @@ export default class Prayer extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
       { this.state.prayersLoaded ?
         <ScrollView>
           <View style={styles.prayer_card} >
