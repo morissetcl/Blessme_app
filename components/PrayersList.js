@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl, Text, TouchableOpacity } from 'react-native'
 import { NavigationEvents } from 'react-navigation';
+import AudioPrayer from './AudioPrayer';
 
 export default class PrayersList extends React.Component {
   constructor(props) {
@@ -42,7 +43,12 @@ export default class PrayersList extends React.Component {
                     >{response.user.username}</Text>
                     <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
                    <TouchableOpacity>
-                    <Text onPress={(value) => { this.goToPrayerRequest(response.prayer_request.id) }}>{response.body}</Text>
+                   { response.body  ?
+                     <Text onPress={(value) => { this.goToPrayerRequest(response.prayer_request.id) }}>{response.body}</Text>
+                     :
+                     <AudioPrayer audio={response.audio} duration={response.audio_duration} />
+                    }
+
                    </TouchableOpacity>
                  </View>
         })
