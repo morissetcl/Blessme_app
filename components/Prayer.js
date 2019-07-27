@@ -10,6 +10,7 @@ import { NavigationEvents } from 'react-navigation';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import WritingCommentForm from './form/WritingCommentForm'
 import * as Expo from 'expo'
+import AudioPrayer from './AudioPrayer';
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Prayer extends Component {
 
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {
-      this.setState({ prayerRequest: data })
+      this.setState({ prayerRequest: data}, function() {});
       this.setState({ loaded: true })
     })
   }
@@ -64,24 +65,10 @@ export default class Prayer extends Component {
     });
   }
 
-  playPrayer(audio) {
-    if (this.state.soundIsPlaying === false) {
-      Expo.Audio.setIsEnabledAsync(true)
-      this.setState({ soundIsPlaying: true }, () => {
-        const sound = Expo.Audio.Sound.createAsync({ uri: audio }, { shouldPlay: true });
-        this.setState({sound: sound});
-      });
-    } else {
-      this.setState({ soundIsPlaying: false }, () => {
-        Expo.Audio.setIsEnabledAsync(false)
-      });
-    }
-  }
-
   retrieveAllPrayers(prayerId) {
-    this.setState({ prayersLoaded: true, prayers: [] })
+    this.setState({ prayers: [] })
     getPrayers(prayerId).then(data => {
-      this.setState({ numberOfPrayer: data.prayer_request_comments.length })
+      this.setState({ numberOfPrayer: data.prayer_request_comments.length, prayersLoaded: true })
       this.state.prayers.push(data.prayer_request_comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
@@ -121,24 +108,8 @@ export default class Prayer extends Component {
                  }
                  { response.audio ?
                    <View style={styles.playerAudio}>
-                     <TouchableOpacity>
-                        <FontAwesomeIcon
-                          icon={faPlay}
-                          size={24}
-                          color={ '#49beb7' }
-                          onPress={ async() => { this.playPrayer(response.audio)}}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <FontAwesomeIcon
-                          icon={faStop}
-                          size={24}
-                          color={ '#49beb7' }
-                          onPress={ async() => { this.playPrayer(response.audio)}}
-                        />
-                      </TouchableOpacity>
-                    <Text style={styles.duration} >{response.audio_duration}</Text>
-                  </View>
+                    <AudioPrayer audio={response.audio} duration={response.audio_duration} />
+                   </View>
                    :
                    <Text>{response.body}</Text>
                  }
