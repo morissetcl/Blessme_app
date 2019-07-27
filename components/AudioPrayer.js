@@ -12,45 +12,24 @@ import { Asset, Audio, Font } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons'
 
-class PlaylistItem {
-	constructor(uri) {
-		this.uri = uri;
-	}
-}
-
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
-const BACKGROUND_COLOR = '#FFFFFF';
-const DISABLED_OPACITY = 0.5;
-const FONT_SIZE = 14;
-const LOADING_STRING = 'Loading...';
-const BUFFERING_STRING = 'Buffering...';
-const RATE_SCALE = 3.0;
 
 export default class AudioPrayer extends Component {
 	constructor(props) {
 		super(props);
-		this.index = 0;
-		this.isSeeking = false;
-		this.shouldPlayAtEndOfSeek = false;
 		this.playbackInstance = null;
 		this.state = {
-			playbackInstanceName: LOADING_STRING,
 			playbackInstancePosition: null,
 			playbackInstanceDuration: null,
 			shouldPlay: false,
 			isPlaying: false,
 			isBuffering: false,
 			isLoading: true,
-			fontLoaded: true,
 			volume: 1.0,
-			rate: 1.0,
-			portrait: null,
       audio: this.props.audio,
       duration:this.props.duration
 		};
 	}
-
-  // const PLAYLIST = [ new PlaylistItem(this.state.audio) ];
 
 	componentDidMount() {
 		Audio.setAudioModeAsync({
@@ -75,7 +54,6 @@ export default class AudioPrayer extends Component {
 		const source = { uri: this.state.audio };
 		const initialStatus = {
 			shouldPlay: playing,
-			rate: this.state.rate,
 			volume: this.state.volume,
 		};
 
@@ -127,72 +105,6 @@ export default class AudioPrayer extends Component {
 			this.playbackInstance.stopAsync();
 		}
 	};
-
-	_onForwardPressed = () => {
-		if (this.playbackInstance != null) {
-			this._updatePlaybackInstanceForIndex(this.state.shouldPlay);
-		}
-	};
-
-	_onBackPressed = () => {
-		if (this.playbackInstance != null) {
-			this._updatePlaybackInstanceForIndex(this.state.shouldPlay);
-		}
-	};
-
-	_onVolumeSliderValueChange = value => {
-		if (this.playbackInstance != null) {
-			this.playbackInstance.setVolumeAsync(value);
-		}
-	};
-
-	_trySetRate = async rate => {
-		if (this.playbackInstance != null) {
-			try {
-				await this.playbackInstance.setRateAsync(rate);
-			} catch (error) {
-				// Rate changing could not be performed, possibly because the client's Android API is too old.
-			}
-		}
-	};
-
-	_onRateSliderSlidingComplete = async value => {
-		this._trySetRate(value * RATE_SCALE);
-	};
-
-	_onSeekSliderValueChange = value => {
-		if (this.playbackInstance != null && !this.isSeeking) {
-			this.isSeeking = true;
-			this.shouldPlayAtEndOfSeek = this.state.shouldPlay;
-			this.playbackInstance.pauseAsync();
-		}
-	};
-
-	_onSeekSliderSlidingComplete = async value => {
-		if (this.playbackInstance != null) {
-			this.isSeeking = false;
-			const seekPosition = value * this.state.playbackInstanceDuration;
-			if (this.shouldPlayAtEndOfSeek) {
-				this.playbackInstance.playFromPositionAsync(seekPosition);
-			} else {
-				this.playbackInstance.setPositionAsync(seekPosition);
-			}
-		}
-	};
-
-	_getSeekSliderPosition() {
-		if (
-			this.playbackInstance != null &&
-			this.state.playbackInstancePosition != null &&
-			this.state.playbackInstanceDuration != null
-		) {
-			return (
-				this.state.playbackInstancePosition /
-				this.state.playbackInstanceDuration
-			);
-		}
-		return 0;
-	}
 
 	_getMMSSFromMillis(millis) {
 		const totalSeconds = millis / 1000;

@@ -34,10 +34,9 @@ export default class Prayer extends Component {
 
   componentDidMount() {
     getPrayerRequest(this.state.prayerId).then(data => {
-      this.setState({ prayerRequest: data })
+      this.setState({ prayerRequest: data}, function() {});
       this.setState({ loaded: true })
     })
-    this.retrieveAllPrayers(this.state.prayerId)
   }
 
   componentDidUpdate() {
@@ -62,14 +61,14 @@ export default class Prayer extends Component {
         type: 'success',
         icon: 'success'
       });
+      this.retrieveAllPrayers(this.state.prayerId)
     });
-    this.retrieveAllPrayers(this.state.prayerId)
   }
 
   retrieveAllPrayers(prayerId) {
-    this.setState({ prayersLoaded: true, prayers: [] })
+    this.setState({ prayers: [] })
     getPrayers(prayerId).then(data => {
-      this.setState({ numberOfPrayer: data.prayer_request_comments.length })
+      this.setState({ numberOfPrayer: data.prayer_request_comments.length, prayersLoaded: true })
       this.state.prayers.push(data.prayer_request_comments)
       var prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : ['']
       this.state.prayersList = prayers.map((response, index) => {
@@ -109,7 +108,7 @@ export default class Prayer extends Component {
                  }
                  { response.audio ?
                    <View style={styles.playerAudio}>
-                     <AudioPrayer audio={response.audio} duration={response.audio_duration} />
+                    <AudioPrayer audio={response.audio} duration={response.audio_duration} />
                    </View>
                    :
                    <Text>{response.body}</Text>
@@ -123,6 +122,7 @@ export default class Prayer extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
       { this.state.prayersLoaded ?
         <ScrollView>
           <View style={styles.prayer_card} >
