@@ -77,7 +77,7 @@ export default class AudioPrayer extends Component {
 				volume: status.volume,
 			});
 			if (status.didJustFinish) {
-				this._updatePlaybackInstanceForIndex(true);
+				this.playbackInstance.stopAsync();
 			}
 		} else {
 			if (status.error) {
