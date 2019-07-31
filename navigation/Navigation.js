@@ -8,6 +8,7 @@ import WritingCommentForm from '../components/form/WritingCommentForm'
 import PrayerRequestForm from '../components/form/PrayerRequestForm'
 import Profile from '../components/Profile'
 import AudioRecorder from '../components/form/AudioRecorder'
+import ResetPassword from '../components/form/ResetPassword'
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -19,6 +20,12 @@ const SearchStackNavigator = createStackNavigator(
     },
     Connexion: {
       screen: Connexion,
+      navigationOptions: {
+        header: null
+      },
+    },
+    ResetPassword: {
+      screen: ResetPassword,
       navigationOptions: {
         header: null
       },

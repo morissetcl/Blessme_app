@@ -33,14 +33,20 @@ export default class Connexion extends React.Component {
   }
 
   SignUp = (email, password) => {
-    if (this.state.email.length !== 0 && this.state.password !== 0 &&  this.state.username !== 0) {
+    if (this.state.email.length !== 0 && this.state.password.length !== 0 &&  this.state.username.length !== 0) {
       try {
       firebase.auth().createUserWithEmailAndPassword(email,password)
         .then(() => this.setState({ logged: true }))
         .catch(error => {
           switch(error.code) {
+            case 'auth/invalid-email':
+                  this.messageErrors('Le format de votre email est invalide')
+                  break;
+            case 'auth/weak-password':
+                  this.messageErrors('Votre de mot de passe est trop court (minimum 6 caractères)')
+                  break;
             case 'auth/email-already-in-use':
-                  Alert.alert('Email already in use !')
+                  this.messageErrors("L'Email existe déja")
                   break;
          }
        })
@@ -48,13 +54,17 @@ export default class Connexion extends React.Component {
          alert("Error : ", error);
      }
     } else {
-      showMessage({
-        message: 'Merci de remplir tous les champs pour vous inscrire.',
-        type: 'warning',
-        icon: 'warning'
-      });
+      this.messageErrors('Merci de remplir tous les champs pour vous inscrire.')
     }
   };
+
+  messageErrors(message) {
+    showMessage({
+      message: message,
+      type: 'warning',
+      icon: 'warning'
+    });
+  }
 
   Login = (email, password) => {
     try {
@@ -64,8 +74,14 @@ export default class Connexion extends React.Component {
        .then(() => this.setState({ logged: true }))
        .catch(error => {
          switch(error.code) {
+           case 'auth/wrong-password':
+                 this.messageErrors("Veuillez rentrer votre mot de passe")
+                 break;
            case 'auth/user-not-found':
-                 Alert.alert('User not found !')
+                 this.messageErrors("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe")
+                 break;
+           case 'auth/invalid-email':
+                 this.messageErrors('Le format de votre email est invalide')
                  break;
         }
       })
@@ -75,8 +91,6 @@ export default class Connexion extends React.Component {
   };
 
   componentDidMount(){
-
-
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({ logged: true })
@@ -98,6 +112,9 @@ export default class Connexion extends React.Component {
     }
   }
 
+  goToResetPassword() {
+    this.props.navigation.navigate('ResetPassword', { firebase: firebase.auth() })
+  }
 
   render() {
     return (
@@ -171,6 +188,9 @@ export default class Connexion extends React.Component {
                   <View style={styles.boutons_wrapper}>
                     <TouchableOpacity style={styles.bouton} onPress={() => this.Login(this.state.email, this.state.password)} >
                       <Text style={{color: 'white'}}>Connexion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.goToResetPassword()} >
+                      <Text style={{color: 'black', textAlign: 'center'}}>Mot de passe oublié ?</Text>
                     </TouchableOpacity>
                   </View>
                 }
