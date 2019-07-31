@@ -91,8 +91,6 @@ export default class Connexion extends React.Component {
   };
 
   componentDidMount(){
-
-
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({ logged: true })
@@ -114,6 +112,9 @@ export default class Connexion extends React.Component {
     }
   }
 
+  goToResetPassword() {
+    this.props.navigation.navigate('ResetPassword', { firebase: firebase.auth() })
+  }
 
   render() {
     return (
@@ -187,6 +188,9 @@ export default class Connexion extends React.Component {
                   <View style={styles.boutons_wrapper}>
                     <TouchableOpacity style={styles.bouton} onPress={() => this.Login(this.state.email, this.state.password)} >
                       <Text style={{color: 'white'}}>Connexion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.goToResetPassword()} >
+                      <Text style={{color: 'black', textAlign: 'center'}}>Mot de passe oublié ?</Text>
                     </TouchableOpacity>
                   </View>
                 }
