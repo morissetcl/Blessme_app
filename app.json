@@ -26,6 +26,11 @@
         "READ_CONTACTS"
       ]
     },
+    "orientation": "portrait",
+    "icon": "./assets/moodtoversevf.png",
+    "notification": {
+      "icon": "./assets/moodtoversevf.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
