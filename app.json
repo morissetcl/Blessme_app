@@ -27,9 +27,9 @@
       ]
     },
     "orientation": "portrait",
-    "icon": "./assets/moodtoversevf.png",
+    "icon": "./assets/blessmelogo.png",
     "notification": {
-      "icon": "./assets/moodtoversevf.png"
+      "icon": "./assets/blessmelogo.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

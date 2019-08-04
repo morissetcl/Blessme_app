@@ -1,5 +1,7 @@
+import { getApiUrl } from './GetApiUrl'
+
 export function createUser(params) {
-  return fetch("https://blessme-serveur.herokuapp.com/api/v1/users", {
+  return fetch(`${getApiUrl()}/users`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -13,7 +15,7 @@ export function createUser(params) {
 }
 
 export function updateUser(email, avatar) {
-  return fetch(`https://blessme-serveur.herokuapp.com/api/v1/users//${email}`, {
+  return fetch(`${getApiUrl()}/users//${email}`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -26,7 +28,7 @@ export function updateUser(email, avatar) {
 }
 
 export function getUsers(email) {
-  const url = `https://blessme-serveur.herokuapp.com/api/v1/users/${email}`
+  const url = `${getApiUrl()}/users/${email}`
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error))

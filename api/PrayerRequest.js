@@ -1,19 +1,23 @@
+import Constants from 'expo-constants';
+import { getApiUrl } from './GetApiUrl'
+
 export function getAllPrayersRequests() {
-  const url = 'https://blessme-serveur.herokuapp.com/api/v1/prayers_requests'
+  console.log(Constants.manifest)
+  const url = `${getApiUrl()}/prayers_requests`
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error))
 }
 
 export function getUserPrayersRequests(email) {
-  const url = 'https://blessme-serveur.herokuapp.com/api/v1/user_prayers_requests/' + email
+  const url = `${getApiUrl()}/user_prayers_requests/` + email
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error))
 }
 
 export function getPrayerRequest(prayerId) {
-  const url = 'https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/' + prayerId
+  const url = `${getApiUrl()}/prayers_requests/` + prayerId
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error))
@@ -22,7 +26,7 @@ export function getPrayerRequest(prayerId) {
 export function createPrayerRequestAndRedirect(params) {
   const prayerId = params['prayerId']
   const navigation = params['navigation']
-  fetch(`https://blessme-serveur.herokuapp.com/api/v1/prayers_requests`, {
+  fetch(`${getApiUrl()}/prayers_requests`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
