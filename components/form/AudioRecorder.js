@@ -1,8 +1,10 @@
 import React from 'react';
-import { Dimensions, Image, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Dimensions, Image, Slider, StyleSheet, Text,
+  TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faHeart, faMicrophone,
+  faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { createPrayer, editPrayer } from '../../api/Prayer';
 import Pulse from 'react-native-pulse';
 
@@ -19,7 +21,7 @@ export default class AudioRecorder extends React.Component {
     this.state = {
       prayerId: props.navigation.state.params.prayerId,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
-      fontLoaded : true,
+      fontLoaded: true,
       haveRecordingPermissions: false,
       isLoading: false,
       isPlaybackAllowed: false,
@@ -35,7 +37,7 @@ export default class AudioRecorder extends React.Component {
       rate: 1.0,
       playThroughEarpieceAndroid: true,
       audioBase64: '',
-      loading: false
+      loading: false,
     };
     this.recordingSettings = JSON.parse(JSON.stringify({
       ...Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
@@ -43,12 +45,12 @@ export default class AudioRecorder extends React.Component {
         ...Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY.ios,
         extension: '.amr_wb',
         outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_AMR_WB,
-      }
+      },
     }));
   }
 
   componentDidMount() {
-    Audio.setIsEnabledAsync(true)
+    Audio.setIsEnabledAsync(true);
     this._askForPermissions();
   }
 
@@ -116,7 +118,7 @@ export default class AudioRecorder extends React.Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true
+      playThroughEarpieceAndroid: true,
     });
     if (this.recording !== null) {
       this.recording.setOnRecordingStatusUpdate(null);
@@ -135,8 +137,13 @@ export default class AudioRecorder extends React.Component {
   }
 
   addPrayer() {
-    this.setState({loading: true})
-    createPrayer({ currentUserEmail: this.state.currentUserEmail, soundDuration: this.state.soundDuration,audioUri: this.state.audioBase64, prayerId: this.state.prayerId, navigation: this.props.navigation })
+    this.setState({ loading: true });
+    createPrayer({ currentUserEmail: this.state.currentUserEmail,
+      soundDuration: this.state.soundDuration,
+      audioUri: this.state.audioBase64,
+      prayerId: this.state.prayerId,
+      navigation: this.props.navigation,
+    });
   }
 
   async _stopRecordingAndEnablePlayback() {
@@ -153,9 +160,9 @@ export default class AudioRecorder extends React.Component {
     const fileBase64 = await FileSystem.readAsStringAsync(
       this.recording.getURI(),
       {
-          encoding: FileSystem.EncodingTypes.Base64,
+        encoding: FileSystem.EncodingTypes.Base64,
       });
-    this.setState({audioBase64: fileBase64})
+    this.setState({ audioBase64: fileBase64 });
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -163,7 +170,7 @@ export default class AudioRecorder extends React.Component {
       playsInSilentLockedModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true
+      playThroughEarpieceAndroid: true,
     });
     const { sound, status } = await this.recording.createNewLoadedSoundAsync(
       {
@@ -173,7 +180,7 @@ export default class AudioRecorder extends React.Component {
         rate: this.state.rate,
         shouldCorrectPitch: this.state.shouldCorrectPitch,
       },
-      this._updateScreenForSoundStatus
+      this._updateScreenForSoundStatus,
     );
     this.sound = sound;
     this.setState({
@@ -190,7 +197,7 @@ export default class AudioRecorder extends React.Component {
   };
 
   _onPlayPausePressed = () => {
-    if (this.sound != null) {
+    if (this.sound !== null) {
       if (this.state.isPlaying) {
         this.sound.pauseAsync();
       } else {
@@ -200,13 +207,13 @@ export default class AudioRecorder extends React.Component {
   };
 
   _onStopPressed = () => {
-    if (this.sound != null) {
+    if (this.sound !== null) {
       this.sound.stopAsync();
     }
   };
 
   _trySetRate = async (rate, shouldCorrectPitch) => {
-    if (this.sound != null) {
+    if (this.sound !== null) {
       try {
         await this.sound.setRateAsync(rate, shouldCorrectPitch);
       } catch (error) {
@@ -215,7 +222,7 @@ export default class AudioRecorder extends React.Component {
   };
 
   _onSeekSliderValueChange = value => {
-    if (this.sound != null && !this.isSeeking) {
+    if (this.sound !== null && !this.isSeeking) {
       this.isSeeking = true;
       this.shouldPlayAtEndOfSeek = this.state.shouldPlay;
       this.sound.pauseAsync();
@@ -223,22 +230,22 @@ export default class AudioRecorder extends React.Component {
   };
 
   _onSeekSliderSlidingComplete = async value => {
-    if (this.sound != null) {
+    if (this.sound !== null) {
       this.isSeeking = false;
       const seekPosition = value * this.state.soundDuration;
       if (this.shouldPlayAtEndOfSeek) {
         this.sound.playFromPositionAsync(seekPosition);
       } else {
-        this.sound.setPositionAsync(seekPosition);
+        await this.sound.setPositionAsync(seekPosition);
       }
     }
   };
 
   _getSeekSliderPosition() {
     if (
-      this.sound != null &&
-      this.state.soundPosition != null &&
-      this.state.soundDuration != null
+      this.sound !== null &&
+      this.state.soundPosition !== null &&
+      this.state.soundDuration !== null
     ) {
       return this.state.soundPosition / this.state.soundDuration;
     }
@@ -262,19 +269,19 @@ export default class AudioRecorder extends React.Component {
 
   _getPlaybackTimestamp() {
     if (
-      this.sound != null &&
-      this.state.soundPosition != null &&
-      this.state.soundDuration != null
+      this.sound !== null &&
+      this.state.soundPosition !== null &&
+      this.state.soundDuration !== null
     ) {
       return `${this._getMMSSFromMillis(this.state.soundPosition)} / ${this._getMMSSFromMillis(
-        this.state.soundDuration
+        this.state.soundDuration,
       )}`;
     }
     return '';
   }
 
   _getRecordingTimestamp() {
-    if (this.state.recordingDuration != null) {
+    if (this.state.recordingDuration !== null) {
       return `${this._getMMSSFromMillis(this.state.recordingDuration)}`;
     }
     return `${this._getMMSSFromMillis(0)}`;
@@ -285,104 +292,109 @@ export default class AudioRecorder extends React.Component {
       <View style={styles.container}>
         <View />
         <Text style={styles.noPermissionsText}>
-          Vous devez activer les autorisations d'enregistrement audio pour enregistrer votre prière.
+          Vous devez activer les autorisations audio pour enregistrer votre prière.
         </Text>
         <View />
       </View>
-     :
-       this.state.loading ?
-       <ActivityIndicator size="large" style = {styles.loader} />
+      :
+      this.state.loading ?
+        <ActivityIndicator size="large" style = {styles.loader} />
+        :
+        <View style={styles.container}>
+          <View style={styles.recordingContainer}>
+            <TouchableOpacity
+              style={styles.roundedIcon}
+              onPress={this._onRecordPressed}
+              disabled={this.state.isLoading}>
+              <FontAwesomeIcon icon={ this.state.isRecording ? faStop : faMicrophone }
+                size={34} color={ '#FFFFFF' }
+                style={styles.iconMicro}/>
+            </TouchableOpacity>
+            <View style={styles.timer}>
+              <Text style={styles.recordingTimestamp}>
+                {this._getRecordingTimestamp()}
+              </Text>
+            </View>
+            <View/>
+          </View>
+          <View
+            style={[
+              styles.halfScreenContainer,
+              {
+                opacity:
+                  !this.state.isPlaybackAllowed || this.state.isLoading ? DISABLED_OPACITY : 1.0,
+              },
+            ]}>
+            <View />
 
-       :
-       <View style={styles.container}>
-           <View style={styles.recordingContainer}>
-             <TouchableOpacity
-               style={styles.roundedIcon}
-               onPress={this._onRecordPressed}
-               disabled={this.state.isLoading}>
-               <FontAwesomeIcon icon={ this.state.isRecording ? faStop : faMicrophone } size={34} color={ '#FFFFFF' } style={styles.iconMicro}/>
-             </TouchableOpacity>
-             <View style={styles.timer}>
-               <Text style={styles.recordingTimestamp}>
-                 {this._getRecordingTimestamp()}
-               </Text>
-             </View>
-           <View />
+            <View style={styles.playbackContainer}>
+              <Slider
+                style={styles.playbackSlider}
+                value={this._getSeekSliderPosition()}
+                onValueChange={this._onSeekSliderValueChange}
+                onSlidingComplete={this._onSeekSliderSlidingComplete}
+                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
+              />
+              <Text style={styles.playbackTimestamp}>
+                {this._getPlaybackTimestamp()}
+              </Text>
+            </View>
 
-         </View>
-
-         <View
-           style={[
-             styles.halfScreenContainer,
-             {
-               opacity:
-                 !this.state.isPlaybackAllowed || this.state.isLoading ? DISABLED_OPACITY : 1.0,
-             },
-           ]}>
-           <View />
-
-           <View style={styles.playbackContainer}>
-             <Slider
-               style={styles.playbackSlider}
-               value={this._getSeekSliderPosition()}
-               onValueChange={this._onSeekSliderValueChange}
-               onSlidingComplete={this._onSeekSliderSlidingComplete}
-               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-             />
-             <Text style={styles.playbackTimestamp}>
-               {this._getPlaybackTimestamp()}
-             </Text>
-           </View>
-
-           <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
-           { this.state.isPlaybackAllowed ?
-             <View style={styles.playStopContainer}>
-               <TouchableHighlight
-                 underlayColor={BACKGROUND_COLOR}
-                 style={styles.wrapper}
-                 onPress={this._onPlayPausePressed}
-                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                 <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
-               </TouchableHighlight>
-               <TouchableHighlight
-                 underlayColor={BACKGROUND_COLOR}
-                 style={styles.wrapper}
-                 onPress={() => { this.setState({isPlaybackAllowed: false, recordingDuration: null, soundDuration: null})} }
-                 disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                 <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' }  />
-               </TouchableHighlight>
-               <TouchableOpacity
-               style={styles.publish_button}
-               onPress={() => { this.addPrayer() } }
-               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}><Text style={styles.button_text}>Publier</Text></TouchableOpacity>
-             </View>
-           :
-             <View></View>
-           }
-
-
-             <View />
-             <View style={styles.actionButtons}>
-             { this.state.isRecording ?
-               <View>
-                 <Pulse
-                   color='orange'
-                   numPulses={3}
-                   diameter={this.state.isRecording ? 400 : 0}
-                   speed={20}
-                   duration={2000}
-                   onPress={this._onRecordPressed}
-                   disabled={this.state.isLoading}
-                 />
-               </View>
-             :
-              <Text></Text>
-             }
-             </View>
-           </View>
-           <View />
-         </View>
-       </View>
+            <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
+              { this.state.isPlaybackAllowed ?
+                <View style={styles.playStopContainer}>
+                  <TouchableHighlight
+                    underlayColor={BACKGROUND_COLOR}
+                    style={styles.wrapper}
+                    onPress={this._onPlayPausePressed}
+                    disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
+                    <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    /*eslint-disable */
+                    underlayColor={BACKGROUND_COLOR}
+                    style={styles.wrapper}
+                    onPress={() => { this.setState({ isPlaybackAllowed: false,
+                      recordingDuration: null,
+                      soundDuration: null }); } }
+                    disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
+                    /*eslint-enable */
+                    <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
+                  </TouchableHighlight>
+                  <TouchableOpacity
+                  /*eslint-disable */
+                    style={styles.publish_button}
+                    onPress={() => { this.addPrayer(); } }
+                    disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
+                    <Text style={styles.button_text}>Publier</Text>
+                  </TouchableOpacity>
+                  /*eslint-enable */
+                </View>
+                :
+                <View></View>
+              }
+              <View />
+              <View style={styles.actionButtons}>
+                { this.state.isRecording ?
+                  <View>
+                    <Pulse
+                      color='orange'
+                      numPulses={3}
+                      diameter={this.state.isRecording ? 400 : 0}
+                      speed={20}
+                      duration={2000}
+                      onPress={this._onRecordPressed}
+                      disabled={this.state.isLoading}
+                    />
+                  </View>
+                  :
+                  <Text></Text>
+                }
+              </View>
+            </View>
+            <View />
+          </View>
+        </View>;
   }
 }
 
@@ -390,7 +402,7 @@ const styles = StyleSheet.create({
   actionButtons: {
     position: 'absolute',
     bottom: 260,
-    left: '53%'
+    left: '53%',
   },
   emptyContainer: {
     alignSelf: 'stretch',
@@ -406,7 +418,7 @@ const styles = StyleSheet.create({
     minHeight: 300,
     maxHeight: '100%',
     paddingTop: '20%',
-    paddingBottom: '20%'
+    paddingBottom: '20%',
   },
   timer: {
     paddingLeft: 50,
@@ -428,7 +440,7 @@ const styles = StyleSheet.create({
   recordingContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   playbackContainer: {
     flex: 1,
@@ -437,12 +449,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     minHeight: 20 * 2.0,
-    maxHeight: 20 * 2.0
+    maxHeight: 20 * 2.0,
   },
   roundedIcon: {
     borderRadius: 100,
     backgroundColor: '#ff8b6a',
-    padding: 60
+    padding: 60,
   },
   playbackSlider: {
     alignSelf: 'stretch',
@@ -450,24 +462,24 @@ const styles = StyleSheet.create({
   liveTextTransparent: {
     color: 'transparent',
     position: 'relative',
-    top: 40
+    top: 40,
   },
   recordingTimestamp: {
     position: 'relative',
     left: 10,
-    top: 20
+    top: 20,
   },
   playbackTimestamp: {
     textAlign: 'right',
     alignSelf: 'stretch',
-    paddingRight: 20
+    paddingRight: 20,
   },
   image: {
     backgroundColor: BACKGROUND_COLOR,
   },
   iconMicro: {
     position: 'relative',
-    left: 0
+    left: 0,
   },
   textButton: {
     backgroundColor: 'red',
@@ -477,12 +489,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   buttonsContainerTopRow: {
     maxHeight: 20,
     alignSelf: 'stretch',
-    paddingRight: 20
+    paddingRight: 20,
   },
   playStopContainer: {
     flex: 1,
@@ -490,7 +502,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
   },
   volumeContainer: {
     flex: 1,
@@ -498,7 +510,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     minWidth: 200 / 2.0,
-    maxWidth: 200 / 2.0
+    maxWidth: 200 / 2.0,
   },
   volumeSlider: {
     width: 200 / 2.0 - 20,
@@ -507,24 +519,24 @@ const styles = StyleSheet.create({
     maxHeight: 30,
     alignSelf: 'stretch',
     paddingRight: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   rateSlider: {
-    width: 200 / 2.0
+    width: 200 / 2.0,
   },
   publishButtonTransparent: {
     color: 'transparent',
     fontWeight: 'bold',
     borderColor: 'transparent',
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
   },
   publish_button: {
     color: '#207dff',
     fontWeight: 'bold',
     borderColor: '#207dff',
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
   },
   button_text: {
-    color: '#207dff'
-  }
+    color: '#207dff',
+  },
 });
