@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { TouchableHighlight, TextInput, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native'
+import { TouchableHighlight, TextInput, StyleSheet, View, Text,
+  Button, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import { showMessage } from "react-native-flash-message";
 
@@ -7,28 +8,28 @@ export default class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: ''
-    }
+      email: '',
+    };
   }
 
   resetPassword(email) {
-    var emailAddress = "clement.morisset@yahoo.fr";
-    this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function() {
+    const emailAddress = "clement.morisset@yahoo.fr";
+    this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
       showMessage({
         message: "Un email vous a été envoyé pour réinitialiser votre mot de passe.",
         type: 'success',
-        icon: 'success'
+        icon: 'success',
       });
-    }).catch(function(error) {
-      switch(error.code) {
+    }).catch(function (error) {
+      switch (error.code) {
         case 'auth/invalid-email':
-              showMessage({
-                message: "Aucun utilisateur trouvé, veuillez vérifier votre email.",
-                type: 'warning',
-                icon: 'warning'
-              });
-     }
-   })
+          showMessage({
+            message: "Aucun utilisateur trouvé, veuillez vérifier votre email.",
+            type: 'warning',
+            icon: 'warning',
+          });
+      }
+    });
   }
 
   render() {
@@ -46,9 +47,9 @@ export default class ResetPassword extends Component {
         </Form>
         <View style={styles.boutons_wrapper}>
           <TouchableOpacity style={styles.bouton} onPress={() => this.resetPassword(this.state.email)} >
-            <Text style={{color: 'white'}}>Réinitialiser</Text>
+            <Text style={{ color: 'white' }}>Réinitialiser</Text>
           </TouchableOpacity>
-       </View>
+        </View>
       </View>
     );
   }
@@ -61,20 +62,20 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
-    right: 0
+    right: 0,
   },
   image: {
     flex: 1,
     position: 'absolute',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 35
+    height: Dimensions.get('window').height + 35,
   },
   boutons_wrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginLeft: '5%',
-    marginTop: 15
+    marginTop: 15,
   },
   form_wrapper: {
     backgroundColor: 'white',
@@ -82,25 +83,17 @@ const styles = StyleSheet.create({
     paddingRight: '10%',
     paddingBottom: '5%',
     margin: '12%',
-    borderRadius: 10
+    borderRadius: 10,
   },
   connexion_from: {
     paddingTop: Dimensions.get('window').height / 10,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   container: {
     height: Dimensions.get('window').height + 35,
-    backgroundColor: '#FFFFFF' // background tab color
-  },
-  loader: {
-    color:"#0000ff",
-    flex: 1,
-    alignItems: 'center',
-    position: 'absolute',
-    top: 200,
-    left: 150
+    backgroundColor: '#FFFFFF', // background tab color
   },
   bouton_transparent: {
     borderColor: '#01676b',
@@ -111,7 +104,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - '20%',
     marginBottom: '2%',
     borderRadius: 30,
-    borderWidth: 2
+    borderWidth: 2,
 
   },
   bouton: {
@@ -123,35 +116,34 @@ const styles = StyleSheet.create({
     width: '80%',
     marginBottom: '5%',
     borderRadius: 30,
-    borderWidth: 2
+    borderWidth: 2,
   },
   connexion_input: {
-    marginBottom: '10%'
+    marginBottom: '10%',
   },
   loader: {
-    color:"#0000ff",
+    color: "#0000ff",
     flex: 1,
     alignItems: 'center',
     position: 'absolute',
     top: '50%',
-    left: '50%'
+    left: '50%',
   },
   bouton_fb: {
     marginTop: '5%',
     borderColor: 'transparent',
-    backgroundColor: '#ff8b6a',
     padding: 10,
     display: 'flex',
     alignItems: 'center',
     width: '80%',
     borderRadius: 30,
     borderWidth: 2,
-    backgroundColor: '#3B5998'
+    backgroundColor: '#3B5998',
   },
   facebookButtonText: {
-    color: '#fff'
+    color: '#fff',
   },
   space: {
-    height: 17
-  }
+    height: 17,
+  },
 });
