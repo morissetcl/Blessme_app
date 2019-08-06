@@ -3,10 +3,10 @@ import { StyleSheet, View, TouchableOpacity, Text, Button, ActivityIndicator } f
 import { Header, Avatar, Input, SearchBar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
-import PrayerRequestList from './PrayerRequestList';
+import PrayerRequestList from './PrayerRequestList'
 import { ImagePicker } from 'expo';
-import PrayersList from './PrayersList';
-import { getUserPrayers } from '../api/Prayer';
+import PrayersList from './PrayersList'
+import { getUserPrayers } from '../api/Prayer'
 
 export default class Profile extends Component {
   constructor(props) {
@@ -19,15 +19,15 @@ export default class Profile extends Component {
       userEmail: props.navigation.state.params.userEmail,
       avatarUrl: '',
       avatarLoaded: 'loaded',
-      loading: false,
+      loading: false
     };
   }
 
   componentDidMount() {
-    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
+    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
     getUsers(email).then(data => {
       this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
-    });
+    })
   }
 
   _pickImage = async () => {
@@ -35,16 +35,16 @@ export default class Profile extends Component {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      base64: true,
+      base64: true
     });
 
     if (!result.cancelled) {
       this.setState({ avatarLoaded: 'loading' });
-      const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
+      const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
       updateUser(email, result.base64).then(() => {
         this.setState({ avatarUrl: result.uri });
         this.setState({ avatarLoaded: 'loaded' });
-      });
+      })
     }
   };
 
@@ -52,34 +52,35 @@ export default class Profile extends Component {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
-    const allowsEditing = this.state.userEmail ? false : true;
-    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
+    const allowsEditing = this.state.userEmail ? false : true
+    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail
 
     return (
       <View style={styles.container}>
-        { this.state.avatarUrl !== '' ?
-          <Header
-            containerStyle={styles.header}
-            placement="center"
-            rightComponent={
-              this.state.avatarLoaded === 'loaded' ?
-                <Avatar
-                  containerStyle={styles.avatar}
-                  size="large"
-                  source={{
-                    uri:
-                      this.state.avatarUrl,
-                  }}
-                  rounded
-                  showEditButton={ allowsEditing }
-                  onEditPress={ this._pickImage }
-                />
-                :
-                <ActivityIndicator size="large" style = {styles.loader} />
-            }
-          /> :
-          <Text></Text>
-        }
+          { this.state.avatarUrl !== '' ?
+            <Header
+              containerStyle={styles.header}
+              placement="center"
+              rightComponent={
+                this.state.avatarLoaded === 'loaded' ?
+                  <Avatar
+                    containerStyle={styles.avatar}
+                    size="large"
+                    source={{
+                      uri:
+                        this.state.avatarUrl,
+                    }}
+                    rounded
+                    showEditButton={ allowsEditing }
+                    onEditPress={ this._pickImage }
+                  />
+                  :
+                  <ActivityIndicator size="large" style = {styles.loader} />
+                }
+
+            /> :
+            <Text>''</Text>
+          }
         <View style={styles.user_informations}>
           <Text style={styles.bold} >{ this.state.username }</Text>
           { this.state.avatarUrl !== '' ?
@@ -91,25 +92,15 @@ export default class Profile extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="Demandes">
-              <PrayerRequestList
-                navigation={this.state.navigation}
-                userEmail={ this.state.userEmail}
-                currentUserEmail={ this.state.currentUserEmail }
-                username={ this.state.username}
-                profileFeed={ true }/>
+              <PrayerRequestList navigation={this.state.navigation} userEmail={ this.state.userEmail} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username} profileFeed={ true }/>
             </View>
             <View title="Intercessions">
-              <PrayersList
-                navigation={this.state.navigation}
-                currentUserEmail={ this.state.currentUserEmail }
-                username={ this.state.username }
-                profileFeed={ true }
-                requestApi={ getUserPrayers(email) }/>
+              <PrayersList navigation={this.state.navigation} currentUserEmail={ this.state.currentUserEmail } username={ this.state.username } profileFeed={ true } requestApi={ getUserPrayers(email) }/>
             </View>
           </Tabs>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -119,22 +110,22 @@ const styles = StyleSheet.create({
   },
   avatar: {
     position: 'relative',
-    top: 10,
+    top: 10
   },
   user_informations: {
     marginTop: 20,
-    marginLeft: 20,
+    marginLeft: 20
   },
   bold: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 20
   },
   container: {
     height: '8%',
-    flex: 1,
+    flex: 1
   },
   loader: {
-    color: "red",
+    color:"red",
     flex: 1,
-  },
-});
+  }
+})

@@ -1,30 +1,31 @@
 import Constants from 'expo-constants';
-import { getApiUrl } from './GetApiUrl';
+import { getApiUrl } from './GetApiUrl'
 
 export function getAllPrayersRequests() {
-  const url = `${getApiUrl()}/prayers_requests`;
+  console.log(Constants.manifest)
+  const url = `${getApiUrl()}/prayers_requests`
   return fetch(url)
     .then((response) => response.json())
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error))
 }
 
 export function getUserPrayersRequests(email) {
-  const url = `${getApiUrl()}/user_prayers_requests/` + email;
+  const url = `${getApiUrl()}/user_prayers_requests/` + email
   return fetch(url)
     .then((response) => response.json())
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error))
 }
 
 export function getPrayerRequest(prayerId) {
-  const url = `${getApiUrl()}/prayers_requests/` + prayerId;
+  const url = `${getApiUrl()}/prayers_requests/` + prayerId
   return fetch(url)
     .then((response) => response.json())
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error))
 }
 
 export function createPrayerRequestAndRedirect(params) {
-  const prayerId = params['prayerId'];
-  const navigation = params['navigation'];
+  const prayerId = params['prayerId']
+  const navigation = params['navigation']
   fetch(`${getApiUrl()}/prayers_requests`, {
     method: 'POST',
     headers: {
@@ -34,13 +35,10 @@ export function createPrayerRequestAndRedirect(params) {
     body: JSON.stringify({
       email: params['currentUserEmail'],
       title: params['title'],
-      body: params['body'],
-    }),
+      body: params['body']
+    })
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { prayerId: json.id,
-        currentUserEmail: params['currentUserEmail'],
-        fromForm: params['fromForm'],
-      });
+      navigation.navigate("Prayer", { prayerId: json.id, currentUserEmail: params['currentUserEmail'], fromForm: params['fromForm'] })
     });
 }

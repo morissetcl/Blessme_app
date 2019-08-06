@@ -1,33 +1,33 @@
 // Navigation/Navigation.js
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Homepage from '../components/Homepage';
-import Connexion from '../components/Connexion';
-import Prayers from '../components/Prayers';
-import Prayer from '../components/Prayer';
-import WritingCommentForm from '../components/form/WritingCommentForm';
-import PrayerRequestForm from '../components/form/PrayerRequestForm';
-import Profile from '../components/Profile';
-import AudioRecorder from '../components/form/AudioRecorder';
-import ResetPassword from '../components/form/ResetPassword';
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+import Homepage from '../components/Homepage'
+import Connexion from '../components/Connexion'
+import Prayers from '../components/Prayers'
+import Prayer from '../components/Prayer'
+import WritingCommentForm from '../components/form/WritingCommentForm'
+import PrayerRequestForm from '../components/form/PrayerRequestForm'
+import Profile from '../components/Profile'
+import AudioRecorder from '../components/form/AudioRecorder'
+import ResetPassword from '../components/form/ResetPassword'
 
 const SearchStackNavigator = createStackNavigator(
   {
     Homepage: {
       screen: Homepage,
       navigationOptions: {
-        header: null,
+        header: null
       },
     },
     Connexion: {
       screen: Connexion,
       navigationOptions: {
-        header: null,
+        header: null
       },
     },
     ResetPassword: {
       screen: ResetPassword,
       navigationOptions: {
-        header: null,
+        header: null
       },
     },
     WritingCommentForm: {
@@ -36,8 +36,8 @@ const SearchStackNavigator = createStackNavigator(
         title: 'Prière',
         headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+          backgroundColor: '#49beb7'
+        }
       },
     },
     PrayerRequestForm: {
@@ -46,8 +46,8 @@ const SearchStackNavigator = createStackNavigator(
         title: 'Demande de prière',
         headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+          backgroundColor: '#49beb7'
+        }
       },
     },
     Prayer: {
@@ -56,20 +56,20 @@ const SearchStackNavigator = createStackNavigator(
         title: '',
         headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+          backgroundColor: '#49beb7'
+        }
       },
     },
     Prayers: {
       screen: Prayers,
       navigationOptions: {
-        header: null,
+        header: null
       },
     },
     Profile: {
       screen: Profile,
       navigationOptions: {
-        header: null,
+        header: null
       },
     },
     AudioRecorder: {
@@ -78,15 +78,15 @@ const SearchStackNavigator = createStackNavigator(
         title: 'Prière audio',
         headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+          backgroundColor: '#49beb7'
+        }
       },
-    },
+    }
   },
   {
     headerTintColor: 'red',
-    initialRouteName: 'Connexion',
-  },
-);
+    initialRouteName: 'Connexion'
+  }
+)
 
-export default createAppContainer(SearchStackNavigator);
+export default createAppContainer(SearchStackNavigator)

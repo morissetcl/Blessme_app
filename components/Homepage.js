@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Connexion from './Connexion';
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import Connexion from './Connexion'
 
 export default class Homepage extends React.Component {
   render() {
@@ -14,13 +14,13 @@ export default class Homepage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    height: 600,
+     flexDirection: 'column',
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor: 'white',
+     height: 600
   },
   coucou: {
-    backgroundColor: 'green',
-  },
+    backgroundColor: 'green'
+  }
 });
