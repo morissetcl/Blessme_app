@@ -60,11 +60,7 @@ export default class PrayerRequestCard extends React.Component {
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
         style = {styles.space_between_card}>
         <NavigationEvents onDidFocus={ payload => this.commentCounter(this.state.prayerId) } />
-        <Card title={<Avatar rounded
-          source={{
-            uri:
-              avatar,
-          }}
+        <Card title={<Avatar rounded source={{ uri: avatar }}
           onPress={() => { this.goToProfile(this.state.username); }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
