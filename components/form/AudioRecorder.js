@@ -1,7 +1,9 @@
 import React from 'react';
 import { Dimensions, Image, Slider, StyleSheet, Text,
   TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
+import Expo, { Asset, FileSystem, Font } from 'expo';
+import { Audio } from 'expo-av';
+import * as Permissions from 'expo-permissions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone,
   faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
@@ -351,24 +353,24 @@ export default class AudioRecorder extends React.Component {
                     <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableHighlight
-                    
+
                     underlayColor={BACKGROUND_COLOR}
                     style={styles.wrapper}
                     onPress={() => { this.setState({ isPlaybackAllowed: false,
                       recordingDuration: null,
                       soundDuration: null }); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    
+
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableOpacity
-                  
+
                     style={styles.publish_button}
                     onPress={() => { this.addPrayer(); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
                     <Text style={styles.button_text}>Publier</Text>
                   </TouchableOpacity>
-                  
+
                 </View>
                 :
                 <View></View>

@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Asset, Audio, Font } from 'expo';
+import { Asset, Font } from 'expo';
+import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
 
