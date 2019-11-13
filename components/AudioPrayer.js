@@ -34,12 +34,13 @@ export default class AudioPrayer extends Component {
 
   componentDidMount() {
     Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
       allowsRecordingIOS: true,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: true
     });
 
     this._loadNewPlaybackInstance(false);

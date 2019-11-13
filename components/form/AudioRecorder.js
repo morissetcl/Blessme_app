@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dimensions, Image, Slider, StyleSheet, Text,
   TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Expo, { Asset, FileSystem, Font } from 'expo';
+import Expo, { Asset, Font } from 'expo';
+import * as FileSystem from 'expo-file-system'
 import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -74,7 +75,7 @@ export default class AudioRecorder extends React.Component {
         muted: status.isMuted,
         volume: status.volume,
         shouldCorrectPitch: status.shouldCorrectPitch,
-        isPlaybackAllowed: true,
+        isPlaybackAllowed: true
       });
     } else {
       this.setState({
@@ -121,6 +122,7 @@ export default class AudioRecorder extends React.Component {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true,
+      staysActiveInBackground: true
     });
     if (this.recording !== null) {
       this.recording.setOnRecordingStatusUpdate(null);
@@ -162,10 +164,11 @@ export default class AudioRecorder extends React.Component {
     const fileBase64 = await FileSystem.readAsStringAsync(
       this.recording.getURI(),
       {
-        encoding: FileSystem.EncodingTypes.Base64,
+        encoding: FileSystem.EncodingType.Base64,
       });
     this.setState({ audioBase64: fileBase64 });
     await Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
