@@ -1,7 +1,10 @@
 import React from 'react';
 import { Dimensions, Image, Slider, StyleSheet, Text,
   TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
+import Expo, { Asset, Font } from 'expo';
+import * as FileSystem from 'expo-file-system'
+import { Audio } from 'expo-av';
+import * as Permissions from 'expo-permissions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone,
   faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
@@ -72,7 +75,7 @@ export default class AudioRecorder extends React.Component {
         muted: status.isMuted,
         volume: status.volume,
         shouldCorrectPitch: status.shouldCorrectPitch,
-        isPlaybackAllowed: true,
+        isPlaybackAllowed: true
       });
     } else {
       this.setState({
@@ -119,6 +122,7 @@ export default class AudioRecorder extends React.Component {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true,
+      staysActiveInBackground: true
     });
     if (this.recording !== null) {
       this.recording.setOnRecordingStatusUpdate(null);
@@ -160,10 +164,11 @@ export default class AudioRecorder extends React.Component {
     const fileBase64 = await FileSystem.readAsStringAsync(
       this.recording.getURI(),
       {
-        encoding: FileSystem.EncodingTypes.Base64,
+        encoding: FileSystem.EncodingType.Base64,
       });
     this.setState({ audioBase64: fileBase64 });
     await Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
@@ -351,24 +356,24 @@ export default class AudioRecorder extends React.Component {
                     <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableHighlight
-                    
+
                     underlayColor={BACKGROUND_COLOR}
                     style={styles.wrapper}
                     onPress={() => { this.setState({ isPlaybackAllowed: false,
                       recordingDuration: null,
                       soundDuration: null }); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    
+
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableOpacity
-                  
+
                     style={styles.publish_button}
                     onPress={() => { this.addPrayer(); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
                     <Text style={styles.button_text}>Publier</Text>
                   </TouchableOpacity>
-                  
+
                 </View>
                 :
                 <View></View>

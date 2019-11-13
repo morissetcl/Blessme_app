@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Asset, Audio, Font } from 'expo';
+import { Asset, Font } from 'expo';
+import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,12 +34,13 @@ export default class AudioPrayer extends Component {
 
   componentDidMount() {
     Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
       allowsRecordingIOS: true,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: true
     });
 
     this._loadNewPlaybackInstance(false);
