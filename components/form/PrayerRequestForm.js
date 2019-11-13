@@ -37,11 +37,9 @@ export default class PrayerRequestForm extends Component {
 
   render() {
     return (
-      /*eslint-disable */
       <View style={styles.container} >
         <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest(); }}>
           <Text style={styles.button_text}>Publier</Text>
-          /*eslint-enable */
         </TouchableOpacity>
         <TextInput
           placeholder={ 'Une courte phrase résumant votre demande' }

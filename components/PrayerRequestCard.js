@@ -54,7 +54,7 @@ export default class PrayerRequestCard extends React.Component {
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-    /*eslint-disable */
+    
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
@@ -66,7 +66,7 @@ export default class PrayerRequestCard extends React.Component {
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
-          /*eslint-enable */
+          
           <View style = {styles.card_actions}>
             <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId); }}>
               <View style = {styles.comment_action_card_contenair}>

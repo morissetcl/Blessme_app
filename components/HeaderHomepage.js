@@ -27,7 +27,7 @@ export default class HeaderHomepage extends Component {
     this.state.navigation.navigate('Profile', { currentUserEmail: this.state.currentUserEmail,
       username: this.state.username });
   }
-  /*eslint-disable */
+
   render() {
     return (
       <View style={styles.container}>
@@ -45,7 +45,7 @@ export default class HeaderHomepage extends Component {
     );
   }
 }
-/*eslint-enable */
+
 
 const styles = StyleSheet.create({
   header: {

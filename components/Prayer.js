@@ -11,7 +11,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import WritingCommentForm from './form/WritingCommentForm';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
-/*eslint-disable */
+
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -257,4 +257,3 @@ const styles = StyleSheet.create({
     color: '#bbbbbb',
   },
 });
-/*eslint-enable */
