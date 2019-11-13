@@ -69,7 +69,7 @@ export function destroyPrayers(params) {
   const prayerId = params['prayerId'];
   const commentId = params['commentId'];
   const navigation = params['navigation'];
-  const url = `${getApiUrl()}/prayers_requ ests/${prayerId}/comments/${commentId}`;
+  const url = `${getApiUrl()}/prayers_requests/${prayerId}/comments/${commentId}`;
   return fetch(url, {
     method: 'DELETE',
     headers: {

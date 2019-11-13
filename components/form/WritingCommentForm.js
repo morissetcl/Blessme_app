@@ -56,7 +56,7 @@ export default class WritingCommentForm extends Component {
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button}
-          /*eslint-disable */
+          
             onPress={(value) => { this.editrayer(this.state.prayerId); }}>
             <Text style={styles.button_text}>Modifier</Text>
           </TouchableOpacity>
@@ -65,7 +65,7 @@ export default class WritingCommentForm extends Component {
             onPress={(value) => { this.addPrayer(this.state.prayerId); }}>
             <Text style={styles.button_text}>Publier</Text>
           </TouchableOpacity>
-          /*eslint-enable */
+          
         }
         <Divider style={styles.divider} />
         <TextInput

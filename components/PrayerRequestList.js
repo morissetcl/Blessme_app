@@ -63,9 +63,8 @@ export default class PrayerRequestList extends React.Component {
     });
 
     return (
-      /*eslint-disable */
+
       <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
-      /*eslint-enable */
         { this.state.prayersRequests.length > 0 ?
           <ScrollView refreshControl={
             <RefreshControl

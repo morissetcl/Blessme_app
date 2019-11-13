@@ -351,24 +351,24 @@ export default class AudioRecorder extends React.Component {
                     <FontAwesomeIcon icon={ this.state.isPlaying ? faPause : faPlay } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableHighlight
-                    /*eslint-disable */
+                    
                     underlayColor={BACKGROUND_COLOR}
                     style={styles.wrapper}
                     onPress={() => { this.setState({ isPlaybackAllowed: false,
                       recordingDuration: null,
                       soundDuration: null }); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    /*eslint-enable */
+                    
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableOpacity
-                  /*eslint-disable */
+                  
                     style={styles.publish_button}
                     onPress={() => { this.addPrayer(); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
                     <Text style={styles.button_text}>Publier</Text>
                   </TouchableOpacity>
-                  /*eslint-enable */
+                  
                 </View>
                 :
                 <View></View>
