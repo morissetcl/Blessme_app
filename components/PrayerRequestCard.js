@@ -1,14 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Modal, Alert } from 'react-native';
 import { Avatar, Card } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faComment, faMicrophone, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
 import { NavigationEvents } from 'react-navigation';
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.prayer_request['user']['email'])
+    console.log(this.props.currentUserEmail)
+
     this.state = {
       title: props.prayer_request['title'],
       body: props.prayer_request['body'],
@@ -23,8 +26,21 @@ export default class PrayerRequestCard extends React.Component {
       currentUserEmail: this.props.currentUserEmail,
       numberOfPrayer: '-',
       numberOfAudioPrayer: '-',
-      userEmail: props.prayer_request['user']['email'],
+      userEmail: props.prayer_request['user']['email']
     };
+  }
+
+  _showAlert = () => {
+    Alert.alert(
+      this.state.title,
+      'Que voulez vous faire avec cette demande ?',
+      [
+        {text: 'Modifier', onPress: () => alert('Ask me later pressed')},
+        {text: '', onPress: () => alert('')},
+        {text: 'Supprimer', onPress: () => alert('Ask me later pressed')}
+      ],
+      { onDismiss: () => {} }
+    )
   }
 
   componentDidMount() {
@@ -38,7 +54,7 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail });
+    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail });
   }
 
   commentCounter(prayerId) {
@@ -54,7 +70,7 @@ export default class PrayerRequestCard extends React.Component {
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-    
+
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
@@ -64,9 +80,20 @@ export default class PrayerRequestCard extends React.Component {
           onPress={() => { this.goToProfile(this.state.username); }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
+
+          {(this.state.userEmail === this.state.currentUserEmail) ?
+            <TouchableOpacity
+              onPress={this._showAlert}
+              style = {styles.menu} >
+              <FontAwesomeIcon icon={ faEllipsisV } size={24} color={ '#bbbbbb' }/>
+            </TouchableOpacity>
+            :
+            <Text></Text>
+          }
+
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
-          
+
           <View style = {styles.card_actions}>
             <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId); }}>
               <View style = {styles.comment_action_card_contenair}>
@@ -119,6 +146,13 @@ const styles = StyleSheet.create({
     color: '#63686e',
   },
   created_at: {
+    position: 'absolute',
+    top: 8,
+    right: 30,
+    fontSize: 12,
+    color: '#bbbbbb',
+  },
+  menu: {
     position: 'absolute',
     top: 8,
     right: 0,
