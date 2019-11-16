@@ -132,6 +132,7 @@ export default class Prayer extends Component {
           <ScrollView>
             <View style={styles.prayer_card} >
               <PrayerRequestCard prayer_request={ this.state.prayerRequest }
+                currentUserEmail={this.state.currentUserEmail}
                 numberOfLines={1000} navigation={ this.state.navigation }
                 numberOfPrayer={this.state.numberOfPrayer} />
               <View style={styles.prayer_list} >

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Avatar, Card } from 'react-native-elements';
+import  ModalActions  from './ModalActions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
@@ -9,6 +10,7 @@ import { NavigationEvents } from 'react-navigation';
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       title: props.prayer_request['title'],
       body: props.prayer_request['body'],
@@ -23,7 +25,7 @@ export default class PrayerRequestCard extends React.Component {
       currentUserEmail: this.props.currentUserEmail,
       numberOfPrayer: '-',
       numberOfAudioPrayer: '-',
-      userEmail: props.prayer_request['user']['email'],
+      userEmail: props.prayer_request['user']['email']
     };
   }
 
@@ -38,7 +40,7 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail });
+    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail });
   }
 
   commentCounter(prayerId) {
@@ -54,7 +56,7 @@ export default class PrayerRequestCard extends React.Component {
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-    
+
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
@@ -64,9 +66,16 @@ export default class PrayerRequestCard extends React.Component {
           onPress={() => { this.goToProfile(this.state.username); }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
+
+          {(this.state.userEmail === this.state.currentUserEmail) ?
+            <ModalActions prayerRequestId={ this.state.prayerId } navigation={ this.state.navigation }/>
+            :
+            <Text></Text>
+          }
+
           <Text style = {styles.card_title}> {this.state.title}</Text>
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
-          
+
           <View style = {styles.card_actions}>
             <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId); }}>
               <View style = {styles.comment_action_card_contenair}>
@@ -121,7 +130,7 @@ const styles = StyleSheet.create({
   created_at: {
     position: 'absolute',
     top: 8,
-    right: 0,
+    right: 30,
     fontSize: 12,
     color: '#bbbbbb',
   },

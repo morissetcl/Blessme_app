@@ -44,3 +44,22 @@ export function createPrayerRequestAndRedirect(params) {
       });
     });
 }
+
+export function destroyPrayerResquest(params) {
+  const prayerRequestId = params['prayerRequestId'];
+  const navigation = params['navigation'];
+  const url = `${getApiUrl()}/prayers_requests/${prayerRequestId}`;
+  return fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prayer_request_id: prayerRequestId,
+    }),
+  }).then(response => response)
+    .then(json => {
+      navigation.navigate('Homepage');
+    });
+}
