@@ -1,17 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Avatar, Card } from 'react-native-elements';
+import  ModalActions  from './ModalActions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faComment, faMicrophone, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
-import { destroyPrayerResquest } from '../api/PrayerRequest';
 import { NavigationEvents } from 'react-navigation';
-import { showMessage } from "react-native-flash-message";
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
 
     this.state = {
       title: props.prayer_request['title'],
@@ -29,31 +27,6 @@ export default class PrayerRequestCard extends React.Component {
       numberOfAudioPrayer: '-',
       userEmail: props.prayer_request['user']['email']
     };
-  }
-
-  _deletePrayerRequest = () => {
-    destroyPrayerResquest({
-      prayerRequestId: this.state.prayerId,
-      navigation: this.state.navigation }).then(() => {
-      showMessage({
-        message: 'Votre demande a bien été supprimée.',
-        type: 'success',
-        icon: 'success',
-      });
-    });
-  }
-
-  _showAlert = () => {
-    Alert.alert(
-      this.state.title,
-      'Que voulez vous faire avec cette demande ?',
-      [
-        {text: 'Modifier', onPress: () => alert('Ask me later pressed')},
-        {text: '', onPress: () => alert('')},
-        {text: 'Supprimer', onPress: () => this._deletePrayerRequest()}
-      ],
-      { onDismiss: () => {} }
-    )
   }
 
   componentDidMount() {
@@ -95,11 +68,7 @@ export default class PrayerRequestCard extends React.Component {
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
           {(this.state.userEmail === this.state.currentUserEmail) ?
-            <TouchableOpacity
-              onPress={this._showAlert}
-              style = {styles.menu} >
-              <FontAwesomeIcon icon={ faEllipsisV } size={24} color={ '#bbbbbb' }/>
-            </TouchableOpacity>
+            <ModalActions prayerRequestId={ this.state.prayerId } navigation={ this.state.navigation }/>
             :
             <Text></Text>
           }
@@ -162,13 +131,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 30,
-    fontSize: 12,
-    color: '#bbbbbb',
-  },
-  menu: {
-    position: 'absolute',
-    top: 8,
-    right: 0,
     fontSize: 12,
     color: '#bbbbbb',
   },
