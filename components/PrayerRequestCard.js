@@ -4,13 +4,14 @@ import { Avatar, Card } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faComment, faMicrophone, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
+import { destroyPrayerResquest } from '../api/PrayerRequest';
 import { NavigationEvents } from 'react-navigation';
+import { showMessage } from "react-native-flash-message";
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.prayer_request['user']['email'])
-    console.log(this.props.currentUserEmail)
+    console.log(props)
 
     this.state = {
       title: props.prayer_request['title'],
@@ -30,6 +31,18 @@ export default class PrayerRequestCard extends React.Component {
     };
   }
 
+  _deletePrayerRequest = () => {
+    destroyPrayerResquest({
+      prayerRequestId: this.state.prayerId,
+      navigation: this.state.navigation }).then(() => {
+      showMessage({
+        message: 'Votre demande a bien été supprimée.',
+        type: 'success',
+        icon: 'success',
+      });
+    });
+  }
+
   _showAlert = () => {
     Alert.alert(
       this.state.title,
@@ -37,7 +50,7 @@ export default class PrayerRequestCard extends React.Component {
       [
         {text: 'Modifier', onPress: () => alert('Ask me later pressed')},
         {text: '', onPress: () => alert('')},
-        {text: 'Supprimer', onPress: () => alert('Ask me later pressed')}
+        {text: 'Supprimer', onPress: () => this._deletePrayerRequest()}
       ],
       { onDismiss: () => {} }
     )
