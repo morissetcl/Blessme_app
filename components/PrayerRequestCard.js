@@ -68,7 +68,7 @@ export default class PrayerRequestCard extends React.Component {
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
           {(this.state.userEmail === this.state.currentUserEmail) ?
-            <ModalActions prayerRequestId={ this.state.prayerId } navigation={ this.state.navigation }/>
+            <ModalActions prayerRequest={ this.props.prayer_request } navigation={ this.state.navigation }/>
             :
             <Text></Text>
           }
