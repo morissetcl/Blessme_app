@@ -39,8 +39,7 @@ export function createPrayerRequestAndRedirect(params) {
   }).then(response => response.json())
     .then(json => {
       navigation.navigate("Prayer", { prayerId: json.id,
-        currentUserEmail: params['currentUserEmail'],
-        fromForm: params['fromForm'],
+        currentUserEmail: params['currentUserEmail']
       });
     });
 }
@@ -61,5 +60,28 @@ export function destroyPrayerResquest(params) {
   }).then(response => response)
     .then(json => {
       navigation.navigate('Homepage');
+    });
+}
+
+export function editPrayerRequest(params) {
+  const prayerRequestId = params['prayerRequestId'];
+  const navigation = params['navigation'];
+  return fetch(`${getApiUrl()}/prayers_requests/${prayerRequestId}`, {
+    method: 'PATCH',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: params['currentUserEmail'],
+      title: params['title'],
+      body: params['body'],
+      prayer_request_id: prayerRequestId
+    }),
+  }).then(response => response.json())
+    .then(json => {
+      navigation.navigate("Prayer", { prayerId: json.id,
+        currentUserEmail: params['currentUserEmail']
+      });
     });
 }

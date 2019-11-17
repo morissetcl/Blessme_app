@@ -4,17 +4,20 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
 import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { createPrayerRequestAndRedirect, retrievePrayerRequestId } from '../../api/PrayerRequest';
+import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
 import { showMessage } from "react-native-flash-message";
 
 export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       username: props.navigation.state.params.username,
       currentUserEmail: props.navigation.state.params.currentUserEmail,
-      title: '',
-      body: '',
+      editPrayer: props.navigation.state.params.editPrayer,
+      body: props.navigation.state.params.prayerRequest.body,
+      title: props.navigation.state.params.prayerRequest.title,
+      prayerRequestId: props.navigation.state.params.prayerRequest.id
     };
   }
 
@@ -24,8 +27,8 @@ export default class PrayerRequestForm extends Component {
         currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         title: this.state.title,
-        navigation: this.props.navigation,
-        fromForm: true });
+        navigation: this.props.navigation
+      });
     } else {
       showMessage({
         message: 'Merci de remplir tous les champs pour ajouter votre demande de prière',
@@ -35,12 +38,41 @@ export default class PrayerRequestForm extends Component {
     }
   }
 
+  editPrayerRequest(prayerRequestId) {
+    if (this.state.body.length !== 0) {
+      editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
+        currentUserEmail: this.state.currentUserEmail,
+        title: this.state.title,
+        body: this.state.body,
+        prayerRequestId: this.state.prayerRequestId,
+        navigation: this.props.navigation,
+      });
+    } else {
+      showMessage({
+        message: 'Merci de remplir tous les champs pour modifier votre prière',
+        type: 'warning',
+        icon: 'warning',
+      });
+    }
+  }
+
   render() {
+    const bodyEdition = this.state.body ? this.state.body : '';
+    const titleEdition = this.state.title ? this.state.title : '';
+
     return (
       <View style={styles.container} >
-        <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest(); }}>
-          <Text style={styles.button_text}>Publier</Text>
-        </TouchableOpacity>
+        { this.state.editPrayer ?
+          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.editPrayerRequest(); }}>
+            <Text style={styles.button_text}>Publier</Text>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest(); }}>
+            <Text style={styles.button_text}>Publier</Text>
+          </TouchableOpacity>
+
+        }
+
         <TextInput
           placeholder={ 'Une courte phrase résumant votre demande' }
           inputStyle={{ width: '100%', color: 'black' }}
@@ -48,6 +80,7 @@ export default class PrayerRequestForm extends Component {
           multiline
           onChangeText={(title) => this.setState({ title })}
           style={styles.input}
+          value={titleEdition}
         />
         <Divider style={styles.divider} />
         <TextInput
@@ -57,6 +90,7 @@ export default class PrayerRequestForm extends Component {
           multiline
           onChangeText={(body) => this.setState({ body })}
           style={styles.input}
+          value={bodyEdition}
         />
       </View>
     );

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import { destroyPrayerResquest } from '../api/PrayerRequest';
+import { destroyPrayerResquest, editPrayerRequest } from '../api/PrayerRequest';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { showMessage } from "react-native-flash-message";
 
-export default class Prayer extends Component {
+export default class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerRequestId: props.prayerRequestId,
+      prayerRequest: props.prayerRequest,
       navigation: props.navigation
     };
   }
 
   _deletePrayerRequest = () => {
     destroyPrayerResquest({
-      prayerRequestId: this.state.prayerRequestId,
+      prayerRequestId: this.state.prayerRequest.id,
       navigation: this.state.navigation }).then(() => {
       showMessage({
         message: 'Votre demande a bien été supprimée.',
@@ -26,12 +26,16 @@ export default class Prayer extends Component {
     });
   }
 
+  _goToPrayerRequestForm = () => {
+    this.state.navigation.navigate('PrayerRequestForm', { currentUserEmail: this.state.currentUserEmail,  prayerRequest: this.state.prayerRequest, editPrayer: true });
+  }
+
   _showAlert = () => {
     Alert.alert(
       this.state.title,
       'Que voulez vous faire avec cette demande ?',
       [
-        {text: 'Modifier', onPress: () => alert('Ask me later pressed')},
+        {text: 'Modifier', onPress: () => this._goToPrayerRequestForm()},
         {text: '', onPress: () => alert('')},
         {text: 'Supprimer', onPress: () => this._deletePrayerRequest()}
       ],
