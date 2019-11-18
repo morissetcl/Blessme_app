@@ -5,7 +5,7 @@ import { Input, Divider } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
-import { showMessage } from "react-native-flash-message";
+import { displayMessage } from "../shared/message";
 
 export default class PrayerRequestForm extends Component {
   constructor(props) {
@@ -30,11 +30,7 @@ export default class PrayerRequestForm extends Component {
         navigation: this.props.navigation
       });
     } else {
-      showMessage({
-        message: 'Merci de remplir tous les champs pour ajouter votre demande de prière',
-        type: 'warning',
-        icon: 'warning',
-      });
+      displayMessage('Merci de remplir tous les champs pour ajouter votre demande de prière', 'warning')
     }
   }
 
@@ -48,11 +44,7 @@ export default class PrayerRequestForm extends Component {
         navigation: this.props.navigation,
       });
     } else {
-      showMessage({
-        message: 'Merci de remplir tous les champs pour modifier votre prière',
-        type: 'warning',
-        icon: 'warning',
-      });
+      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
     }
   }
 

@@ -7,7 +7,7 @@ import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fort
 import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { displayMessage } from "./shared/message";
 import WritingCommentForm from './form/WritingCommentForm';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
@@ -42,11 +42,7 @@ export default class Prayer extends Component {
 
   componentDidUpdate() {
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      showMessage({
-        message: 'Votre prière a bien été ajoutée.',
-        type: 'success',
-        icon: 'success',
-      });
+      displayMessage('Votre prière a bien été ajoutée.', 'success')
       this.setState({ flashMessage: false });
     }
   }
@@ -59,12 +55,8 @@ export default class Prayer extends Component {
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
-      showMessage({
-        message: 'Votre prière a bien été supprimée.',
-        type: 'success',
-        icon: 'success',
-      });
-      this.retrieveAllPrayers(this.state.prayerId);
+        displayMessage('Votre prière a bien été supprimée.', 'success')
+        this.retrieveAllPrayers(this.state.prayerId);
     });
   }
 
