@@ -3,7 +3,7 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, Divider } from 'react-native-elements';
 import { createPrayer, editPrayer } from '../../api/Prayer';
-import { showMessage } from "react-native-flash-message";
+import { displayMessage } from "../shared/message";
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
@@ -25,11 +25,7 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
     } else {
-      showMessage({
-        message: 'Merci de remplir tous les champs pour ajouter votre prière',
-        type: 'warning',
-        icon: 'warning',
-      });
+      displayMessage('Merci de remplir tous les champs pour ajouter votre prière', 'warning', 'warning')
     }
   }
 
@@ -41,11 +37,7 @@ export default class WritingCommentForm extends Component {
         navigation: this.props.navigation,
         commentId: this.state.commentId });
     } else {
-      showMessage({
-        message: 'Merci de remplir tous les champs pour modifier votre prière',
-        type: 'warning',
-        icon: 'warning',
-      });
+      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning', 'warning')
     }
   }
 

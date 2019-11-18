@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity,
+import { StyleSheet, Text, View, TouchableOpacity,
   ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import { Facebook } from 'expo';
 import * as firebase from "firebase";
 import Prayers from './Prayers';
-import { showMessage } from "react-native-flash-message";
+import { displayMessage } from "./shared/message";
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -41,13 +41,13 @@ export default class Connexion extends React.Component {
           .catch(error => {
             switch (error.code) {
               case 'auth/invalid-email':
-                this.messageErrors('Le format de votre email est invalide');
+                displayMessage('Le format de votre email est invalide', 'warning', 'warning')
                 break;
               case 'auth/weak-password':
-                this.messageErrors('Votre de mot de passe est trop court (minimum 6 caractères)');
+                displayMessage('Votre de mot de passe est trop court (minimum 6 caractères)', 'warning', 'warning')
                 break;
               case 'auth/email-already-in-use':
-                this.messageErrors("L'Email existe déja");
+                displayMessage("L'Email existe déja", 'warning', 'warning')
                 break;
             }
           });
@@ -55,17 +55,9 @@ export default class Connexion extends React.Component {
         alert("Error : ", error);
       }
     } else {
-      this.messageErrors('Merci de remplir tous les champs pour vous inscrire.');
+      displayMessage('Merci de remplir tous les champs pour vous inscrire.', 'warning', 'warning');
     }
   };
-
-  messageErrors(message) {
-    showMessage({
-      message: message,
-      type: 'warning',
-      icon: 'warning',
-    });
-  }
 
   Login = (email, password) => {
     try {
@@ -76,13 +68,13 @@ export default class Connexion extends React.Component {
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              this.messageErrors("Veuillez rentrer votre mot de passe");
+              displayMessage("Veuillez rentrer votre mot de passe", 'warning', 'warning')
               break;
             case 'auth/user-not-found':
-              this.messageErrors("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe");
+              displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe", 'warning', 'warning')
               break;
             case 'auth/invalid-email':
-              this.messageErrors('Le format de votre email est invalide');
+              displayMessage('Le format de votre email est invalide', 'warning', 'warning')
               break;
           }
         });

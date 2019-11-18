@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View, Text,
   Button, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
-import { showMessage } from "react-native-flash-message";
+import { displayMessage } from "../shared/message";
 
 export default class ResetPassword extends Component {
   constructor(props) {
@@ -15,19 +15,11 @@ export default class ResetPassword extends Component {
   resetPassword(email) {
     const emailAddress = "clement.morisset@yahoo.fr";
     this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
-      showMessage({
-        message: "Un email vous a été envoyé pour réinitialiser votre mot de passe.",
-        type: 'success',
-        icon: 'success',
-      });
+      displayMessage("Un email vous a été envoyé pour réinitialiser votre mot de passe.", 'success', 'success')
     }).catch(function (error) {
       switch (error.code) {
         case 'auth/invalid-email':
-          showMessage({
-            message: "Aucun utilisateur trouvé, veuillez vérifier votre email.",
-            type: 'warning',
-            icon: 'warning',
-          });
+          displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email.", 'warning', 'warning')
       }
     });
   }
