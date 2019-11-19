@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -7,7 +7,7 @@ import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fort
 import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { displayMessage } from "./shared/message";
 import WritingCommentForm from './form/WritingCommentForm';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
@@ -27,9 +27,7 @@ export default class Prayer extends Component {
       prayersLoaded: false,
       prayersList: [],
       flashMessage: true,
-      numberOfPrayer: '',
-      soundIsPlaying: false,
-      sound: '',
+      numberOfPrayer: ''
     };
   }
 
@@ -42,11 +40,7 @@ export default class Prayer extends Component {
 
   componentDidUpdate() {
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      showMessage({
-        message: 'Votre prière a bien été ajoutée.',
-        type: 'success',
-        icon: 'success',
-      });
+      displayMessage('Votre prière a bien été ajoutée.', 'success')
       this.setState({ flashMessage: false });
     }
   }
@@ -59,12 +53,8 @@ export default class Prayer extends Component {
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
-      showMessage({
-        message: 'Votre prière a bien été supprimée.',
-        type: 'success',
-        icon: 'success',
-      });
-      this.retrieveAllPrayers(this.state.prayerId);
+        displayMessage('Votre prière a bien été supprimée.', 'success')
+        this.retrieveAllPrayers(this.state.prayerId);
     });
   }
 
@@ -178,19 +168,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 90,
   },
-  bottom_buttons: {
-    backgroundColor: '#fafafa',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 0,
-    left:  0,
-    width: '100%',
-    height: '10%',
-    alignItems: 'center',
-    elevation: 1,
-  },
   comment_card: {
     padding: '2%',
     marginBottom: '5%',
@@ -201,10 +178,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#63686e',
     marginBottom: '2%',
-  },
-  body: {
-    color: '#7d7d7d',
-    paddingLeft: '2%',
   },
   publish_button: {
     position: 'absolute',
@@ -238,18 +211,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 40,
-  },
-  duration: {
-    color: '#49beb7',
-    borderColor: '#49beb7',
-    borderRadius: 50,
-    borderWidth: 2,
-    paddingTop: 3,
-    paddingLeft: 6,
-    paddingRight: 2,
-    position: 'relative',
-    bottom: 2,
-    fontWeight: 'bold',
   },
   created_at: {
     position: 'absolute',

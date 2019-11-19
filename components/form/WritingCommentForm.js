@@ -25,7 +25,7 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
     } else {
-      displayMessage('Merci de remplir tous les champs pour ajouter votre prière', 'warning', 'warning')
+      displayMessage('Merci de remplir tous les champs pour ajouter votre prière', 'warning')
     }
   }
 
@@ -37,7 +37,7 @@ export default class WritingCommentForm extends Component {
         navigation: this.props.navigation,
         commentId: this.state.commentId });
     } else {
-      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning', 'warning')
+      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
     }
   }
 

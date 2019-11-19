@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { destroyPrayerResquest, editPrayerRequest } from '../api/PrayerRequest';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { showMessage } from "react-native-flash-message";
+import { displayMessage } from "./shared/message";
 
 export default class ModalActions extends Component {
   constructor(props) {
@@ -18,11 +18,7 @@ export default class ModalActions extends Component {
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequest.id,
       navigation: this.state.navigation }).then(() => {
-      showMessage({
-        message: 'Votre demande a bien été supprimée.',
-        type: 'success',
-        icon: 'success',
-      });
+        displayMessage('Votre demande a bien été supprimée.', 'success')
     });
   }
 

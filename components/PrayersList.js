@@ -1,7 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Image,
-  ActivityIndicator, RefreshControl, Text,
-  TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import AudioPrayer from './AudioPrayer';
 
@@ -10,10 +8,8 @@ export default class PrayersList extends React.Component {
     super(props);
     this.state = {
       prayers: [],
-      loaded: false,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
-      refreshing: false,
       profileFeed: this.props.profileFeed,
       prayersList: [],
       requestApi: this.props.requestApi,
@@ -38,7 +34,7 @@ export default class PrayersList extends React.Component {
           const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
           const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
           const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-          
+
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}
@@ -55,7 +51,7 @@ export default class PrayersList extends React.Component {
             </TouchableOpacity>
           </View>;
         }),
-        
+
       });
     });
   }
@@ -88,32 +84,6 @@ const styles = StyleSheet.create({
     paddingBottom: '6%',
     height: '100%',
   },
-  add_prayer: {
-    borderRadius: 30,
-    backgroundColor: '#ff8b6a',
-    padding: 15,
-  },
-  bottom_buttons: {
-    backgroundColor: '#fafafa',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: '7%',
-    alignItems: 'center',
-    elevation: 1,
-  },
-  container: {
-    height: '8%',
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: '#eaeaea',
-  },
   comment_card: {
     padding: '2%',
     backgroundColor: 'white',
@@ -124,10 +94,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#63686e',
     marginBottom: '2%',
-  },
-  body: {
-    color: '#7d7d7d',
-    paddingLeft: '2%',
   },
   loader: {
     color: "#0000ff",

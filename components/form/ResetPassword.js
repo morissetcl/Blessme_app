@@ -15,11 +15,11 @@ export default class ResetPassword extends Component {
   resetPassword(email) {
     const emailAddress = "clement.morisset@yahoo.fr";
     this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
-      displayMessage("Un email vous a été envoyé pour réinitialiser votre mot de passe.", 'success', 'success')
+      displayMessage("Un email vous a été envoyé pour réinitialiser votre mot de passe.", 'success')
     }).catch(function (error) {
       switch (error.code) {
         case 'auth/invalid-email':
-          displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email.", 'warning', 'warning')
+          displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email.", 'warning')
       }
     });
   }

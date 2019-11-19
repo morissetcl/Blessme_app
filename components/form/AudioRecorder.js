@@ -1,6 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, Slider, StyleSheet, Text,
-  TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Dimensions, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Expo, { Asset, Font } from 'expo';
 import * as FileSystem from 'expo-file-system'
 import { Audio } from 'expo-av';
@@ -409,10 +408,6 @@ const styles = StyleSheet.create({
     bottom: 260,
     left: '53%',
   },
-  emptyContainer: {
-    alignSelf: 'stretch',
-    backgroundColor: BACKGROUND_COLOR,
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -464,11 +459,6 @@ const styles = StyleSheet.create({
   playbackSlider: {
     alignSelf: 'stretch',
   },
-  liveTextTransparent: {
-    color: 'transparent',
-    position: 'relative',
-    top: 40,
-  },
   recordingTimestamp: {
     position: 'relative',
     left: 10,
@@ -479,16 +469,9 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     paddingRight: 20,
   },
-  image: {
-    backgroundColor: BACKGROUND_COLOR,
-  },
   iconMicro: {
     position: 'relative',
     left: 0,
-  },
-  textButton: {
-    backgroundColor: 'red',
-    padding: 10,
   },
   buttonsContainerBase: {
     flex: 1,
@@ -508,32 +491,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingLeft: 30,
     paddingRight: 30,
-  },
-  volumeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: 200 / 2.0,
-    maxWidth: 200 / 2.0,
-  },
-  volumeSlider: {
-    width: 200 / 2.0 - 20,
-  },
-  buttonsContainerBottomRow: {
-    maxHeight: 30,
-    alignSelf: 'stretch',
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
-  rateSlider: {
-    width: 200 / 2.0,
-  },
-  publishButtonTransparent: {
-    color: 'transparent',
-    fontWeight: 'bold',
-    borderColor: 'transparent',
-    borderBottomWidth: 2,
   },
   publish_button: {
     color: '#207dff',

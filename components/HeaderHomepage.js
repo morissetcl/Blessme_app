@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { Header, Avatar, Input, SearchBar } from 'react-native-elements';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { StyleSheet, View } from 'react-native';
+import { Header, Avatar} from 'react-native-elements';
 import { getUsers } from '../api/User';
 
 export default class HeaderHomepage extends Component {
@@ -12,7 +10,6 @@ export default class HeaderHomepage extends Component {
       navigation: props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       username: this.props.username,
-      search: '',
       avatarUrl: '',
     };
   }
@@ -54,14 +51,5 @@ const styles = StyleSheet.create({
   container: {
     height: '8%',
     backgroundColor: 'red',
-  },
-  content: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-    backgroundColor: 'red',
-    width: '10%',
-    textAlign: 'center',
-    paddingLeft: 3,
-  },
+  }
 });

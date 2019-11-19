@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Button, ActivityIndicator } from 'react-native';
-import { Header, Avatar, Input, SearchBar } from 'react-native-elements';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { Header, Avatar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
 import PrayerRequestList from './PrayerRequestList';
@@ -18,8 +18,7 @@ export default class Profile extends Component {
       currentUserEmail: props.navigation.state.params.currentUserEmail,
       userEmail: props.navigation.state.params.userEmail,
       avatarUrl: '',
-      avatarLoaded: 'loaded',
-      loading: false,
+      avatarLoaded: 'loaded'
     };
   }
 

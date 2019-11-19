@@ -41,13 +41,13 @@ export default class Connexion extends React.Component {
           .catch(error => {
             switch (error.code) {
               case 'auth/invalid-email':
-                displayMessage('Le format de votre email est invalide', 'warning', 'warning')
+                displayMessage('Le format de votre email est invalide', 'warning')
                 break;
               case 'auth/weak-password':
-                displayMessage('Votre de mot de passe est trop court (minimum 6 caractères)', 'warning', 'warning')
+                displayMessage('Votre de mot de passe est trop court (minimum 6 caractères)', 'warning')
                 break;
               case 'auth/email-already-in-use':
-                displayMessage("L'Email existe déja", 'warning', 'warning')
+                displayMessage("L'Email existe déja", 'warning')
                 break;
             }
           });
@@ -55,7 +55,7 @@ export default class Connexion extends React.Component {
         alert("Error : ", error);
       }
     } else {
-      displayMessage('Merci de remplir tous les champs pour vous inscrire.', 'warning', 'warning');
+      displayMessage('Merci de remplir tous les champs pour vous inscrire.', 'warning');
     }
   };
 
@@ -68,13 +68,13 @@ export default class Connexion extends React.Component {
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              displayMessage("Veuillez rentrer votre mot de passe", 'warning', 'warning')
+              displayMessage("Veuillez rentrer votre mot de passe", 'warning')
               break;
             case 'auth/user-not-found':
-              displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe", 'warning', 'warning')
+              displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe", 'warning')
               break;
             case 'auth/invalid-email':
-              displayMessage('Le format de votre email est invalide', 'warning', 'warning')
+              displayMessage('Le format de votre email est invalide', 'warning')
               break;
           }
         });

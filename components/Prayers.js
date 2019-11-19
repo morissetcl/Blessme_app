@@ -14,7 +14,6 @@ export default class Prayers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       username: this.props.username,
