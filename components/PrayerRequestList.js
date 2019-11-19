@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Image, ActivityIndicator, RefreshControl } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import PrayerRequestCard from './PrayerRequestCard';
 

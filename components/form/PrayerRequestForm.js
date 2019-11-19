@@ -10,7 +10,6 @@ import { displayMessage } from "../shared/message";
 export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       username: props.navigation.state.params.username,
       currentUserEmail: props.navigation.state.params.currentUserEmail,

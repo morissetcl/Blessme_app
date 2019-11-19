@@ -23,7 +23,6 @@ export default class PrayerRequestCard extends React.Component {
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
-      numberOfPrayer: '-',
       numberOfAudioPrayer: '-',
       userEmail: props.prayer_request['user']['email']
     };
@@ -110,9 +109,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  card_body: {
-    flex: 1,
   },
   username: {
     position: 'absolute',
