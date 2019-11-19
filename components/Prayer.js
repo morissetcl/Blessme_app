@@ -61,7 +61,7 @@ export default class Prayer extends Component {
   retrieveAllPrayers(prayerId) {
     this.setState({ prayers: [] });
     getPrayers(prayerId).then(data => {
-      this.setState({ numberOfPrayer: data.prayer_request_comments.length, prayersLoaded: true });
+      this.setState({ numberOfPrayer: data.prayer_request_comments.length });
       this.state.prayers.push(data.prayer_request_comments);
       const prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : [''];
       this.state.prayersList = prayers.map((response, index) => {
@@ -124,6 +124,7 @@ export default class Prayer extends Component {
             <View style={styles.prayer_card} >
               <PrayerRequestCard prayer_request={ this.state.prayerRequest }
                 currentUserEmail={this.state.currentUserEmail}
+                display_modal_action={true}
                 numberOfLines={1000} navigation={ this.state.navigation }
                 numberOfPrayer={this.state.numberOfPrayer} />
               <View style={styles.prayer_list} >

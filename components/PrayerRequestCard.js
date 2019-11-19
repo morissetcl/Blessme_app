@@ -24,7 +24,8 @@ export default class PrayerRequestCard extends React.Component {
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
       numberOfAudioPrayer: '-',
-      userEmail: props.prayer_request['user']['email']
+      userEmail: props.prayer_request['user']['email'],
+      display_modal_action: this.props.display_modal_action
     };
   }
 
@@ -66,7 +67,7 @@ export default class PrayerRequestCard extends React.Component {
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
-          {(this.state.userEmail === this.state.currentUserEmail) ?
+          {((this.state.userEmail === this.state.currentUserEmail) && this.state.display_modal_action) ?
             <ModalActions prayerRequest={ this.props.prayer_request } navigation={ this.state.navigation }/>
             :
             <Text></Text>

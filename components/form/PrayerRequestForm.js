@@ -42,6 +42,7 @@ export default class PrayerRequestForm extends Component {
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
       });
+      displayMessage('Votre demande a bien été modifiée', 'success')
     } else {
       displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
     }

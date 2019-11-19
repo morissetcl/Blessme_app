@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import { destroyPrayerResquest, editPrayerRequest } from '../api/PrayerRequest';
+import { destroyPrayerResquest } from '../api/PrayerRequest';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { displayMessage } from "./shared/message";

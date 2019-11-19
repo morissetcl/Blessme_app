@@ -59,6 +59,7 @@ export default class PrayerRequestList extends React.Component {
         navigation={ this.state.navigation }
         numberOfLines={7}
         key={index}
+        display_modal_action={true}
         needLink={true} />;
     });
 

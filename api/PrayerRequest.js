@@ -80,8 +80,6 @@ export function editPrayerRequest(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { prayerId: json.id,
-        currentUserEmail: params['currentUserEmail']
-      });
+      navigation.navigate('Homepage');
     });
 }

@@ -36,6 +36,7 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,
         commentId: this.state.commentId });
+      displayMessage('Votre prière a bien été modifiée', 'success')
     } else {
       displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
     }
