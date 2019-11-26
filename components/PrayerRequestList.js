@@ -2,12 +2,14 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import PrayerRequestCard from './PrayerRequestCard';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../store/actions'; //Import your actions
 
-export default class PrayerRequestList extends React.Component {
+class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayersRequests: [],
       loaded: false,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
@@ -18,13 +20,13 @@ export default class PrayerRequestList extends React.Component {
   }
 
   componentDidMount() {
-    this.retrievePrayersRequests();
+    this.props.getAllPrayersRequests();
   }
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
     this.setState({ prayersRequests: [] });
-    this.retrievePrayersRequests();
+    this.props.getAllPrayersRequests();
     this.setState({ refreshing: false });
   }
 
@@ -43,15 +45,13 @@ export default class PrayerRequestList extends React.Component {
         this.setState({ loaded: true });
       });
     } else {
-      getAllPrayersRequests().then(data => {
-        this.state.prayersRequests.push(data.prayers_requests);
-        this.setState({ loaded: true });
-      });
+      this.props.getAllPrayersRequests();
     }
   }
 
   render() {
-    const prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : [''];
+    const data = this.props.data.prayers_requests ? this.props.data.prayers_requests : [];
+    const prayersRequests = data.length > 0 ? data : [];
     const prayersRequestsList = prayersRequests.map((response, index) => {
       return <PrayerRequestCard
         prayer_request={ response }
@@ -66,7 +66,7 @@ export default class PrayerRequestList extends React.Component {
     return (
 
       <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
-        { this.state.prayersRequests.length > 0 ?
+        { data.length > 0 ?
           <ScrollView refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -101,3 +101,17 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+
+function mapStateToProps(state, props) {
+  return {
+    loading: state.dataReducer.loading,
+    data: state.dataReducer.data
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  console.log('mapDispatchToProps')
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestList);
