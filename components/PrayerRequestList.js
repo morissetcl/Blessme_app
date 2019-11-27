@@ -4,13 +4,12 @@ import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequ
 import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions'; //Import your actions
+import * as Actions from '../store/actions';
 
 class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loaded: false,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       refreshing: false,
@@ -20,12 +19,11 @@ class PrayerRequestList extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAllPrayersRequests();
+    this.retrievePrayersRequests();
   }
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
-    this.setState({ prayersRequests: [] });
     this.props.getAllPrayersRequests();
     this.setState({ refreshing: false });
   }
@@ -40,19 +38,16 @@ class PrayerRequestList extends React.Component {
 
   retrievePrayersRequests() {
     if (this.state.profileFeed) {
-      getUserPrayersRequests(this.checkEmailToSearch()).then(data => {
-        this.state.prayersRequests.push(data.user_prayers_requests);
-        this.setState({ loaded: true });
-      });
+      this.props.getUserPrayersRequests(this.checkEmailToSearch());
     } else {
       this.props.getAllPrayersRequests();
     }
   }
 
   render() {
-    const data = this.props.data.prayers_requests ? this.props.data.prayers_requests : [];
-    const prayersRequests = data.length > 0 ? data : [];
-    const prayersRequestsList = prayersRequests.map((response, index) => {
+    const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
+    const prayerRequests = selectData ? selectData : [];
+    const prayersRequestsList = prayerRequests.map((response, index) => {
       return <PrayerRequestCard
         prayer_request={ response }
         currentUserEmail={ this.state.currentUserEmail }
@@ -66,7 +61,7 @@ class PrayerRequestList extends React.Component {
     return (
 
       <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
-        { data.length > 0 ?
+        { !this.props.data.loading ?
           <ScrollView refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -105,12 +100,12 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, props) {
   return {
     loading: state.dataReducer.loading,
-    data: state.dataReducer.data
+    data: state.dataReducer.data,
+    userData: state.dataReducer.userData
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log('mapDispatchToProps')
   return bindActionCreators(Actions, dispatch);
 }
 
