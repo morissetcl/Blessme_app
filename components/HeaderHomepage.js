@@ -3,8 +3,11 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Header, Avatar, SearchBar } from 'react-native-elements';
 import { getUsers } from '../api/User';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../store/actions';
 
-export default class HeaderHomepage extends Component {
+class HeaderHomepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,8 +30,12 @@ export default class HeaderHomepage extends Component {
       username: this.state.username });
   }
 
-  updateSearch() {
-    console.log('c')
+  updateSearch(e) {
+    this.setState({
+      search: e
+    }, () => {
+      this.props.getAllPrayersRequests(this.state.search);
+    });
   }
 
   searchBar() {
@@ -40,7 +47,8 @@ export default class HeaderHomepage extends Component {
         placeholder={'Votre recherche...'}
         round={true}
         placeholderTextColor={styles.placeholderTextColor}
-        onChangeText={this.updateSearch}
+        onChangeText={this.updateSearch.bind(this)}
+        value={this.state.search}
       />
     )
   }
@@ -93,3 +101,17 @@ const styles = StyleSheet.create({
     borderRadius: 15
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    loading: state.dataReducer.loading,
+    data: state.dataReducer.data,
+    userData: state.dataReducer.userData
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderHomepage);

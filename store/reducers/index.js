@@ -11,7 +11,6 @@ const dataReducer = (state = dataState, action) => {
           return state;
         case USER_PRAYERS_REQUESTS_AVAILABLE:
           state = Object.assign({}, state, { userData: action.userData, loading: false });
-          console.log(state.userData)
           return state;
         default:
           return state;

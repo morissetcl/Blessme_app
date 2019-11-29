@@ -15,17 +15,26 @@ class PrayerRequestList extends React.Component {
       refreshing: false,
       profileFeed: this.props.profileFeed,
       userEmail: this.props.userEmail,
+      loaded: false,
+      pr: []
     };
   }
 
   componentDidMount() {
     this.retrievePrayersRequests();
+    this.setState({ pr: this.props.data.prayers_requests });
+  }
+
+  componentDidUpdate() {
+    if ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded){
+      console.log('componentDidUpdate UPDATE')
+      this.setState({ loaded: true });
+    }
   }
 
   _onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.props.getAllPrayersRequests();
-    this.setState({ refreshing: false });
+    this.setState({ loaded: false });
+    this.retrievePrayersRequests()
   }
 
   checkEmailToSearch() {
@@ -38,6 +47,7 @@ class PrayerRequestList extends React.Component {
 
   retrievePrayersRequests() {
     if (this.state.profileFeed) {
+      this.setState({ loaded: true });
       this.props.getUserPrayersRequests(this.checkEmailToSearch());
     } else {
       this.props.getAllPrayersRequests();
@@ -45,36 +55,42 @@ class PrayerRequestList extends React.Component {
   }
 
   render() {
-    const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
-    const prayerRequests = selectData ? selectData : [];
-    const prayersRequestsList = prayerRequests.map((response, index) => {
-      return <PrayerRequestCard
-        prayer_request={ response }
-        currentUserEmail={ this.state.currentUserEmail }
-        navigation={ this.state.navigation }
-        numberOfLines={7}
-        key={index}
-        display_modal_action={true}
-        needLink={true} />;
-    });
+    if (this.state.loaded) {
+      const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
+      const prayerRequests = selectData ? selectData : [];
+      console.log('-----------------------')
+      const prayersRequestsList = prayerRequests.map((response, index) => {
+        return <PrayerRequestCard
+          prayer_request={ response }
+          currentUserEmail={ this.state.currentUserEmail }
+          navigation={ this.state.navigation }
+          numberOfLines={7}
+          key={index}
+          display_modal_action={true}
+          needLink={true} />;
+      });
 
-    return (
-
-      <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
-        { !this.props.data.loading ?
-          <ScrollView refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />}
-          >
-            { prayersRequestsList }
-          </ScrollView>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
-      </View>
-    );
+      return (
+        <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
+          { this.state.loaded ?
+            <ScrollView refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />}
+            >
+              { prayersRequestsList }
+            </ScrollView>
+            :
+            <ActivityIndicator size="large" style = {styles.loader} />
+          }
+        </View>
+      );
+    } else {
+      return (
+        <ActivityIndicator size="large" style = {styles.loader} />
+      )
+    }
   }
 }
 
@@ -97,7 +113,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     loading: state.dataReducer.loading,
     data: state.dataReducer.data,

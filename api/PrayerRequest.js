@@ -1,8 +1,9 @@
 import Constants from 'expo-constants';
 import { getApiUrl } from './GetApiUrl';
 
-export function getAllPrayersRequests() {
-  const url = `${getApiUrl()}/prayers_requests`;
+export function getAllPrayersRequests(test) {
+  const search = keyword ? `/?keyword=test` : ''
+  const url = `${getApiUrl()}/prayers_requests/?keyword=test`;
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error));
