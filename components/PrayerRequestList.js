@@ -2,30 +2,39 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import PrayerRequestCard from './PrayerRequestCard';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../store/actions';
 
-export default class PrayerRequestList extends React.Component {
+class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayersRequests: [],
-      loaded: false,
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       refreshing: false,
       profileFeed: this.props.profileFeed,
       userEmail: this.props.userEmail,
+      loaded: false,
+      pr: []
     };
   }
 
   componentDidMount() {
     this.retrievePrayersRequests();
+    this.setState({ pr: this.props.data.prayers_requests });
+  }
+
+  componentDidUpdate() {
+    if ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded){
+      console.log('componentDidUpdate UPDATE')
+      this.setState({ loaded: true });
+    }
   }
 
   _onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.setState({ prayersRequests: [] });
-    this.retrievePrayersRequests();
-    this.setState({ refreshing: false });
+    this.setState({ loaded: false });
+    this.retrievePrayersRequests()
   }
 
   checkEmailToSearch() {
@@ -38,48 +47,50 @@ export default class PrayerRequestList extends React.Component {
 
   retrievePrayersRequests() {
     if (this.state.profileFeed) {
-      getUserPrayersRequests(this.checkEmailToSearch()).then(data => {
-        this.state.prayersRequests.push(data.user_prayers_requests);
-        this.setState({ loaded: true });
-      });
+      this.setState({ loaded: true });
+      this.props.getUserPrayersRequests(this.checkEmailToSearch());
     } else {
-      getAllPrayersRequests().then(data => {
-        this.state.prayersRequests.push(data.prayers_requests);
-        this.setState({ loaded: true });
-      });
+      this.props.getAllPrayersRequests();
     }
   }
 
   render() {
-    const prayersRequests = this.state.prayersRequests.length > 0 ? this.state.prayersRequests[0] : [''];
-    const prayersRequestsList = prayersRequests.map((response, index) => {
-      return <PrayerRequestCard
-        prayer_request={ response }
-        currentUserEmail={ this.state.currentUserEmail }
-        navigation={ this.state.navigation }
-        numberOfLines={7}
-        key={index}
-        display_modal_action={true}
-        needLink={true} />;
-    });
+    if (this.state.loaded) {
+      const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
+      const prayerRequests = selectData ? selectData : [];
+      console.log('-----------------------')
+      const prayersRequestsList = prayerRequests.map((response, index) => {
+        return <PrayerRequestCard
+          prayer_request={ response }
+          currentUserEmail={ this.state.currentUserEmail }
+          navigation={ this.state.navigation }
+          numberOfLines={7}
+          key={index}
+          display_modal_action={true}
+          needLink={true} />;
+      });
 
-    return (
-
-      <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
-        { this.state.prayersRequests.length > 0 ?
-          <ScrollView refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />}
-          >
-            { prayersRequestsList }
-          </ScrollView>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
-      </View>
-    );
+      return (
+        <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
+          { this.state.loaded ?
+            <ScrollView refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />}
+            >
+              { prayersRequestsList }
+            </ScrollView>
+            :
+            <ActivityIndicator size="large" style = {styles.loader} />
+          }
+        </View>
+      );
+    } else {
+      return (
+        <ActivityIndicator size="large" style = {styles.loader} />
+      )
+    }
   }
 }
 
@@ -101,3 +112,17 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    loading: state.dataReducer.loading,
+    data: state.dataReducer.data,
+    userData: state.dataReducer.userData
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestList);
