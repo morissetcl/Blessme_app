@@ -26,6 +26,7 @@ export function getPrayerRequest(prayerId) {
 export function createPrayerRequestAndRedirect(params) {
   const prayerId = params['prayerId'];
   const navigation = params['navigation'];
+  const category =  params['category'] ? params['category'] : 'Autres'
   fetch(`${getApiUrl()}/prayers_requests`, {
     method: 'POST',
     headers: {
@@ -36,6 +37,7 @@ export function createPrayerRequestAndRedirect(params) {
       email: params['currentUserEmail'],
       title: params['title'],
       body: params['body'],
+      category: category
     }),
   }).then(response => response.json())
     .then(json => {
