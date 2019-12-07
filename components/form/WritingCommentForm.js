@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: '#dee0d9',
-    width: '80%',
-    marginLeft: '10%',
-    marginTop: 20,
+    width: '90%',
+    height: 1,
+    marginLeft: '5%'
   },
   prayer_title: {
     textAlign: 'justify',

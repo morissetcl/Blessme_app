@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHeart, faMicrophone, faPenSquare } from '@fortawesome/free-solid-svg-icons';
-import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 export default class PrayerRequestButtonsActions extends Component {
   constructor(props) {
