@@ -1,31 +1,43 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View,
-  Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Input, Divider } from 'react-native-elements';
+  Text, Button, TouchableOpacity, ActivityIndicator, Picker } from 'react-native';
+import { Input, Divider, ButtonGroup } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
 import { displayMessage } from "../shared/message";
+import { getCategories } from '../../api/Category';
+import { NavigationEvents } from 'react-navigation';
 
 export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
+    const params = props.navigation.state.params
+    const prCategory = params.prayerRequest.category ? params.prayerRequest.category.label : params.prayerRequest.category
+
     this.state = {
-      username: props.navigation.state.params.username,
-      currentUserEmail: props.navigation.state.params.currentUserEmail,
-      editPrayer: props.navigation.state.params.editPrayer,
-      body: props.navigation.state.params.prayerRequest.body,
-      title: props.navigation.state.params.prayerRequest.title,
-      prayerRequestId: props.navigation.state.params.prayerRequest.id
+      username:params.username,
+      currentUserEmail:params.currentUserEmail,
+      editPrayer:params.editPrayer,
+      body:params.prayerRequest.body,
+      title:params.prayerRequest.title,
+      prCategory: prCategory,
+      prayerRequestId: params.prayerRequest.id,
+      categories: [],
+      selectedIndex: undefined,
+      loaded: false
     };
+    this.updateIndex = this.updateIndex.bind(this)
   }
 
   addPrayerRequest() {
+    const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title.length !== 0 && this.state.body.length !== 0) {
       createPrayerRequestAndRedirect({ username: this.state.username,
         currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         title: this.state.title,
+        category: firstRowCategory[this.state.selectedIndex],
         navigation: this.props.navigation
       });
     } else {
@@ -34,6 +46,7 @@ export default class PrayerRequestForm extends Component {
   }
 
   editPrayerRequest(prayerRequestId) {
+    const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.body.length !== 0) {
       editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
         currentUserEmail: this.state.currentUserEmail,
@@ -41,6 +54,7 @@ export default class PrayerRequestForm extends Component {
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
+        category: firstRowCategory[this.selectedIndex]
       });
       displayMessage('Votre demande a bien été modifiée', 'success')
     } else {
@@ -48,9 +62,51 @@ export default class PrayerRequestForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.displayCategories()
+  }
+
+  displayCategories() {
+    getCategories().then(data => {
+      this.setState({ categories:
+         data.categories.map((response, index) => {
+          return response.label
+        }),
+      });
+    });
+    this.setState({ loaded: true })
+  }
+
+  onValueChange(category) {
+    this.setState({ category: category });
+  }
+
+  updateIndex (selectedIndex) {
+    this.setState({selectedIndex})
+  }
+
+  renderCategoryForm(categoryChoices, selectedIndex) {
+    const categoryHasBeenUpdated = ((selectedIndex != this.state.selectedIndex) && this.state.selectedIndex)
+    const indexCategory =  categoryHasBeenUpdated ?  this.state.selectedIndex : selectedIndex
+    return (
+      <ButtonGroup
+        onPress={this.updateIndex}
+        selectedIndex={indexCategory}
+        buttons={categoryChoices}
+        containerStyle={{ height: 30, backgroundColor: '#49beb7', borderTopWidth: 1, borderColor: 'white'}}
+        innerBorderStyle={{ width: 7, color: '#FFFFFF' }}
+        textStyle={{ color: 'white', fontSize: 14 }}
+        selectedButtonStyle={{ backgroundColor:'#ff8b6a' }}
+      />
+    )
+  }
+
+
   render() {
     const bodyEdition = this.state.body ? this.state.body : '';
     const titleEdition = this.state.title ? this.state.title : '';
+    const categoryChoices = this.state.categories.slice(0, 6);
+    const index = categoryChoices.indexOf(this.state.prCategory);
 
     return (
       <View style={styles.container} >
@@ -64,26 +120,33 @@ export default class PrayerRequestForm extends Component {
           </TouchableOpacity>
 
         }
-
-        <TextInput
-          placeholder={ 'Une courte phrase résumant votre demande' }
-          inputStyle={{ width: '100%', color: 'black' }}
-          underlineColorAndroid="transparent"
-          multiline
-          onChangeText={(title) => this.setState({ title })}
-          style={styles.input}
-          value={titleEdition}
-        />
-        <Divider style={styles.divider} />
-        <TextInput
-          placeholder={ 'Écrivez votre demande de prière la plus détaillée possible.' }
-          inputStyle={{ width: '100%', color: 'black' }}
-          underlineColorAndroid="transparent"
-          multiline
-          onChangeText={(body) => this.setState({ body })}
-          style={styles.input}
-          value={bodyEdition}
-        />
+        <View style={styles.formContainer}>
+          <Text style={styles.pickerTitle}>Sélectionnez une catégorie</Text>
+          { this.state.loaded ?
+            this.renderCategoryForm(categoryChoices, index)
+            :
+            <Text>''</Text>
+          }
+          <TextInput
+            placeholder={ 'Une courte phrase résumant votre demande' }
+            inputStyle={{ width: '100%', color: 'black' }}
+            underlineColorAndroid="transparent"
+            multiline
+            onChangeText={(title) => this.setState({ title })}
+            style={styles.input}
+            value={titleEdition}
+          />
+          <Divider style={styles.divider} />
+          <TextInput
+            placeholder={ 'Écrivez votre demande de prière la plus détaillée possible.' }
+            inputStyle={{ width: '100%', color: 'black' }}
+            underlineColorAndroid="transparent"
+            multiline
+            onChangeText={(body) => this.setState({ body })}
+            style={styles.input}
+            value={bodyEdition}
+          />
+        </View>
       </View>
     );
   }
@@ -125,4 +188,11 @@ const styles = StyleSheet.create({
   button_text: {
     color: '#207dff',
   },
+  formContainer: {
+    marginTop: 40
+  },
+  pickerTitle: {
+    marginBottom: 10,
+    color: '#d3d3d3'
+  }
 });

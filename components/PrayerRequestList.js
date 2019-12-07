@@ -27,7 +27,6 @@ class PrayerRequestList extends React.Component {
 
   componentDidUpdate() {
     if ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded){
-      console.log('componentDidUpdate UPDATE')
       this.setState({ loaded: true });
     }
   }
@@ -58,7 +57,6 @@ class PrayerRequestList extends React.Component {
     if (this.state.loaded) {
       const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
       const prayerRequests = selectData ? selectData : [];
-      console.log('-----------------------')
       const prayersRequestsList = prayerRequests.map((response, index) => {
         return <PrayerRequestCard
           prayer_request={ response }
