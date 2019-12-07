@@ -19,7 +19,7 @@ export default class WritingCommentForm extends Component {
   }
 
   addPrayer(prayerId) {
-    if (this.state.body.length !== 0) {
+    if (this.state.body) {
       createPrayer({ currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         prayerId: this.state.prayerId,
@@ -30,7 +30,7 @@ export default class WritingCommentForm extends Component {
   }
 
   editrayer(prayerId) {
-    if (this.state.body.length !== 0) {
+    if (this.state.body) {
       editPrayer({ currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         prayerId: this.state.prayerId,

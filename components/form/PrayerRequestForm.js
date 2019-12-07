@@ -16,11 +16,11 @@ export default class PrayerRequestForm extends Component {
     const prCategory = params.prayerRequest.category ? params.prayerRequest.category.label : params.prayerRequest.category
 
     this.state = {
-      username:params.username,
-      currentUserEmail:params.currentUserEmail,
-      editPrayer:params.editPrayer,
-      body:params.prayerRequest.body,
-      title:params.prayerRequest.title,
+      username: params.username,
+      currentUserEmail: params.currentUserEmail,
+      editPrayer: params.editPrayer,
+      body: params.prayerRequest.body,
+      title: params.prayerRequest.title,
       prCategory: prCategory,
       prayerRequestId: params.prayerRequest.id,
       categories: [],
@@ -32,7 +32,7 @@ export default class PrayerRequestForm extends Component {
 
   addPrayerRequest() {
     const firstRowCategory = this.state.categories.slice(0, 6);
-    if (this.state.title.length !== 0 && this.state.body.length !== 0) {
+    if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({ username: this.state.username,
         currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
@@ -47,7 +47,7 @@ export default class PrayerRequestForm extends Component {
 
   editPrayerRequest(prayerRequestId) {
     const firstRowCategory = this.state.categories.slice(0, 6);
-    if (this.state.body.length !== 0) {
+    if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
         currentUserEmail: this.state.currentUserEmail,
         title: this.state.title,
@@ -91,7 +91,7 @@ export default class PrayerRequestForm extends Component {
     return (
       <ButtonGroup
         onPress={this.updateIndex}
-        selectedIndex={indexCategory}
+        selectedIndex={(indexCategory >= 0) ? indexCategory : 0}
         buttons={categoryChoices}
         containerStyle={{ height: 30, backgroundColor: '#49beb7', borderTopWidth: 1, borderColor: 'white'}}
         innerBorderStyle={{ width: 7, color: '#FFFFFF' }}
