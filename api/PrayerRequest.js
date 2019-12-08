@@ -69,6 +69,7 @@ export function destroyPrayerResquest(params) {
 export function editPrayerRequest(params) {
   const prayerRequestId = params['prayerRequestId'];
   const navigation = params['navigation'];
+  const category =  params['category'] ? params['category'] : 'Autres'
   return fetch(`${getApiUrl()}/prayers_requests/${prayerRequestId}`, {
     method: 'PATCH',
     headers: {
@@ -79,7 +80,8 @@ export function editPrayerRequest(params) {
       email: params['currentUserEmail'],
       title: params['title'],
       body: params['body'],
-      prayer_request_id: prayerRequestId
+      prayer_request_id: prayerRequestId,
+      category: category
     }),
   }).then(response => response.json())
     .then(json => {

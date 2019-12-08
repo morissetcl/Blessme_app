@@ -54,7 +54,7 @@ export default class PrayerRequestForm extends Component {
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
-        category: firstRowCategory[this.selectedIndex]
+        category: firstRowCategory[this.state.selectedIndex]
       });
       displayMessage('Votre demande a bien été modifiée', 'success')
     } else {
@@ -121,7 +121,7 @@ export default class PrayerRequestForm extends Component {
           </TouchableOpacity>
 
         }
-        <View style={styles.formContainer} style={{ flex: 1, flexDirection: 'column',justifyContent: 'center'}}>
+        <View style={styles.formContainer} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
           { this.state.loaded ?
             this.renderCategoryForm(categoryChoices, index)
             :

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Avatar, Card } from 'react-native-elements';
+import { Avatar, Card, Divider } from 'react-native-elements';
 import  ModalActions  from './ModalActions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,6 @@ import { NavigationEvents } from 'react-navigation';
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       title: props.prayer_request['title'],
       body: props.prayer_request['body'],
@@ -25,7 +24,9 @@ export default class PrayerRequestCard extends React.Component {
       currentUserEmail: this.props.currentUserEmail,
       numberOfAudioPrayer: '-',
       userEmail: props.prayer_request['user']['email'],
-      display_modal_action: this.props.display_modal_action
+      display_modal_action: this.props.display_modal_action,
+      category_label: props.prayer_request['category']['label'],
+      category_color: props.prayer_request['category']['color']
     };
   }
 
@@ -77,16 +78,21 @@ export default class PrayerRequestCard extends React.Component {
           <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
 
           <View style = {styles.card_actions}>
-            <TouchableOpacity onPress={(value) => { this.goToPrayer(this.state.prayerId); }}>
+            <TouchableOpacity>
               <View style = {styles.comment_action_card_contenair}>
-                <FontAwesomeIcon icon={ faComment } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+                <FontAwesomeIcon icon={ faComment } size={24} color={ '#ff8b6a' } style = {styles.button}/>
                 <Text style = {styles.number_of_comment}>{ this.state.numberOfWritingPrayer }</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
               <View style = {styles.comment_action_card_contenair}>
-                <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#FFFFFF' } style = {styles.button}/>
+                <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#ff8b6a' } style = {styles.button}/>
                 <Text style = {styles.number_of_comment}>{ this.state.numberOfAudioPrayer }</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style = {styles.comment_action_card_contenair}>
+                <Text style = {[styles.category_label, { backgroundColor: this.state.category_color }]}>{ this.state.category_label }</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
   },
   number_of_comment: {
     marginLeft: 10,
-    color: 'white',
+    color: '#ff8b6a',
     fontWeight: 'bold',
   },
   comment_action_card_contenair: {
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
   },
   card_title: {
     textAlign: 'center',
-    marginBottom: 10,
+    marginTop: 10,
     fontWeight: 'bold',
     color: '#63686e',
   },
@@ -144,9 +150,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     position: 'relative',
     top: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    backgroundColor: '#ff8b6a',
-    borderRadius: 30,
+    paddingBottom: 10,
   },
+  divider: {
+    backgroundColor: '#dee0d9',
+    width: '70%',
+    height: 1,
+    marginLeft: '15%'
+  },
+  category_label: {
+    borderRadius: 30,
+    backgroundColor: '#FFFFFF',
+    color: 'white',
+    paddingLeft: 8,
+    paddingRight: 6,
+    paddingTop: 3,
+    paddingBottom: 4,
+    position: 'relative',
+    fontSize: 12
+  }
 });
