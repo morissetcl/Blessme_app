@@ -63,7 +63,7 @@ class PrayerRequestList extends React.Component {
           currentUserEmail={ this.state.currentUserEmail }
           navigation={ this.state.navigation }
           numberOfLines={7}
-          key={index}
+          key={response.title}
           display_modal_action={true}
           needLink={true} />;
       });
