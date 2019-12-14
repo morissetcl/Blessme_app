@@ -19,7 +19,7 @@ export default class WritingCommentForm extends Component {
   }
 
   addPrayer(prayerId) {
-    if (this.state.body.length !== 0) {
+    if (this.state.body) {
       createPrayer({ currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         prayerId: this.state.prayerId,
@@ -30,7 +30,7 @@ export default class WritingCommentForm extends Component {
   }
 
   editrayer(prayerId) {
-    if (this.state.body.length !== 0) {
+    if (this.state.body) {
       editPrayer({ currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
         prayerId: this.state.prayerId,
@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: '#dee0d9',
-    width: '80%',
-    marginLeft: '10%',
-    marginTop: 20,
+    width: '90%',
+    height: 1,
+    marginLeft: '5%'
   },
   prayer_title: {
     textAlign: 'justify',

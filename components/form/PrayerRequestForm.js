@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View,
-  Text, Button, TouchableOpacity, ActivityIndicator, Picker } from 'react-native';
+  Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Input, Divider, ButtonGroup } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons';
@@ -16,11 +16,11 @@ export default class PrayerRequestForm extends Component {
     const prCategory = params.prayerRequest.category ? params.prayerRequest.category.label : params.prayerRequest.category
 
     this.state = {
-      username:params.username,
-      currentUserEmail:params.currentUserEmail,
-      editPrayer:params.editPrayer,
-      body:params.prayerRequest.body,
-      title:params.prayerRequest.title,
+      username: params.username,
+      currentUserEmail: params.currentUserEmail,
+      editPrayer: params.editPrayer,
+      body: params.prayerRequest.body,
+      title: params.prayerRequest.title,
       prCategory: prCategory,
       prayerRequestId: params.prayerRequest.id,
       categories: [],
@@ -32,7 +32,7 @@ export default class PrayerRequestForm extends Component {
 
   addPrayerRequest() {
     const firstRowCategory = this.state.categories.slice(0, 6);
-    if (this.state.title.length !== 0 && this.state.body.length !== 0) {
+    if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({ username: this.state.username,
         currentUserEmail: this.state.currentUserEmail,
         body: this.state.body,
@@ -47,14 +47,14 @@ export default class PrayerRequestForm extends Component {
 
   editPrayerRequest(prayerRequestId) {
     const firstRowCategory = this.state.categories.slice(0, 6);
-    if (this.state.body.length !== 0) {
+    if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
         currentUserEmail: this.state.currentUserEmail,
         title: this.state.title,
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
-        category: firstRowCategory[this.selectedIndex]
+        category: firstRowCategory[this.state.selectedIndex]
       });
       displayMessage('Votre demande a bien été modifiée', 'success')
     } else {
@@ -86,14 +86,15 @@ export default class PrayerRequestForm extends Component {
   }
 
   renderCategoryForm(categoryChoices, selectedIndex) {
-    const categoryHasBeenUpdated = ((selectedIndex != this.state.selectedIndex) && this.state.selectedIndex)
+    const categoryHasBeenUpdated = ((selectedIndex != this.state.selectedIndex) && (this.state.selectedIndex != undefined))
     const indexCategory =  categoryHasBeenUpdated ?  this.state.selectedIndex : selectedIndex
+
     return (
       <ButtonGroup
         onPress={this.updateIndex}
-        selectedIndex={indexCategory}
+        selectedIndex={(indexCategory >= 0) ? indexCategory : 0}
         buttons={categoryChoices}
-        containerStyle={{ height: 30, backgroundColor: '#49beb7', borderTopWidth: 1, borderColor: 'white'}}
+        containerStyle={{ height: 30, backgroundColor: '#49beb7', borderTopWidth: 1, borderColor: 'white', marginTop: 40 }}
         innerBorderStyle={{ width: 7, color: '#FFFFFF' }}
         textStyle={{ color: 'white', fontSize: 14 }}
         selectedButtonStyle={{ backgroundColor:'#ff8b6a' }}
@@ -120,32 +121,37 @@ export default class PrayerRequestForm extends Component {
           </TouchableOpacity>
 
         }
-        <View style={styles.formContainer}>
-          <Text style={styles.pickerTitle}>Sélectionnez une catégorie</Text>
+        <View style={styles.formContainer} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
           { this.state.loaded ?
             this.renderCategoryForm(categoryChoices, index)
             :
             <Text>''</Text>
           }
+          <Divider style={styles.divider} />
           <TextInput
-            placeholder={ 'Une courte phrase résumant votre demande' }
+            placeholder={ 'Ajoutez le titre de votre demande.' }
             inputStyle={{ width: '100%', color: 'black' }}
             underlineColorAndroid="transparent"
             multiline
             onChangeText={(title) => this.setState({ title })}
-            style={styles.input}
+            style={styles.title_input}
             value={titleEdition}
           />
           <Divider style={styles.divider} />
-          <TextInput
-            placeholder={ 'Écrivez votre demande de prière la plus détaillée possible.' }
-            inputStyle={{ width: '100%', color: 'black' }}
-            underlineColorAndroid="transparent"
-            multiline
-            onChangeText={(body) => this.setState({ body })}
-            style={styles.input}
-            value={bodyEdition}
-          />
+          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}} behavior="padding" enabled   keyboardVerticalOffset={120}>
+            <ScrollView>
+              <TextInput
+                placeholder={ "Écrivez votre demande de prière la plus détaillée possible." }
+                inputStyle={{ width: '100%', color: 'black' }}
+                underlineColorAndroid="transparent"
+                multiline
+                onChangeText={(body) => this.setState({ body })}
+                style={styles.input}
+                value={bodyEdition}
+                selectTextOnFocus={true}
+              />
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </View>
     );
@@ -164,21 +170,22 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: '#dee0d9',
-    width: '80%',
-    marginLeft: '10%',
+    width: '90%',
+    height: 1,
+    marginLeft: '5%',
     marginTop: 20,
-  },
-  prayer_title: {
-    textAlign: 'justify',
-    paddingRight: '30%',
-    paddingLeft: 10,
-    paddingTop: 20,
-    fontWeight: 'bold',
+    marginBottom: 10
   },
   input: {
-    marginTop: 30,
+    marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
+  },
+  title_input: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    fontWeight: 'bold'
   },
   container: {
     flex: 1,
@@ -187,9 +194,6 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color: '#207dff',
-  },
-  formContainer: {
-    marginTop: 40
   },
   pickerTitle: {
     marginBottom: 10,
