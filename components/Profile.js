@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import { Header, Avatar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
@@ -7,6 +7,8 @@ import PrayerRequestList from './PrayerRequestList';
 import { ImagePicker } from 'expo';
 import PrayersList from './PrayersList';
 import { getUserPrayers } from '../api/Prayer';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -47,6 +49,37 @@ export default class Profile extends Component {
     }
   };
 
+  signOut() {
+    return (
+      <TouchableOpacity>
+        <FontAwesomeIcon icon={faSignOutAlt}
+          size={16} color={ 'red' }
+          onPress={() => this.modalAlert()}
+          />
+      </TouchableOpacity>
+    )
+  }
+
+  modalAlert() {
+    Alert.alert(
+    'Vous allez être déconnecté',
+      'Ëtes vous sûr ?',
+      [
+        {
+          text: 'Annuler',
+          style: 'cancel',
+          onPress: () => console.log('cancel pressed')
+        },
+        { text: 'Oui',
+          onPress: () => this.state.navigation.navigate('Homepage', { signOut: true })
+        }
+      ],
+      {cancelable: false},
+    );
+  }
+
+
+
   render() {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
@@ -80,7 +113,10 @@ export default class Profile extends Component {
           <Text></Text>
         }
         <View style={styles.user_informations}>
+        <View style={styles.top}>
           <Text style={styles.bold} >{ this.state.username }</Text>
+          { this.signOut() }
+        </View>
           { this.state.avatarUrl !== '' ?
             <Text>Membre depuis { memberSince } jours</Text>
             :
@@ -127,6 +163,7 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
     fontSize: 20,
+    marginRight: 10
   },
   container: {
     height: '8%',
@@ -136,4 +173,9 @@ const styles = StyleSheet.create({
     color: "red",
     flex: 1,
   },
+  top: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  }
 });

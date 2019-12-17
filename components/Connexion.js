@@ -29,7 +29,7 @@ export default class Connexion extends React.Component {
       logged: false,
       firebaseCheck: false,
       errorMessage: '',
-      signIn: false,
+      signIn: false
     };
   }
 
@@ -84,6 +84,10 @@ export default class Connexion extends React.Component {
   };
 
   componentDidMount() {
+    const signOut = this.props.navigation.state.params ? this.props.navigation.state.params.signOut : false
+    if(signOut) {
+      firebase.auth().signOut()
+    }
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ logged: true });
