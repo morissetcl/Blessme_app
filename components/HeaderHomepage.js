@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Header, Avatar, SearchBar } from 'react-native-elements';
+import { Header, Avatar, SearchBar, Button } from 'react-native-elements';
 import { getUsers } from '../api/User';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions';
+import * as firebase from "firebase";
 
 class HeaderHomepage extends Component {
   constructor(props) {
