@@ -1,3 +1,5 @@
+import { getApiUrl } from '../../api/GetApiUrl';
+
 export const ALL_PRAYERS_REQUESTS_AVAILABLE = 'ALL_PRAYERS_REQUESTS_AVAILABLE';
 export const USER_PRAYERS_REQUESTS_AVAILABLE = 'USER_PRAYERS_REQUESTS_AVAILABLE';
 //Import the sample data
@@ -5,7 +7,7 @@ export const USER_PRAYERS_REQUESTS_AVAILABLE = 'USER_PRAYERS_REQUESTS_AVAILABLE'
 export function getAllPrayersRequests(keyword = null){
     const search = keyword ? `/?keyword=${keyword}` : ''
     return (dispatch) => {
-      const url = `https://blessme-serveur.herokuapp.com/api/v1/prayers_requests/${search}`;
+      const url = `${getApiUrl()}/prayers_requests/${search}`;
       return fetch(url)
         .then((response) => response.json())
         .then((data) => dispatch({type: ALL_PRAYERS_REQUESTS_AVAILABLE, data: data }) )
@@ -15,7 +17,7 @@ export function getAllPrayersRequests(keyword = null){
 
 export function getUserPrayersRequests(email){
     return (dispatch) => {
-      const url = `https://blessme-serveur.herokuapp.com/api/v1/user_prayers_requests/${email}`;
+      const url = `${getApiUrl()}/user_prayers_requests/${email}`;
       return fetch(url)
         .then((response) => response.json())
         .then((data) => dispatch({type: USER_PRAYERS_REQUESTS_AVAILABLE, userData: data }) )
