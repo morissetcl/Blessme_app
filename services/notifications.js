@@ -1,8 +1,9 @@
 import { AsyncStorage } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import { getApiUrl } from '../api/GetApiUrl';
 
-const PUSH_ENDPOINT = "https://blessme-serveur.herokuapp.com/api/v1/expo_tokens";
+const PUSH_ENDPOINT = getApiUrl() + "/expo_tokens";
 
 let registerForNotifications;
 

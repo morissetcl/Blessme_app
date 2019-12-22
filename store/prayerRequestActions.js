@@ -1,7 +1,9 @@
+import { getApiUrl } from '../api/GetApiUrl';
+
 export function fetchPrayersRequests() {
   return dispatch => {
     dispatch(fetchPrayersRequestsBegin());
-    return fetch("https://blessme-serveur.herokuapp.com/api/v1/prayers_requests")
+    return fetch(getApiUrl() + "/prayers_requests")
       .then(handleErrors)
       .then(res => res.json())
       .then(json => {
