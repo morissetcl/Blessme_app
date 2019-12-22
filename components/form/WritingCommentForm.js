@@ -49,7 +49,6 @@ export default class WritingCommentForm extends Component {
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button}
-
             onPress={(value) => { this.editrayer(this.state.prayerId); }}>
             <Text style={styles.button_text}>Modifier</Text>
           </TouchableOpacity>
@@ -89,7 +88,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#dee0d9',
     width: '90%',
     height: 1,
-    marginLeft: '5%'
+    marginLeft: '5%',
+    position: 'relative',
+    top: 30
   },
   prayer_title: {
     textAlign: 'justify',
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   comment_input: {
-    marginTop: 30,
+    marginTop: 50,
     marginLeft: 10,
   },
   container: {
