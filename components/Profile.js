@@ -4,7 +4,7 @@ import { Header, Avatar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
 import PrayerRequestList from './PrayerRequestList';
-import { ImagePicker } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
 import PrayersList from './PrayersList';
 import { getUserPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
