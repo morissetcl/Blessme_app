@@ -203,11 +203,11 @@ export default class Connexion extends React.Component {
             <View style={styles.inscription_buttons}>
               { !this.state.signIn ?
                 <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                  <Text style={{ color: 'black', textAlign: 'center' }}>Déja inscrit ?</Text>
+                  <Text style={{ color: 'white', textAlign: 'center' }}>Déja inscrit ?</Text>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>Pas encore inscrit ?</Text>
+                  <Text style={{ color: 'black', textAlign: 'center' }}>Pas encore inscrit ?</Text>
                 </TouchableOpacity>
               }
             </View>

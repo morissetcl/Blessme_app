@@ -118,7 +118,6 @@ export default class Prayer extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-        <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
         { this.state.prayersLoaded ?
           <ScrollView>
             <View style={styles.prayer_card} >
