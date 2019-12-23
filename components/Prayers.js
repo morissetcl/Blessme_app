@@ -9,6 +9,7 @@ import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createUser } from '../api/User';
 import registerForNotifications from '../services/notifications';
 import { getAllPrayers } from '../api/Prayer';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class Prayers extends Component {
   constructor(props) {
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     height: '7%',
     alignItems: 'center',
     elevation: 1,
+    height: hp('7%')
   },
   container: {
     height: '8%',
