@@ -10,9 +10,9 @@
     ],
     "version": "0.0.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/blessmelogo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/blessmelogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
