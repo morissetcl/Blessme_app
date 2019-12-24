@@ -5,6 +5,7 @@ import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 class PrayerRequestList extends React.Component {
   constructor(props) {
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
   container_prayer_request_card_with_margin: {
     paddingBottom: '6%',
     backgroundColor: '#eaeaea',
+    height: hp('84%')
   },
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
