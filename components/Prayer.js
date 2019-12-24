@@ -70,7 +70,7 @@ export default class Prayer extends Component {
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
         const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
 
-        return <View style={styles.comment_card} key={index} id={index}>
+        return <View style={styles.comment_card} key={response.created_at} id={response.created_at}>
           <Text
             style={styles.username}
             onPress={(value) => {
