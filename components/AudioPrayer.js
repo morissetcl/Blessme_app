@@ -124,18 +124,11 @@ export default class AudioPrayer extends Component {
    }
 
    _getTimestamp() {
-     if (
-       this.playbackInstance !== null &&
-       this.state.playbackInstancePosition !== null &&
-       this.state.playbackInstanceDuration !== null
-     ) {
-       return `${this._getMMSSFromMillis(
-         this.state.playbackInstancePosition,
-       )} / ${this._getMMSSFromMillis(
-         this.state.playbackInstanceDuration,
-       )}`;
-     }
-     return '';
+     return `${this._getMMSSFromMillis(
+       this.state.playbackInstancePosition,
+     )} / ${this._getMMSSFromMillis(
+       this.state.playbackInstanceDuration,
+     )}`;
    }
 
    render() {
