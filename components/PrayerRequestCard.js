@@ -63,7 +63,7 @@ export default class PrayerRequestCard extends React.Component {
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
         style = {styles.space_between_card}>
         <NavigationEvents onDidFocus={ payload => this.commentCounter(this.state.prayerId) } />
-        <Card title={<Avatar rounded source={{ uri: avatar }}
+        <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
           onPress={() => { this.goToProfile(this.state.username); }} />}>
           <Text style = {styles.username} > {this.state.username}</Text>
           <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
@@ -152,15 +152,8 @@ const styles = StyleSheet.create({
     top: 10,
     paddingBottom: 10,
   },
-  divider: {
-    backgroundColor: '#dee0d9',
-    width: '70%',
-    height: 1,
-    marginLeft: '15%'
-  },
   category_label: {
     borderRadius: 30,
-    backgroundColor: '#FFFFFF',
     color: 'white',
     paddingLeft: 8,
     paddingRight: 6,

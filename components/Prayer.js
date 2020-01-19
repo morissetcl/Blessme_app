@@ -70,7 +70,7 @@ export default class Prayer extends Component {
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
         const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
 
-        return <View style={styles.comment_card} key={index} id={index}>
+        return <View style={styles.comment_card} key={response.created_at} id={index}>
           <Text
             style={styles.username}
             onPress={(value) => {
@@ -106,7 +106,7 @@ export default class Prayer extends Component {
               <AudioPrayer audio={response.audio} duration={response.audio_duration} />
             </View>
             :
-            <Text>{response.body}</Text>
+            <Text style={styles.prayerBody}>{response.body}</Text>
           }
         </View>;
       });
@@ -206,11 +206,13 @@ const styles = StyleSheet.create({
     right: 5,
   },
   playerAudio: {
-    paddingTop: 5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 40,
+    marginBottom: 10,
+    marginLeft: '5%',
+    marginRight: '5%',
+    width: '90%',
   },
   created_at: {
     position: 'absolute',
@@ -219,4 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#bbbbbb',
   },
+  prayerBody: {
+    marginTop: 5
+  }
 });
