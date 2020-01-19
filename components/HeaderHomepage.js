@@ -5,7 +5,7 @@ import { getUsers } from '../api/User';
 import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions';
+import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
 
 class HeaderHomepage extends Component {

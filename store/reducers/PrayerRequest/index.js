@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import { ALL_PRAYERS_REQUESTS_AVAILABLE, USER_PRAYERS_REQUESTS_AVAILABLE } from "../actions/index"
+import { ALL_PRAYERS_REQUESTS_AVAILABLE, USER_PRAYERS_REQUESTS_AVAILABLE } from "../../actions/PrayerRequest/index"
 
-let dataState = { data: [], loading:true, userData: []};
+let dataState = { data: [], loading: true, userData: [] };
 
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {

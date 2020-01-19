@@ -1,4 +1,4 @@
-import { getApiUrl } from '../../api/GetApiUrl';
+import { getApiUrl } from '../../../api/GetApiUrl';
 
 export const ALL_PRAYERS_REQUESTS_AVAILABLE = 'ALL_PRAYERS_REQUESTS_AVAILABLE';
 export const USER_PRAYERS_REQUESTS_AVAILABLE = 'USER_PRAYERS_REQUESTS_AVAILABLE';

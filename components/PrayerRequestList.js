@@ -4,7 +4,7 @@ import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequ
 import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions';
+import * as Actions from '../store/actions/PrayerRequest';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 class PrayerRequestList extends React.Component {
