@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
-import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
