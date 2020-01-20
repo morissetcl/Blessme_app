@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    loading: state.dataReducer.loading,
-    data: state.dataReducer.data,
-    userData: state.dataReducer.userData
+    loading: state.prayerRequest.dataReducer.loading,
+    data: state.prayerRequest.dataReducer.data,
+    userData: state.prayerRequest.dataReducer.userData
   }
 }
 
