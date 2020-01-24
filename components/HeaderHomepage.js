@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Header, Avatar, SearchBar, Button } from 'react-native-elements';
 import { getUsers } from '../api/User';
-import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions';
+import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
 
 class HeaderHomepage extends Component {
@@ -105,9 +104,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    loading: state.dataReducer.loading,
-    data: state.dataReducer.data,
-    userData: state.dataReducer.userData
+    loading: state.prayerRequest.dataReducer.loading,
+    data: state.prayerRequest.dataReducer.data,
+    userData: state.prayerRequest.dataReducer.userData
   }
 }
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
-import { getAllPrayersRequests, getUserPrayersRequests } from '../api/PrayerRequest';
 import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions';
+import * as Actions from '../store/actions/PrayerRequest';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 class PrayerRequestList extends React.Component {
@@ -115,9 +114,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    loading: state.dataReducer.loading,
-    data: state.dataReducer.data,
-    userData: state.dataReducer.userData
+    loading: state.prayerRequest.dataReducer.loading,
+    data: state.prayerRequest.dataReducer.data,
+    userData: state.prayerRequest.dataReducer.userData
   }
 }
 
