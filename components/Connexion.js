@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     borderRadius: 30,
     borderWidth: 2,
-
   },
   bouton: {
     borderColor: 'transparent',

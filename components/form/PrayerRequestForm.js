@@ -3,7 +3,7 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Input, Divider, ButtonGroup } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
 import { displayMessage } from "../shared/message";
 import { getCategories } from '../../api/Category';

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
 import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
@@ -27,7 +27,8 @@ export default class Prayer extends Component {
       prayersLoaded: false,
       prayersList: [],
       flashMessage: true,
-      numberOfPrayer: ''
+      numberOfPrayer: '',
+      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername
     };
   }
 
@@ -47,6 +48,10 @@ export default class Prayer extends Component {
 
   goToProfile(email) {
     this.state.navigation.navigate('Profile', { username: this.state.username, userEmail: email });
+  }
+
+  commentFromOriginalPoster(username1, username2) {
+    return (username1 == username2)
   }
 
   destroyActions(commentId, index) {
@@ -70,7 +75,7 @@ export default class Prayer extends Component {
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
         const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
 
-        return <View style={styles.comment_card} key={response.created_at} id={index}>
+        return <View style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]} key={response.created_at} id={index}>
           <Text
             style={styles.username}
             onPress={(value) => {
@@ -173,6 +178,14 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     backgroundColor: 'white',
     flex: 1,
+  },
+  comment_card_op: {
+    padding: '2%',
+    marginBottom: '5%',
+    backgroundColor: 'white',
+    flex: 1,
+    borderBottomWidth: 3,
+    borderBottomColor: "#ff8b6a"
   },
   username: {
     fontWeight: 'bold',

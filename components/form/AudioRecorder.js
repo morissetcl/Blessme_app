@@ -5,8 +5,7 @@ import * as FileSystem from 'expo-file-system'
 import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone,
-  faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { createPrayer, editPrayer } from '../../api/Prayer';
 import Pulse from 'react-native-pulse';
 
