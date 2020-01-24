@@ -36,7 +36,7 @@ export default class PrayerRequestCard extends React.Component {
 
   goToPrayer(prayerId) {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail });
+      this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail, prayerRequestUsername: this.state.username });
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHeart, faMicrophone, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -18,9 +18,6 @@ export default class PrayerRequestButtonsActions extends Component {
   render() {
     return (
       <View style = {styles.bottom_buttons}>
-        <TouchableOpacity>
-          <FontAwesomeIcon icon={ faHeart } size={34} color={ '#49beb7' } />
-        </TouchableOpacity>
         <TouchableOpacity>
           <FontAwesomeIcon
             icon={ faPenSquare }

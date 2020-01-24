@@ -11,7 +11,7 @@ import {
 import { Asset, Font } from 'expo';
 import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faHeart, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
