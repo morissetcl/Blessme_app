@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
   ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
-import { Facebook } from 'expo';
+import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
 import Prayers from './Prayers';
 import { displayMessage } from "./shared/message";
