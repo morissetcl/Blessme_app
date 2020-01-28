@@ -26,7 +26,8 @@ class PrayerRequestList extends React.Component {
   }
 
   componentDidUpdate() {
-    if ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded){
+    const prAdded = ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded)
+    if (prAdded){
       this.setState({ loaded: true });
     }
   }

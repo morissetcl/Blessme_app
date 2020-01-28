@@ -9,6 +9,7 @@ import PrayersList from './PrayersList';
 import { getUserPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { NavigationEvents } from 'react-navigation';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -25,6 +26,10 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
+    this.retrieveUser();
+  }
+
+  retrieveUser() {
     const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
     getUsers(email).then(data => {
       this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar });
@@ -42,7 +47,7 @@ export default class Profile extends Component {
     if (!result.cancelled) {
       this.setState({ avatarLoaded: 'loading' });
       const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
-      updateUser(email, result.base64).then(() => {
+      updateUser(email, result.base64, this.state.username).then(() => {
         this.setState({ avatarUrl: result.uri });
         this.setState({ avatarLoaded: 'loaded' });
       });
@@ -55,6 +60,21 @@ export default class Profile extends Component {
         <FontAwesomeIcon icon={faSignOutAlt}
           size={16} color={ "#bbbbbb" }
           onPress={() => this.modalAlert()}
+          />
+      </TouchableOpacity>
+    )
+  }
+
+  goToEditUser() {
+    this.state.navigation.navigate('UserProfileForm', { username: this.state.username, avatarUrl: this.state.avatarUrl, email: this.state.currentUserEmail })
+  }
+
+  editUser() {
+    return (
+      <TouchableOpacity>
+        <FontAwesomeIcon icon={faSignOutAlt}
+          size={16} color={ "red" }
+          onPress={() => this.goToEditUser() }
           />
       </TouchableOpacity>
     )
@@ -78,6 +98,16 @@ export default class Profile extends Component {
     );
   }
 
+  renderPrayerRequest() {
+    return (
+      <PrayerRequestList
+        navigation={this.state.navigation}
+        userEmail={ this.state.userEmail}
+        currentUserEmail={ this.state.currentUserEmail }
+        username={ this.state.username}
+        profileFeed={ true }/>
+    )
+  }
 
 
   render() {
@@ -89,6 +119,7 @@ export default class Profile extends Component {
 
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={payload => this.retrieveUser()} />
         { this.state.avatarUrl !== '' ?
           <Header
             containerStyle={styles.header}
@@ -113,6 +144,8 @@ export default class Profile extends Component {
           <Text></Text>
         }
         <View style={styles.user_informations}>
+        { this.state.username ? this.editUser() : <Text></Text> }
+
         <View style={styles.top}>
           <Text style={styles.bold} >{ this.state.username }</Text>
           { this.state.username ? this.signOut() : <Text></Text> }
@@ -126,12 +159,7 @@ export default class Profile extends Component {
         <View style={styles.container}>
           <Tabs>
             <View title="Demandes">
-              <PrayerRequestList
-                navigation={this.state.navigation}
-                userEmail={ this.state.userEmail}
-                currentUserEmail={ this.state.currentUserEmail }
-                username={ this.state.username}
-                profileFeed={ true }/>
+              { this.renderPrayerRequest() }
             </View>
             <View title="Intercessions">
               <PrayersList
