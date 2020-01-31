@@ -44,7 +44,7 @@ const SearchStackNavigator = createStackNavigator(
     UserProfileForm: {
       screen: UserProfileForm,
       navigationOptions: {
-        title: 'Edition profile',
+        title: 'Modifier vos informations',
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',

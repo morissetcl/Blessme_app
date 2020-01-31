@@ -17,7 +17,7 @@ export function createUser(params) {
 export function updateUser(params) {
   var avatarParams = params['avatarUrl'] || undefined
   var usernameParams = params['username']  || undefined
-
+  var biographyParams = params['biography']  || undefined
   return fetch(`${getApiUrl()}/users//${params['email']}`, {
     method: 'PATCH',
     headers: {
@@ -26,7 +26,8 @@ export function updateUser(params) {
     },
     body: JSON.stringify({
       avatar: avatarParams,
-      username: usernameParams
+      username: usernameParams,
+      biography: biographyParams
     }),
   }).then(response => response)
     .then(json => {
