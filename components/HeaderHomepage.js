@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     height: '80%',
     backgroundColor: 'white',
-    color: 'red',
+    color: 'black',
     fontSize: 12
   },
   containerStyle: {

@@ -64,7 +64,7 @@ export default class UserProfileForm extends Component {
           onPress={(value) => { this.editUser(); }}>
           <Text style={styles.button_text}>Modifier</Text>
         </TouchableOpacity>
-        <Text style={styles.title_input} >Username:</Text>
+        <Text style={styles.title_input} >Username</Text>
         <TextInput
           inputStyle={{ width: '100%', color: 'black', backgroundColor: 'red' }}
           underlineColorAndroid="transparent"
@@ -73,7 +73,7 @@ export default class UserProfileForm extends Component {
           onChangeText={(username) => this.setState({ username })}
           style={styles.input}
         />
-        <Text style={styles.title_input} >Un petit mot sur vous:</Text>
+        <Text style={styles.title_input} >Un petit mot sur vous</Text>
         <TextInput
           placeholder={ 'Écrivez un petit mot sur vous' }
           inputStyle={{ width: '100%', color: 'black' }}

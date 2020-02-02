@@ -119,22 +119,26 @@ export default class Profile extends Component {
           /> :
           <Text></Text>
         }
-        <View style={styles.user_informations}>
-          <View style={styles.top}>
-            <Text style={styles.bold} >{ this.state.username }</Text>
-            { allowsEditing ? this.editUser() : <Text></Text> }
+        { this.state.avatarUrl !== '' ?
+          <View style={styles.user_informations}>
+            <View style={styles.top}>
+              <Text style={styles.bold} >{ this.state.username }</Text>
+              { allowsEditing ? this.editUser() : <Text></Text> }
+            </View>
+            { this.state.avatarUrl ?
+              <Text style={styles.since}>Membre depuis { memberSince } jours</Text>
+              :
+              <ActivityIndicator size="large" style = {styles.loader} />
+            }
+            { this.state.biography ?
+              <Text style={styles.biography}>{ this.state.biography }</Text>
+              :
+              allowsEditing ? <Text style={styles.noBiography}>Ajoutez quelques mots sur vous en cliquant sur l'icône ci-dessus !</Text>  : <Text></Text>
+            }
           </View>
-          { this.state.avatarUrl ?
-            <Text style={styles.since}>Membre depuis { memberSince } jours</Text>
-            :
-            <ActivityIndicator size="large" style = {styles.loader} />
-          }
-          { this.state.biography ?
-            <Text style={styles.biography}>{ this.state.biography }</Text>
-            :
-            <Text></Text>
-          }
-        </View>
+          :
+          <Text></Text>
+        }
         <View style={styles.container}>
           <Tabs>
             <View title="Demandes">
@@ -188,6 +192,10 @@ const styles = StyleSheet.create({
   },
   biography: {
     marginTop: 10
+  },
+  noBiography: {
+    marginTop: 10,
+    fontStyle: 'italic'
   },
   since: {
     color: "#bbbbbb"

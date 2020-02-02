@@ -26,7 +26,8 @@ export function createPrayerRequestAndRedirect(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { prayerId: json.id,
+      navigation.navigate("Prayer", {
+        prayerId: json.id,
         currentUserEmail: params['currentUserEmail']
       });
     });
@@ -70,6 +71,11 @@ export function editPrayerRequest(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate('Homepage');
+      console.log('redirect')
+      navigation.navigate("Prayer", {
+        fromForm: true,
+        prayerId: json.id,
+        currentUserEmail: params['currentUserEmail']
+      });
     });
 }

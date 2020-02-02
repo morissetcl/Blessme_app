@@ -18,7 +18,7 @@ export function createPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { formFrom: true });
+      navigation.navigate("Prayer");
     });
 }
 
@@ -40,7 +40,7 @@ export function editPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { formFrom: true });
+      navigation.navigate("Prayer");
     });
 }
 

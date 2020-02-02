@@ -26,24 +26,23 @@ export default class Prayer extends Component {
       prayers: [],
       prayersLoaded: false,
       prayersList: [],
-      flashMessage: true,
       numberOfPrayer: '',
-      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername
+      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername,
+      edited: props.navigation.state.params.edited
     };
   }
 
-  componentDidMount() {
+  renderPrayer() {
+    this.setState({ prayersLoaded: false });
     getPrayerRequest(this.state.prayerId).then(data => {
-      this.setState({ prayerRequest: data }, function () {});
+      this.setState({ prayerRequest: data });
       this.setState({ loaded: true });
+      this.setState({ prayersLoaded: true });
     });
   }
 
   componentDidUpdate() {
-    if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      displayMessage('Votre prière a bien été ajoutée.', 'success')
-      this.setState({ flashMessage: false });
-    }
+    console.log(`${this.state.prayersLoaded} componentDidUpdate`)
   }
 
   goToProfile(email) {
@@ -64,6 +63,7 @@ export default class Prayer extends Component {
   }
 
   retrieveAllPrayers(prayerId) {
+    this.setState({ loaded: false });
     this.setState({ prayers: [] });
     getPrayers(prayerId).then(data => {
       this.setState({ numberOfPrayer: data.prayer_request_comments.length });
@@ -115,15 +115,16 @@ export default class Prayer extends Component {
           }
         </View>;
       });
-      this.setState({ prayersLoaded: true });
+      this.renderPrayer();
     });
   }
 
   render() {
+    console.log(!this.props.navigation.state.params.edited)
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-        { this.state.prayersLoaded ?
+        { (this.state.loaded) ?
           <ScrollView>
             <View style={styles.prayer_card} >
               <PrayerRequestCard prayer_request={ this.state.prayerRequest }
