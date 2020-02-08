@@ -126,7 +126,7 @@ export default class Profile extends Component {
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
             { this.state.avatarUrl ?
-              <Text style={styles.since}>Membre depuis { memberSince } jours</Text>
+              <Text style={styles.since}>Membre depuis { memberSince ? memberSince : '-' } jours</Text>
               :
               <ActivityIndicator size="large" style = {styles.loader} />
             }

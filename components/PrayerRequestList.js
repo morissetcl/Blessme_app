@@ -60,13 +60,14 @@ class PrayerRequestList extends React.Component {
       const prayerRequests = selectData ? selectData : [];
       const prayersRequestsList = prayerRequests.map((response, index) => {
         return <PrayerRequestCard
-          prayer_request={ response }
+          prayerId={response.id}
           currentUserEmail={ this.state.currentUserEmail }
           navigation={ this.state.navigation }
           numberOfLines={7}
           key={response.title}
           display_modal_action={true}
-          needLink={true} />;
+          needLink={true}
+          />;
       });
 
       return (

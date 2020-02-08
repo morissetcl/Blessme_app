@@ -9,8 +9,12 @@ export default class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerRequest: props.prayerRequest,
-      navigation: props.navigation
+      currentUserEmail: props.currentUserEmail,
+      navigation: props.navigation,
+      body: props.body,
+      title: props.title,
+      category: props.category,
+      prayerId: props.prayerId
     };
   }
 
@@ -23,7 +27,15 @@ export default class ModalActions extends Component {
   }
 
   _goToPrayerRequestForm = () => {
-    this.state.navigation.navigate('PrayerRequestForm', { currentUserEmail: this.state.currentUserEmail,  prayerRequest: this.state.prayerRequest, editPrayer: true });
+    this.state.navigation.navigate('PrayerRequestForm', {
+      currentUserEmail: this.state.currentUserEmail,
+      body: this.state.body,
+      title: this.state.title,
+      category: this.state.category,
+      username: this.state.username,
+      editPrayer: true,
+      prayerId: this.state.prayerId
+    });
   }
 
   _showAlert = () => {

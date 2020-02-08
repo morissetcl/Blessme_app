@@ -26,23 +26,41 @@ export default class Prayer extends Component {
       prayers: [],
       prayersLoaded: false,
       prayersList: [],
+      flashMessage: true,
       numberOfPrayer: '',
-      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername,
-      edited: props.navigation.state.params.edited
+      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername
     };
   }
 
-  renderPrayer() {
-    this.setState({ prayersLoaded: false });
-    getPrayerRequest(this.state.prayerId).then(data => {
-      this.setState({ prayerRequest: data });
-      this.setState({ loaded: true });
-      this.setState({ prayersLoaded: true });
-    });
+  componentDidUpdate() {
+    if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
+      displayMessage('Votre prière a bien été ajoutée.', 'success')
+      this.setState({ flashMessage: false });
+    }
   }
 
-  componentDidUpdate() {
-    console.log(`${this.state.prayersLoaded} componentDidUpdate`)
+  renderPrayerRequest() {
+    if (this.props.navigation.state.params.editedPr) {
+      const keyNumber = Math.floor(Math.random() * 100) + 1
+      return <PrayerRequestCard
+        key={ keyNumber }
+        currentUserEmail={ this.state.currentUserEmail }
+        display_modal_action={ true }
+        numberOfLines={ 1000 }
+        navigation={ this.state.navigation }
+        prayerId={ this.props.navigation.state.params.prayerId }
+        numberOfPrayer={this.state.numberOfPrayer}
+        showView={true} />
+    } else {
+      return <PrayerRequestCard
+        currentUserEmail={ this.state.currentUserEmail }
+        display_modal_action={ true }
+        numberOfLines={ 1000 }
+        navigation={ this.state.navigation }
+        prayerId={ this.props.navigation.state.params.prayerId }
+        numberOfPrayer={this.state.numberOfPrayer}
+        />
+    }
   }
 
   goToProfile(email) {
@@ -63,7 +81,6 @@ export default class Prayer extends Component {
   }
 
   retrieveAllPrayers(prayerId) {
-    this.setState({ loaded: false });
     this.setState({ prayers: [] });
     getPrayers(prayerId).then(data => {
       this.setState({ numberOfPrayer: data.prayer_request_comments.length });
@@ -115,40 +132,28 @@ export default class Prayer extends Component {
           }
         </View>;
       });
-      this.renderPrayer();
+      this.setState({ loaded: true });
     });
   }
 
   render() {
-    console.log(!this.props.navigation.state.params.edited)
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-        { (this.state.loaded) ?
+
           <ScrollView>
             <View style={styles.prayer_card} >
-              <PrayerRequestCard prayer_request={ this.state.prayerRequest }
-                currentUserEmail={this.state.currentUserEmail}
-                display_modal_action={true}
-                numberOfLines={1000} navigation={ this.state.navigation }
-                numberOfPrayer={this.state.numberOfPrayer} />
+              { this.renderPrayerRequest() }
               <View style={styles.prayer_list} >
                 { this.state.prayersList }
               </View>
             </View>
           </ScrollView>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
-        { this.state.loaded ?
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
             prayerId={ this.state.prayerId }
             currentUserEmail={ this.state.currentUserEmail }
             navigation={ this.state.navigation }/>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
       </View>
     );
   }

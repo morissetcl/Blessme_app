@@ -13,16 +13,16 @@ export default class PrayerRequestForm extends Component {
   constructor(props) {
     super(props);
     const params = props.navigation.state.params
-    const prCategory = params.prayerRequest.category ? params.prayerRequest.category.label : params.prayerRequest.category
+    const prCategory = params.category
 
     this.state = {
       username: params.username,
       currentUserEmail: params.currentUserEmail,
       editPrayer: params.editPrayer,
-      body: params.prayerRequest.body,
-      title: params.prayerRequest.title,
+      body: params.body,
+      title: params.title,
       prCategory: prCategory,
-      prayerRequestId: params.prayerRequest.id,
+      prayerRequestId: params.prayerId,
       categories: [],
       selectedIndex: undefined,
       loaded: false
@@ -45,7 +45,7 @@ export default class PrayerRequestForm extends Component {
     }
   }
 
-  editPrayerRequest(prayerRequestId) {
+  prayerRequestUpdate(prayerRequestId) {
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
@@ -112,7 +112,7 @@ export default class PrayerRequestForm extends Component {
     return (
       <View style={styles.container} >
         { this.state.editPrayer ?
-          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.editPrayerRequest(); }}>
+          <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.prayerRequestUpdate(); }}>
             <Text style={styles.button_text}>Publier</Text>
           </TouchableOpacity>
           :
