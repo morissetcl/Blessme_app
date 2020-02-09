@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
   ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
-import { Facebook } from 'expo';
+import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
 import Prayers from './Prayers';
 import { displayMessage } from "./shared/message";
@@ -133,7 +133,7 @@ export default class Connexion extends React.Component {
                     margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
                   <Text style={{ color: 'white', fontSize: 18, textAlign: 'center',
                     margin: Dimensions.get('window').height / 100 }}>
-                    Connectez-vous et commencez à prier pour ceux qui en on besoin.
+                    Connectez-vous et commencez à prier pour ceux qui en ont besoin.
                   </Text>
                 </View>
                 <View style={styles.form_wrapper}>

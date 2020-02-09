@@ -18,7 +18,7 @@ export function createPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { formFrom: true });
+      navigation.navigate("Prayer", { editedPr: false });
     });
 }
 
@@ -40,7 +40,7 @@ export function editPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { formFrom: true });
+      navigation.navigate("Prayer", { editedPr: false });
     });
 }
 
@@ -80,5 +80,7 @@ export function destroyPrayers(params) {
       prayer_id: commentId,
     }),
   }).then(response => response)
-    .catch((error) => console.error(error));
+    .then(json => {
+      navigation.navigate("Prayer", { editedPr: false });
+    });
 }

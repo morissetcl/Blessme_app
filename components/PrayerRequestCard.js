@@ -1,47 +1,69 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Avatar, Card, Divider } from 'react-native-elements';
 import  ModalActions  from './ModalActions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
 import { NavigationEvents } from 'react-navigation';
+import { getPrayerRequest } from '../api/PrayerRequest';
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: props.prayer_request['title'],
-      body: props.prayer_request['body'],
-      user: props.prayer_request['user'],
-      username: props.prayer_request['user']['username'],
-      avatarUrl: props.prayer_request['user']['avatar'],
-      prayerId: props.prayer_request['id'],
+      title: '',
+      body: '',
+      user: '',
+      username: '',
+      avatarUrl: '',
+      prayerId: this.props.prayerId,
+      userEmail: '',
+      category_label: '',
+      createdAt: '',
+      category_color: 'white',
       navigation: this.props.navigation,
-      createdAt: props.prayer_request['created_at'],
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserEmail: this.props.currentUserEmail,
       numberOfAudioPrayer: '-',
-      userEmail: props.prayer_request['user']['email'],
       display_modal_action: this.props.display_modal_action,
-      category_label: props.prayer_request['category']['label'],
-      category_color: props.prayer_request['category']['color']
+      prayerRequest: [],
+      userEmail: '',
+      loaded: false
     };
   }
 
   componentDidMount() {
+    this.setState({loaded: false})
+    getPrayerRequest(this.state.prayerId).then(data => {
+      this.setState({
+        title: data.title,
+        body: data.body,
+        user: data.user,
+        username: data.user.username,
+        avatarUrl: data.user.avatar,
+        prayerId: data.id,
+        userEmail: data.user.email,
+        category_label: data.category.label,
+        category_color: data.category.color,
+        createdAt: data.created_at
+      }, function () {});
+    });
     this.commentCounter(this.state.prayerId);
+    this.setState({loaded: true})
   }
 
-  goToPrayer(prayerId) {
+  goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail, prayerRequestUsername: this.state.username });
+      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserEmail: this.state.currentUserEmail, prayerRequestUsername: this.state.username
+      });
     }
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail });
+    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail
+    });
   }
 
   commentCounter(prayerId) {
@@ -56,47 +78,59 @@ export default class PrayerRequestCard extends React.Component {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-    const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-
+    const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${isNaN(createdAtSince) ? '-' : createdAtSince} jours` : "Aujourd'hui";
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
         style = {styles.space_between_card}>
         <NavigationEvents onDidFocus={ payload => this.commentCounter(this.state.prayerId) } />
-        <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
-          onPress={() => { this.goToProfile(this.state.username); }} />}>
-          <Text style = {styles.username} > {this.state.username}</Text>
-          <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
+        { this.state.loaded ?
+          <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
+            onPress={() => { this.goToProfile(this.state.username); }} />}>
+            <Text style = {styles.username} > {this.state.username}</Text>
+            <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
-          {((this.state.userEmail === this.state.currentUserEmail) && this.state.display_modal_action) ?
-            <ModalActions prayerRequest={ this.props.prayer_request } navigation={ this.state.navigation }/>
-            :
-            <Text></Text>
-          }
+            {((this.state.userEmail === this.state.currentUserEmail) && this.state.display_modal_action) ?
+              <ModalActions
+                currentUserEmail={ this.state.currentUserEmail }
+                navigation={ this.state.navigation }
+                body={ this.state.body }
+                title={ this.state.title }
+                category={ this.state.category_label }
+                username={ this.state.username }
+                prayerId={ this.state.prayerId }
+              />
+              :
+              <Text></Text>
+            }
 
-          <Text style = {styles.card_title}> {this.state.title}</Text>
-          <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
+            <Text style = {styles.card_title}> {this.state.title}</Text>
+            <Text style = {styles.body_request} numberOfLines={this.state.numberOfLines}>{this.state.body}</Text>
 
-          <View style = {styles.card_actions}>
-            <TouchableOpacity>
-              <View style = {styles.comment_action_card_contenair}>
-                <FontAwesomeIcon icon={ faComment } size={24} color={ '#ff8b6a' } style = {styles.button}/>
-                <Text style = {styles.number_of_comment}>{ this.state.numberOfWritingPrayer }</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style = {styles.comment_action_card_contenair}>
-                <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#ff8b6a' } style = {styles.button}/>
-                <Text style = {styles.number_of_comment}>{ this.state.numberOfAudioPrayer }</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style = {styles.comment_action_card_contenair}>
-                <Text style = {[styles.category_label, { backgroundColor: this.state.category_color }]}>{ this.state.category_label }</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </Card>
+            <View style = {styles.card_actions}>
+              <TouchableOpacity>
+                <View style = {styles.comment_action_card_contenair}>
+                  <FontAwesomeIcon icon={ faComment } size={24} color={ '#ff8b6a' } style = {styles.button}/>
+                  <Text style = {styles.number_of_comment}>{ this.state.numberOfWritingPrayer }</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style = {styles.comment_action_card_contenair}>
+                  <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#ff8b6a' } style = {styles.button}/>
+                  <Text style = {styles.number_of_comment}>{ this.state.numberOfAudioPrayer }</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style = {styles.comment_action_card_contenair}>
+                  <Text style = {[styles.category_label, { backgroundColor: this.state.category_color }]}>{ this.state.category_label }</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        :
+        <Text></Text>
+        }
+
       </TouchableOpacity>
     );
   }

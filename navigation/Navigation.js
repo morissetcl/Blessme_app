@@ -5,6 +5,7 @@ import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
 import Prayer from '../components/Prayer';
 import WritingCommentForm from '../components/form/WritingCommentForm';
+import UserProfileForm from '../components/form/UserProfileForm';
 import PrayerRequestForm from '../components/form/PrayerRequestForm';
 import Profile from '../components/Profile';
 import AudioRecorder from '../components/form/AudioRecorder';
@@ -34,6 +35,16 @@ const SearchStackNavigator = createStackNavigator(
       screen: WritingCommentForm,
       navigationOptions: {
         title: 'Prière',
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7',
+        },
+      },
+    },
+    UserProfileForm: {
+      screen: UserProfileForm,
+      navigationOptions: {
+        title: 'Modifier vos informations',
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',

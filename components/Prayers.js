@@ -6,7 +6,7 @@ import HeaderHomepage from './HeaderHomepage';
 import Tabs from '../Tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { createUser } from '../api/User';
+import { createUser, getUsers } from '../api/User';
 import registerForNotifications from '../services/notifications';
 import { getAllPrayers } from '../api/Prayer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -18,11 +18,19 @@ export default class Prayers extends Component {
       navigation: this.props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       username: this.props.username,
+      avatarUrl: ''
     };
+  }
+
+  retrieveUser() {
+    getUsers(this.state.currentUserEmail).then(data => {
+      this.setState({ avatarUrl: data.avatar });
+    });
   }
 
   componentWillMount() {
     createUser({ currentUserEmail: this.state.currentUserEmail, username: this.state.username });
+    this.retrieveUser();
     registerForNotifications(this.state.currentUserEmail);
   }
 
@@ -32,6 +40,7 @@ export default class Prayers extends Component {
         <HeaderHomepage
           navigation={this.state.navigation}
           currentUserEmail={ this.state.currentUserEmail }
+          avatarUrl={ this.state.avatarUrl }
           username={ this.state.username }/>
         <View style={styles.container}>
           <Tabs>

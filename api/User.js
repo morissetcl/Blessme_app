@@ -14,17 +14,25 @@ export function createUser(params) {
   });
 }
 
-export function updateUser(email, avatar) {
-  return fetch(`${getApiUrl()}/users//${email}`, {
+export function updateUser(params) {
+  var avatarParams = params['avatarUrl'] || undefined
+  var usernameParams = params['username']  || undefined
+  var biographyParams = params['biography']  || undefined
+  return fetch(`${getApiUrl()}/users//${params['email']}`, {
     method: 'PATCH',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      avatar: avatar,
+      avatar: avatarParams,
+      username: usernameParams,
+      biography: biographyParams
     }),
-  });
+  }).then(response => response)
+    .then(json => {
+      params['navigation'].navigate('Profile');
+    });
 }
 
 export function getUsers(email) {

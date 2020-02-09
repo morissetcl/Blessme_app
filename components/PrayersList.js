@@ -34,7 +34,6 @@ export default class PrayersList extends React.Component {
           const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
           const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
           const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
-
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}

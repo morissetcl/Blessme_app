@@ -32,17 +32,34 @@ export default class Prayer extends Component {
     };
   }
 
-  componentDidMount() {
-    getPrayerRequest(this.state.prayerId).then(data => {
-      this.setState({ prayerRequest: data }, function () {});
-      this.setState({ loaded: true });
-    });
-  }
-
   componentDidUpdate() {
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
       displayMessage('Votre prière a bien été ajoutée.', 'success')
       this.setState({ flashMessage: false });
+    }
+  }
+
+  renderPrayerRequest() {
+    if (this.props.navigation.state.params.editedPr) {
+      const keyNumber = Math.floor(Math.random() * 100) + 1
+      return <PrayerRequestCard
+        key={ keyNumber }
+        currentUserEmail={ this.state.currentUserEmail }
+        display_modal_action={ true }
+        numberOfLines={ 1000 }
+        navigation={ this.state.navigation }
+        prayerId={ this.props.navigation.state.params.prayerId }
+        numberOfPrayer={this.state.numberOfPrayer}
+        showView={true} />
+    } else {
+      return <PrayerRequestCard
+        currentUserEmail={ this.state.currentUserEmail }
+        display_modal_action={ true }
+        numberOfLines={ 1000 }
+        navigation={ this.state.navigation }
+        prayerId={ this.props.navigation.state.params.prayerId }
+        numberOfPrayer={this.state.numberOfPrayer}
+        />
     }
   }
 
@@ -115,7 +132,7 @@ export default class Prayer extends Component {
           }
         </View>;
       });
-      this.setState({ prayersLoaded: true });
+      this.setState({ loaded: true });
     });
   }
 
@@ -123,31 +140,20 @@ export default class Prayer extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-        { this.state.prayersLoaded ?
+
           <ScrollView>
             <View style={styles.prayer_card} >
-              <PrayerRequestCard prayer_request={ this.state.prayerRequest }
-                currentUserEmail={this.state.currentUserEmail}
-                display_modal_action={true}
-                numberOfLines={1000} navigation={ this.state.navigation }
-                numberOfPrayer={this.state.numberOfPrayer} />
+              { this.renderPrayerRequest() }
               <View style={styles.prayer_list} >
                 { this.state.prayersList }
               </View>
             </View>
           </ScrollView>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
-        { this.state.loaded ?
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
             prayerId={ this.state.prayerId }
             currentUserEmail={ this.state.currentUserEmail }
             navigation={ this.state.navigation }/>
-          :
-          <ActivityIndicator size="large" style = {styles.loader} />
-        }
       </View>
     );
   }
