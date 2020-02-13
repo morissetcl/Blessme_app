@@ -14,7 +14,7 @@ class HeaderHomepage extends Component {
       navigation: props.navigation,
       currentUserEmail: this.props.currentUserEmail,
       username: this.props.username,
-      avatarUrl: '',
+      avatarUrl: undefined,
       search: ''
     };
   }

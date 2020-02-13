@@ -28,7 +28,7 @@ export default class Prayers extends Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     createUser({ currentUserEmail: this.state.currentUserEmail, username: this.state.username });
     this.retrieveUser();
     registerForNotifications(this.state.currentUserEmail);

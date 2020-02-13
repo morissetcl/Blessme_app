@@ -70,6 +70,6 @@ export function editPrayerRequest(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: true });
+      navigation.navigate("Prayer", { editedPr: true,  prayerRequestId: prayerRequestId});
     });
 }

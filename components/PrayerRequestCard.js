@@ -36,7 +36,8 @@ export default class PrayerRequestCard extends React.Component {
 
   componentDidMount() {
     this.setState({loaded: false})
-    getPrayerRequest(this.state.prayerId).then(data => {
+    const preventPrayerId = this.state.prayerId ? this.state.prayerId : this.props.navigation.state.params.prayerRequestId
+    getPrayerRequest(preventPrayerId).then(data => {
       this.setState({
         title: data.title,
         body: data.body,
@@ -74,11 +75,12 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   render() {
-    const avatar = this.state.avatarUrl ? this.state.avatarUrl : '';
+    const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${isNaN(createdAtSince) ? '-' : createdAtSince} jours` : "Aujourd'hui";
+
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
