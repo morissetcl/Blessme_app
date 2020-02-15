@@ -8,14 +8,15 @@ export function createUser(params) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: params['currentUserEmail'],
+      email: params['email'],
       username: params['username'],
+      token: params['token']
     }),
   });
 }
 
 export function updateUser(params) {
-  var avatarParams = params['avatarUrl'] || undefined
+  var avatarParams = params['avatar'] || undefined
   var usernameParams = params['username']  || undefined
   var biographyParams = params['biography']  || undefined
   return fetch(`${getApiUrl()}/users//${params['email']}`, {
@@ -35,8 +36,8 @@ export function updateUser(params) {
     });
 }
 
-export function getUsers(email) {
-  const url = `${getApiUrl()}/users/${email}`;
+export function getUsers(token) {
+  const url = `${getApiUrl()}/users/${token}`;
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error));

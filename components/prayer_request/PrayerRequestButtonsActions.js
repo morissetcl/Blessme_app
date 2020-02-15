@@ -9,7 +9,7 @@ export default class PrayerRequestButtonsActions extends Component {
     super(props);
     this.state = {
       prayerId: props.prayerId,
-      currentUserEmail: props.currentUserEmail,
+      currentUserToken: props.currentUserToken,
       prayerRequest: props.prayerRequest,
       navigation: props.navigation,
     };
@@ -25,7 +25,7 @@ export default class PrayerRequestButtonsActions extends Component {
             style = {styles.add_prayer}
             onPress={(value) => {
               this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest,
-                currentUserEmail: this.state.currentUserEmail,
+                currentUserToken: this.state.currentUserToken,
                 prayerId: this.state.prayerId });
             }}
           />
@@ -37,7 +37,7 @@ export default class PrayerRequestButtonsActions extends Component {
             color={ '#49beb7' }
             onPress={(value) => {
               this.state.navigation.navigate('AudioRecorder', { prayerId: this.state.prayerId,
-                currentUserEmail: this.state.currentUserEmail });
+                currentUserToken: this.state.currentUserToken });
             }}
           />
         </TouchableOpacity>

@@ -4,6 +4,8 @@ import Navigation from './navigation/Navigation';
 import FlashMessage from "react-native-flash-message";
 import { Provider } from 'react-redux';
 import store from './store/store'; //Import the store
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 export default class App extends React.Component {
   render() {

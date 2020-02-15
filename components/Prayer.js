@@ -22,7 +22,7 @@ export default class Prayer extends Component {
       prayerRequest: [],
       navigation: props.navigation,
       username: props.navigation.state.params.username,
-      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      currentUserToken: props.navigation.state.params.currentUserToken,
       prayers: [],
       prayersLoaded: false,
       prayersList: [],
@@ -44,7 +44,7 @@ export default class Prayer extends Component {
       const keyNumber = Math.floor(Math.random() * 100) + 1
       return <PrayerRequestCard
         key={ keyNumber }
-        currentUserEmail={ this.state.currentUserEmail }
+        currentUserToken={ this.state.currentUserToken }
         display_modal_action={ true }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
@@ -53,7 +53,7 @@ export default class Prayer extends Component {
         showView={true} />
     } else {
       return <PrayerRequestCard
-        currentUserEmail={ this.state.currentUserEmail }
+        currentUserToken={ this.state.currentUserToken }
         display_modal_action={ true }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
@@ -63,8 +63,8 @@ export default class Prayer extends Component {
     }
   }
 
-  goToProfile(email) {
-    this.state.navigation.navigate('Profile', { username: this.state.username, userEmail: email });
+  goToProfile(token) {
+    this.state.navigation.navigate('Profile', { username: this.state.username, userToken: token });
   }
 
   commentFromOriginalPoster(username1, username2) {
@@ -96,17 +96,17 @@ export default class Prayer extends Component {
           <Text
             style={styles.username}
             onPress={(value) => {
-              this.goToProfile(response.user.email);
+              this.goToProfile(response.user.token);
             }}
           >{response.user.username}</Text>
-          {(response.user.email === this.state.currentUserEmail) ?
+          {(response.user.token === this.state.currentUserToken) ?
             <View style={styles.actions_button}>
               { !response.audio ?
                 <TouchableOpacity
                   style={styles.publish_button}
                   onPress={(value) => {
                     this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest,
-                      currentUserEmail: this.state.currentUserEmail, prayerId: this.state.prayerId,
+                      currentUserToken: this.state.currentUserToken, prayerId: this.state.prayerId,
                       body: response.body, commentId: response.id });
                   }}>
                   <Text style={styles.button_text} >Modifier</Text>
@@ -152,7 +152,7 @@ export default class Prayer extends Component {
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
             prayerId={ this.state.prayerId }
-            currentUserEmail={ this.state.currentUserEmail }
+            currentUserToken={ this.state.currentUserToken }
             navigation={ this.state.navigation }/>
       </View>
     );

@@ -12,21 +12,23 @@ class HeaderHomepage extends Component {
     super(props);
     this.state = {
       navigation: props.navigation,
-      currentUserEmail: this.props.currentUserEmail,
+      currentUserToken: this.props.currentUserToken,
       username: this.props.username,
-      avatarUrl: '',
+      avatarUrl: undefined,
       search: ''
     };
   }
 
   componentDidMount() {
-    getUsers(this.state.currentUserEmail).then(data => {
-      this.setState({ avatarUrl: data.avatar });
+    getUsers(this.state.currentUserToken).then(data => {
+      if(data != undefined) {
+        this.setState({ avatarUrl: data.avatar });
+      }
     });
   }
 
   openProfile(prayerId) {
-    this.state.navigation.navigate('Profile', { currentUserEmail: this.state.currentUserEmail,
+    this.state.navigation.navigate('Profile', { currentUserToken: this.state.currentUserToken,
       username: this.state.username });
   }
 

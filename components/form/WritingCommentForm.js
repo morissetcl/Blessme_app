@@ -10,7 +10,7 @@ export default class WritingCommentForm extends Component {
     super(props);
     this.state = {
       prayerTitle: props.navigation.state.params.prayerRequest.title,
-      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      currentUserToken: props.navigation.state.params.currentUserToken,
       prayerId: props.navigation.state.params.prayerId,
       body: props.navigation.state.params.body,
       editPrayer: props.navigation.state.params.body,
@@ -20,7 +20,7 @@ export default class WritingCommentForm extends Component {
 
   addPrayer(prayerId) {
     if (this.state.body) {
-      createPrayer({ currentUserEmail: this.state.currentUserEmail,
+      createPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
@@ -31,7 +31,7 @@ export default class WritingCommentForm extends Component {
 
   editrayer(prayerId) {
     if (this.state.body) {
-      editPrayer({ currentUserEmail: this.state.currentUserEmail,
+      editPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,

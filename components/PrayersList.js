@@ -9,7 +9,7 @@ export default class PrayersList extends React.Component {
     this.state = {
       prayers: [],
       navigation: this.props.navigation,
-      currentUserEmail: this.props.currentUserEmail,
+      currentUserToken: this.props.currentUserToken,
       profileFeed: this.props.profileFeed,
       prayersList: [],
       requestApi: this.props.requestApi,
@@ -21,7 +21,7 @@ export default class PrayersList extends React.Component {
   }
 
   goToPrayerRequest(prayerId) {
-    this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserEmail: this.state.currentUserEmail });
+    this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserToken: this.state.currentUserToken });
   }
 
   retrieveAllPrayers() {

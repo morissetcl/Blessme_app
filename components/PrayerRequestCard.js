@@ -18,25 +18,26 @@ export default class PrayerRequestCard extends React.Component {
       username: '',
       avatarUrl: '',
       prayerId: this.props.prayerId,
-      userEmail: '',
+      userToken: '',
       category_label: '',
       createdAt: '',
       category_color: 'white',
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
-      currentUserEmail: this.props.currentUserEmail,
+      currentUserToken: this.props.currentUserToken,
       numberOfAudioPrayer: '-',
       display_modal_action: this.props.display_modal_action,
       prayerRequest: [],
-      userEmail: '',
+      userToken: '',
       loaded: false
     };
   }
 
   componentDidMount() {
     this.setState({loaded: false})
-    getPrayerRequest(this.state.prayerId).then(data => {
+    const preventPrayerId = this.state.prayerId ? this.state.prayerId : this.props.navigation.state.params.prayerRequestId
+    getPrayerRequest(preventPrayerId).then(data => {
       this.setState({
         title: data.title,
         body: data.body,
@@ -44,7 +45,7 @@ export default class PrayerRequestCard extends React.Component {
         username: data.user.username,
         avatarUrl: data.user.avatar,
         prayerId: data.id,
-        userEmail: data.user.email,
+        userToken: data.user.token,
         category_label: data.category.label,
         category_color: data.category.color,
         createdAt: data.created_at
@@ -56,13 +57,13 @@ export default class PrayerRequestCard extends React.Component {
 
   goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserEmail: this.state.currentUserEmail, prayerRequestUsername: this.state.username
+      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserToken: this.state.currentUserToken, prayerRequestUsername: this.state.username
       });
     }
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail
+    this.state.navigation.navigate('Profile', { username: username, userToken: this.state.userToken, currentUserToken: this.state.currentUserToken
     });
   }
 
@@ -74,11 +75,12 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   render() {
-    const avatar = this.state.avatarUrl ? this.state.avatarUrl : '';
+    const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
     const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${isNaN(createdAtSince) ? '-' : createdAtSince} jours` : "Aujourd'hui";
+
     return (
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
@@ -90,9 +92,9 @@ export default class PrayerRequestCard extends React.Component {
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
-            {((this.state.userEmail === this.state.currentUserEmail) && this.state.display_modal_action) ?
+            {((this.state.userToken === this.state.currentUserToken) && this.state.display_modal_action) ?
               <ModalActions
-                currentUserEmail={ this.state.currentUserEmail }
+                currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }
                 body={ this.state.body }
                 title={ this.state.title }
