@@ -97,14 +97,25 @@ export default class Connexion extends React.Component {
   }
 
   async handleFacebookButton() {
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
-      permissions: ['public_profile', 'email'],
-    });
-    if (type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      auth.signInAndRetrieveDataWithCredential(credential).catch(error => {
-        this.setState({ errorMessage: error.message });
+    try {
+      await Facebook.initializeAsync(FACEBOOK_APP_ID);
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile'],
       });
+      if (type === 'success') {
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        auth.signInWithCredential(credential).catch(error => {
+          this.setState({ errorMessage: error.message });
+        });
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
     }
   }
 

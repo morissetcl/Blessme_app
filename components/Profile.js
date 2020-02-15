@@ -49,7 +49,7 @@ export default class Profile extends Component {
     if (!result.cancelled) {
       this.setState({ avatarLoaded: 'loading' });
       const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
-      updateUser(email, result.base64, this.state.username).then(() => {
+      updateUser({email: email, avatar: result.base64, username: this.state.username, navigation: this.state.navigation}).then(() => {
         this.setState({ avatarUrl: result.uri });
         this.setState({ avatarLoaded: 'loaded' });
       });
@@ -125,11 +125,8 @@ export default class Profile extends Component {
               <Text style={styles.bold} >{ this.state.username }</Text>
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
-            { this.state.avatarUrl ?
-              <Text style={styles.since}>Membre depuis { memberSince ? memberSince : '-' } jours</Text>
-              :
-              <ActivityIndicator size="large" style = {styles.loader} />
-            }
+            <Text style={styles.since}>Membre depuis { memberSince ? memberSince : '-' } jours</Text>
+
             { this.state.biography ?
               <Text style={styles.biography}>{ this.state.biography }</Text>
               :

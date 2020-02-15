@@ -15,7 +15,7 @@ export function createUser(params) {
 }
 
 export function updateUser(params) {
-  var avatarParams = params['avatarUrl'] || undefined
+  var avatarParams = params['avatar'] || undefined
   var usernameParams = params['username']  || undefined
   var biographyParams = params['biography']  || undefined
   return fetch(`${getApiUrl()}/users//${params['email']}`, {

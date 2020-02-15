@@ -11,7 +11,8 @@ export default class UserProfileForm extends Component {
       email: props.navigation.state.params.email,
       username: props.navigation.state.params.username,
       avatarUrl: props.navigation.state.params.avatarUrl,
-      biography: props.navigation.state.params.biography
+      biography: props.navigation.state.params.biography,
+      navigation: props.navigation
     };
   }
 
