@@ -127,8 +127,7 @@ export default class Profile extends Component {
               <Text style={styles.bold} >{ this.state.username }</Text>
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
-            <Text style={styles.since}>Membre depuis { memberSince ? memberSince : '-' } jours</Text>
-
+            <Text style={styles.since}>{ memberSince ? `Membre depuis ${memberSince} jours` : 'Premier jour parmis nous !' } </Text>
             { this.state.biography ?
               <Text style={styles.biography}>{ this.state.biography }</Text>
               :
