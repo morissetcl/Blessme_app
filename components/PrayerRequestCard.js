@@ -18,18 +18,18 @@ export default class PrayerRequestCard extends React.Component {
       username: '',
       avatarUrl: '',
       prayerId: this.props.prayerId,
-      userEmail: '',
+      userToken: '',
       category_label: '',
       createdAt: '',
       category_color: 'white',
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
-      currentUserEmail: this.props.currentUserEmail,
+      currentUserToken: this.props.currentUserToken,
       numberOfAudioPrayer: '-',
       display_modal_action: this.props.display_modal_action,
       prayerRequest: [],
-      userEmail: '',
+      userToken: '',
       loaded: false
     };
   }
@@ -45,7 +45,7 @@ export default class PrayerRequestCard extends React.Component {
         username: data.user.username,
         avatarUrl: data.user.avatar,
         prayerId: data.id,
-        userEmail: data.user.email,
+        userToken: data.user.token,
         category_label: data.category.label,
         category_color: data.category.color,
         createdAt: data.created_at
@@ -57,13 +57,13 @@ export default class PrayerRequestCard extends React.Component {
 
   goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserEmail: this.state.currentUserEmail, prayerRequestUsername: this.state.username
+      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserToken: this.state.currentUserToken, prayerRequestUsername: this.state.username
       });
     }
   }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userEmail: this.state.userEmail, currentUserEmail: this.state.currentUserEmail
+    this.state.navigation.navigate('Profile', { username: username, userToken: this.state.userToken, currentUserToken: this.state.currentUserToken
     });
   }
 
@@ -92,9 +92,9 @@ export default class PrayerRequestCard extends React.Component {
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
-            {((this.state.userEmail === this.state.currentUserEmail) && this.state.display_modal_action) ?
+            {((this.state.userToken === this.state.currentUserToken) && this.state.display_modal_action) ?
               <ModalActions
-                currentUserEmail={ this.state.currentUserEmail }
+                currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }
                 body={ this.state.body }
                 title={ this.state.title }

@@ -21,7 +21,7 @@ export default class AudioRecorder extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.state = {
       prayerId: props.navigation.state.params.prayerId,
-      currentUserEmail: props.navigation.state.params.currentUserEmail,
+      currentUserToken: props.navigation.state.params.currentUserToken,
       fontLoaded: true,
       haveRecordingPermissions: false,
       isLoading: false,
@@ -140,7 +140,7 @@ export default class AudioRecorder extends React.Component {
 
   addPrayer() {
     this.setState({ loading: true });
-    createPrayer({ currentUserEmail: this.state.currentUserEmail,
+    createPrayer({ currentUserToken: this.state.currentUserToken,
       soundDuration: this.state.soundDuration,
       audioUri: this.state.audioBase64,
       prayerId: this.state.prayerId,

@@ -10,7 +10,7 @@ export function createPrayer(params) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: params['currentUserEmail'],
+      token: params['currentUserToken'],
       body: params['body'],
       audio: params['audioUri'],
       prayer_request_id: prayerId,
@@ -33,7 +33,7 @@ export function editPrayer(params) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: params['currentUserEmail'],
+      token: params['currentUserToken'],
       body: params['body'],
       prayer_request_id: prayerId,
       commentId: commentId,
@@ -58,8 +58,8 @@ export function getAllPrayers() {
     .catch((error) => console.error(error));
 }
 
-export function getUserPrayers(email) {
-  const url = `${getApiUrl()}/user_comments/` + email;
+export function getUserPrayers(token) {
+  const url = `${getApiUrl()}/user_comments/` + token;
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error));

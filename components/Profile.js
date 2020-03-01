@@ -19,8 +19,8 @@ export default class Profile extends Component {
       navigation: props.navigation,
       username: '',
       createdAt: '',
-      currentUserEmail: props.navigation.state.params.currentUserEmail,
-      userEmail: props.navigation.state.params.userEmail,
+      currentUserToken: props.navigation.state.params.currentUserToken,
+      userToken: props.navigation.state.params.userToken,
       avatarUrl: '',
       avatarLoaded: 'loaded',
       biography: ''
@@ -32,9 +32,11 @@ export default class Profile extends Component {
   }
 
   retrieveUser() {
-    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
-    getUsers(email).then(data => {
-      this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar, biography: data.biography });
+    const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
+    getUsers(token).then(data => {
+      if(data != undefined) {
+        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar, biography: data.biography });
+      }
     });
   }
 
@@ -48,7 +50,7 @@ export default class Profile extends Component {
 
     if (!result.cancelled) {
       this.setState({ avatarLoaded: 'loading' });
-      const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
+      const email = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
       updateUser({email: email, avatar: result.base64, username: this.state.username, navigation: this.state.navigation}).then(() => {
         this.setState({ avatarUrl: result.uri });
         this.setState({ avatarLoaded: 'loaded' });
@@ -57,7 +59,7 @@ export default class Profile extends Component {
   };
 
   goToEditUser() {
-    this.state.navigation.navigate('UserProfileForm', { username: this.state.username, avatarUrl: this.state.avatarUrl, email: this.state.currentUserEmail, navigation: this.state.navigation, biography: this.state.biography })
+    this.state.navigation.navigate('UserProfileForm', { username: this.state.username, avatarUrl: this.state.avatarUrl, email: this.state.currentUserToken, navigation: this.state.navigation, biography: this.state.biography })
   }
 
   editUser() {
@@ -77,8 +79,8 @@ export default class Profile extends Component {
     return (
       <PrayerRequestList
         navigation={this.state.navigation}
-        userEmail={ this.state.userEmail}
-        currentUserEmail={ this.state.currentUserEmail }
+        userToken={ this.state.userToken}
+        currentUserToken={ this.state.currentUserToken }
         username={ this.state.username}
         profileFeed={ true }/>
     )
@@ -89,8 +91,8 @@ export default class Profile extends Component {
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
-    const allowsEditing = this.state.userEmail ? false : true;
-    const email = this.state.userEmail ? this.state.userEmail : this.state.currentUserEmail;
+    const allowsEditing = this.state.userToken ? false : true;
+    const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
 
     return (
       <View style={styles.container}>
@@ -144,10 +146,10 @@ export default class Profile extends Component {
             <View title="Intercessions">
               <PrayersList
                 navigation={this.state.navigation}
-                currentUserEmail={ this.state.currentUserEmail }
+                currentUserToken={ this.state.currentUserToken }
                 username={ this.state.username }
                 profileFeed={ true }
-                requestApi={ getUserPrayers(email) }/>
+                requestApi={ getUserPrayers(token) }/>
             </View>
           </Tabs>
         </View>

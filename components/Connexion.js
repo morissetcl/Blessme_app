@@ -6,6 +6,8 @@ import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
 import Prayers from './Prayers';
 import { displayMessage } from "./shared/message";
+import { createUser } from '../api/User';
+import registerForNotifications from '../services/notifications';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -29,6 +31,7 @@ export default class Connexion extends React.Component {
       logged: false,
       firebaseCheck: false,
       errorMessage: '',
+      token: "",
       signIn: false
     };
   }
@@ -37,7 +40,7 @@ export default class Connexion extends React.Component {
     if (this.state.email.length !== 0 && this.state.password.length !== 0 && this.state.username.length !== 0) {
       try {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(() => this.setState({ logged: true }))
+          .then((e) => this.initializeUser(e))
           .catch(error => {
             switch (error.code) {
               case 'auth/invalid-email':
@@ -58,6 +61,11 @@ export default class Connexion extends React.Component {
       displayMessage('Merci de remplir tous les champs pour vous inscrire.', 'warning');
     }
   };
+
+  initializeUser(e) {
+    createUser({ email: this.state.email, username: this.state.username, token: e['user']['uid'] })
+    this.setState({ logged: true, token: e['user']['uid'] })
+  }
 
   Login = (email, password) => {
     try {
@@ -90,7 +98,7 @@ export default class Connexion extends React.Component {
     }
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ logged: true });
+        this.setState({ logged: true, token: user.uid });
       }
       this.setState({ firebaseCheck: true });
     });
@@ -130,7 +138,8 @@ export default class Connexion extends React.Component {
           <View style={styles.container}>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
-                currentUserEmail={ firebase.auth().currentUser.email }
+                currentUserToken={ this.state.token }
+                email={ firebase.auth().currentUser.email }
                 username={this.state.username}/>
               :
               <View>

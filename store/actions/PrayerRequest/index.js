@@ -10,17 +10,17 @@ export function getAllPrayersRequests(keyword = null){
       const url = `${getApiUrl()}/prayers_requests/${search}`;
       return fetch(url)
         .then((response) => response.json())
-        .then((data) => dispatch({type: ALL_PRAYERS_REQUESTS_AVAILABLE, data: data }) )
+        .then((data) => dispatch({ type: ALL_PRAYERS_REQUESTS_AVAILABLE, data: data }) )
         .catch((error) => console.error(error));
     };
 }
 
-export function getUserPrayersRequests(email){
+export function getUserPrayersRequests(token){
     return (dispatch) => {
-      const url = `${getApiUrl()}/user_prayers_requests/${email}`;
+      const url = `${getApiUrl()}/user_prayers_requests/${token}`;
       return fetch(url)
         .then((response) => response.json())
-        .then((data) => dispatch({type: USER_PRAYERS_REQUESTS_AVAILABLE, userData: data }) )
+        .then((data) => dispatch({ type: USER_PRAYERS_REQUESTS_AVAILABLE, userData: data }) )
         .catch((error) => console.error(error));
     };
 }

@@ -11,10 +11,10 @@ class PrayerRequestList extends React.Component {
     super(props);
     this.state = {
       navigation: this.props.navigation,
-      currentUserEmail: this.props.currentUserEmail,
+      currentUserToken: this.props.currentUserToken,
       refreshing: false,
       profileFeed: this.props.profileFeed,
-      userEmail: this.props.userEmail,
+      userToken: this.props.userToken,
       loaded: false,
       pr: []
     };
@@ -37,18 +37,18 @@ class PrayerRequestList extends React.Component {
     this.retrievePrayersRequests()
   }
 
-  checkEmailToSearch() {
-    if (this.state.userEmail !== undefined) {
-      return this.state.userEmail;
+  checkTokenToSearch() {
+    if (this.state.userToken !== undefined) {
+      return this.state.userToken;
     } else {
-      return this.state.currentUserEmail;
+      return this.state.currentUserToken;
     }
   }
 
   retrievePrayersRequests() {
     if (this.state.profileFeed) {
       this.setState({ loaded: true });
-      this.props.getUserPrayersRequests(this.checkEmailToSearch());
+      this.props.getUserPrayersRequests(this.checkTokenToSearch());
     } else {
       this.props.getAllPrayersRequests();
     }
@@ -61,7 +61,7 @@ class PrayerRequestList extends React.Component {
       const prayersRequestsList = prayerRequests.map((response, index) => {
         return <PrayerRequestCard
           prayerId={response.id}
-          currentUserEmail={ this.state.currentUserEmail }
+          currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
           key={response.title}

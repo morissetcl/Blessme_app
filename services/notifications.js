@@ -7,7 +7,7 @@ const PUSH_ENDPOINT = getApiUrl() + "/expo_tokens";
 
 let registerForNotifications;
 
-export default registerForNotifications = async (email) => {
+export default registerForNotifications = async (token) => {
   const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   if (status !== 'granted') {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -16,7 +16,7 @@ export default registerForNotifications = async (email) => {
     }
   }
 
-  const token = await Notifications.getExpoPushTokenAsync();
+  const expoToken = await Notifications.getExpoPushTokenAsync();
 
   fetch(PUSH_ENDPOINT, {
     method: 'POST',
@@ -26,8 +26,8 @@ export default registerForNotifications = async (email) => {
       'Accept-Encoding': 'gzip, deflate',
     },
     body: JSON.stringify({
+      expo_token: expoToken,
       token: token,
-      email: email,
     }),
   });
 };

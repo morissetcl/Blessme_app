@@ -14,15 +14,14 @@ export default class PrayerRequestForm extends Component {
     super(props);
     const params = props.navigation.state.params
     const prCategory = params.category
-
     this.state = {
       username: params.username,
-      currentUserEmail: params.currentUserEmail,
+      currentUserToken: params.token,
       editPrayer: params.editPrayer,
       body: params.body,
       title: params.title,
       prCategory: prCategory,
-      prayerRequestId: params.prayerId,
+      prayerRequestId: params.prayerRequestId,
       categories: [],
       selectedIndex: undefined,
       loaded: false
@@ -34,7 +33,7 @@ export default class PrayerRequestForm extends Component {
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({ username: this.state.username,
-        currentUserEmail: this.state.currentUserEmail,
+        currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         title: this.state.title,
         category: firstRowCategory[this.state.selectedIndex],
@@ -48,8 +47,8 @@ export default class PrayerRequestForm extends Component {
   prayerRequestUpdate(prayerRequestId) {
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
-      editPrayerRequest({ currentUserEmail: this.state.currentUserEmail,
-        currentUserEmail: this.state.currentUserEmail,
+      editPrayerRequest({ currentUserToken: this.state.currentUserToken,
+        currentUserToken: this.state.currentUserToken,
         title: this.state.title,
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
