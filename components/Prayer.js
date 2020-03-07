@@ -174,22 +174,19 @@ const styles = StyleSheet.create({
     top: Dimensions.get('window').height / 2,
     left: Dimensions.get('window').width / 2,
   },
-  prayer_card: {
-    paddingTop: 20,
-  },
   prayer_list: {
     paddingTop: 20,
-    paddingBottom: 90,
+    paddingBottom:  Dimensions.get('window').height / 12,
   },
   comment_card: {
     padding: '2%',
-    marginBottom: '5%',
+    marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
   },
   comment_card_op: {
     padding: '2%',
-    marginBottom: '5%',
+    marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
     borderBottomWidth: 3,

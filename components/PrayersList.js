@@ -78,16 +78,17 @@ const styles = StyleSheet.create({
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
     height: '100%',
+    paddingTop: '2%'
   },
   container_prayer_request_card_with_margin: {
+    paddingTop: '2%',
     paddingBottom: '6%',
     height: '100%',
   },
   comment_card: {
     padding: '2%',
     backgroundColor: 'white',
-    marginBottom: 10,
-    marginTop: 10,
+    marginBottom: '2%'
   },
   username: {
     fontWeight: 'bold',
