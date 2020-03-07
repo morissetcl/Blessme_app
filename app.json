@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "0.0.2",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/blessmelogo.png",
     "splash": {
@@ -18,7 +18,7 @@
     },
     "android": {
       "package": "com.blessme.blessme",
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [
         "CAMERA",
         "RECORD_AUDIO",
@@ -40,6 +40,6 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": ""
+    "description": "Bless Me is an christian application dedicated to intercessions. You can post your prayer request or pray for those who need help. You can write a prayer or record one."
   }
 }
