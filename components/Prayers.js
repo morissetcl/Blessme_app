@@ -99,7 +99,10 @@ const styles = StyleSheet.create({
     height: '7%',
     alignItems: 'center',
     elevation: 1,
-    height: hp('7%')
+    height: hp('7%'),
+    borderWidth: 2,
+    borderColor: 'transparent',
+    borderTopColor: '#eaeaea'
   },
   container: {
     height: '8%',

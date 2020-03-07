@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -24,7 +24,6 @@ export default class Prayer extends Component {
       username: props.navigation.state.params.username,
       currentUserToken: props.navigation.state.params.currentUserToken,
       prayers: [],
-      prayersLoaded: false,
       prayersList: [],
       flashMessage: true,
       numberOfPrayer: '',
@@ -140,7 +139,6 @@ export default class Prayer extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-
           <ScrollView>
             <View style={styles.prayer_card} >
               { this.renderPrayerRequest() }
@@ -149,11 +147,15 @@ export default class Prayer extends Component {
               </View>
             </View>
           </ScrollView>
+        { this.state.loaded ?
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
             prayerId={ this.state.prayerId }
             currentUserToken={ this.state.currentUserToken }
             navigation={ this.state.navigation }/>
+          :
+          <ActivityIndicator size="large" style = {styles.loader} />
+        }
       </View>
     );
   }
@@ -169,25 +171,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     position: 'absolute',
-    top: 200,
-    left: 150,
-  },
-  prayer_card: {
-    paddingTop: 20,
+    top: Dimensions.get('window').height / 2,
+    left: Dimensions.get('window').width / 2,
   },
   prayer_list: {
     paddingTop: 20,
-    paddingBottom: 90,
+    paddingBottom:  Dimensions.get('window').height / 12,
   },
   comment_card: {
     padding: '2%',
-    marginBottom: '5%',
+    marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
   },
   comment_card_op: {
     padding: '2%',
-    marginBottom: '5%',
+    marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
     borderBottomWidth: 3,

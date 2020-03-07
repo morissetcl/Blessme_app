@@ -53,8 +53,9 @@ const styles = StyleSheet.create({
   tabContainer: {
     flex: 1,
     paddingVertical: 15,
-    borderBottomWidth: 3,
-    borderBottomColor: 'transparent',
+    borderBottomWidth: 2,
+    borderBottomColor: '#eaeaea',
+
   },
   // Active tab container
   tabContainerActive: {

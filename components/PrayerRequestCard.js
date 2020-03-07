@@ -140,7 +140,6 @@ export default class PrayerRequestCard extends React.Component {
 
 const styles = StyleSheet.create({
   space_between_card: {
-    marginBottom: 10,
     marginTop: -10,
   },
   number_of_comment: {
