@@ -17,7 +17,6 @@ export default registerForNotifications = async (token) => {
   }
 
   const expoToken = await Notifications.getExpoPushTokenAsync();
-
   fetch(PUSH_ENDPOINT, {
     method: 'POST',
     headers: {

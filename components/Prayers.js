@@ -9,7 +9,6 @@ import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createUser, getUsers } from '../api/User';
 import { getAllPrayers } from '../api/Prayer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import registerForNotifications from '../services/notifications';
 
 export default class Prayers extends Component {
   constructor(props) {
@@ -32,7 +31,6 @@ export default class Prayers extends Component {
 
   componentDidMount() {
     this.retrieveUser();
-    registerForNotifications(this.state.currentUserToken);
   }
 
   render() {
