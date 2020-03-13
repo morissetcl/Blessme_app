@@ -6,8 +6,8 @@ import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
 import Prayers from './Prayers';
 import { displayMessage } from "./shared/message";
-import { createUser } from '../api/User';
 import registerForNotifications from '../services/notifications';
+import { createUser } from '../api/User';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -64,7 +64,16 @@ export default class Connexion extends React.Component {
 
   initializeUser(e) {
     createUser({ email: this.state.email, username: this.state.username, token: e['user']['uid'] })
+    registerForNotifications(e['user']['uid']);
+
     this.setState({ logged: true, token: e['user']['uid'] })
+  }
+
+  initializeFbUser(response) {
+    createUser({ email: response.user.email, token: response.user.uid })
+    registerForNotifications(response.user.uid);
+
+    this.setState({ logged: true, token: response.user.uid })
   }
 
   Login = (email, password) => {
@@ -118,9 +127,13 @@ export default class Connexion extends React.Component {
       });
       if (type === 'success') {
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        auth.signInWithCredential(credential).catch(error => {
-          this.setState({ errorMessage: error.message });
-        });
+        auth.signInWithCredential(credential)
+            .then((response) => {
+              this.initializeFbUser(response)
+            })
+            .catch(error => {
+              this.setState({ errorMessage: error.message });
+            });
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
