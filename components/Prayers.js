@@ -9,6 +9,8 @@ import { faPenSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createUser, getUsers } from '../api/User';
 import { getAllPrayers } from '../api/Prayer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class Prayers extends Component {
   constructor(props) {
@@ -34,6 +36,20 @@ export default class Prayers extends Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            request: "Demandes",
+            intercession: "Intercessions"
+          },
+      en: {
+            request: "Requests",
+            intercession: 'Intercessions'
+          }
+    };
+
     return (
       <View style={styles.container}>
         <HeaderHomepage
@@ -43,7 +59,7 @@ export default class Prayers extends Component {
           username={ this.state.username }/>
         <View style={styles.container}>
           <Tabs>
-            <View title="Demandes" style={styles.content}>
+            <View title= { i18n.t('request') } style={styles.content}>
               <PrayerRequestList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }
@@ -51,7 +67,7 @@ export default class Prayers extends Component {
                 username={ this.state.username }
                 profileFeed={ false }/>
             </View>
-            <View title="Intercessions" style={styles.content}>
+            <View title= { i18n.t('intercession') } style={styles.content}>
               <PrayersList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }

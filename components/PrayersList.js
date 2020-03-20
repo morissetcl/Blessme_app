@@ -2,6 +2,8 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import AudioPrayer from './AudioPrayer';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class PrayersList extends React.Component {
   constructor(props) {
@@ -33,7 +35,10 @@ export default class PrayersList extends React.Component {
           const formattedDate = new Date(Date.parse(response.created_at) * 1000);
           const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
           const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-          const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
+
+          const checkDate = i18n.t('prayerDate', { createdAtSince: createdAtSince })
+
+          const formattedCreatedAtSince = (createdAtSince !== 0) ? checkDate : i18n.t('today');
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}
@@ -56,6 +61,21 @@ export default class PrayersList extends React.Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            prayerDate: "Il y a {{ createdAtSince }} jours",
+            today: "Aujourd'hui"
+          },
+      en: {
+
+            prayerDate: "{{createdAtSince}} days ago",
+            today: 'Today'
+          }
+    };
+
     return (
       <View style={ this.state.profileFeed ?
         styles.container_prayer_request_card :

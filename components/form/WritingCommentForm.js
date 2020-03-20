@@ -4,6 +4,8 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
 import { Input, Divider } from 'react-native-elements';
 import { createPrayer, editPrayer } from '../../api/Prayer';
 import { displayMessage } from "../shared/message";
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
@@ -19,30 +21,54 @@ export default class WritingCommentForm extends Component {
   }
 
   addPrayer(prayerId) {
+    const fail = i18n.t('fail')
     if (this.state.body) {
       createPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
     } else {
-      displayMessage('Merci de remplir tous les champs pour ajouter votre prière', 'warning')
+      displayMessage(fail, 'warning')
     }
   }
 
   editrayer(prayerId) {
+    const fail = i18n.t('fail')
+    const success = i18n.t('success')
+
     if (this.state.body) {
       editPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,
         commentId: this.state.commentId });
-      displayMessage('Votre prière a bien été modifiée', 'success')
+      displayMessage(fail, 'success')
     } else {
-      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
+      displayMessage(success, 'warning')
     }
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            fail: 'Merci de remplir tous les champs pour ajouter votre prière',
+            success: 'Votre prière a bien été modifiée',
+            edit: 'Modifier',
+            publish: 'Publier',
+            placeholder: 'Écrivez votre prière..'
+          },
+      en: {
+            fail: 'Please fill all required fields.',
+            success: 'Prayer sucessfully updated.',
+            edit: 'Edit',
+            publish: 'Publish',
+            placeholder: 'Write you prayer..'
+          }
+    };
+
     const bodyEdition = this.state.body ? this.state.body : '';
     return (
       <View style={styles.container} >
@@ -50,18 +76,18 @@ export default class WritingCommentForm extends Component {
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button}
             onPress={(value) => { this.editrayer(this.state.prayerId); }}>
-            <Text style={styles.button_text}>Modifier</Text>
+            <Text style={styles.button_text}>{ i18n.t('edit') }</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={styles.publish_button}
             onPress={(value) => { this.addPrayer(this.state.prayerId); }}>
-            <Text style={styles.button_text}>Publier</Text>
+            <Text style={styles.button_text}>{ i18n.t('publish') }</Text>
           </TouchableOpacity>
 
         }
         <Divider style={styles.divider} />
         <TextInput
-          placeholder={ 'Écrivez votre prière..' }
+          placeholder={ i18n.t('placeholder') }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline

@@ -20,6 +20,9 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+require("../locales/fr-FR.json")
 
 export default class Connexion extends React.Component {
   constructor(props) {
@@ -145,6 +148,34 @@ export default class Connexion extends React.Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            tagLine: 'Connectez-vous et commencez à prier pour ceux qui en ont besoin.',
+            pseudonyme: 'Pseudonyme',
+            email: 'Email',
+            password: 'Mot de passe',
+            signUp: 'Inscription',
+            fbChoice: 'Ou connectez-vous via',
+            alreadySignUp: 'Déja inscrit ?',
+            notSignUpYet: 'Pas encore inscrit ?',
+            forgotPassword: 'Mot de passe oublié ?'
+          },
+      en: {
+            tagLine: 'Start sharing your faith by praying for those who need it',
+            pseudonyme: 'Nickname',
+            email: 'Email',
+            password: 'Password',
+            signUp: 'Sign up',
+            fbChoice: 'Or sign up with',
+            alreadySignUp: 'Already sign up ?',
+            notSignUpYet: 'Not sign up yet ?',
+            forgotPassword: 'Forgot your password ?'
+          }
+    };
+
     return (
       <View>
         { this.state.firebaseCheck ?
@@ -166,14 +197,14 @@ export default class Connexion extends React.Component {
                     margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
                   <Text style={{ color: 'white', fontSize: 18, textAlign: 'center',
                     margin: Dimensions.get('window').height / 100 }}>
-                    Connectez-vous et commencez à prier pour ceux qui en ont besoin.
+                    {i18n.t('tagLine')}
                   </Text>
                 </View>
                 <View style={styles.form_wrapper}>
                   <Form>
                     { !this.state.signIn ?
                       <Item floatingLabel>
-                        <Label>Pseudonyme</Label>
+                        <Label>{i18n.t('pseudonyme')}</Label>
                         <Input
                           autoCapitalize="none"
                           autoCorrect={false}
@@ -185,7 +216,7 @@ export default class Connexion extends React.Component {
                     }
 
                     <Item floatingLabel>
-                      <Label>Email</Label>
+                      <Label>{i18n.t('email')}</Label>
                       <Input
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -193,7 +224,7 @@ export default class Connexion extends React.Component {
                       />
                     </Item>
                     <Item floatingLabel style={styles.connexion_input}>
-                      <Label>Mot de passe</Label>
+                      <Label>{i18n.t('password')}</Label>
                       <Input
                         secureTextEntry={true}
                         autoCapitalize="none"
@@ -207,7 +238,7 @@ export default class Connexion extends React.Component {
                           onPress={ () => this.SignUp(this.state.email, this.state.password) } >
                           <Text style={{ color: 'white' }}>Inscription</Text>
                         </TouchableOpacity>
-                        <Text>Ou connectez-vous via </Text>
+                        <Text>{i18n.t('fbChoice')}</Text>
                         <TouchableOpacity
                           style={styles.bouton_fb}
                           name="Facebook"
@@ -225,7 +256,7 @@ export default class Connexion extends React.Component {
                           <Text style={{ color: 'white' }}>Connexion</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={ () => this.goToResetPassword() } >
-                          <Text style={{ color: 'black', textAlign: 'center' }}>Mot de passe oublié ?</Text>
+                          <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('forgotPassword')}</Text>
                         </TouchableOpacity>
                       </View>
                     }
@@ -236,11 +267,11 @@ export default class Connexion extends React.Component {
             <View style={styles.inscription_buttons}>
               { !this.state.signIn ?
                 <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>Déja inscrit ?</Text>
+                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                  <Text style={{ color: 'black', textAlign: 'center' }}>Pas encore inscrit ?</Text>
+                  <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
                 </TouchableOpacity>
               }
             </View>

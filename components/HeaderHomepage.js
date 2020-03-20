@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 class HeaderHomepage extends Component {
   constructor(props) {
@@ -46,7 +48,7 @@ class HeaderHomepage extends Component {
         inputStyle={styles.inputStyle}
         containerStyle={styles.containerStyle}
         inputContainerStyle={styles.inputContainerStyle}
-        placeholder={'Votre recherche...'}
+        placeholder={i18n.t('search')}
         round={true}
         placeholderTextColor={styles.placeholderTextColor}
         onChangeText={this.updateSearch.bind(this)}
@@ -56,6 +58,18 @@ class HeaderHomepage extends Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            search: 'Votre recherche...'
+          },
+      en: {
+            search: 'Search prayer by keyword.'
+          }
+    };
+
     return (
       <View style={styles.container}>
         <Header

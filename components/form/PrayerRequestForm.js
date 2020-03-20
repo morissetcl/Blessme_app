@@ -8,6 +8,8 @@ import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequ
 import { displayMessage } from "../shared/message";
 import { getCategories } from '../../api/Category';
 import { NavigationEvents } from 'react-navigation';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class PrayerRequestForm extends Component {
   constructor(props) {
@@ -30,6 +32,7 @@ export default class PrayerRequestForm extends Component {
   }
 
   addPrayerRequest() {
+    const missingField = i18n.t('missingField')
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({ username: this.state.username,
@@ -40,11 +43,13 @@ export default class PrayerRequestForm extends Component {
         navigation: this.props.navigation
       });
     } else {
-      displayMessage('Merci de remplir tous les champs pour ajouter votre demande de prière', 'warning')
+      displayMessage(missingField, 'warning')
     }
   }
 
   prayerRequestUpdate(prayerRequestId) {
+    const missingField = i18n.t('missingField')
+    const prSucess = i18n.t('prSucess')
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserToken: this.state.currentUserToken,
@@ -55,25 +60,26 @@ export default class PrayerRequestForm extends Component {
         navigation: this.props.navigation,
         category: firstRowCategory[this.state.selectedIndex]
       });
-      displayMessage('Votre demande a bien été modifiée', 'success')
+      displayMessage(prSucess, 'success')
     } else {
-      displayMessage('Merci de remplir tous les champs pour modifier votre prière', 'warning')
+      displayMessage(missingField, 'warning')
     }
   }
 
   componentDidMount() {
     this.displayCategories()
+    this.setState({ loaded: true })
   }
 
   displayCategories() {
     getCategories().then(data => {
       this.setState({ categories:
          data.categories.map((response, index) => {
-          return response.label
+          const french = i18n.locale === 'fr-FR'
+          return french ? response.label : response.translation
         }),
       });
     });
-    this.setState({ loaded: true })
   }
 
   onValueChange(category) {
@@ -103,6 +109,26 @@ export default class PrayerRequestForm extends Component {
 
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            prSucess: 'Votre demande a bien été modifiée.',
+            missingField: 'Merci de remplir tous les champs pour modifier votre prière.',
+            addTitle: 'Ajoutez le titre de votre demande.',
+            bodyTitle: 'Écrivez votre demande de prière la plus détaillée possible.',
+            publish: 'Publier'
+          },
+      en: {
+            prSucess: 'Your request has been updated.',
+            missingField: 'Please fill all required fields',
+            addTitle: 'Add a title to your request.',
+            bodyTitle: 'Write your detailed request.',
+            publish: 'Publish'
+          }
+    };
+
     const bodyEdition = this.state.body ? this.state.body : '';
     const titleEdition = this.state.title ? this.state.title : '';
     const categoryChoices = this.state.categories.slice(0, 6);
@@ -112,23 +138,20 @@ export default class PrayerRequestForm extends Component {
       <View style={styles.container} >
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.prayerRequestUpdate(); }}>
-            <Text style={styles.button_text}>Publier</Text>
+            <Text style={styles.button_text}>{ i18n.t('publish')}</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest(); }}>
-            <Text style={styles.button_text}>Publier</Text>
+            <Text style={styles.button_text}>{ i18n.t('publish')}</Text>
           </TouchableOpacity>
 
         }
+        { this.state.loaded ?
         <View style={styles.formContainer} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-          { this.state.loaded ?
-            this.renderCategoryForm(categoryChoices, index)
-            :
-            <Text>''</Text>
-          }
+            {this.renderCategoryForm(categoryChoices, index)}
           <Divider style={styles.divider} />
           <TextInput
-            placeholder={ 'Ajoutez le titre de votre demande.' }
+            placeholder={ i18n.t('addTitle') }
             inputStyle={{ width: '100%', color: 'black' }}
             underlineColorAndroid="transparent"
             multiline
@@ -140,7 +163,7 @@ export default class PrayerRequestForm extends Component {
           <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}} behavior="padding" enabled   keyboardVerticalOffset={120}>
             <ScrollView>
               <TextInput
-                placeholder={ "Écrivez votre demande de prière la plus détaillée possible." }
+                placeholder={ i18n.t('bodyTitle') }
                 inputStyle={{ width: '100%', color: 'black' }}
                 underlineColorAndroid="transparent"
                 multiline
@@ -152,6 +175,9 @@ export default class PrayerRequestForm extends Component {
             </ScrollView>
           </KeyboardAvoidingView>
         </View>
+        :
+        <ActivityIndicator size="large" style = {styles.loader} />
+      }
       </View>
     );
   }

@@ -4,6 +4,8 @@ import { destroyPrayerResquest } from '../api/PrayerRequest';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { displayMessage } from "./shared/message";
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class ModalActions extends Component {
   constructor(props) {
@@ -19,10 +21,11 @@ export default class ModalActions extends Component {
   }
 
   _deletePrayerRequest = () => {
+    const trad = i18n.t('deleteSuccess')
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation }).then(() => {
-        displayMessage('Votre demande a bien été supprimée.', 'success')
+        displayMessage(trad, 'success')
     });
   }
 
@@ -41,17 +44,35 @@ export default class ModalActions extends Component {
   _showAlert = () => {
     Alert.alert(
       this.state.title,
-      'Que voulez vous faire avec cette demande ?',
+      i18n.t('areYouSurePr'),
       [
-        {text: 'Modifier', onPress: () => this._goToPrayerRequestForm()},
+        {text: i18n.t('edit'), onPress: () => this._goToPrayerRequestForm()},
         {text: '', onPress: () => alert('')},
-        {text: 'Supprimer', onPress: () => this._deletePrayerRequest()}
+        {text: i18n.t('delete'), onPress: () => this._deletePrayerRequest()}
       ],
       { onDismiss: () => {} }
     )
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            areYouSurePr: 'Que voulez vous faire avec cette demande ?',
+            edit: 'Modifier',
+            delete: 'Supprimer',
+            deleteSuccess: 'Votre demande a bien été supprimée.'
+          },
+      en: {
+            areYouSurePr: 'What do you want to do ?',
+            edit: 'Edit',
+            delete: 'Remove',
+            deleteSuccess: 'Prayer reqest deleted with success.'
+          }
+    };
+
     return (
       <TouchableOpacity
         onPress={this._showAlert}

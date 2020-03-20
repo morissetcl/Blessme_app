@@ -7,6 +7,8 @@ import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-sv
 import { getPrayers } from '../api/Prayer';
 import { NavigationEvents } from 'react-navigation';
 import { getPrayerRequest } from '../api/PrayerRequest';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
@@ -75,11 +77,28 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            prayerDate: "Il y a {{ createdAtSince }} jours",
+            today: "Aujourd'hui"
+          },
+      en: {
+            prayerDate: "{{createdAtSince}} days ago",
+            today: 'Today'
+          }
+    };
+
     const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-    const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${isNaN(createdAtSince) ? '-' : createdAtSince} jours` : "Aujourd'hui";
+
+    const checkDate = isNaN(createdAtSince) ? '-' : createdAtSince
+    const trad = i18n.t('prayerDate', { createdAtSince: checkDate })
+    const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today');
 
     return (
       <TouchableOpacity activeOpacity={0.7}

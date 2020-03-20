@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { createPrayer, editPrayer } from '../../api/Prayer';
 import Pulse from 'react-native-pulse';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 const BACKGROUND_COLOR = '#eaeaea';
 const DISABLED_OPACITY = 0.5;
@@ -291,11 +293,25 @@ export default class AudioRecorder extends React.Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            publish: 'Publier',
+            authorization: 'Vous devez activer les autorisations audio pour enregistrer votre prière.'
+          },
+      en: {
+            publish: 'Publish',
+            authorization: 'You have to authorize audio to record your prayer.'
+          }
+    };
+
     return !this.state.haveRecordingPermissions ?
       <View style={styles.container}>
         <View />
         <Text style={styles.noPermissionsText}>
-          Vous devez activer les autorisations audio pour enregistrer votre prière.
+          { i18n.t('authorization') }
         </Text>
         <View />
       </View>
@@ -369,7 +385,7 @@ export default class AudioRecorder extends React.Component {
                     style={styles.publish_button}
                     onPress={() => { this.addPrayer(); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    <Text style={styles.button_text}>Publier</Text>
+                    <Text style={styles.button_text}>{ i18n.t('publish') }</Text>
                   </TouchableOpacity>
 
                 </View>
