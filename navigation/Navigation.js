@@ -10,6 +10,26 @@ import PrayerRequestForm from '../components/form/PrayerRequestForm';
 import Profile from '../components/Profile';
 import AudioRecorder from '../components/form/AudioRecorder';
 import ResetPassword from '../components/form/ResetPassword';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
+i18n.translations = {
+  fr: {
+        prayer: 'Prière',
+        editProfil: 'Modifier vos informations',
+        prayerRequest: 'Demande de prière',
+        audio: 'Prière audio'
+      },
+  en: {
+        prayer: 'Prayer',
+        editProfil: 'Edit your informations',
+        prayerRequest: 'Prayer request',
+        audio: 'Prayer audio'
+      }
+};
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -34,7 +54,7 @@ const SearchStackNavigator = createStackNavigator(
     WritingCommentForm: {
       screen: WritingCommentForm,
       navigationOptions: {
-        title: 'Prière',
+        title: i18n.t('prayer'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
@@ -44,7 +64,7 @@ const SearchStackNavigator = createStackNavigator(
     UserProfileForm: {
       screen: UserProfileForm,
       navigationOptions: {
-        title: 'Modifier vos informations',
+        title: i18n.t('editProfil'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
@@ -54,7 +74,7 @@ const SearchStackNavigator = createStackNavigator(
     PrayerRequestForm: {
       screen: PrayerRequestForm,
       navigationOptions: {
-        title: 'Demande de prière',
+        title: i18n.t('prayerRequest'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
@@ -86,7 +106,7 @@ const SearchStackNavigator = createStackNavigator(
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
-        title: 'Prière audio',
+        title: i18n.t('audio'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',

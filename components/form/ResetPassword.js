@@ -3,6 +3,8 @@ import { TouchableHighlight, TextInput, StyleSheet, View, Text,
   Button, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import { displayMessage } from "../shared/message";
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class ResetPassword extends Component {
   constructor(props) {
@@ -13,23 +15,44 @@ export default class ResetPassword extends Component {
   }
 
   resetPassword(email) {
+    const emailSent = i18n.t('emailSent')
+    const userNotFound = i18n.t('userNotFound')
+
     const emailAddress = "clement.morisset@yahoo.fr";
     this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
-      displayMessage("Un email vous a été envoyé pour réinitialiser votre mot de passe.", 'success')
+      displayMessage(emailSent, 'success')
     }).catch(function (error) {
       switch (error.code) {
         case 'auth/invalid-email':
-          displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email.", 'warning')
+          displayMessage(userNotFound, 'warning')
       }
     });
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            emailSent: 'Un email vous a été envoyé pour réinitialiser votre mot de passe.',
+            userNotFound: 'Aucun utilisateur trouvé, veuillez vérifier votre email.',
+            reinitialize: 'Réinitialiser',
+            email: 'Email'
+          },
+      en: {
+            emailSent: 'You will receive an email in few minutes',
+            userNotFound: 'Email not found, please check again.',
+            reinitialize: 'Reset',
+            email: 'Email'
+          }
+    };
+
     return (
       <View style={styles.form_wrapper}>
         <Form>
           <Item floatingLabel>
-            <Label>Email</Label>
+            <Label>{ i18n.t('email') }</Label>
             <Input
               autoCapitalize="none"
               autoCorrect={false}
@@ -39,7 +62,7 @@ export default class ResetPassword extends Component {
         </Form>
         <View style={styles.boutons_wrapper}>
           <TouchableOpacity style={styles.bouton} onPress={() => this.resetPassword(this.state.email)} >
-            <Text style={{ color: 'white' }}>Réinitialiser</Text>
+            <Text style={{ color: 'white' }}>{ i18n.t('reinitialize')}</Text>
           </TouchableOpacity>
         </View>
       </View>

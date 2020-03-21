@@ -3,6 +3,8 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, Alert } from 'react-native';
 import { displayMessage } from "../shared/message";
 import { updateUser } from '../../api/User';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class UserProfileForm extends Component {
   constructor(props) {
@@ -17,15 +19,18 @@ export default class UserProfileForm extends Component {
   }
 
   editUser(email, avatar, username) {
+    const success = i18n.t('success')
+    const fail = i18n.t('fail')
+
     if (this.state.username) {
       updateUser({ email: this.state.email,
         username: this.state.username,
         biography: this.state.biography,
         navigation: this.props.navigation
       });
-      displayMessage('Vos informations ont bien été modifié', 'success')
+      displayMessage(success, 'success')
     } else {
-      displayMessage('Merci de remplir tous les champs pour modifier vos informations', 'warning')
+      displayMessage(fail, 'warning')
     }
   }
 
@@ -42,30 +47,61 @@ export default class UserProfileForm extends Component {
 
   modalAlert() {
     Alert.alert(
-    'Vous allez être déconnecté',
-      'Ëtes vous sûr ?',
+    i18n.t('signOut'),
+      i18n.t('areYouSure'),
       [
         {
-          text: 'Annuler',
+          text: i18n.t('cancel'),
           style: 'cancel',
           onPress: () => console.log('cancel pressed')
         },
-        { text: 'Oui',
+        { text: i18n.t('yes'),
           onPress: () => this.state.navigation.navigate('Homepage', { signOut: true })
         }
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            success: 'Vos informations ont bien été modifié.',
+            fail: 'Merci de remplir tous les champs pour modifier vos informations.',
+            signOut: 'Vous allez être déconnecté',
+            areYouSure: 'Ëtes vous sûr ?',
+            cancel: 'Annuler',
+            yes: 'Oui',
+            about: 'Écrivez un petit mot sur vous.',
+            edit: 'Modifier',
+            username: 'Pseudonyme',
+            aboutLabel: 'Un petit mot sur vous',
+            signOutButton: 'Déconnexion'
+          },
+      en: {
+            success: 'Yous informations has been edited.',
+            fail: 'Please fill all required fields.',
+            signOut: 'You are going to be sign out',
+            areYouSure: 'Are your sure ?',
+            cancel: 'Cancel',
+            yes: 'Yes',
+            about: 'Add some details about you.',
+            edit: 'Edit',
+            username: 'Username',
+            aboutLabel: 'Tell more about you',
+            signOutButton: 'Sign out'
+          }
+    };
     return (
       <View style={styles.container} >
         <TouchableOpacity style={styles.publish_button}
           onPress={(value) => { this.editUser(); }}>
-          <Text style={styles.button_text}>Modifier</Text>
+          <Text style={styles.button_text}>{ i18n.t('edit') }</Text>
         </TouchableOpacity>
-        <Text style={styles.title_input} >Username</Text>
+        <Text style={styles.title_input} >{ i18n.t('username') }</Text>
         <TextInput
           inputStyle={{ width: '100%', color: 'black', backgroundColor: 'red' }}
           underlineColorAndroid="transparent"
@@ -74,9 +110,9 @@ export default class UserProfileForm extends Component {
           onChangeText={(username) => this.setState({ username })}
           style={styles.input}
         />
-        <Text style={styles.title_input} >Un petit mot sur vous</Text>
+        <Text style={styles.title_input} >{ i18n.t('aboutLabel') }</Text>
         <TextInput
-          placeholder={ 'Écrivez un petit mot sur vous' }
+          placeholder={ i18n.t('about') }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
@@ -86,7 +122,7 @@ export default class UserProfileForm extends Component {
         />
         <TouchableOpacity style={styles.signout_button}
           onPress={() => this.modalAlert()}>
-          <Text style={styles.button_text}>Déconnexion</Text>
+          <Text style={styles.button_text}>{ i18n.t('signOutButton') }</Text>
         </TouchableOpacity>
       </View>
     );

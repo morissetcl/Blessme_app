@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import { Header, Avatar } from 'react-native-elements';
 import Tabs from '../Tabs';
 import { getUsers, updateUser } from '../api/User';
@@ -9,8 +10,8 @@ import PrayersList from './PrayersList';
 import { getUserPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare } from '@fortawesome/free-solid-svg-icons';
-
-import { NavigationEvents } from 'react-navigation';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -88,11 +89,34 @@ export default class Profile extends Component {
 
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            request: 'Demandes',
+            intercession: 'Intercessions',
+            firstDay: 'Premier jour parmis nous !',
+            addSomeWords: "Ajoutez quelques mots sur vous en cliquant sur l'icône ci-dessus !",
+            memberSince: "Membre depuis",
+            days: 'jours'
+          },
+      en: {
+            request: 'Requests',
+            intercession: 'Intercessions',
+            firstDay: 'First day among us !',
+            addSomeWords: 'Add some words about you by clicking on the pencil above',
+            memberSince: "Member for",
+            days: 'days'
+          }
+    };
+
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     const allowsEditing = this.state.userToken ? false : true;
     const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
+    const date = `${i18n.t('memberSince')} ${memberSince} ${i18n.t('days')}`
 
     return (
       <View style={styles.container}>
@@ -127,11 +151,11 @@ export default class Profile extends Component {
               <Text style={styles.bold} >{ this.state.username }</Text>
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
-            <Text style={styles.since}>{ memberSince ? `Membre depuis ${memberSince} jours` : 'Premier jour parmis nous !' } </Text>
+            <Text style={styles.since}>{ memberSince ? date : i18n.t('firstDay') } </Text>
             { this.state.biography ?
               <Text style={styles.biography}>{ this.state.biography }</Text>
               :
-              allowsEditing ? <Text style={styles.noBiography}>Ajoutez quelques mots sur vous en cliquant sur l'icône ci-dessus !</Text>  : <Text></Text>
+              allowsEditing ? <Text style={styles.noBiography}>{ i18n.t('addSomeWords') }</Text>  : <Text></Text>
             }
           </View>
           :
@@ -139,10 +163,10 @@ export default class Profile extends Component {
         }
         <View style={styles.container}>
           <Tabs>
-            <View title="Demandes">
+            <View title={ i18n.t('request') }>
               { this.renderPrayerRequest() }
             </View>
-            <View title="Intercessions">
+            <View title={ i18n.t('intercession') }>
               <PrayersList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }

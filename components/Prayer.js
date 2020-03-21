@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
@@ -11,7 +11,8 @@ import { displayMessage } from "./shared/message";
 import WritingCommentForm from './form/WritingCommentForm';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
-
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -32,8 +33,9 @@ export default class Prayer extends Component {
   }
 
   componentDidUpdate() {
+    const success = i18n.t('success')
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      displayMessage('Votre prière a bien été ajoutée.', 'success')
+      displayMessage(success, 'success')
       this.setState({ flashMessage: false });
     }
   }
@@ -71,10 +73,11 @@ export default class Prayer extends Component {
   }
 
   destroyActions(commentId, index) {
+    const destroyPrayer = i18n.t('destroyPrayer')
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
-        displayMessage('Votre prière a bien été supprimée.', 'success')
+        displayMessage(destroyPrayer, 'success')
         this.retrieveAllPrayers(this.state.prayerId);
     });
   }
@@ -89,7 +92,9 @@ export default class Prayer extends Component {
         const formattedDate = new Date(Date.parse(response.created_at) * 1000);
         const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-        const formattedCreatedAtSince = (createdAtSince !== 0) ? `Il y a ${createdAtSince} jours` : "Aujourd'hui";
+        const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince })
+
+        const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today');
 
         return <View style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]} key={response.created_at} id={index}>
           <Text
@@ -108,7 +113,10 @@ export default class Prayer extends Component {
                       currentUserToken: this.state.currentUserToken, prayerId: this.state.prayerId,
                       body: response.body, commentId: response.id });
                   }}>
-                  <Text style={styles.button_text} >Modifier</Text>
+                  <FontAwesomeIcon
+                    icon={ faPenSquare }
+                    size={18} color={ '#bbbbbb' }
+                  />
                 </TouchableOpacity>
                 :
                 <Text></Text>
@@ -116,7 +124,10 @@ export default class Prayer extends Component {
               <TouchableOpacity
                 style={styles.delete_button}
                 onPress={(value) => { this.destroyActions(response.id, index); }}>
-                <Text style={styles.button_text}>Supprimer</Text>
+                <FontAwesomeIcon
+                  icon={ faTrash }
+                  size={16} color={ '#bbbbbb' }
+                />
               </TouchableOpacity>
             </View>
             :
@@ -136,6 +147,28 @@ export default class Prayer extends Component {
   }
 
   render() {
+    i18n.locale = Localization.locale;
+    i18n.fallbacks = true;
+
+    i18n.translations = {
+      fr: {
+            success: 'Votre prière a bien été ajoutée.',
+            edit: 'Modifier',
+            delete: 'Supprimer',
+            destroyPrayer: 'Votre prière a bien été supprimée.',
+            prayerDate: "Il y a {{ createdAtSince }} jours",
+            today: "Aujourd'hui"
+          },
+      en: {
+            success: 'Yous prayer has been added.',
+            edit: 'Edit',
+            delete: 'Delete',
+            destroyPrayer: 'Your prayer has been removed.',
+            prayerDate: "{{ createdAtSince }} days ago",
+            today: "Today"
+          }
+    };
+
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
@@ -199,20 +232,14 @@ const styles = StyleSheet.create({
   },
   publish_button: {
     position: 'absolute',
-    right: 70,
+    right: 30,
     top: '4%',
     color: '#207dff',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2,
   },
   delete_button: {
     position: 'absolute',
     right: 0,
     top: '4%',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2,
   },
   button_text: {
     color: '#207dff',
