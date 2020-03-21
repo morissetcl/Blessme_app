@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
-  ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
+  ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
@@ -177,7 +177,10 @@ export default class Connexion extends React.Component {
     };
 
     return (
-      <View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
         { this.state.firebaseCheck ?
           <View style={styles.container}>
             { this.state.logged ?
@@ -279,7 +282,7 @@ export default class Connexion extends React.Component {
           :
           <ActivityIndicator size="large" style = {styles.loader} />
         }
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -321,10 +324,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    height: Dimensions.get('window').height + 35,
-    backgroundColor: '#FFFFFF', // background tab color
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  bouton_transparent: {
+    bouton_transparent: {
     borderColor: '#01676b',
     backgroundColor: 'transparent',
     padding: 15,
