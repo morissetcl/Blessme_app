@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
-  ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
+  ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
@@ -22,7 +22,6 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-require("../locales/fr-FR.json")
 
 export default class Connexion extends React.Component {
   constructor(props) {
@@ -35,7 +34,10 @@ export default class Connexion extends React.Component {
       firebaseCheck: false,
       errorMessage: '',
       token: "",
-      signIn: false
+      signIn: false,
+      hideTagLine: false,
+      signOut: false,
+      alreadySignUp: false
     };
   }
 
@@ -84,7 +86,7 @@ export default class Connexion extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => this.setState({ logged: true }))
+        .then((e) => this.setState({ logged: true,  token: e['user']['uid'], email: email }))
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
@@ -103,17 +105,39 @@ export default class Connexion extends React.Component {
     }
   };
 
-  componentDidMount() {
+  componentDidUpdate() {
     const signOut = this.props.navigation.state.params ? this.props.navigation.state.params.signOut : false
-    if(signOut) {
+    if (signOut && !this.state.alreadySignUp) {
       firebase.auth().signOut()
+      this.setState({ logged: false, alreadySignUp: true });
     }
+  }
+
+  componentDidMount() {
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ logged: true, token: user.uid });
       }
       this.setState({ firebaseCheck: true });
     });
+
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({ hideTagLine: true })
+  }
+
+  _keyboardDidHide = () => {
+    this.setState({ hideTagLine: false })
   }
 
   async handleFacebookButton() {
@@ -153,53 +177,59 @@ export default class Connexion extends React.Component {
 
     i18n.translations = {
       fr: {
-            tagLine: 'Connectez-vous et commencez à prier pour ceux qui en ont besoin.',
+            tagLine: 'Votre foi est précieuse, partagez-la.',
             pseudonyme: 'Pseudonyme',
             email: 'Email',
             password: 'Mot de passe',
             signUp: 'Inscription',
             fbChoice: 'Ou connectez-vous via',
-            alreadySignUp: 'Déja inscrit ?',
+            alreadySignUp: 'Déja membre ?',
             notSignUpYet: 'Pas encore inscrit ?',
-            forgotPassword: 'Mot de passe oublié ?'
+            forgotPassword: 'Mot de passe oublié ?',
+            verse: '1 Timothée 2:1'
           },
       en: {
-            tagLine: 'Start sharing your faith by praying for those who need it',
-            pseudonyme: 'Nickname',
+            tagLine: 'Your faith is worthy. Share it',
+            pseudonyme: 'Username',
             email: 'Email',
             password: 'Password',
             signUp: 'Sign up',
-            fbChoice: 'Or sign up with',
-            alreadySignUp: 'Already sign up ?',
+            fbChoice: 'Or continue with',
+            alreadySignUp: 'Already a member ?',
             notSignUpYet: 'Not sign up yet ?',
-            forgotPassword: 'Forgot your password ?'
+            forgotPassword: 'Forgot your password ?',
+            verse: '1 Timothy 2:1'
           }
     };
-
+    const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : ''
     return (
-      <View>
+      <View style={styles.container}>
         { this.state.firebaseCheck ?
-          <View style={styles.container}>
+          <View>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
-                email={ firebase.auth().currentUser.email }
+                email={ email }
                 username={this.state.username}/>
               :
-              <View>
-                { this.state.signIn ?
-                  <ImageBackground source = {require('../assets/signup.jpg')} style = {styles.image} />
+              <KeyboardAvoidingView style={styles.container} behavior="padding" >
+                <ImageBackground source = {require('../assets/test_Fotor.jpg')} style = {styles.image} />
+                { !this.state.hideTagLine ?
+                  <View style={styles.connexion_from}>
+                    <Text style={{ color: 'white', fontSize: 48, textAlign: 'center',
+                      margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
+                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'center',
+                      margin: Dimensions.get('window').height / 100 }}>
+                      {i18n.t('tagLine')}
+                    </Text>
+                    <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', position: 'relative', top: 10 }}>
+                      {i18n.t('verse')}
+                    </Text>
+                  </View>
                   :
-                  <ImageBackground source = {require('../assets/signin.jpg')} style = {styles.image} />
+                  <Text></Text>
                 }
-                <View style={styles.connexion_from}>
-                  <Text style={{ color: 'white', fontSize: 30, textAlign: 'center',
-                    margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
-                  <Text style={{ color: 'white', fontSize: 18, textAlign: 'center',
-                    margin: Dimensions.get('window').height / 100 }}>
-                    {i18n.t('tagLine')}
-                  </Text>
-                </View>
+
                 <View style={styles.form_wrapper}>
                   <Form>
                     { !this.state.signIn ?
@@ -236,7 +266,7 @@ export default class Connexion extends React.Component {
                       <View style={styles.boutons_wrapper}>
                         <TouchableOpacity style={styles.bouton}
                           onPress={ () => this.SignUp(this.state.email, this.state.password) } >
-                          <Text style={{ color: 'white' }}>Inscription</Text>
+                          <Text style={{ color: 'white' }}>{ i18n.t('signUp') }</Text>
                         </TouchableOpacity>
                         <Text>{i18n.t('fbChoice')}</Text>
                         <TouchableOpacity
@@ -262,42 +292,51 @@ export default class Connexion extends React.Component {
                     }
                   </Form>
                 </View>
-              </View>
+              </KeyboardAvoidingView>
             }
-            <View style={styles.inscription_buttons}>
-              { !this.state.signIn ?
-                <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                  <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
-                </TouchableOpacity>
-              }
-            </View>
           </View>
           :
           <ActivityIndicator size="large" style = {styles.loader} />
         }
+        <View style={styles.inscription_buttons}>
+          { !this.state.signIn ?
+            <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
+            </TouchableOpacity>
+          }
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inscription_buttons: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
     right: 0,
   },
+  connexion_from: {
+
+  },
   image: {
-    flex: 1,
     position: 'absolute',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 35,
+    height: Dimensions.get('window').height + 100,
+    resizeMode: 'cover'
   },
   boutons_wrapper: {
     display: 'flex',
@@ -307,22 +346,14 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   form_wrapper: {
-    backgroundColor: 'white',
+    marginTop: '20%',
+    backgroundColor: 'rgba(255,255,255, 0.8)',
     paddingLeft: '5%',
     paddingRight: '10%',
     paddingBottom: '5%',
     margin: '12%',
     borderRadius: 10,
-  },
-  connexion_from: {
-    paddingTop: Dimensions.get('window').height / 10,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    height: Dimensions.get('window').height + 35,
-    backgroundColor: '#FFFFFF', // background tab color
+    width:'100%',
   },
   bouton_transparent: {
     borderColor: '#01676b',
@@ -338,10 +369,10 @@ const styles = StyleSheet.create({
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
+    width:'80%',
     padding: 10,
     display: 'flex',
     alignItems: 'center',
-    width: '80%',
     marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2,
@@ -373,5 +404,5 @@ const styles = StyleSheet.create({
   },
   space: {
     height: 17,
-  },
+  }
 });
