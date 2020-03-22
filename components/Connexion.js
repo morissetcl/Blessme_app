@@ -22,7 +22,6 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-require("../locales/fr-FR.json")
 
 export default class Connexion extends React.Component {
   constructor(props) {
@@ -153,24 +152,24 @@ export default class Connexion extends React.Component {
 
     i18n.translations = {
       fr: {
-            tagLine: 'Connectez-vous et commencez à prier pour ceux qui en ont besoin.',
+            tagLine: 'Votre foi est précieuse, partagez-la.',
             pseudonyme: 'Pseudonyme',
             email: 'Email',
             password: 'Mot de passe',
             signUp: 'Inscription',
             fbChoice: 'Ou connectez-vous via',
-            alreadySignUp: 'Déja inscrit ?',
+            alreadySignUp: 'Déja membre ?',
             notSignUpYet: 'Pas encore inscrit ?',
             forgotPassword: 'Mot de passe oublié ?'
           },
       en: {
-            tagLine: 'Start sharing your faith by praying for those who need it',
-            pseudonyme: 'Nickname',
+            tagLine: 'Your faith is worthy. Share it',
+            pseudonyme: 'Username',
             email: 'Email',
             password: 'Password',
             signUp: 'Sign up',
-            fbChoice: 'Or sign up with',
-            alreadySignUp: 'Already sign up ?',
+            fbChoice: 'Or continue with',
+            alreadySignUp: 'Already a member ?',
             notSignUpYet: 'Not sign up yet ?',
             forgotPassword: 'Forgot your password ?'
           }
@@ -182,14 +181,14 @@ export default class Connexion extends React.Component {
         behavior="padding"
       >
         { this.state.firebaseCheck ?
-          <View style={styles.container}>
+          <View>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
                 email={ firebase.auth().currentUser.email }
                 username={this.state.username}/>
               :
-              <View>
+              <View style={styles.container}>
                 { this.state.signIn ?
                   <ImageBackground source = {require('../assets/signup.jpg')} style = {styles.image} />
                   :
@@ -239,7 +238,7 @@ export default class Connexion extends React.Component {
                       <View style={styles.boutons_wrapper}>
                         <TouchableOpacity style={styles.bouton}
                           onPress={ () => this.SignUp(this.state.email, this.state.password) } >
-                          <Text style={{ color: 'white' }}>Inscription</Text>
+                          <Text style={{ color: 'white' }}>{ i18n.t('signUp') }</Text>
                         </TouchableOpacity>
                         <Text>{i18n.t('fbChoice')}</Text>
                         <TouchableOpacity
@@ -267,40 +266,49 @@ export default class Connexion extends React.Component {
                 </View>
               </View>
             }
-            <View style={styles.inscription_buttons}>
-              { !this.state.signIn ?
-                <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                  <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
-                </TouchableOpacity>
-              }
-            </View>
           </View>
           :
           <ActivityIndicator size="large" style = {styles.loader} />
         }
+        <View style={styles.inscription_buttons}>
+          { !this.state.signIn ?
+            <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
+              <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
+            </TouchableOpacity>
+          }
+        </View>
       </KeyboardAvoidingView>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inscription_buttons: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
     right: 0,
   },
+  connexion_from: {
+
+  },
   image: {
-    flex: 1,
     position: 'absolute',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 35,
+    height: Dimensions.get('window').height
   },
   boutons_wrapper: {
     display: 'flex',
@@ -310,26 +318,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   form_wrapper: {
-    backgroundColor: 'white',
+    marginTop: '20%',
+    backgroundColor: 'rgba(255,255,255, 0.9)',
     paddingLeft: '5%',
     paddingRight: '10%',
     paddingBottom: '5%',
     margin: '12%',
     borderRadius: 10,
+    width:'100%',
   },
-  connexion_from: {
-    paddingTop: Dimensions.get('window').height / 10,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-    bouton_transparent: {
+  bouton_transparent: {
     borderColor: '#01676b',
     backgroundColor: 'transparent',
     padding: 15,
@@ -343,10 +341,10 @@ const styles = StyleSheet.create({
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
+    width:'80%',
     padding: 10,
     display: 'flex',
     alignItems: 'center',
-    width: '80%',
     marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2,
