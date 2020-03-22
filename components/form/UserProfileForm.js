@@ -3,6 +3,7 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, Alert } from 'react-native';
 import { displayMessage } from "../shared/message";
 import { updateUser } from '../../api/User';
+import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -56,7 +57,7 @@ export default class UserProfileForm extends Component {
           onPress: () => console.log('cancel pressed')
         },
         { text: i18n.t('yes'),
-          onPress: () => this.state.navigation.navigate('Homepage', { signOut: true })
+          onPress: () => this.state.navigation.navigate('Connexion', { signOut: true })
         }
       ],
       { cancelable: false },

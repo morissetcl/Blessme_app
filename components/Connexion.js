@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
-  ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView } from 'react-native';
+  ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import * as Facebook from 'expo-facebook'
 import * as firebase from "firebase";
@@ -34,7 +34,10 @@ export default class Connexion extends React.Component {
       firebaseCheck: false,
       errorMessage: '',
       token: "",
-      signIn: false
+      signIn: false,
+      hideTagLine: false,
+      signOut: false,
+      alreadySignUp: false
     };
   }
 
@@ -83,7 +86,7 @@ export default class Connexion extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => this.setState({ logged: true }))
+        .then((e) => this.setState({ logged: true,  token: e['user']['uid'], email: email }))
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
@@ -102,17 +105,39 @@ export default class Connexion extends React.Component {
     }
   };
 
-  componentDidMount() {
+  componentDidUpdate() {
     const signOut = this.props.navigation.state.params ? this.props.navigation.state.params.signOut : false
-    if(signOut) {
+    if (signOut && !this.state.alreadySignUp) {
       firebase.auth().signOut()
+      this.setState({ logged: false, alreadySignUp: true });
     }
+  }
+
+  componentDidMount() {
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ logged: true, token: user.uid });
       }
       this.setState({ firebaseCheck: true });
     });
+
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({ hideTagLine: true })
+  }
+
+  _keyboardDidHide = () => {
+    this.setState({ hideTagLine: false })
   }
 
   async handleFacebookButton() {
@@ -160,7 +185,8 @@ export default class Connexion extends React.Component {
             fbChoice: 'Ou connectez-vous via',
             alreadySignUp: 'Déja membre ?',
             notSignUpYet: 'Pas encore inscrit ?',
-            forgotPassword: 'Mot de passe oublié ?'
+            forgotPassword: 'Mot de passe oublié ?',
+            verse: '1 Timothée 2:1'
           },
       en: {
             tagLine: 'Your faith is worthy. Share it',
@@ -171,37 +197,39 @@ export default class Connexion extends React.Component {
             fbChoice: 'Or continue with',
             alreadySignUp: 'Already a member ?',
             notSignUpYet: 'Not sign up yet ?',
-            forgotPassword: 'Forgot your password ?'
+            forgotPassword: 'Forgot your password ?',
+            verse: '1 Timothy 2:1'
           }
     };
-
+    const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : ''
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-      >
+      <View style={styles.container}>
         { this.state.firebaseCheck ?
           <View>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
-                email={ firebase.auth().currentUser.email }
+                email={ email }
                 username={this.state.username}/>
               :
-              <View style={styles.container}>
-                { this.state.signIn ?
-                  <ImageBackground source = {require('../assets/signup.jpg')} style = {styles.image} />
+              <KeyboardAvoidingView style={styles.container} behavior="padding" >
+                <ImageBackground source = {require('../assets/test_Fotor.jpg')} style = {styles.image} />
+                { !this.state.hideTagLine ?
+                  <View style={styles.connexion_from}>
+                    <Text style={{ color: 'white', fontSize: 48, textAlign: 'center',
+                      margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
+                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'center',
+                      margin: Dimensions.get('window').height / 100 }}>
+                      {i18n.t('tagLine')}
+                    </Text>
+                    <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', position: 'relative', top: 10 }}>
+                      {i18n.t('verse')}
+                    </Text>
+                  </View>
                   :
-                  <ImageBackground source = {require('../assets/signin.jpg')} style = {styles.image} />
+                  <Text></Text>
                 }
-                <View style={styles.connexion_from}>
-                  <Text style={{ color: 'white', fontSize: 30, textAlign: 'center',
-                    margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
-                  <Text style={{ color: 'white', fontSize: 18, textAlign: 'center',
-                    margin: Dimensions.get('window').height / 100 }}>
-                    {i18n.t('tagLine')}
-                  </Text>
-                </View>
+
                 <View style={styles.form_wrapper}>
                   <Form>
                     { !this.state.signIn ?
@@ -264,7 +292,7 @@ export default class Connexion extends React.Component {
                     }
                   </Form>
                 </View>
-              </View>
+              </KeyboardAvoidingView>
             }
           </View>
           :
@@ -277,12 +305,11 @@ export default class Connexion extends React.Component {
             </TouchableOpacity>
             :
             <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-              <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
             </TouchableOpacity>
           }
         </View>
-      </KeyboardAvoidingView>
-
+      </View>
     );
   }
 }
@@ -308,7 +335,8 @@ const styles = StyleSheet.create({
   image: {
     position: 'absolute',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
+    height: Dimensions.get('window').height + 100,
+    resizeMode: 'cover'
   },
   boutons_wrapper: {
     display: 'flex',
@@ -319,7 +347,7 @@ const styles = StyleSheet.create({
   },
   form_wrapper: {
     marginTop: '20%',
-    backgroundColor: 'rgba(255,255,255, 0.9)',
+    backgroundColor: 'rgba(255,255,255, 0.8)',
     paddingLeft: '5%',
     paddingRight: '10%',
     paddingBottom: '5%',
@@ -376,5 +404,5 @@ const styles = StyleSheet.create({
   },
   space: {
     height: 17,
-  },
+  }
 });

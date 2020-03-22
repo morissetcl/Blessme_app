@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import PrayerRequestList from './PrayerRequestList';
 import PrayersList from './PrayersList';
 import HeaderHomepage from './HeaderHomepage';
@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     height: '7%',
     alignItems: 'center',
     elevation: 1,
-    height: hp('7%'),
     borderWidth: 2,
     borderColor: 'transparent',
     borderTopColor: '#eaeaea'
@@ -121,6 +120,7 @@ const styles = StyleSheet.create({
   container: {
     height: '8%',
     flex: 1,
+    width: Dimensions.get('window').width
   },
   content: {
     flex: 1,
