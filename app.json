@@ -10,9 +10,9 @@
     ],
     "version": "0.1.1",
     "orientation": "portrait",
-    "icon": "./assets/blessmelogo.png",
+    "icon": "./assets/splash.png",
     "splash": {
-      "image": "./assets/blessmelogo.png",
+      "icon": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -27,9 +27,9 @@
       ]
     },
     "orientation": "portrait",
-    "icon": "./assets/blessmelogo.png",
+    "icon": "./assets/splash.png",
     "notification": {
-      "icon": "./assets/blessmelogo.png"
+      "icon": "./assets/splash.png",
     },
     "updates": {
       "fallbackToCacheTimeout": 0
