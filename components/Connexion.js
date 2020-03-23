@@ -182,6 +182,7 @@ export default class Connexion extends React.Component {
             email: 'Email',
             password: 'Mot de passe',
             signUp: 'Inscription',
+            signIn: 'Connexion',
             fbChoice: 'Ou connectez-vous via',
             alreadySignUp: 'Déja membre ?',
             notSignUpYet: 'Pas encore inscrit ?',
@@ -194,6 +195,7 @@ export default class Connexion extends React.Component {
             email: 'Email',
             password: 'Password',
             signUp: 'Sign up',
+            signIn: 'Sign in',
             fbChoice: 'Or continue with',
             alreadySignUp: 'Already a member ?',
             notSignUpYet: 'Not sign up yet ?',
@@ -283,7 +285,7 @@ export default class Connexion extends React.Component {
                       <View style={styles.boutons_wrapper}>
                         <TouchableOpacity style={styles.bouton}
                           onPress={ () => this.Login(this.state.email, this.state.password) }>
-                          <Text style={{ color: 'white' }}>Connexion</Text>
+                          <Text style={{ color: 'white' }}>{i18n.t('signIn')}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={ () => this.goToResetPassword() } >
                           <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('forgotPassword')}</Text>
