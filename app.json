@@ -10,16 +10,16 @@
     ],
     "version": "0.1.1",
     "orientation": "portrait",
-    "icon": "./assets/splash.png",
+    "icon": "./assets/blessme-logo.png",
     "android": {
       "splash": {
-        "icon": "./assets/splash.png",
-        "ldpi": "./assets/splash.png",
-        "mdpi": "./assets/splash.png",
-        "hdpi": "./assets/splash.png",
-        "xhdpi": "./assets/splash.png",
-        "xxhdpi": "./assets/splash.png",
-        "xxxhdpi": "./assets/splash.png",
+        "icon": "./assets/blessme-logo.png",
+        "ldpi": "./assets/blessme-logo.png",
+        "mdpi": "./assets/blessme-logo.png",
+        "hdpi": "./assets/blessme-logo.png",
+        "xhdpi": "./assets/blessme-logo.png",
+        "xxhdpi": "./assets/blessme-logo.png",
+        "xxxhdpi": "./assets/blessme-logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
@@ -33,9 +33,9 @@
       ]
     },
     "orientation": "portrait",
-    "icon": "./assets/splash.png",
+    "icon": "./assets/blessme-logo.png",
     "notification": {
-      "icon": "./assets/splash.png",
+      "icon": "./assets/blessme-logo.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -46,13 +46,13 @@
     "ios": {
       "supportsTablet": true,
       "splash": {
-        "icon": "./assets/splash.png",
-        "ldpi": "./assets/splash.png",
-        "mdpi": "./assets/splash.png",
-        "hdpi": "./assets/splash.png",
-        "xhdpi": "./assets/splash.png",
-        "xxhdpi": "./assets/splash.png",
-        "xxxhdpi": "./assets/splash.png",
+        "icon": "./assets/blessme-logo.png",
+        "ldpi": "./assets/blessme-logo.png",
+        "mdpi": "./assets/blessme-logo.png",
+        "hdpi": "./assets/blessme-logo.png",
+        "xhdpi": "./assets/blessme-logo.png",
+        "xxhdpi": "./assets/blessme-logo.png",
+        "xxxhdpi": "./assets/blessme-logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       }
