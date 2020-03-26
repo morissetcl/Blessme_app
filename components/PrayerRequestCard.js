@@ -48,13 +48,17 @@ export default class PrayerRequestCard extends React.Component {
         avatarUrl: data.user.avatar,
         prayerId: data.id,
         userToken: data.user.token,
-        category_label: data.category.label,
+        category_label: this.checkCategoryLabel(data),
         category_color: data.category.color,
         createdAt: data.created_at
       }, function () {});
     });
     this.commentCounter(this.state.prayerId);
     this.setState({loaded: true})
+  }
+
+  checkCategoryLabel(data) {
+    return Localization.locale == 'fr' ? data.category.label : data.category.translation
   }
 
   goToPrayer() {
