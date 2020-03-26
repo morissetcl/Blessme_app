@@ -3,7 +3,7 @@ import { getApiUrl } from './GetApiUrl';
 export function createPrayer(params) {
   const prayerId = params['prayerId'];
   const navigation = params['navigation'];
-  return fetch(`${getApiUrl()}/prayers_requests/${prayerId}/comments`, {
+  return fetch(`${getApiUrl()}/prayers_requests/${prayerId}/prayers`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -26,7 +26,7 @@ export function editPrayer(params) {
   const prayerId = params['prayerId'];
   const commentId = params['commentId'];
   const navigation = params['navigation'];
-  return fetch(`${getApiUrl()}/prayers_requests/${prayerId}/comments/${commentId}`, {
+  return fetch(`${getApiUrl()}/prayers_requests/${prayerId}/prayers/${commentId}`, {
     method: 'PATCH',
     headers: {
       'Accept': 'application/json',
@@ -45,7 +45,7 @@ export function editPrayer(params) {
 }
 
 export function getPrayers(prayerId) {
-  const url = `${getApiUrl()}/prayers_requests/${prayerId}/comments`;
+  const url = `${getApiUrl()}/prayers_requests/${prayerId}/prayers`;
   return fetch(url)
     .then((response) => response.json())
     .catch((error) => console.error(error));
@@ -69,7 +69,7 @@ export function destroyPrayers(params) {
   const prayerId = params['prayerId'];
   const commentId = params['commentId'];
   const navigation = params['navigation'];
-  const url = `${getApiUrl()}/prayers_requests/${prayerId}/comments/${commentId}`;
+  const url = `${getApiUrl()}/prayers_requests/${prayerId}/prayers/${commentId}`;
   return fetch(url, {
     method: 'DELETE',
     headers: {
