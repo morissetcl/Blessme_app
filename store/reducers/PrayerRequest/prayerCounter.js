@@ -1,4 +1,3 @@
-// not used yet //
 import { combineReducers } from 'redux';
 
 import { PRAYER_COUNTER } from "../../actions/PrayerRequest/prayerCounter"

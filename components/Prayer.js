@@ -27,7 +27,6 @@ export default class Prayer extends Component {
       prayers: [],
       prayersList: [],
       flashMessage: true,
-      numberOfPrayer: '',
       prayerRequestUsername: props.navigation.state.params.prayerRequestUsername
     };
   }
@@ -50,7 +49,6 @@ export default class Prayer extends Component {
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
-        numberOfPrayer={this.state.numberOfPrayer}
         showView={true} />
     } else {
       return <PrayerRequestCard
@@ -59,7 +57,6 @@ export default class Prayer extends Component {
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
-        numberOfPrayer={this.state.numberOfPrayer}
         />
     }
   }
@@ -85,7 +82,6 @@ export default class Prayer extends Component {
   retrieveAllPrayers(prayerId) {
     this.setState({ prayers: [] });
     getPrayers(prayerId).then(data => {
-      this.setState({ numberOfPrayer: data.prayer_request_comments.length });
       this.state.prayers.push(data.prayer_request_comments);
       const prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : [''];
       this.state.prayersList = prayers.map((response, index) => {
