@@ -14,24 +14,14 @@ export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      body: '',
-      user: '',
-      username: '',
-      avatarUrl: '',
       prayerId: this.props.prayerId,
-      userToken: '',
-      category_label: '',
-      createdAt: '',
       category_color: 'white',
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserToken: this.props.currentUserToken,
-      numberOfAudioPrayer: '-',
       display_modal_action: this.props.display_modal_action,
       prayerRequest: [],
-      userToken: '',
       loaded: false
     };
   }
@@ -50,33 +40,36 @@ export default class PrayerRequestCard extends React.Component {
         userToken: data.user.token,
         category_label: this.checkCategoryLabel(data),
         category_color: data.category.color,
-        createdAt: data.created_at
+        createdAt: data.created_at,
+        numberOfWritingPrayer: data.writings_count,
+        numberOfAudioPrayer: data.audios_count
       }, function () {});
     });
-    this.commentCounter(this.state.prayerId);
     this.setState({loaded: true})
-  }
+  };
 
   checkCategoryLabel(data) {
     return Localization.locale == 'fr' ? data.category.label : data.category.translation
-  }
+  };
+
+  updateCounter(prId) {
+    getPrayerRequest(prId).then(data => {
+      this.setState({
+        numberOfWritingPrayer: data.writings_count,
+        numberOfAudioPrayer: data.audios_count
+      }, function () {});
+    });
+  };
 
   goToPrayer() {
     if (this.state.needLink) {
       this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserToken: this.state.currentUserToken, prayerRequestUsername: this.state.username
       });
-    }
-  }
+    };
+  };
 
   goToProfile(username) {
     this.state.navigation.navigate('Profile', { username: username, userToken: this.state.userToken, currentUserToken: this.state.currentUserToken
-    });
-  }
-
-  commentCounter(prayerId) {
-    getPrayers(prayerId).then(data => {
-      this.setState({ numberOfWritingPrayer: data.prayer_request_comments.map(a => a.body).filter(Boolean).length });
-      this.setState({ numberOfAudioPrayer: data.prayer_request_comments.map(a => a.audio).filter(Boolean).length });
     });
   }
 
@@ -108,7 +101,7 @@ export default class PrayerRequestCard extends React.Component {
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
         style = {styles.space_between_card}>
-        <NavigationEvents onDidFocus={ payload => this.commentCounter(this.state.prayerId) } />
+        <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />
         { this.state.loaded ?
           <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
             onPress={() => { this.goToProfile(this.state.username); }} />}>
