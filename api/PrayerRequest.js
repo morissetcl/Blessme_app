@@ -47,7 +47,7 @@ export function destroyPrayerResquest(params) {
     }),
   }).then(response => response)
     .then(json => {
-      navigation.navigate('Homepage');
+      navigation.navigate('Prayers');
     });
 }
 
