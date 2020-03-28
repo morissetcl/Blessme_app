@@ -33,6 +33,7 @@ export default class PrayerRequestForm extends Component {
 
   addPrayerRequest() {
     const missingField = i18n.t('missingField')
+    const prAdded = i18n.t('prAdded', { defaultValue: 'Prayer request added.' })
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({ username: this.state.username,
@@ -42,6 +43,7 @@ export default class PrayerRequestForm extends Component {
         category: firstRowCategory[this.state.selectedIndex],
         navigation: this.props.navigation
       });
+      displayMessage(prAdded, 'success')
     } else {
       displayMessage(missingField, 'warning')
     }
@@ -49,7 +51,7 @@ export default class PrayerRequestForm extends Component {
 
   prayerRequestUpdate(prayerRequestId) {
     const missingField = i18n.t('missingField', { defaultValue: 'Please fill everything.' })
-    const prSucess = i18n.t('prSucess', { defaultValue: 'Prayer request added.' })
+    const prEdited = i18n.t('prEdited', { defaultValue: 'Prayer request updated.' })
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserToken: this.state.currentUserToken,
@@ -60,7 +62,7 @@ export default class PrayerRequestForm extends Component {
         navigation: this.props.navigation,
         category: firstRowCategory[this.state.selectedIndex]
       });
-      displayMessage(prSucess, 'success')
+      displayMessage(prEdited, 'success')
     } else {
       displayMessage(missingField, 'warning')
     }
@@ -114,14 +116,16 @@ export default class PrayerRequestForm extends Component {
 
     i18n.translations = {
       fr: {
-            prSucess: 'Votre demande a bien été modifiée.',
+            prAdded: 'Votre demande a bien été créée.',
+            prEdited: 'Votre demande a bien été modifiée.',
             missingField: 'Merci de remplir tous les champs pour modifier votre prière.',
             addTitle: 'Ajoutez le titre de votre demande.',
             bodyTitle: 'Écrivez votre demande de prière la plus détaillée possible.',
             publish: 'Publier'
           },
       en: {
-            prSucess: 'Your request has been updated.',
+            prAdded: 'Your request has been created.',
+            prEdited: 'You request has been edited.',
             missingField: 'Please fill all required fields',
             addTitle: 'Add a title to your request.',
             bodyTitle: 'Write your detailed request.',

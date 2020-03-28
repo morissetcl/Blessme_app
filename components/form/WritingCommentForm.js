@@ -22,11 +22,14 @@ export default class WritingCommentForm extends Component {
 
   addPrayer(prayerId) {
     const fail = i18n.t('fail')
+    const created = i18n.t('created', { defaultValue: 'Prayer created.' })
+
     if (this.state.body) {
       createPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
+      displayMessage(created, 'success')
     } else {
       displayMessage(fail, 'warning')
     }
@@ -42,9 +45,9 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,
         commentId: this.state.commentId });
-      displayMessage(fail, 'success')
+      displayMessage(success, 'sucess')
     } else {
-      displayMessage(success, 'warning')
+      displayMessage(fail, 'warning')
     }
   }
 
@@ -54,8 +57,9 @@ export default class WritingCommentForm extends Component {
 
     i18n.translations = {
       fr: {
-            fail: 'Merci de remplir tous les champs pour ajouter votre prière',
-            success: 'Votre prière a bien été modifiée',
+            fail: 'Merci de remplir tous les champs pour ajouter votre prière.',
+            success: 'Votre prière a bien été modifiée.',
+            created: 'Votre prière a bien été créée.',
             edit: 'Modifier',
             publish: 'Publier',
             placeholder: 'Écrivez votre prière..'
@@ -63,6 +67,7 @@ export default class WritingCommentForm extends Component {
       en: {
             fail: 'Please fill all required fields.',
             success: 'Prayer sucessfully updated.',
+            created: 'Prayer sucessfully created.',
             edit: 'Edit',
             publish: 'Publish',
             placeholder: 'Write you prayer..'
