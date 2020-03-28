@@ -59,7 +59,7 @@ export default class Prayers extends Component {
           username={ this.state.username }/>
         <View style={styles.container}>
           <Tabs>
-            <View title= { i18n.t('request') } style={styles.content}>
+            <View title= { i18n.t('request', { defaultValue: 'Requests' }) } style={styles.content}>
               <PrayerRequestList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }
@@ -67,7 +67,7 @@ export default class Prayers extends Component {
                 username={ this.state.username }
                 profileFeed={ false }/>
             </View>
-            <View title= { i18n.t('intercession') } style={styles.content}>
+            <View title= { i18n.t('intercession', { defaultValue: 'Intercessions' }) } style={styles.content}>
               <PrayersList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }

@@ -15,8 +15,8 @@ export default class ResetPassword extends Component {
   }
 
   resetPassword(email) {
-    const emailSent = i18n.t('emailSent')
-    const userNotFound = i18n.t('userNotFound')
+    const emailSent = i18n.t('emailSent', { defaultValue: 'Email sent' })
+    const userNotFound = i18n.t('userNotFound', { defaultValue: 'User not found' })
 
     const emailAddress = "clement.morisset@yahoo.fr";
     this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
@@ -52,7 +52,7 @@ export default class ResetPassword extends Component {
       <View style={styles.form_wrapper}>
         <Form>
           <Item floatingLabel>
-            <Label>{ i18n.t('email') }</Label>
+            <Label>{ i18n.t('email', { defaultValue: 'Email' }) }</Label>
             <Input
               autoCapitalize="none"
               autoCorrect={false}
@@ -62,7 +62,7 @@ export default class ResetPassword extends Component {
         </Form>
         <View style={styles.boutons_wrapper}>
           <TouchableOpacity style={styles.bouton} onPress={() => this.resetPassword(this.state.email)} >
-            <Text style={{ color: 'white' }}>{ i18n.t('reinitialize')}</Text>
+            <Text style={{ color: 'white' }}>{ i18n.t('reinitialize', { defaultValue: 'Reset' })}</Text>
           </TouchableOpacity>
         </View>
       </View>

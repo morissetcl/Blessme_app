@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Dimensions, Alert } from 'react-native';
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -32,11 +32,23 @@ export default class Prayer extends Component {
   }
 
   componentDidUpdate() {
-    const success = i18n.t('success')
+    const success = i18n.t('success', { defaultValue: 'Prayer added' })
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
       displayMessage(success, 'success')
       this.setState({ flashMessage: false });
     }
+  }
+
+  _showAlert = (responId, index) => {
+    Alert.alert(
+      this.state.title,
+      i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
+      [
+        {text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this.destroyActions(responId, index)},
+        {text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('')}
+      ],
+      { onDismiss: () => {} }
+    )
   }
 
   renderPrayerRequest() {
@@ -70,7 +82,7 @@ export default class Prayer extends Component {
   }
 
   destroyActions(commentId, index) {
-    const destroyPrayer = i18n.t('destroyPrayer')
+    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prayer deleted' })
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
@@ -88,9 +100,9 @@ export default class Prayer extends Component {
         const formattedDate = new Date(Date.parse(response.created_at) * 1000);
         const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-        const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince })
+        const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' })
 
-        const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today');
+        const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
 
         return <View style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]} key={response.created_at} id={index}>
           <Text
@@ -119,7 +131,7 @@ export default class Prayer extends Component {
               }
               <TouchableOpacity
                 style={styles.delete_button}
-                onPress={(value) => { this.destroyActions(response.id, index); }}>
+                onPress={(value) => { this._showAlert(response.id, index); }}>
                 <FontAwesomeIcon
                   icon={ faTrash }
                   size={16} color={ '#bbbbbb' }
@@ -153,15 +165,18 @@ export default class Prayer extends Component {
             delete: 'Supprimer',
             destroyPrayer: 'Votre prière a bien été supprimée.',
             prayerDate: "Il y a {{ createdAtSince }} jours",
-            today: "Aujourd'hui"
+            today: "Aujourd'hui",
+            areYouSurePr: 'Supprimer votre prière ?'
           },
       en: {
             success: 'Yous prayer has been added.',
             edit: 'Edit',
             delete: 'Delete',
+            cancel: 'Cancel',
             destroyPrayer: 'Your prayer has been removed.',
             prayerDate: "{{ createdAtSince }} days ago",
-            today: "Today"
+            today: "Today",
+            areYouSurePr: 'Remove you prayer ?'
           }
     };
 

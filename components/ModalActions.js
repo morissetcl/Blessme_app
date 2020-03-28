@@ -21,7 +21,7 @@ export default class ModalActions extends Component {
   }
 
   _deletePrayerRequest = () => {
-    const trad = i18n.t('deleteSuccess')
+    const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' })
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation }).then(() => {
@@ -44,11 +44,11 @@ export default class ModalActions extends Component {
   _showAlert = () => {
     Alert.alert(
       this.state.title,
-      i18n.t('areYouSurePr'),
+      i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
       [
-        {text: i18n.t('edit'), onPress: () => this._goToPrayerRequestForm()},
-        {text: '', onPress: () => alert('')},
-        {text: i18n.t('delete'), onPress: () => this._deletePrayerRequest()}
+        {text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this._deletePrayerRequest()},
+        {text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequestForm()},
+        {text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('')}
       ],
       { onDismiss: () => {} }
     )
@@ -63,12 +63,14 @@ export default class ModalActions extends Component {
             areYouSurePr: 'Que voulez vous faire avec cette demande ?',
             edit: 'Modifier',
             delete: 'Supprimer',
+            cancel: 'Annuler',
             deleteSuccess: 'Votre demande a bien été supprimée.'
           },
       en: {
             areYouSurePr: 'What do you want to do ?',
             edit: 'Edit',
             delete: 'Remove',
+            cancel: 'Cancel',
             deleteSuccess: 'Prayer reqest deleted with success.'
           }
     };

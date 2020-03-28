@@ -48,8 +48,8 @@ export default class PrayerRequestForm extends Component {
   }
 
   prayerRequestUpdate(prayerRequestId) {
-    const missingField = i18n.t('missingField')
-    const prSucess = i18n.t('prSucess')
+    const missingField = i18n.t('missingField', { defaultValue: 'Please fill everything.' })
+    const prSucess = i18n.t('prSucess', { defaultValue: 'Prayer request added.' })
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserToken: this.state.currentUserToken,
@@ -138,7 +138,7 @@ export default class PrayerRequestForm extends Component {
       <View style={styles.container} >
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.prayerRequestUpdate(); }}>
-            <Text style={styles.button_text}>{ i18n.t('publish')}</Text>
+            <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' })}</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={styles.publish_button} onPress={(value) => { this.addPrayerRequest(); }}>
@@ -151,7 +151,7 @@ export default class PrayerRequestForm extends Component {
             {this.renderCategoryForm(categoryChoices, index)}
           <Divider style={styles.divider} />
           <TextInput
-            placeholder={ i18n.t('addTitle') }
+            placeholder={ i18n.t('addTitle', { defaultValue: 'Title' }) }
             inputStyle={{ width: '100%', color: 'black' }}
             underlineColorAndroid="transparent"
             multiline
@@ -163,7 +163,7 @@ export default class PrayerRequestForm extends Component {
           <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}} behavior="padding" enabled   keyboardVerticalOffset={120}>
             <ScrollView>
               <TextInput
-                placeholder={ i18n.t('bodyTitle') }
+                placeholder={ i18n.t('bodyTitle', { defaultValue: 'Body' }) }
                 inputStyle={{ width: '100%', color: 'black' }}
                 underlineColorAndroid="transparent"
                 multiline

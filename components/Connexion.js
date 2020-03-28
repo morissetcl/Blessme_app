@@ -42,6 +42,7 @@ export default class Connexion extends React.Component {
   }
 
   SignUp = (email, password) => {
+    {i18n.t('verse', { defaultValue: '1 Timothy 2:1' })}
     if (this.state.email.length !== 0 && this.state.password.length !== 0 && this.state.username.length !== 0) {
       try {
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -49,13 +50,13 @@ export default class Connexion extends React.Component {
           .catch(error => {
             switch (error.code) {
               case 'auth/invalid-email':
-                displayMessage('Le format de votre email est invalide', 'warning')
+                displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning')
                 break;
               case 'auth/weak-password':
-                displayMessage('Votre de mot de passe est trop court (minimum 6 caractères)', 'warning')
+                displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning')
                 break;
               case 'auth/email-already-in-use':
-                displayMessage("L'Email existe déja", 'warning')
+                displayMessage(i18n.t('emailExist', { defaultValue: 'Password too short' }), 'warning')
                 break;
             }
           });
@@ -63,7 +64,7 @@ export default class Connexion extends React.Component {
         alert("Error : ", error);
       }
     } else {
-      displayMessage('Merci de remplir tous les champs pour vous inscrire.', 'warning');
+      displayMessage(i18n.t('missingField', { defaultValue: 'Add password' }), 'warning')
     }
   };
 
@@ -90,13 +91,13 @@ export default class Connexion extends React.Component {
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              displayMessage("Veuillez rentrer votre mot de passe", 'warning')
+              displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning')
               break;
             case 'auth/user-not-found':
-              displayMessage("Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe", 'warning')
+              displayMessage(i18n.t('userNotFound', { defaultValue: 'User not found' }), 'warning')
               break;
             case 'auth/invalid-email':
-              displayMessage('Le format de votre email est invalide', 'warning')
+              displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning')
               break;
           }
         });
@@ -187,7 +188,12 @@ export default class Connexion extends React.Component {
             alreadySignUp: 'Déja membre ?',
             notSignUpYet: 'Pas encore inscrit ?',
             forgotPassword: 'Mot de passe oublié ?',
-            verse: '1 Timothée 2:1'
+            verse: '1 Timothée 2:1',
+            invalidEmail: 'Veuillez rentrer un email validee.',
+            weakPassword: 'Votre de mot de passe est trop court (minimum 6 caractères)',
+            emailExist: "L'Email existe déja",
+            missingField: "Merci de remplir tout les champs.",
+            userNotFound: "Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe."
           },
       en: {
             tagLine: 'Your faith is worthy. Share it',
@@ -200,7 +206,12 @@ export default class Connexion extends React.Component {
             alreadySignUp: 'Already a member ?',
             notSignUpYet: 'Not sign up yet ?',
             forgotPassword: 'Forgot your password ?',
-            verse: '1 Timothy 2:1'
+            verse: '1 Timothy 2:1',
+            invalidEmail: 'Please enter a valid email.',
+            weakPassword: 'Your password is too short (minimum 6 characters)',
+            emailExist: "Email already exist.",
+            missingField: "Please fill all fields.",
+            userNotFound: "User not found, please check email and password."
           }
     };
     const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : ''
@@ -222,10 +233,10 @@ export default class Connexion extends React.Component {
                       margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
                     <Text style={{ color: 'white', fontSize: 20, textAlign: 'center',
                       margin: Dimensions.get('window').height / 100 }}>
-                      {i18n.t('tagLine')}
+                      {i18n.t('tagLine', { defaultValue: 'Your faith is worthy.' })}
                     </Text>
                     <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', position: 'relative', top: 10 }}>
-                      {i18n.t('verse')}
+                      {i18n.t('verse', { defaultValue: '1 Timothy 2:1' })}
                     </Text>
                   </View>
                   :
@@ -236,7 +247,7 @@ export default class Connexion extends React.Component {
                   <Form>
                     { !this.state.signIn ?
                       <Item floatingLabel>
-                        <Label>{i18n.t('pseudonyme')}</Label>
+                        <Label>{i18n.t('pseudonyme', { defaultValue: 'Username' })}</Label>
                         <Input
                           autoCapitalize="none"
                           autoCorrect={false}
@@ -248,7 +259,7 @@ export default class Connexion extends React.Component {
                     }
 
                     <Item floatingLabel>
-                      <Label>{i18n.t('email')}</Label>
+                      <Label>{i18n.t('email', { defaultValue: 'Email' })}</Label>
                       <Input
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -256,7 +267,7 @@ export default class Connexion extends React.Component {
                       />
                     </Item>
                     <Item floatingLabel style={styles.connexion_input}>
-                      <Label>{i18n.t('password')}</Label>
+                      <Label>{i18n.t('password', { defaultValue: 'Mot de passe' })}</Label>
                       <Input
                         secureTextEntry={true}
                         autoCapitalize="none"
@@ -270,7 +281,7 @@ export default class Connexion extends React.Component {
                           onPress={ () => this.SignUp(this.state.email, this.state.password) } >
                           <Text style={{ color: 'white' }}>{ i18n.t('signUp') }</Text>
                         </TouchableOpacity>
-                        <Text>{i18n.t('fbChoice')}</Text>
+                        <Text>{i18n.t('fbChoice', { defaultValue: 'Connect with Facebook' })}</Text>
                         <TouchableOpacity
                           style={styles.bouton_fb}
                           name="Facebook"
@@ -285,10 +296,10 @@ export default class Connexion extends React.Component {
                       <View style={styles.boutons_wrapper}>
                         <TouchableOpacity style={styles.bouton}
                           onPress={ () => this.Login(this.state.email, this.state.password) }>
-                          <Text style={{ color: 'white' }}>{i18n.t('signIn')}</Text>
+                          <Text style={{ color: 'white' }}>{i18n.t('signIn', { defaultValue: 'Sign in' })}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={ () => this.goToResetPassword() } >
-                          <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('forgotPassword')}</Text>
+                          <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('forgotPassword', { defaultValue: 'Forgot password ?' })}</Text>
                         </TouchableOpacity>
                       </View>
                     }
@@ -303,11 +314,11 @@ export default class Connexion extends React.Component {
         <View style={styles.inscription_buttons}>
           { !this.state.signIn ?
             <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp')}</Text>
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp', { defaultValue: 'Already sign up ?' })}</Text>
             </TouchableOpacity>
             :
             <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet')}</Text>
+              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet', { defaultValue: 'Not sign up yet ?' })}</Text>
             </TouchableOpacity>
           }
         </View>
