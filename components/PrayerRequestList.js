@@ -10,6 +10,7 @@ class PrayerRequestList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      displayDeleteAction: this.props.displayDeleteAction,
       navigation: this.props.navigation,
       currentUserToken: this.props.currentUserToken,
       refreshing: false,
@@ -65,7 +66,7 @@ class PrayerRequestList extends React.Component {
           navigation={ this.state.navigation }
           numberOfLines={7}
           key={response.title}
-          display_modal_action={true}
+          displayDeleteAction={ this.state.displayDeleteAction }
           needLink={true}
           />;
       });

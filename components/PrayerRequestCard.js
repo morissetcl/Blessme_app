@@ -20,7 +20,7 @@ export default class PrayerRequestCard extends React.Component {
       numberOfLines: this.props.numberOfLines,
       needLink: this.props.needLink,
       currentUserToken: this.props.currentUserToken,
-      display_modal_action: this.props.display_modal_action,
+      displayDeleteAction: this.props.displayDeleteAction,
       prayerRequest: [],
       loaded: false
     };
@@ -93,7 +93,7 @@ export default class PrayerRequestCard extends React.Component {
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
 
-    const checkDate = isNaN(createdAtSince) ? '-' : createdAtSince
+    const checkDate = (isNaN(createdAtSince) || createdAtSince === -1) ? '-' : createdAtSince
     const trad = i18n.t('prayerDate', { createdAtSince: checkDate,  defaultValue: '-' })
     const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Email' });
 
@@ -108,7 +108,7 @@ export default class PrayerRequestCard extends React.Component {
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
-            {((this.state.userToken === this.state.currentUserToken) && this.state.display_modal_action) ?
+            {((this.state.userToken === this.state.currentUserToken) && this.state.displayDeleteAction) ?
               <ModalActions
                 currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }

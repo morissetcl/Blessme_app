@@ -55,17 +55,17 @@ export default class Prayer extends Component {
     if (this.props.navigation.state.params.editedPr) {
       const keyNumber = Math.floor(Math.random() * 100) + 1
       return <PrayerRequestCard
+        displayDeleteAction={true}
         key={ keyNumber }
         currentUserToken={ this.state.currentUserToken }
-        display_modal_action={ true }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
         showView={true} />
     } else {
       return <PrayerRequestCard
+        displayDeleteAction={true}
         currentUserToken={ this.state.currentUserToken }
-        display_modal_action={ true }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }

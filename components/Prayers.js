@@ -61,6 +61,7 @@ export default class Prayers extends Component {
           <Tabs>
             <View title= { i18n.t('request', { defaultValue: 'Requests' }) } style={styles.content}>
               <PrayerRequestList
+                displayDeleteAction={false}
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }
                 token={ this.state.token }

@@ -79,6 +79,7 @@ export default class Profile extends Component {
   renderPrayerRequest() {
     return (
       <PrayerRequestList
+        displayDeleteAction={true}
         navigation={this.state.navigation}
         userToken={ this.state.userToken}
         currentUserToken={ this.state.currentUserToken }
