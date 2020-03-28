@@ -94,8 +94,8 @@ export default class PrayerRequestCard extends React.Component {
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
 
     const checkDate = isNaN(createdAtSince) ? '-' : createdAtSince
-    const trad = i18n.t('prayerDate', { createdAtSince: checkDate })
-    const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today');
+    const trad = i18n.t('prayerDate', { createdAtSince: checkDate,  defaultValue: '-' })
+    const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Email' });
 
     return (
       <TouchableOpacity activeOpacity={0.7}

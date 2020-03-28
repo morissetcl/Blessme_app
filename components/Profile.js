@@ -116,7 +116,7 @@ export default class Profile extends Component {
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     const allowsEditing = this.state.userToken ? false : true;
     const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
-    const date = `${i18n.t('memberSince')} ${memberSince} ${i18n.t('days')}`
+    const date = `${i18n.t('memberSince', { defaultValue: '' })} ${memberSince} ${i18n.t('days', { defaultValue: '' })}`
 
     return (
       <View style={styles.container}>
@@ -151,11 +151,11 @@ export default class Profile extends Component {
               <Text style={styles.bold} >{ this.state.username }</Text>
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
-            <Text style={styles.since}>{ memberSince ? date : i18n.t('firstDay') } </Text>
+            <Text style={styles.since}>{ memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) } </Text>
             { this.state.biography ?
               <Text style={styles.biography}>{ this.state.biography }</Text>
               :
-              allowsEditing ? <Text style={styles.noBiography}>{ i18n.t('addSomeWords') }</Text>  : <Text></Text>
+              allowsEditing ? <Text style={styles.noBiography}>{ i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }</Text>  : <Text></Text>
             }
           </View>
           :
@@ -163,10 +163,10 @@ export default class Profile extends Component {
         }
         <View style={styles.container}>
           <Tabs>
-            <View title={ i18n.t('request') }>
+            <View title={ i18n.t('request', { defaultValue: 'Requests' }) }>
               { this.renderPrayerRequest() }
             </View>
-            <View title={ i18n.t('intercession') }>
+            <View title={ i18n.t('intercession', { defaultValue: 'Intercessions' }) }>
               <PrayersList
                 navigation={this.state.navigation}
                 currentUserToken={ this.state.currentUserToken }

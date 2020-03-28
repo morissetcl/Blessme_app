@@ -311,7 +311,7 @@ export default class AudioRecorder extends React.Component {
       <View style={styles.container}>
         <View />
         <Text style={styles.noPermissionsText}>
-          { i18n.t('authorization') }
+          { i18n.t('authorization', { defaultValue: 'Please authorize audio to record.' }) }
         </Text>
         <View />
       </View>
@@ -385,7 +385,7 @@ export default class AudioRecorder extends React.Component {
                     style={styles.publish_button}
                     onPress={() => { this.addPrayer(); } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    <Text style={styles.button_text}>{ i18n.t('publish') }</Text>
+                    <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
                   </TouchableOpacity>
 
                 </View>

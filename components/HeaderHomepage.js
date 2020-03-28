@@ -48,7 +48,7 @@ class HeaderHomepage extends Component {
         inputStyle={styles.inputStyle}
         containerStyle={styles.containerStyle}
         inputContainerStyle={styles.inputContainerStyle}
-        placeholder={i18n.t('search')}
+        placeholder={i18n.t('search', { defaultValue: 'Your search...' })}
         round={true}
         placeholderTextColor={styles.placeholderTextColor}
         onChangeText={this.updateSearch.bind(this)}

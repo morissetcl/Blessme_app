@@ -36,9 +36,9 @@ export default class PrayersList extends React.Component {
           const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
           const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
 
-          const checkDate = i18n.t('prayerDate', { createdAtSince: createdAtSince })
+          const checkDate = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' })
 
-          const formattedCreatedAtSince = (createdAtSince !== 0) ? checkDate : i18n.t('today');
+          const formattedCreatedAtSince = (createdAtSince !== 0) ? checkDate : i18n.t('today', { defaultValue: 'Today' });
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}

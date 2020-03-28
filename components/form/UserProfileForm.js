@@ -20,8 +20,8 @@ export default class UserProfileForm extends Component {
   }
 
   editUser(email, avatar, username) {
-    const success = i18n.t('success')
-    const fail = i18n.t('fail')
+    const success = i18n.t('success', { defaultValue: 'Informations edited' })
+    const fail = i18n.t('fail', { defaultValue: 'Please fill everything' })
 
     if (this.state.username) {
       updateUser({ email: this.state.email,
@@ -48,19 +48,18 @@ export default class UserProfileForm extends Component {
 
   modalAlert() {
     Alert.alert(
-    i18n.t('signOut'),
-      i18n.t('areYouSure'),
+    i18n.t('signOut', { defaultValue: 'Sign out' }),
+      i18n.t('areYouSure', { defaultValue: 'Sure ?' }),
       [
         {
-          text: i18n.t('cancel'),
+          text: i18n.t('cancel', { defaultValue: 'Cancel' }),
           style: 'cancel',
           onPress: () => console.log('cancel pressed')
         },
         { text: i18n.t('yes'),
           onPress: () => this.state.navigation.navigate('Connexion', { signOut: true })
         }
-      ],
-      { cancelable: false },
+      ]
     );
   }
 
@@ -100,9 +99,9 @@ export default class UserProfileForm extends Component {
       <View style={styles.container} >
         <TouchableOpacity style={styles.publish_button}
           onPress={(value) => { this.editUser(); }}>
-          <Text style={styles.button_text}>{ i18n.t('edit') }</Text>
+          <Text style={styles.button_text}>{ i18n.t('edit', { defaultValue: 'Edit' }) }</Text>
         </TouchableOpacity>
-        <Text style={styles.title_input} >{ i18n.t('username') }</Text>
+        <Text style={styles.title_input} >{ i18n.t('username', { defaultValue: 'Username' }) }</Text>
         <TextInput
           inputStyle={{ width: '100%', color: 'black', backgroundColor: 'red' }}
           underlineColorAndroid="transparent"
@@ -111,7 +110,7 @@ export default class UserProfileForm extends Component {
           onChangeText={(username) => this.setState({ username })}
           style={styles.input}
         />
-        <Text style={styles.title_input} >{ i18n.t('aboutLabel') }</Text>
+        <Text style={styles.title_input} >{ i18n.t('aboutLabel', { defaultValue: 'About you' }) }</Text>
         <TextInput
           placeholder={ i18n.t('about') }
           inputStyle={{ width: '100%', color: 'black' }}
@@ -123,7 +122,7 @@ export default class UserProfileForm extends Component {
         />
         <TouchableOpacity style={styles.signout_button}
           onPress={() => this.modalAlert()}>
-          <Text style={styles.button_text}>{ i18n.t('signOutButton') }</Text>
+          <Text style={styles.button_text}>{ i18n.t('signOutButton', { defaultValue: 'Sign out' }) }</Text>
         </TouchableOpacity>
       </View>
     );

@@ -33,8 +33,8 @@ export default class WritingCommentForm extends Component {
   }
 
   editrayer(prayerId) {
-    const fail = i18n.t('fail')
-    const success = i18n.t('success')
+    const fail = i18n.t('fail', { defaultValue: 'Please fill everything.' })
+    const success = i18n.t('success', { defaultValue: 'Prayer edited.' })
 
     if (this.state.body) {
       editPrayer({ currentUserToken: this.state.currentUserToken,
@@ -76,18 +76,18 @@ export default class WritingCommentForm extends Component {
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button}
             onPress={(value) => { this.editrayer(this.state.prayerId); }}>
-            <Text style={styles.button_text}>{ i18n.t('edit') }</Text>
+            <Text style={styles.button_text}>{ i18n.t('edit', { defaultValue: 'Edit' }) }</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={styles.publish_button}
             onPress={(value) => { this.addPrayer(this.state.prayerId); }}>
-            <Text style={styles.button_text}>{ i18n.t('publish') }</Text>
+            <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
           </TouchableOpacity>
 
         }
         <Divider style={styles.divider} />
         <TextInput
-          placeholder={ i18n.t('placeholder') }
+          placeholder={ i18n.t('placeholder', { defaultValue: 'Your prayer..' }) }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
