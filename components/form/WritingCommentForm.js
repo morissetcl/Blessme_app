@@ -45,7 +45,7 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,
         commentId: this.state.commentId });
-      displayMessage(success, 'sucess')
+      displayMessage(success, 'success')
     } else {
       displayMessage(fail, 'warning')
     }
@@ -66,8 +66,8 @@ export default class WritingCommentForm extends Component {
           },
       en: {
             fail: 'Please fill all required fields.',
-            success: 'Prayer sucessfully updated.',
-            created: 'Prayer sucessfully created.',
+            success: 'Prayer successfully updated.',
+            created: 'Prayer successfully created.',
             edit: 'Edit',
             publish: 'Publish',
             placeholder: 'Write you prayer..'

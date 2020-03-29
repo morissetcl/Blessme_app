@@ -9,7 +9,7 @@ export function prayerCounter(prayerId){
       const url = `${getApiUrl()}/prayers_requests/${prayerId}/comments`;
       return fetch(url)
         .then((response) => response.json())
-        .then((data) => dispatch({type: PRAYER_COUNTER, numberOfWritingPrayer: data.writings_count, numberOfAudioPrayer: data.audios_count }) )
+        .then((data) => dispatch({type: PRAYER_COUNTER, writingsCount: data.writings_count, audiosCount: data.audios_count }) )
         .catch((error) => console.error(error));
     };
 }

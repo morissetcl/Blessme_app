@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Header, Avatar, SearchBar, Button } from 'react-native-elements';
+import { NavigationEvents } from 'react-navigation';
 import { getUsers } from '../api/User';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -22,12 +23,17 @@ class HeaderHomepage extends Component {
   }
 
   componentDidMount() {
-    getUsers(this.state.currentUserToken).then(data => {
+    this.retrieveUser(this.state.currentUserToken)
+  }
+
+  retrieveUser (userToken) {
+    getUsers(userToken).then(data => {
       if(data != undefined) {
         this.setState({ avatarUrl: data.avatar });
       }
     });
   }
+
 
   openProfile(prayerId) {
     this.state.navigation.navigate('Profile', { currentUserToken: this.state.currentUserToken,
@@ -72,6 +78,7 @@ class HeaderHomepage extends Component {
 
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={payload => this.retrieveUser(this.state.currentUserToken)} />
         <Header
           containerStyle={styles.header}
           placement="left"

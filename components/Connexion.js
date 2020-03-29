@@ -307,21 +307,22 @@ export default class Connexion extends React.Component {
                 </View>
               </KeyboardAvoidingView>
             }
+            <View style={styles.inscription_buttons}>
+              { !this.state.signIn ?
+                <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
+                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp', { defaultValue: 'Already sign up ?' })}</Text>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
+                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet', { defaultValue: 'Not sign up yet ?' })}</Text>
+                </TouchableOpacity>
+              }
+            </View>
           </View>
           :
           <ActivityIndicator size="large" style = {styles.loader} />
         }
-        <View style={styles.inscription_buttons}>
-          { !this.state.signIn ?
-            <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp', { defaultValue: 'Already sign up ?' })}</Text>
-            </TouchableOpacity>
-            :
-            <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-              <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet', { defaultValue: 'Not sign up yet ?' })}</Text>
-            </TouchableOpacity>
-          }
-        </View>
+
       </View>
     );
   }

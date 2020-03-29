@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import PrayerRequestCard from './PrayerRequestCard';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -61,6 +62,18 @@ class PrayerRequestList extends React.Component {
       const prayerRequests = selectData ? selectData : [];
       const prayersRequestsList = prayerRequests.map((response, index) => {
         return <PrayerRequestCard
+          title={response.title}
+          body={response.body}
+          user={response.user}
+          username={response.user.username}
+          avatarUrl={response.user.avatar}
+          prayerId={response.id}
+          userToken={response.user.token}
+          categoryLabel={response.category.label}
+          categoryColor={response.category.color}
+          createdAt={response.created_at}
+          writingsCount={response.writings_count}
+          audiosCount={response.audios_count}
           prayerId={response.id}
           currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
@@ -73,6 +86,7 @@ class PrayerRequestList extends React.Component {
 
       return (
         <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
+          <NavigationEvents onDidFocus={ payload => this._onRefresh() } />
           { this.state.loaded ?
             <ScrollView refreshControl={
               <RefreshControl
