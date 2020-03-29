@@ -15,6 +15,18 @@ export default class PrayerRequestCard extends React.Component {
     super(props);
     this.state = {
       prayerId: this.props.prayerId,
+      title: this.props.title,
+      body: this.props.body,
+      user: this.props.user,
+      username: this.props.username,
+      avatarUrl: this.props.avatarUrl,
+      prayerId: this.props.id,
+      userToken: this.props.token,
+      categoryLabel: this.props.categoryLabel,
+      categoryColor: this.props.categoryColor,
+      createdAt: this.props.createdAt,
+      numberOfWritingPrayer: this.props.writingsCount,
+      numberOfAudioPrayer: this.props.audiosCount,
       category_color: 'white',
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
@@ -28,37 +40,42 @@ export default class PrayerRequestCard extends React.Component {
 
   componentDidMount() {
     this.setState({loaded: false})
-    const preventPrayerId = this.state.prayerId ? this.state.prayerId : this.props.navigation.state.params.prayerRequestId
-    getPrayerRequest(preventPrayerId).then(data => {
-      this.setState({
-        title: data.title,
-        body: data.body,
-        user: data.user,
-        username: data.user.username,
-        avatarUrl: data.user.avatar,
-        prayerId: data.id,
-        userToken: data.user.token,
-        category_label: this.checkCategoryLabel(data),
-        category_color: data.category.color,
-        createdAt: data.created_at,
-        numberOfWritingPrayer: data.writings_count,
-        numberOfAudioPrayer: data.audios_count
-      }, function () {});
-    });
+    console.log(this.props.prayerId)
+    if (this.props.navigation.state.routeName != 'Connexion') {
+      getPrayerRequest(this.props.prayerId).then(data => {
+        this.setState({
+          title: data.title,
+          body: data.body,
+          user: data.user,
+          username: data.user.username,
+          avatarUrl: data.user.avatar,
+          prayerId: data.id,
+          userToken: data.user.token,
+          categoryLabel: data.category.label,
+          categoryColor: data.category.color,
+          createdAt: data.created_at,
+          numberOfWritingPrayer: data.writings_count,
+          numberOfAudioPrayer: data.audios_count
+        }, function () {});
+      });
+    }
+
     this.setState({loaded: true})
   };
 
-  checkCategoryLabel(data) {
-    return Localization.locale == 'fr' ? data.category.label : data.category.translation
+  checkCategoryLabel(category) {
+    return Localization.locale == 'fr' ? category.label : category.translation
   };
 
   updateCounter(prId) {
-    getPrayerRequest(prId).then(data => {
-      this.setState({
-        numberOfWritingPrayer: data.writings_count,
-        numberOfAudioPrayer: data.audios_count
-      }, function () {});
-    });
+    if (this.props.navigation.state.routeName != 'Connexion') {
+      getPrayerRequest(prId).then(data => {
+        this.setState({
+          numberOfWritingPrayer: data.writings_count,
+          numberOfAudioPrayer: data.audios_count
+        }, function () {});
+      });
+    }
   };
 
   goToPrayer() {
@@ -71,6 +88,12 @@ export default class PrayerRequestCard extends React.Component {
   goToProfile(username) {
     this.state.navigation.navigate('Profile', { username: username, userToken: this.state.userToken, currentUserToken: this.state.currentUserToken
     });
+  }
+
+  counter () {
+    if (!this.needLink) {
+      return <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />
+    }
   }
 
   render() {
@@ -101,7 +124,7 @@ export default class PrayerRequestCard extends React.Component {
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
         style = {styles.space_between_card}>
-        <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />
+        { this.counter() }
         { this.state.loaded ?
           <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
             onPress={() => { this.goToProfile(this.state.username); }} />}>
@@ -140,7 +163,7 @@ export default class PrayerRequestCard extends React.Component {
               </TouchableOpacity>
               <TouchableOpacity>
                 <View style = {styles.comment_action_card_contenair}>
-                  <Text style = {[styles.category_label, { backgroundColor: this.state.category_color }]}>{ this.state.category_label }</Text>
+                  <Text style = {[styles.category_label, { backgroundColor: this.state.categoryColor }]}>{ this.state.categoryLabel }</Text>
                 </View>
               </TouchableOpacity>
             </View>

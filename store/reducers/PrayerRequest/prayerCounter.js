@@ -2,12 +2,12 @@ import { combineReducers } from 'redux';
 
 import { PRAYER_COUNTER } from "../../actions/PrayerRequest/prayerCounter"
 
-let dataState = { numberOfWritingPrayer: [], numberOfAudioPrayer: [], loading: true };
+let dataState = { writingsCount: [], audiosCount: [], loading: true };
 
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {
         case PRAYER_COUNTER:
-          return { ...state, numberOfWritingPrayer: action.numberOfWritingPrayer, numberOfAudioPrayer: action.numberOfAudioPrayer, loading: false }
+          return { ...state, writingsCount: action.writingsCount, audiosCount: action.audiosCount, loading: false }
         default:
           return state;
     }
