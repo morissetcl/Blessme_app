@@ -28,7 +28,6 @@ export default class PrayerRequestForm extends Component {
       selectedIndex: undefined,
       loaded: false,
     };
-    this.updateIndex = this.updateIndex.bind(this);
   }
 
   addPrayerRequest() {
@@ -83,13 +82,10 @@ export default class PrayerRequestForm extends Component {
     });
   }
 
-  onValueChange(category) {
-    this.setState({ category: category });
-  }
-
-  updateIndex(selectedIndex) {
+  updateIndex = (selectedIndex) => {
     this.setState({ selectedIndex });
   }
+
 
   renderCategoryForm(categoryChoices, selectedIndex) {
     const categoryUpdated = ((selectedIndex !== this.state.selectedIndex) && (this.state.selectedIndex !== undefined));
