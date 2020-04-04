@@ -71,7 +71,7 @@ export default class ModalActions extends Component {
         edit: 'Edit',
         delete: 'Remove',
         cancel: 'Cancel',
-        deleteSuccess: 'Prayer reqest deleted with success.',
+        deleteSuccess: 'Prayer request deleted with success.',
       },
     };
 

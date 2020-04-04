@@ -75,7 +75,7 @@ class PrayerRequestList extends React.Component {
           avatarUrl={response.user.avatar}
           prayerId={response.id}
           userToken={response.user.token}
-          categoryLabel={response.category.label}
+          categoryLabel={response.category}
           categoryColor={response.category.color}
           createdAt={response.created_at}
           writingsCount={response.writings_count}

@@ -75,7 +75,7 @@ export default class PrayerRequestForm extends Component {
            const french = i18n.locale === 'fr-FR';
            return french ? response.label : response.translation;
          }),
-         loaded: true
+      loaded: true,
       });
     });
   }
@@ -83,7 +83,6 @@ export default class PrayerRequestForm extends Component {
   updateIndex = (selectedIndex) => {
     this.setState({ selectedIndex });
   }
-
 
   renderCategoryForm(categoryChoices, selectedIndex) {
     const categoryUpdated = ((selectedIndex !== this.state.selectedIndex) && (this.state.selectedIndex !== undefined));
@@ -116,14 +115,14 @@ export default class PrayerRequestForm extends Component {
         prEdited: 'Votre demande a bien été modifiée.',
         missingField: 'Merci de remplir tous les champs pour modifier votre prière.',
         addTitle: 'Ajoutez le titre de votre demande.',
-        bodyTitle: 'Écrivez votre demande de prière la plus détaillée possible.'
+        bodyTitle: 'Écrivez votre demande de prière la plus détaillée possible.',
       },
       en: {
         prAdded: 'Your request has been created.',
         prEdited: 'You request has been edited.',
         missingField: 'Please fill all required fields',
         addTitle: 'Add a title to your request.',
-        bodyTitle: 'Write your detailed request.'
+        bodyTitle: 'Write your detailed request.',
       },
     };
 
@@ -217,5 +216,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '10%',
     top: '4%',
-  }
+  },
 });

@@ -21,7 +21,7 @@ export default class PrayerRequestCard extends React.Component {
       username: this.props.username,
       avatarUrl: this.props.avatarUrl,
       userToken: this.props.token,
-      categoryLabel: this.props.categoryLabel,
+      categoryLabel: this.checkCategoryLabel(this.props.categoryLabel),
       categoryColor: this.props.categoryColor,
       createdAt: this.props.createdAt,
       numberOfWritingPrayer: this.props.writingsCount,
@@ -49,7 +49,7 @@ export default class PrayerRequestCard extends React.Component {
           avatarUrl: data.user.avatar,
           prayerId: data.id,
           userToken: data.user.token,
-          categoryLabel: data.category.label,
+          categoryLabel: this.checkCategoryLabel(data.category),
           categoryColor: data.category.color,
           createdAt: data.created_at,
           numberOfWritingPrayer: data.writings_count,
@@ -62,7 +62,9 @@ export default class PrayerRequestCard extends React.Component {
   }
 
   checkCategoryLabel(category) {
-    return Localization.locale === 'fr' ? category.label : category.translation;
+    if (category !== undefined) {
+      return Localization.locale === 'fr' ? category.label : category.translation;
+    }
   }
 
   updateCounter(prId) {

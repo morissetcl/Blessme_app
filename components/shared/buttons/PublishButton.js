@@ -4,30 +4,30 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
 export default class PublishButton extends Component {
-  constructor(props){
-    super(props)
-    console.log(props)
+  constructor(props) {
+    super(props);
+    console.log(props);
     this.state = {
-      buttonType: this.buttonType()
-    }
+      buttonType: this.buttonType(),
+    };
   }
 
   buttonType() {
-    return this.props.buttonType ? this.props.buttonType : 'Publish'
+    return this.props.buttonType ? this.props.buttonType : 'Publish';
   }
 
-  render () {
+  render() {
     i18n.locale = Localization.locale;
     i18n.fallbacks = true;
 
     i18n.translations = {
       fr: {
         edit: 'Modifier',
-        publish: 'Publier'
+        publish: 'Publier',
       },
       en: {
         edit: 'Edit',
-        publish: 'Publish'
+        publish: 'Publish',
       },
     };
     return (
@@ -49,5 +49,5 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color: '#207dff',
-  }
+  },
 });

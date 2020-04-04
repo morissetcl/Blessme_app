@@ -384,8 +384,10 @@ export default class AudioRecorderForm extends React.Component {
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
                   <TouchableHighlight>
-                    <PublishButton onPress={ () => this.addPrayer() } disabled={!this.state.isPlaybackAllowed || this.state.isLoading } />
-
+                    <PublishButton
+                      onPress={ () => this.addPrayer() }
+                      disabled={!this.state.isPlaybackAllowed || this.state.isLoading }
+                    />
                   </TouchableHighlight>
                 </View>
                 :
@@ -505,5 +507,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingLeft: 30,
     paddingRight: 30,
-  }
+  },
 });
