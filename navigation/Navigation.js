@@ -9,7 +9,7 @@ import UserProfileForm from '../components/form/UserProfileForm';
 import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequestForm';
 import Profile from '../components/Profile';
 import AudioRecorderForm from '../components/form/AudioRecorder/AudioRecorderForm';
-import ResetPassword from '../components/form/ResetPassword';
+import ResetPasswordForm from '../components/form/ResetPassword/ResetPasswordForm';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -45,8 +45,8 @@ const SearchStackNavigator = createStackNavigator(
         header: null,
       },
     },
-    ResetPassword: {
-      screen: ResetPassword,
+    ResetPasswordForm: {
+      screen: ResetPasswordForm,
       navigationOptions: {
         header: null,
       },
