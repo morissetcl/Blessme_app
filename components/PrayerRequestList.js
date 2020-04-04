@@ -65,7 +65,8 @@ class PrayerRequestList extends React.Component {
 
   render() {
     if (this.state.loaded) {
-      const prayersRequestsList = this.selectData().map((response, index) => {
+      const prayerRequests = this.selectData() ? this.selectData() : [];
+      const prayersRequestsList = prayerRequests.map((response, index) => {
         return <PrayerRequestCard
           title={response.title}
           body={response.body}

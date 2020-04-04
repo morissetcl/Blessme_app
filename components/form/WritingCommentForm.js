@@ -6,6 +6,7 @@ import { createPrayer, editPrayer } from '../../api/Prayer';
 import { displayMessage } from "../shared/message";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import PublishButton from '../shared/buttons/PublishButton';
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
@@ -78,22 +79,13 @@ export default class WritingCommentForm extends Component {
     return (
       <View style={styles.container} >
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
-        { this.state.editPrayer ?
-          <TouchableOpacity style={styles.publish_button}
-            onPress={(value) => {
-              this.editrayer(this.state.prayerId);
-            }}>
-            <Text style={styles.button_text}>{ i18n.t('edit', { defaultValue: 'Edit' }) }</Text>
-          </TouchableOpacity>
-          :
-          <TouchableOpacity style={styles.publish_button}
-            onPress={(value) => {
-              this.addPrayer(this.state.prayerId);
-            }}>
-            <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
-          </TouchableOpacity>
-
-        }
+        <View style={styles.positionPublishButton} >
+          { this.state.editPrayer ?
+            <PublishButton onPress={ () => this.editrayer(this.state.prayerId) } buttonType={'edit'} />
+            :
+            <PublishButton onPress={ () => this.addPrayer(this.state.prayerId) } />
+          }
+        </View>
         <Divider style={styles.divider} />
         <TextInput
           placeholder={ i18n.t('placeholder', { defaultValue: 'Your prayer..' }) }
@@ -110,15 +102,6 @@ export default class WritingCommentForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  publish_button: {
-    position: 'absolute',
-    right: '10%',
-    top: '4%',
-    color: '#207dff',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2,
-  },
   divider: {
     backgroundColor: '#dee0d9',
     width: '90%',
@@ -142,7 +125,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  button_text: {
-    color: '#207dff',
-  },
+  positionPublishButton: {
+    position: 'absolute',
+    right: '10%',
+    top: '4%',
+  }
 });

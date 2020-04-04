@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { createPrayer } from '../../api/Prayer';
+import PublishButton from '../shared/buttons/PublishButton';
 
 const BACKGROUND_COLOR = '#eaeaea';
 const DISABLED_OPACITY = 0.5;
@@ -300,11 +301,9 @@ export default class AudioRecorderForm extends React.Component {
 
     i18n.translations = {
       fr: {
-        publish: 'Publier',
         authorization: 'Vous devez activer les autorisations audio pour enregistrer votre prière.',
       },
       en: {
-        publish: 'Publish',
         authorization: 'You have to authorize audio to record your prayer.',
       },
     };
@@ -384,16 +383,10 @@ export default class AudioRecorderForm extends React.Component {
 
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
                   </TouchableHighlight>
-                  <TouchableOpacity
+                  <TouchableHighlight>
+                    <PublishButton onPress={ () => this.addPrayer() } disabled={!this.state.isPlaybackAllowed || this.state.isLoading } />
 
-                    style={styles.publish_button}
-                    onPress={() => {
-                      this.addPrayer();
-                    } }
-                    disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                    <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
-                  </TouchableOpacity>
-
+                  </TouchableHighlight>
                 </View>
                 :
                 <View></View>
@@ -512,14 +505,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingLeft: 30,
     paddingRight: 30,
-  },
-  publish_button: {
-    color: '#207dff',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2,
-  },
-  button_text: {
-    color: '#207dff',
-  },
+  }
 });
