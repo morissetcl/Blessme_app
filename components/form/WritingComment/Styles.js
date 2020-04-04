@@ -9,14 +9,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 30,
   },
-  prayer_title: {
+  prayerTitle: {
     textAlign: 'justify',
     paddingRight: '30%',
     paddingLeft: 10,
     paddingTop: 20,
     fontWeight: 'bold',
   },
-  comment_input: {
+  commentInput: {
     marginTop: 50,
     marginLeft: 10,
   },

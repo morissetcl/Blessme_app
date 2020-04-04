@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   noPermissionsText: {
     textAlign: 'center',
   },
-  wrapper: {},
   halfScreenContainer: {
     flex: 1,
     flexDirection: 'column',

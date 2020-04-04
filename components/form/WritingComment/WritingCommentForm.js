@@ -79,7 +79,7 @@ export default class WritingCommentForm extends Component {
     const bodyEdition = this.state.body ? this.state.body : '';
     return (
       <View style={styles.container} >
-        <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
+        <Text style={styles.prayerTitle} >{ this.state.prayerTitle }</Text>
         <View style={styles.positionPublishButton} >
           { this.state.editPrayer ?
             <PublishButton onPress={ () => this.editrayer(this.state.prayerId) } buttonType={'edit'} />
@@ -95,7 +95,7 @@ export default class WritingCommentForm extends Component {
           multiline
           value={bodyEdition}
           onChangeText={(body) => this.setState({ body })}
-          style={styles.comment_input}
+          style={styles.commentInput}
         />
       </View>
     );

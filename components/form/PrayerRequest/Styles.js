@@ -25,10 +25,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingTop: 30,
   },
-  pickerTitle: {
-    marginBottom: 10,
-    color: '#d3d3d3',
-  },
   positionPublishButton: {
     position: 'absolute',
     right: '10%',
