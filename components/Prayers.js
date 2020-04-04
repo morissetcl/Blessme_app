@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     borderTopColor: '#eaeaea',
   },
   container: {
-    height: '8%',
     flex: 1,
     width: Dimensions.get('window').width,
   },

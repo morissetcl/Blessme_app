@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, Alert } from 'react-native';
-import { displayMessage } from "../shared/message";
-import { updateUser } from '../../api/User';
+import { displayMessage } from "../../shared/message";
+import { updateUser } from '../../../api/User';
 import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import PublishButton from '../shared/buttons/PublishButton';
+import PublishButton from '../../shared/buttons/PublishButton';
+import { styles } from './Styles'
 
 export default class UserProfileForm extends Component {
   constructor(props) {
@@ -117,53 +118,3 @@ export default class UserProfileForm extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  signout_button: {
-    position: 'absolute',
-    left: '10%',
-    bottom: '4%',
-    color: '#207dff',
-    fontWeight: 'bold',
-    borderColor: '#207dff',
-    borderBottomWidth: 2,
-  },
-  divider: {
-    backgroundColor: '#dee0d9',
-    width: '90%',
-    height: 1,
-    marginLeft: '5%',
-    marginTop: 30,
-    marginBottom: 10,
-  },
-  input: {
-    padding: 5,
-    marginTop: 10,
-    marginLeft: '5%',
-    marginRight: '5%',
-    backgroundColor: '#f5f5f5',
-  },
-  title_input: {
-    marginTop: 10,
-    marginLeft: '5%',
-    marginRight: '5%',
-    fontWeight: 'bold',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingTop: 30,
-  },
-  button_text: {
-    color: '#207dff',
-  },
-  pickerTitle: {
-    marginBottom: 10,
-    color: '#d3d3d3',
-  },
-  positionPublishButton: {
-    position: 'absolute',
-    right: '10%',
-    top: '4%',
-  },
-});

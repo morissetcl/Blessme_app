@@ -5,7 +5,7 @@ import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
 import Prayer from '../components/Prayer';
 import WritingCommentForm from '../components/form/WritingCommentForm';
-import UserProfileForm from '../components/form/UserProfileForm';
+import UserProfileForm from '../components/form/UserProfile/UserProfileForm';
 import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequestForm';
 import Profile from '../components/Profile';
 import AudioRecorderForm from '../components/form/AudioRecorder/AudioRecorderForm';
@@ -115,7 +115,6 @@ const SearchStackNavigator = createStackNavigator(
     },
   },
   {
-    headerTintColor: 'red',
     initialRouteName: 'Connexion',
   },
 );
