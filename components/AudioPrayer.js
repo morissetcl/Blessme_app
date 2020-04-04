@@ -40,7 +40,7 @@ export default class AudioPrayer extends Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true
+      playThroughEarpieceAndroid: true,
     });
 
     this._loadNewPlaybackInstance(false);

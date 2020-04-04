@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Avatar, Card, Divider } from 'react-native-elements';
-import  ModalActions  from './ModalActions';
+import ModalActions from './ModalActions';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faComment, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { getPrayers } from '../api/Prayer';
@@ -20,7 +20,6 @@ export default class PrayerRequestCard extends React.Component {
       user: this.props.user,
       username: this.props.username,
       avatarUrl: this.props.avatarUrl,
-      prayerId: this.props.id,
       userToken: this.props.token,
       categoryLabel: this.props.categoryLabel,
       categoryColor: this.props.categoryColor,
@@ -34,13 +33,13 @@ export default class PrayerRequestCard extends React.Component {
       currentUserToken: this.props.currentUserToken,
       displayDeleteAction: this.props.displayDeleteAction,
       prayerRequest: [],
-      loaded: false
+      loaded: false,
     };
   }
 
   componentDidMount() {
-    this.setState({loaded: false})
-    if (this.props.navigation.state.routeName != 'Connexion') {
+    this.setState({ loaded: false });
+    if (this.props.navigation.state.routeName !== 'Connexion') {
       getPrayerRequest(this.props.prayerId).then(data => {
         this.setState({
           title: data.title,
@@ -54,44 +53,48 @@ export default class PrayerRequestCard extends React.Component {
           categoryColor: data.category.color,
           createdAt: data.created_at,
           numberOfWritingPrayer: data.writings_count,
-          numberOfAudioPrayer: data.audios_count
+          numberOfAudioPrayer: data.audios_count,
         }, function () {});
       });
     }
 
-    this.setState({loaded: true})
-  };
+    this.setState({ loaded: true });
+  }
 
   checkCategoryLabel(category) {
-    return Localization.locale == 'fr' ? category.label : category.translation
-  };
+    return Localization.locale === 'fr' ? category.label : category.translation;
+  }
 
   updateCounter(prId) {
-    if (this.props.navigation.state.routeName != 'Connexion') {
+    if (this.props.navigation.state.routeName !== 'Connexion') {
       getPrayerRequest(prId).then(data => {
         this.setState({
           numberOfWritingPrayer: data.writings_count,
-          numberOfAudioPrayer: data.audios_count
+          numberOfAudioPrayer: data.audios_count,
         }, function () {});
       });
     }
-  };
+  }
 
   goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId, currentUserToken: this.state.currentUserToken, prayerRequestUsername: this.state.username
+      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId,
+        currentUserToken: this.state.currentUserToken,
+        prayerRequestUsername: this.state.username,
       });
-    };
-  };
+    }
+  }
 
   goToProfile(username) {
-    this.state.navigation.navigate('Profile', { username: username, userToken: this.state.userToken, currentUserToken: this.state.currentUserToken
+    this.state.navigation.navigate('Profile', { username: username,
+      userToken: this.state.userToken,
+      currentUserToken: this.state.currentUserToken,
     });
   }
 
-  counter () {
+  counter() {
     if (!this.needLink) {
-      return <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />
+      return <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />;
     }
   }
 
@@ -101,13 +104,13 @@ export default class PrayerRequestCard extends React.Component {
 
     i18n.translations = {
       fr: {
-            prayerDate: "Il y a {{ createdAtSince }} jours",
-            today: "Aujourd'hui"
-          },
+        prayerDate: "Il y a {{ createdAtSince }} jours",
+        today: "Aujourd'hui",
+      },
       en: {
-            prayerDate: "{{createdAtSince}} days ago",
-            today: 'Today'
-          }
+        prayerDate: "{{createdAtSince}} days ago",
+        today: 'Today',
+      },
     };
 
     const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
@@ -115,18 +118,22 @@ export default class PrayerRequestCard extends React.Component {
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
 
-    const checkDate = (isNaN(createdAtSince) || createdAtSince === -1) ? '-' : createdAtSince
-    const trad = i18n.t('prayerDate', { createdAtSince: checkDate,  defaultValue: '-' })
+    const checkDate = (isNaN(createdAtSince) || createdAtSince === -1) ? '-' : createdAtSince;
+    const trad = i18n.t('prayerDate', { createdAtSince: checkDate, defaultValue: '-' });
     const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Email' });
 
     return (
       <TouchableOpacity activeOpacity={0.7}
-        onPress={(value) => { this.goToPrayer(this.state.prayerId); }}
+        onPress={(value) => {
+          this.goToPrayer(this.state.prayerId);
+        }}
         style = {styles.space_between_card}>
         { this.counter() }
         { this.state.loaded ?
-          <Card containerStyle={{ width: '100%', marginLeft: 0}} title={<Avatar rounded source={{ uri: avatar }}
-            onPress={() => { this.goToProfile(this.state.username); }} />}>
+          <Card containerStyle={{ width: '100%', marginLeft: 0 }} title={<Avatar rounded source={{ uri: avatar }}
+            onPress={() => {
+              this.goToProfile(this.state.username);
+            }} />}>
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
 
@@ -162,13 +169,15 @@ export default class PrayerRequestCard extends React.Component {
               </TouchableOpacity>
               <TouchableOpacity>
                 <View style = {styles.comment_action_card_contenair}>
-                  <Text style = {[styles.categoryLabel, { backgroundColor: this.state.categoryColor }]}>{ this.state.categoryLabel }</Text>
+                  <Text style = {[styles.categoryLabel, { backgroundColor: this.state.categoryColor }]}>
+                    { this.state.categoryLabel }
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
           </Card>
-        :
-        <Text></Text>
+          :
+          <Text></Text>
         }
 
       </TouchableOpacity>
@@ -233,6 +242,6 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingBottom: 4,
     position: 'relative',
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 });

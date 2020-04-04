@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Header, Avatar, SearchBar, Button } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 import { getUsers } from '../api/User';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
@@ -18,22 +18,21 @@ class HeaderHomepage extends Component {
       currentUserToken: this.props.currentUserToken,
       username: this.props.username,
       avatarUrl: undefined,
-      search: ''
+      search: '',
     };
   }
 
   componentDidMount() {
-    this.retrieveUser(this.state.currentUserToken)
+    this.retrieveUser(this.state.currentUserToken);
   }
 
-  retrieveUser (userToken) {
+  retrieveUser(userToken) {
     getUsers(userToken).then(data => {
-      if(data != undefined) {
+      if (data !== undefined) {
         this.setState({ avatarUrl: data.avatar });
       }
     });
   }
-
 
   openProfile(prayerId) {
     this.state.navigation.navigate('Profile', { currentUserToken: this.state.currentUserToken,
@@ -42,7 +41,7 @@ class HeaderHomepage extends Component {
 
   updateSearch(e) {
     this.setState({
-      search: e
+      search: e,
     }, () => {
       this.props.getAllPrayersRequests(this.state.search);
     });
@@ -60,7 +59,7 @@ class HeaderHomepage extends Component {
         onChangeText={this.updateSearch.bind(this)}
         value={this.state.search}
       />
-    )
+    );
   }
 
   render() {
@@ -69,11 +68,11 @@ class HeaderHomepage extends Component {
 
     i18n.translations = {
       fr: {
-            search: 'Votre recherche...'
-          },
+        search: 'Votre recherche...',
+      },
       en: {
-            search: 'Search prayer by keyword.'
-          }
+        search: 'Search prayer by keyword.',
+      },
     };
 
     return (
@@ -85,16 +84,19 @@ class HeaderHomepage extends Component {
           centerComponent={this.searchBar()}
           leftComponent={
             this.state.avatarUrl ?
-              <Avatar rounded source={{ uri: this.state.avatarUrl }} onPress={(value) => { this.openProfile(); }} />
+              <Avatar rounded source={{ uri: this.state.avatarUrl }} onPress={(value) => {
+                this.openProfile();
+              }} />
               :
-              <Avatar rounded title='?' onPress={(value) => { this.openProfile(); }} />
+              <Avatar rounded title='?' onPress={(value) => {
+                this.openProfile();
+              }} />
           }
         />
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   header: {
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     height: '80%',
     backgroundColor: 'white',
     color: 'black',
-    fontSize: 12
+    fontSize: 12,
   },
   containerStyle: {
     paddingTop: '4%',
@@ -115,22 +117,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#49beb7',
     width: '100%',
     borderBottomWidth: 0,
-    borderTopWidth: 0
+    borderTopWidth: 0,
   },
   inputContainerStyle: {
     height: '80%',
     width: '100%',
     backgroundColor: 'white',
-    borderRadius: 15
-  }
+    borderRadius: 15,
+  },
 });
 
 function mapStateToProps(state) {
   return {
     loading: state.prayerRequest.dataReducer.loading,
     data: state.prayerRequest.dataReducer.data,
-    userData: state.prayerRequest.dataReducer.userData
-  }
+    userData: state.prayerRequest.dataReducer.userData,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

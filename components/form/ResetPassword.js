@@ -15,16 +15,16 @@ export default class ResetPassword extends Component {
   }
 
   resetPassword(email) {
-    const emailSent = i18n.t('emailSent', { defaultValue: 'Email sent' })
-    const userNotFound = i18n.t('userNotFound', { defaultValue: 'User not found' })
+    const emailSent = i18n.t('emailSent', { defaultValue: 'Email sent' });
+    const userNotFound = i18n.t('userNotFound', { defaultValue: 'User not found' });
 
     const emailAddress = "clement.morisset@yahoo.fr";
     this.props.navigation.state.params.firebase.sendPasswordResetEmail(email).then(function () {
-      displayMessage(emailSent, 'success')
+      displayMessage(emailSent, 'success');
     }).catch(function (error) {
       switch (error.code) {
         case 'auth/invalid-email':
-          displayMessage(userNotFound, 'warning')
+          displayMessage(userNotFound, 'warning');
       }
     });
   }
@@ -35,17 +35,17 @@ export default class ResetPassword extends Component {
 
     i18n.translations = {
       fr: {
-            emailSent: 'Un email vous a été envoyé pour réinitialiser votre mot de passe.',
-            userNotFound: 'Aucun utilisateur trouvé, veuillez vérifier votre email.',
-            reinitialize: 'Réinitialiser',
-            email: 'Email'
-          },
+        emailSent: 'Un email vous a été envoyé pour réinitialiser votre mot de passe.',
+        userNotFound: 'Aucun utilisateur trouvé, veuillez vérifier votre email.',
+        reinitialize: 'Réinitialiser',
+        email: 'Email',
+      },
       en: {
-            emailSent: 'You will receive an email in few minutes',
-            userNotFound: 'Email not found, please check again.',
-            reinitialize: 'Reset',
-            email: 'Email'
-          }
+        emailSent: 'You will receive an email in few minutes',
+        userNotFound: 'Email not found, please check again.',
+        reinitialize: 'Reset',
+        email: 'Email',
+      },
     };
 
     return (

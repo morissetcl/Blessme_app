@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Dimensions, Alert } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity,
+  ActivityIndicator, Dimensions, Alert } from 'react-native';
 import { getPrayerRequest } from '../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -27,14 +28,14 @@ export default class Prayer extends Component {
       prayers: [],
       prayersList: [],
       flashMessage: true,
-      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername
+      prayerRequestUsername: props.navigation.state.params.prayerRequestUsername,
     };
   }
 
   componentDidUpdate() {
-    const success = i18n.t('success', { defaultValue: 'Prayer added' })
+    const success = i18n.t('success', { defaultValue: 'Prayer added' });
     if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      displayMessage(success, 'success')
+      displayMessage(success, 'success');
       this.setState({ flashMessage: false });
     }
   }
@@ -44,16 +45,16 @@ export default class Prayer extends Component {
       this.state.title,
       i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
       [
-        {text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this.destroyActions(responId, index)},
-        {text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('')}
+        { text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this.destroyActions(responId, index) },
+        { text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('') },
       ],
-      { onDismiss: () => {} }
-    )
+      { onDismiss: () => {} },
+    );
   }
 
   renderPrayerRequest() {
     if (this.props.navigation.state.params.editedPr) {
-      const keyNumber = Math.floor(Math.random() * 100) + 1
+      const keyNumber = Math.floor(Math.random() * 100) + 1;
       return <PrayerRequestCard
         displayDeleteAction={true}
         key={ keyNumber }
@@ -61,7 +62,7 @@ export default class Prayer extends Component {
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
-        showView={true} />
+        showView={true} />;
     } else {
       return <PrayerRequestCard
         displayDeleteAction={true}
@@ -69,7 +70,7 @@ export default class Prayer extends Component {
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
-        />
+      />;
     }
   }
 
@@ -78,16 +79,16 @@ export default class Prayer extends Component {
   }
 
   commentFromOriginalPoster(username1, username2) {
-    return (username1 == username2)
+    return (username1 === username2);
   }
 
   destroyActions(commentId, index) {
-    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prayer deleted' })
+    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prayer deleted' });
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
-        displayMessage(destroyPrayer, 'success')
-        this.retrieveAllPrayers(this.state.prayerId);
+      displayMessage(destroyPrayer, 'success');
+      this.retrieveAllPrayers(this.state.prayerId);
     });
   }
 
@@ -96,15 +97,19 @@ export default class Prayer extends Component {
     getPrayers(prayerId).then(data => {
       this.state.prayers.push(data.prayer_request_comments);
       const prayers = this.state.prayers.length > 0 ? this.state.prayers[0] : [''];
-      this.state.prayersList = prayers.map((response, index) => {
+      const prayersList = prayers.map((response, index) => {
         const formattedDate = new Date(Date.parse(response.created_at) * 1000);
         const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-        const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' })
+        const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
 
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
 
-        return <View style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]} key={response.created_at} id={index}>
+        return <View
+          style={[this.commentFromOriginalPoster(response.user.username,
+            this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]}
+          key={response.created_at}
+          id={index}>
           <Text
             style={styles.username}
             onPress={(value) => {
@@ -131,7 +136,9 @@ export default class Prayer extends Component {
               }
               <TouchableOpacity
                 style={styles.delete_button}
-                onPress={(value) => { this._showAlert(response.id, index); }}>
+                onPress={(value) => {
+                  this._showAlert(response.id, index);
+                }}>
                 <FontAwesomeIcon
                   icon={ faTrash }
                   size={16} color={ '#bbbbbb' }
@@ -150,6 +157,7 @@ export default class Prayer extends Component {
           }
         </View>;
       });
+      this.setState({ prayersList: prayersList });
       this.setState({ loaded: true });
     });
   }
@@ -160,37 +168,37 @@ export default class Prayer extends Component {
 
     i18n.translations = {
       fr: {
-            success: 'Votre prière a bien été ajoutée.',
-            edit: 'Modifier',
-            delete: 'Supprimer',
-            destroyPrayer: 'Votre prière a bien été supprimée.',
-            prayerDate: "Il y a {{ createdAtSince }} jours",
-            today: "Aujourd'hui",
-            areYouSurePr: 'Supprimer votre prière ?'
-          },
+        success: 'Votre prière a bien été ajoutée.',
+        edit: 'Modifier',
+        delete: 'Supprimer',
+        destroyPrayer: 'Votre prière a bien été supprimée.',
+        prayerDate: "Il y a {{ createdAtSince }} jours",
+        today: "Aujourd'hui",
+        areYouSurePr: 'Supprimer votre prière ?',
+      },
       en: {
-            success: 'Yous prayer has been added.',
-            edit: 'Edit',
-            delete: 'Delete',
-            cancel: 'Cancel',
-            destroyPrayer: 'Your prayer has been removed.',
-            prayerDate: "{{ createdAtSince }} days ago",
-            today: "Today",
-            areYouSurePr: 'Remove you prayer ?'
-          }
+        success: 'Yous prayer has been added.',
+        edit: 'Edit',
+        delete: 'Delete',
+        cancel: 'Cancel',
+        destroyPrayer: 'Your prayer has been removed.',
+        prayerDate: "{{ createdAtSince }} days ago",
+        today: "Today",
+        areYouSurePr: 'Remove you prayer ?',
+      },
     };
 
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
-          <ScrollView>
-            <View style={styles.prayer_card} >
-              { this.renderPrayerRequest() }
-              <View style={styles.prayer_list} >
-                { this.state.prayersList }
-              </View>
+        <ScrollView>
+          <View style={styles.prayer_card} >
+            { this.renderPrayerRequest() }
+            <View style={styles.prayer_list} >
+              { this.state.prayersList }
             </View>
-          </ScrollView>
+          </View>
+        </ScrollView>
         { this.state.loaded ?
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
@@ -220,7 +228,7 @@ const styles = StyleSheet.create({
   },
   prayer_list: {
     paddingTop: 20,
-    paddingBottom:  Dimensions.get('window').height / 12,
+    paddingBottom: Dimensions.get('window').height / 12,
   },
   comment_card: {
     padding: '2%',
@@ -234,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     borderBottomWidth: 3,
-    borderBottomColor: "#ff8b6a"
+    borderBottomColor: "#ff8b6a",
   },
   username: {
     fontWeight: 'bold',
@@ -278,6 +286,6 @@ const styles = StyleSheet.create({
     color: '#bbbbbb',
   },
   prayerBody: {
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 });

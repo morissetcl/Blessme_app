@@ -10,15 +10,15 @@ export function createUser(params) {
     body: JSON.stringify({
       email: params['email'],
       username: params['username'],
-      token: params['token']
+      token: params['token'],
     }),
   });
 }
 
 export function updateUser(params) {
-  var avatarParams = params['avatar'] || undefined
-  var usernameParams = params['username']  || undefined
-  var biographyParams = params['biography']  || undefined
+  let avatarParams = params['avatar'] || undefined;
+  let usernameParams = params['username'] || undefined;
+  let biographyParams = params['biography'] || undefined;
   return fetch(`${getApiUrl()}/users//${params['email']}`, {
     method: 'PATCH',
     headers: {
@@ -28,7 +28,7 @@ export function updateUser(params) {
     body: JSON.stringify({
       avatar: avatarParams,
       username: usernameParams,
-      biography: biographyParams
+      biography: biographyParams,
     }),
   }).then(response => response)
     .then(json => {

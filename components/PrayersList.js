@@ -36,9 +36,9 @@ export default class PrayersList extends React.Component {
           const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
           const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
 
-          const checkDate = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' })
+          const checkDate = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
 
-          const formattedCreatedAtSince = (createdAtSince !== 0) ? checkDate : i18n.t('today', { defaultValue: 'Today' });
+          const formattedCreatedAtSince = (createdAtSince !== 0) ? checkDate : i18n.t('today', { defaultValue: '-' });
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}
@@ -46,7 +46,9 @@ export default class PrayersList extends React.Component {
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
             <TouchableOpacity>
               { response.body ?
-                <Text onPress={(value) => { this.goToPrayerRequest(response.prayer_request.id); }}>
+                <Text onPress={(value) => {
+                  this.goToPrayerRequest(response.prayer_request.id);
+                }}>
                   {response.body}
                 </Text>
                 :
@@ -66,14 +68,14 @@ export default class PrayersList extends React.Component {
 
     i18n.translations = {
       fr: {
-            prayerDate: "Il y a {{ createdAtSince }} jours",
-            today: "Aujourd'hui"
-          },
+        prayerDate: "Il y a {{ createdAtSince }} jours",
+        today: "Aujourd'hui",
+      },
       en: {
 
-            prayerDate: "{{createdAtSince}} days ago",
-            today: 'Today'
-          }
+        prayerDate: "{{createdAtSince}} days ago",
+        today: 'Today',
+      },
     };
 
     return (
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
     height: '100%',
-    paddingTop: '2%'
+    paddingTop: '2%',
   },
   container_prayer_request_card_with_margin: {
     paddingTop: '2%',
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
   comment_card: {
     padding: '2%',
     backgroundColor: 'white',
-    marginBottom: '2%'
+    marginBottom: '2%',
   },
   username: {
     fontWeight: 'bold',

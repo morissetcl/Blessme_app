@@ -16,16 +16,16 @@ export default class ModalActions extends Component {
       body: props.body,
       title: props.title,
       category: props.category,
-      prayerRequestId: props.prayerId
+      prayerRequestId: props.prayerId,
     };
   }
 
   _deletePrayerRequest = () => {
-    const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' })
+    const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation }).then(() => {
-        displayMessage(trad, 'success')
+      displayMessage(trad, 'success');
     });
   }
 
@@ -37,7 +37,7 @@ export default class ModalActions extends Component {
       category: this.state.category,
       username: this.state.username,
       editPrayer: true,
-      prayerRequestId: this.state.prayerRequestId
+      prayerRequestId: this.state.prayerRequestId,
     });
   }
 
@@ -46,12 +46,12 @@ export default class ModalActions extends Component {
       this.state.title,
       i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
       [
-        {text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this._deletePrayerRequest()},
-        {text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequestForm()},
-        {text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('')}
+        { text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this._deletePrayerRequest() },
+        { text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequestForm() },
+        { text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('') },
       ],
-      { onDismiss: () => {} }
-    )
+      { onDismiss: () => {} },
+    );
   }
 
   render() {
@@ -60,19 +60,19 @@ export default class ModalActions extends Component {
 
     i18n.translations = {
       fr: {
-            areYouSurePr: 'Que voulez vous faire avec cette demande ?',
-            edit: 'Modifier',
-            delete: 'Supprimer',
-            cancel: 'Annuler',
-            deleteSuccess: 'Votre demande a bien été supprimée.'
-          },
+        areYouSurePr: 'Que voulez vous faire avec cette demande ?',
+        edit: 'Modifier',
+        delete: 'Supprimer',
+        cancel: 'Annuler',
+        deleteSuccess: 'Votre demande a bien été supprimée.',
+      },
       en: {
-            areYouSurePr: 'What do you want to do ?',
-            edit: 'Edit',
-            delete: 'Remove',
-            cancel: 'Cancel',
-            deleteSuccess: 'Prayer reqest deleted with success.'
-          }
+        areYouSurePr: 'What do you want to do ?',
+        edit: 'Edit',
+        delete: 'Remove',
+        cancel: 'Cancel',
+        deleteSuccess: 'Prayer reqest deleted with success.',
+      },
     };
 
     return (
@@ -90,5 +90,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 0,
-  }
+  },
 });

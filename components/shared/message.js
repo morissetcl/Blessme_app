@@ -4,6 +4,6 @@ export function displayMessage(message, type) {
   showMessage({
     message: message,
     type: type,
-    icon: type
+    icon: type,
   });
 }
