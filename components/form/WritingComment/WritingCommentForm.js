@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { TouchableHighlight, TextInput, StyleSheet, View,
   Text, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, Divider } from 'react-native-elements';
-import { createPrayer, editPrayer } from '../../api/Prayer';
-import { displayMessage } from "../shared/message";
+import { createPrayer, editPrayer } from '../../../api/Prayer';
+import { displayMessage } from "../../shared/message";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import PublishButton from '../shared/buttons/PublishButton';
+import PublishButton from '../../shared/buttons/PublishButton';
+import { styles } from './Styles'
 
 export default class WritingCommentForm extends Component {
   constructor(props) {
@@ -100,34 +101,3 @@ export default class WritingCommentForm extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  divider: {
-    backgroundColor: '#dee0d9',
-    width: '90%',
-    height: 1,
-    marginLeft: '5%',
-    position: 'relative',
-    top: 30,
-  },
-  prayer_title: {
-    textAlign: 'justify',
-    paddingRight: '30%',
-    paddingLeft: 10,
-    paddingTop: 20,
-    fontWeight: 'bold',
-  },
-  comment_input: {
-    marginTop: 50,
-    marginLeft: 10,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  positionPublishButton: {
-    position: 'absolute',
-    right: '10%',
-    top: '4%',
-  },
-});

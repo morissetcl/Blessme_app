@@ -4,7 +4,7 @@ import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
 import Prayer from '../components/Prayer';
-import WritingCommentForm from '../components/form/WritingCommentForm';
+import WritingCommentForm from '../components/form/WritingComment/WritingCommentForm';
 import UserProfileForm from '../components/form/UserProfile/UserProfileForm';
 import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequestForm';
 import Profile from '../components/Profile';

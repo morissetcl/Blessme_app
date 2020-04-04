@@ -9,7 +9,7 @@ import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
 import { displayMessage } from "./shared/message";
-import WritingCommentForm from './form/WritingCommentForm';
+import WritingCommentForm from './form/WritingComment/WritingCommentForm';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
 import * as Localization from 'expo-localization';
