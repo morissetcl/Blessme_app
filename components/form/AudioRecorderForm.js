@@ -1,20 +1,22 @@
 import React from 'react';
-import { Dimensions, Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Expo, { Asset, Font } from 'expo';
-import * as FileSystem from 'expo-file-system'
+import { Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+
 import { Audio } from 'expo-av';
+import * as FileSystem from 'expo-file-system'
 import * as Permissions from 'expo-permissions';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
-import { createPrayer, editPrayer } from '../../api/Prayer';
-import Pulse from 'react-native-pulse';
 import * as Localization from 'expo-localization';
+
 import i18n from 'i18n-js';
+import Pulse from 'react-native-pulse';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faMicrophone, faPause, faPlay, faStop, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+
+import { createPrayer } from '../../api/Prayer';
 
 const BACKGROUND_COLOR = '#eaeaea';
 const DISABLED_OPACITY = 0.5;
 
-export default class AudioRecorder extends React.Component {
+export default class AudioRecorderForm extends React.Component {
   constructor(props) {
     super(props);
     this.recording = null;

@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { TouchableHighlight, TextInput, StyleSheet, View,
-  Text, Button, TouchableOpacity, ActivityIndicator, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Input, Divider, ButtonGroup } from 'react-native-elements';
+import { React, Component } from 'react';
+import { TextInput, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+
+import * as Localization from 'expo-localization';
+
+import { Divider, ButtonGroup } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
+
+import { createPrayerRequestAndRedirect, editPrayerRequest } from '../../api/PrayerRequest';
 import { displayMessage } from "../shared/message";
 import { getCategories } from '../../api/Category';
-import { NavigationEvents } from 'react-navigation';
-import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
 export default class PrayerRequestForm extends Component {

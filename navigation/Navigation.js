@@ -8,7 +8,7 @@ import WritingCommentForm from '../components/form/WritingCommentForm';
 import UserProfileForm from '../components/form/UserProfileForm';
 import PrayerRequestForm from '../components/form/PrayerRequestForm';
 import Profile from '../components/Profile';
-import AudioRecorder from '../components/form/AudioRecorder';
+import AudioRecorderForm from '../components/form/AudioRecorderForm';
 import ResetPassword from '../components/form/ResetPassword';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -103,8 +103,8 @@ const SearchStackNavigator = createStackNavigator(
         header: null,
       },
     },
-    AudioRecorder: {
-      screen: AudioRecorder,
+    AudioRecorderForm: {
+      screen: AudioRecorderForm,
       navigationOptions: {
         title: i18n.t('audio'),
         headerTintColor: '#FFFFFF',
