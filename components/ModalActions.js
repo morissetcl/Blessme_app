@@ -29,8 +29,8 @@ export default class ModalActions extends Component {
     });
   }
 
-  _goToPrayerRequestForm = () => {
-    this.state.navigation.navigate('PrayerRequestForm', {
+  _goToPrayerRequest = () => {
+    this.state.navigation.navigate('PrayerRequest', {
       currentUserToken: this.state.currentUserToken,
       body: this.state.body,
       title: this.state.title,
@@ -47,7 +47,7 @@ export default class ModalActions extends Component {
       i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
       [
         { text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this._deletePrayerRequest() },
-        { text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequestForm() },
+        { text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequest() },
         { text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('') },
       ],
       { onDismiss: () => {} },

@@ -9,7 +9,7 @@ import i18n from 'i18n-js';
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
 
-export default class WritingCommentForm extends Component {
+export default class WritingComment extends Component {
   constructor(props) {
     super(props);
     this.state = {

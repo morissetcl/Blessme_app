@@ -15,7 +15,7 @@ import { styles } from './Styles'
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
-export default class PrayerRequestForm extends Component {
+export default class PrayerRequest extends Component {
   constructor(props) {
     super(props);
     const params = props.navigation.state.params;

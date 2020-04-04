@@ -4,12 +4,12 @@ import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
 import Prayer from '../components/Prayer';
-import WritingCommentForm from '../components/form/WritingComment/WritingCommentForm';
-import UserProfileForm from '../components/form/UserProfile/UserProfileForm';
-import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequestForm';
+import WritingComment from '../components/form/WritingComment/WritingComment';
+import UserProfile from '../components/form/UserProfile/UserProfile';
+import PrayerRequest from '../components/form/PrayerRequest/PrayerRequest';
 import Profile from '../components/Profile';
-import AudioRecorderForm from '../components/form/AudioRecorder/AudioRecorderForm';
-import ResetPasswordForm from '../components/form/ResetPassword/ResetPasswordForm';
+import AudioRecorder from '../components/form/AudioRecorder/AudioRecorder';
+import ResetPassword from '../components/form/ResetPassword/ResetPassword';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -45,14 +45,14 @@ const SearchStackNavigator = createStackNavigator(
         header: null,
       },
     },
-    ResetPasswordForm: {
-      screen: ResetPasswordForm,
+    ResetPassword: {
+      screen: ResetPassword,
       navigationOptions: {
         header: null,
       },
     },
-    WritingCommentForm: {
-      screen: WritingCommentForm,
+    WritingComment: {
+      screen: WritingComment,
       navigationOptions: {
         title: i18n.t('prayer'),
         headerTintColor: '#FFFFFF',
@@ -61,8 +61,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    UserProfileForm: {
-      screen: UserProfileForm,
+    UserProfile: {
+      screen: UserProfile,
       navigationOptions: {
         title: i18n.t('editProfil'),
         headerTintColor: '#FFFFFF',
@@ -71,8 +71,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    PrayerRequestForm: {
-      screen: PrayerRequestForm,
+    PrayerRequest: {
+      screen: PrayerRequest,
       navigationOptions: {
         title: i18n.t('prayerRequest'),
         headerTintColor: '#FFFFFF',
@@ -103,8 +103,8 @@ const SearchStackNavigator = createStackNavigator(
         header: null,
       },
     },
-    AudioRecorderForm: {
-      screen: AudioRecorderForm,
+    AudioRecorder: {
+      screen: AudioRecorder,
       navigationOptions: {
         title: i18n.t('audio'),
         headerTintColor: '#FFFFFF',

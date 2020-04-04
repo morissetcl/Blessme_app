@@ -9,7 +9,7 @@ import PrayerRequestCard from './PrayerRequestCard';
 import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
 import { displayMessage } from "./shared/message";
-import WritingCommentForm from './form/WritingComment/WritingCommentForm';
+import WritingComment from './form/WritingComment/WritingComment';
 import * as Expo from 'expo';
 import AudioPrayer from './AudioPrayer';
 import * as Localization from 'expo-localization';
@@ -122,7 +122,7 @@ export default class Prayer extends Component {
                 <TouchableOpacity
                   style={styles.publish_button}
                   onPress={(value) => {
-                    this.state.navigation.navigate('WritingCommentForm', { prayerRequest: this.state.prayerRequest,
+                    this.state.navigation.navigate('WritingComment', { prayerRequest: this.state.prayerRequest,
                       currentUserToken: this.state.currentUserToken, prayerId: this.state.prayerId,
                       body: response.body, commentId: response.id });
                   }}>

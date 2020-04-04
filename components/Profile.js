@@ -66,7 +66,7 @@ export default class Profile extends Component {
   };
 
   goToEditUser() {
-    this.state.navigation.navigate('UserProfileForm', { username: this.state.username,
+    this.state.navigation.navigate('UserProfile', { username: this.state.username,
       avatarUrl: this.state.avatarUrl,
       email: this.state.currentUserToken,
       navigation: this.state.navigation,

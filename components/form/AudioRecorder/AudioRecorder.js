@@ -18,7 +18,7 @@ import { styles } from './Styles'
 const DISABLED_OPACITY = 0.5;
 const BACKGROUND_COLOR = '#eaeaea';
 
-export default class AudioRecorderForm extends React.Component {
+export default class AudioRecorder extends React.Component {
   constructor(props) {
     super(props);
     this.recording = null;

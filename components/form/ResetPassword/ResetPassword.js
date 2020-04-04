@@ -7,7 +7,7 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { styles } from './Styles'
 
-export default class ResetPasswordForm extends Component {
+export default class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {

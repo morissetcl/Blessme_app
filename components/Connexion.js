@@ -168,7 +168,7 @@ export default class Connexion extends React.Component {
   }
 
   goToResetPassword() {
-    this.props.navigation.navigate('ResetPasswordForm', { firebase: firebase.auth() });
+    this.props.navigation.navigate('ResetPassword', { firebase: firebase.auth() });
   }
 
   render() {

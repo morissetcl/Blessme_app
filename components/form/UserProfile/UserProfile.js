@@ -9,7 +9,7 @@ import i18n from 'i18n-js';
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
 
-export default class UserProfileForm extends Component {
+export default class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,7 +47,7 @@ export default class UserProfileForm extends Component {
           style: 'cancel',
           onPress: () => console.log('cancel pressed'),
         },
-        { text: i18n.t('yes'),
+        { text: i18n.t('yes', { defaultValue: 'Yes' }),
           onPress: () => this.state.navigation.navigate('Connexion', { signOut: true }),
         },
       ],
@@ -110,10 +110,9 @@ export default class UserProfileForm extends Component {
           onChangeText={(biography) => this.setState({ biography })}
           style={styles.input}
         />
-        <TouchableOpacity style={styles.signout_button}
-          onPress={() => this.modalAlert()}>
-          <Text style={styles.button_text}>{ i18n.t('signOutButton', { defaultValue: 'Sign out' }) }</Text>
-        </TouchableOpacity>
+        <View style={styles.positionSignOutButton} >
+          <PublishButton onPress={ () => this.modalAlert() } buttonType={'signOut'} />
+        </View>
       </View>
     );
   }

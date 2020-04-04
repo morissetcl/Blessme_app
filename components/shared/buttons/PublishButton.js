@@ -6,7 +6,6 @@ import i18n from 'i18n-js';
 export default class PublishButton extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       buttonType: this.buttonType(),
     };
@@ -24,10 +23,12 @@ export default class PublishButton extends Component {
       fr: {
         edit: 'Modifier',
         publish: 'Publier',
+        signOut: 'Déconnexion',
       },
       en: {
         edit: 'Edit',
         publish: 'Publish',
+        signOut: 'Sign out',
       },
     };
     return (

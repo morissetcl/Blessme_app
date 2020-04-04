@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     right: '10%',
     top: '4%',
   },
+  positionSignOutButton: {
+    position: 'absolute',
+    bottom: 50,
+    left: 20
+  }
 });
 
 export { styles }
