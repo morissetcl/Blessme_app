@@ -24,7 +24,7 @@ export default class Profile extends Component {
       userToken: props.navigation.state.params.userToken,
       avatarUrl: '',
       avatarLoaded: 'loaded',
-      biography: ''
+      biography: '',
     };
   }
 
@@ -35,8 +35,11 @@ export default class Profile extends Component {
   retrieveUser() {
     const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
     getUsers(token).then(data => {
-      if(data != undefined) {
-        this.setState({ createdAt: data.created_at, username: data.username, avatarUrl: data.avatar, biography: data.biography });
+      if (data !== undefined) {
+        this.setState({ createdAt: data.created_at,
+          username: data.username,
+          avatarUrl: data.avatar,
+          biography: data.biography });
       }
     });
   }
@@ -52,7 +55,10 @@ export default class Profile extends Component {
     if (!result.cancelled) {
       this.setState({ avatarLoaded: 'loading' });
       const email = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
-      updateUser({email: email, avatar: result.base64, username: this.state.username, navigation: this.state.navigation}).then(() => {
+      updateUser({ email: email,
+        avatar: result.base64,
+        username: this.state.username,
+        navigation: this.state.navigation }).then(() => {
         this.setState({ avatarUrl: result.uri });
         this.setState({ avatarLoaded: 'loaded' });
       });
@@ -60,7 +66,11 @@ export default class Profile extends Component {
   };
 
   goToEditUser() {
-    this.state.navigation.navigate('UserProfileForm', { username: this.state.username, avatarUrl: this.state.avatarUrl, email: this.state.currentUserToken, navigation: this.state.navigation, biography: this.state.biography })
+    this.state.navigation.navigate('UserProfileForm', { username: this.state.username,
+      avatarUrl: this.state.avatarUrl,
+      email: this.state.currentUserToken,
+      navigation: this.state.navigation,
+      biography: this.state.biography });
   }
 
   editUser() {
@@ -71,9 +81,9 @@ export default class Profile extends Component {
           size={22}
           color={ "#bbbbbb" }
           onPress={() => this.goToEditUser()}
-          />
+        />
       </TouchableOpacity>
-    )
+    );
   }
 
   renderPrayerRequest() {
@@ -85,9 +95,8 @@ export default class Profile extends Component {
         currentUserToken={ this.state.currentUserToken }
         username={ this.state.username}
         profileFeed={ true }/>
-    )
+    );
   }
-
 
   render() {
     i18n.locale = Localization.locale;
@@ -95,21 +104,21 @@ export default class Profile extends Component {
 
     i18n.translations = {
       fr: {
-            request: 'Demandes',
-            intercession: 'Intercessions',
-            firstDay: 'Premier jour parmis nous !',
-            addSomeWords: "Ajoutez quelques mots sur vous en cliquant sur l'icône ci-dessus !",
-            memberSince: "Membre depuis",
-            days: 'jours'
-          },
+        request: 'Demandes',
+        intercession: 'Intercessions',
+        firstDay: 'Premier jour parmis nous !',
+        addSomeWords: "Ajoutez quelques mots sur vous en cliquant sur l'icône ci-dessus !",
+        memberSince: "Membre depuis",
+        days: 'jours',
+      },
       en: {
-            request: 'Requests',
-            intercession: 'Intercessions',
-            firstDay: 'First day among us !',
-            addSomeWords: 'Add some words about you by clicking on the pencil above',
-            memberSince: "Member for",
-            days: 'days'
-          }
+        request: 'Requests',
+        intercession: 'Intercessions',
+        firstDay: 'First day among us !',
+        addSomeWords: 'Add some words about you by clicking on the pencil above',
+        memberSince: "Member for",
+        days: 'days',
+      },
     };
 
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
@@ -117,7 +126,7 @@ export default class Profile extends Component {
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     const allowsEditing = this.state.userToken ? false : true;
     const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
-    const date = `${i18n.t('memberSince', { defaultValue: '' })} ${memberSince} ${i18n.t('days', { defaultValue: '' })}`
+    const date = `${i18n.t('memberSince', { defaultValue: '' })} ${memberSince} ${i18n.t('days')}`;
 
     return (
       <View style={styles.container}>
@@ -152,11 +161,15 @@ export default class Profile extends Component {
               <Text style={styles.bold} >{ this.state.username }</Text>
               { allowsEditing ? this.editUser() : <Text></Text> }
             </View>
-            <Text style={styles.since}>{ memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) } </Text>
+            <Text style={styles.since}>
+              { memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) }
+            </Text>
             { this.state.biography ?
               <Text style={styles.biography}>{ this.state.biography }</Text>
               :
-              allowsEditing ? <Text style={styles.noBiography}>{ i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }</Text>  : <Text></Text>
+              allowsEditing ? <Text style={styles.noBiography}>
+                { i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }
+              </Text> : <Text></Text>
             }
           </View>
           :
@@ -193,12 +206,12 @@ const styles = StyleSheet.create({
   user_informations: {
     marginTop: 20,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
   },
   bold: {
     fontWeight: 'bold',
     fontSize: 20,
-    marginRight: 10
+    marginRight: 10,
   },
   container: {
     height: '8%',
@@ -211,16 +224,16 @@ const styles = StyleSheet.create({
   top: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   biography: {
-    marginTop: 10
+    marginTop: 10,
   },
   noBiography: {
     marginTop: 10,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   since: {
-    color: "#bbbbbb"
-  }
+    color: "#bbbbbb",
+  },
 });

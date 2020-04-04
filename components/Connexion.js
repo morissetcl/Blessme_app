@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
   ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
-import * as Facebook from 'expo-facebook'
+import * as Facebook from 'expo-facebook';
 import * as firebase from "firebase";
 import Prayers from './Prayers';
 import { displayMessage } from "./shared/message";
@@ -37,12 +37,12 @@ export default class Connexion extends React.Component {
       signIn: false,
       hideTagLine: false,
       signOut: false,
-      alreadySignUp: false
+      alreadySignUp: false,
     };
   }
 
   SignUp = (email, password) => {
-    {i18n.t('verse', { defaultValue: '1 Timothy 2:1' })}
+    { i18n.t('verse', { defaultValue: '1 Timothy 2:1' }); }
     if (this.state.email.length !== 0 && this.state.password.length !== 0 && this.state.username.length !== 0) {
       try {
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -50,13 +50,13 @@ export default class Connexion extends React.Component {
           .catch(error => {
             switch (error.code) {
               case 'auth/invalid-email':
-                displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning')
+                displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning');
                 break;
               case 'auth/weak-password':
-                displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning')
+                displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning');
                 break;
               case 'auth/email-already-in-use':
-                displayMessage(i18n.t('emailExist', { defaultValue: 'Password too short' }), 'warning')
+                displayMessage(i18n.t('emailExist', { defaultValue: 'Password too short' }), 'warning');
                 break;
             }
           });
@@ -64,22 +64,22 @@ export default class Connexion extends React.Component {
         alert("Error : ", error);
       }
     } else {
-      displayMessage(i18n.t('missingField', { defaultValue: 'Add password' }), 'warning')
+      displayMessage(i18n.t('missingField', { defaultValue: 'Add password' }), 'warning');
     }
   };
 
   initializeUser(e) {
-    createUser({ email: this.state.email, username: this.state.username, token: e['user']['uid'] })
+    createUser({ email: this.state.email, username: this.state.username, token: e['user']['uid'] });
     registerForNotifications(e['user']['uid']);
 
-    this.setState({ logged: true, token: e['user']['uid'] })
+    this.setState({ logged: true, token: e['user']['uid'] });
   }
 
   initializeFbUser(response) {
-    createUser({ email: response.user.email, token: response.user.uid })
+    createUser({ email: response.user.email, token: response.user.uid });
     registerForNotifications(response.user.uid);
 
-    this.setState({ logged: true, token: response.user.uid })
+    this.setState({ logged: true, token: response.user.uid });
   }
 
   Login = (email, password) => {
@@ -87,17 +87,17 @@ export default class Connexion extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then((e) => this.setState({ logged: true,  token: e['user']['uid'], email: email }))
+        .then((e) => this.setState({ logged: true, token: e['user']['uid'], email: email }))
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning')
+              displayMessage(i18n.t('weakPassword', { defaultValue: 'Password too short' }), 'warning');
               break;
             case 'auth/user-not-found':
-              displayMessage(i18n.t('userNotFound', { defaultValue: 'User not found' }), 'warning')
+              displayMessage(i18n.t('userNotFound', { defaultValue: 'User not found' }), 'warning');
               break;
             case 'auth/invalid-email':
-              displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning')
+              displayMessage(i18n.t('invalidEmail', { defaultValue: 'Add password' }), 'warning');
               break;
           }
         });
@@ -107,15 +107,14 @@ export default class Connexion extends React.Component {
   };
 
   componentDidUpdate() {
-    const signOut = this.props.navigation.state.params ? this.props.navigation.state.params.signOut : false
+    const signOut = this.props.navigation.state.params ? this.props.navigation.state.params.signOut : false;
     if (signOut && !this.state.alreadySignUp) {
-      firebase.auth().signOut()
+      firebase.auth().signOut();
       this.setState({ logged: false, alreadySignUp: true });
     }
   }
 
   componentDidMount() {
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ logged: true, token: user.uid });
@@ -134,11 +133,11 @@ export default class Connexion extends React.Component {
   }
 
   _keyboardDidShow = () => {
-    this.setState({ hideTagLine: true })
+    this.setState({ hideTagLine: true });
   }
 
   _keyboardDidHide = () => {
-    this.setState({ hideTagLine: false })
+    this.setState({ hideTagLine: false });
   }
 
   async handleFacebookButton() {
@@ -156,12 +155,12 @@ export default class Connexion extends React.Component {
       if (type === 'success') {
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         auth.signInWithCredential(credential)
-            .then((response) => {
-              this.initializeFbUser(response)
-            })
-            .catch(error => {
-              this.setState({ errorMessage: error.message });
-            });
+          .then((response) => {
+            this.initializeFbUser(response);
+          })
+          .catch(error => {
+            this.setState({ errorMessage: error.message });
+          });
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
@@ -178,43 +177,43 @@ export default class Connexion extends React.Component {
 
     i18n.translations = {
       fr: {
-            tagLine: 'Votre foi est précieuse, partagez-la.',
-            pseudonyme: 'Pseudonyme',
-            email: 'Email',
-            password: 'Mot de passe',
-            signUp: 'Inscription',
-            signIn: 'Connexion',
-            fbChoice: 'Ou connectez-vous via',
-            alreadySignUp: 'Déja membre ?',
-            notSignUpYet: 'Pas encore inscrit ?',
-            forgotPassword: 'Mot de passe oublié ?',
-            verse: '1 Timothée 2:1',
-            invalidEmail: 'Veuillez rentrer un email validee.',
-            weakPassword: 'Votre de mot de passe est trop court (minimum 6 caractères)',
-            emailExist: "L'Email existe déja",
-            missingField: "Merci de remplir tout les champs.",
-            userNotFound: "Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe."
-          },
+        tagLine: 'Votre foi est précieuse, partagez-la.',
+        pseudonyme: 'Pseudonyme',
+        email: 'Email',
+        password: 'Mot de passe',
+        signUp: 'Inscription',
+        signIn: 'Connexion',
+        fbChoice: 'Ou connectez-vous via',
+        alreadySignUp: 'Déja membre ?',
+        notSignUpYet: 'Pas encore inscrit ?',
+        forgotPassword: 'Mot de passe oublié ?',
+        verse: '1 Timothée 2:1',
+        invalidEmail: 'Veuillez rentrer un email validee.',
+        weakPassword: 'Votre de mot de passe est trop court (minimum 6 caractères)',
+        emailExist: "L'Email existe déja",
+        missingField: "Merci de remplir tout les champs.",
+        userNotFound: "Aucun utilisateur trouvé, veuillez vérifier votre email et votre mot de passe.",
+      },
       en: {
-            tagLine: 'Your faith is worthy. Share it',
-            pseudonyme: 'Username',
-            email: 'Email',
-            password: 'Password',
-            signUp: 'Sign up',
-            signIn: 'Sign in',
-            fbChoice: 'Or continue with',
-            alreadySignUp: 'Already a member ?',
-            notSignUpYet: 'Not sign up yet ?',
-            forgotPassword: 'Forgot your password ?',
-            verse: '1 Timothy 2:1',
-            invalidEmail: 'Please enter a valid email.',
-            weakPassword: 'Your password is too short (minimum 6 characters)',
-            emailExist: "Email already exist.",
-            missingField: "Please fill all fields.",
-            userNotFound: "User not found, please check email and password."
-          }
+        tagLine: 'Your faith is worthy. Share it',
+        pseudonyme: 'Username',
+        email: 'Email',
+        password: 'Password',
+        signUp: 'Sign up',
+        signIn: 'Sign in',
+        fbChoice: 'Or continue with',
+        alreadySignUp: 'Already a member ?',
+        notSignUpYet: 'Not sign up yet ?',
+        forgotPassword: 'Forgot your password ?',
+        verse: '1 Timothy 2:1',
+        invalidEmail: 'Please enter a valid email.',
+        weakPassword: 'Your password is too short (minimum 6 characters)',
+        emailExist: "Email already exist.",
+        missingField: "Please fill all fields.",
+        userNotFound: "User not found, please check email and password.",
+      },
     };
-    const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : ''
+    const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : '';
     return (
       <View style={styles.container}>
         { this.state.firebaseCheck ?
@@ -299,7 +298,11 @@ export default class Connexion extends React.Component {
                           <Text style={{ color: 'white' }}>{i18n.t('signIn', { defaultValue: 'Sign in' })}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={ () => this.goToResetPassword() } >
-                          <Text style={{ color: 'black', textAlign: 'center' }}>{i18n.t('forgotPassword', { defaultValue: 'Forgot password ?' })}</Text>
+                          <Text style={{
+                            color: 'black',
+                            textAlign: 'center' }}>
+                            { i18n.t('forgotPassword', { defaultValue: 'Forgot password ?' })}
+                          </Text>
                         </TouchableOpacity>
                       </View>
                     }
@@ -310,11 +313,21 @@ export default class Connexion extends React.Component {
             <View style={styles.inscription_buttons}>
               { !this.state.signIn ?
                 <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('alreadySignUp', { defaultValue: 'Already sign up ?' })}</Text>
+                  <Text style={{
+                    color: 'white',
+                    textAlign: 'center' }}
+                  >
+                    {i18n.t('alreadySignUp', { defaultValue: 'Already sign up ?' })}
+                  </Text>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                  <Text style={{ color: 'white', textAlign: 'center' }}>{i18n.t('notSignUpYet', { defaultValue: 'Not sign up yet ?' })}</Text>
+                  <Text style={{
+                    color: 'white',
+                    textAlign: 'center',
+                  }}>
+                    {i18n.t('notSignUpYet', { defaultValue: 'Not sign up yet ?' })}
+                  </Text>
                 </TouchableOpacity>
               }
             </View>
@@ -350,7 +363,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height + 100,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   boutons_wrapper: {
     display: 'flex',
@@ -367,7 +380,7 @@ const styles = StyleSheet.create({
     paddingBottom: '5%',
     margin: '12%',
     borderRadius: 10,
-    width:'100%',
+    width: '100%',
   },
   bouton_transparent: {
     borderColor: '#01676b',
@@ -383,7 +396,7 @@ const styles = StyleSheet.create({
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
-    width:'80%',
+    width: '80%',
     padding: 10,
     display: 'flex',
     alignItems: 'center',
@@ -418,5 +431,5 @@ const styles = StyleSheet.create({
   },
   space: {
     height: 17,
-  }
+  },
 });

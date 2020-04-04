@@ -19,13 +19,13 @@ export default class Prayers extends Component {
       navigation: this.props.navigation,
       currentUserToken: this.props.currentUserToken,
       username: this.props.username,
-      avatarUrl: ''
+      avatarUrl: '',
     };
   }
 
   retrieveUser() {
     getUsers(this.state.currentUserToken).then(data => {
-      if(data != undefined) {
+      if (data !== undefined) {
         this.setState({ avatarUrl: data.avatar });
       }
     });
@@ -41,13 +41,13 @@ export default class Prayers extends Component {
 
     i18n.translations = {
       fr: {
-            request: "Demandes",
-            intercession: "Intercessions"
-          },
+        request: "Demandes",
+        intercession: "Intercessions",
+      },
       en: {
-            request: "Requests",
-            intercession: 'Intercessions'
-          }
+        request: "Requests",
+        intercession: 'Intercessions',
+      },
     };
 
     return (
@@ -86,7 +86,8 @@ export default class Prayers extends Component {
               size={36} color={ '#FFFFFF' }
               style = {styles.add_prayer}
               onPress={(value) => {
-                this.state.navigation.navigate('PrayerRequestForm', { token: this.state.currentUserToken, prayerRequest: ''});
+                this.state.navigation.navigate('PrayerRequestForm', { token: this.state.currentUserToken,
+                  prayerRequest: '' });
               }}
             />
           </TouchableOpacity>
@@ -116,15 +117,15 @@ const styles = StyleSheet.create({
     elevation: 1,
     borderWidth: 2,
     borderColor: 'transparent',
-    borderTopColor: '#eaeaea'
+    borderTopColor: '#eaeaea',
   },
   container: {
     height: '8%',
     flex: 1,
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
   },
   content: {
     flex: 1,
-    backgroundColor: '#eaeaea'
+    backgroundColor: '#eaeaea',
   },
 });

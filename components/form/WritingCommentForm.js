@@ -21,23 +21,23 @@ export default class WritingCommentForm extends Component {
   }
 
   addPrayer(prayerId) {
-    const fail = i18n.t('fail')
-    const created = i18n.t('created', { defaultValue: 'Prayer created.' })
+    const fail = i18n.t('fail');
+    const created = i18n.t('created', { defaultValue: 'Prayer created.' });
 
     if (this.state.body) {
       createPrayer({ currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
-      displayMessage(created, 'success')
+      displayMessage(created, 'success');
     } else {
-      displayMessage(fail, 'warning')
+      displayMessage(fail, 'warning');
     }
   }
 
   editrayer(prayerId) {
-    const fail = i18n.t('fail', { defaultValue: 'Please fill everything.' })
-    const success = i18n.t('success', { defaultValue: 'Prayer edited.' })
+    const fail = i18n.t('fail', { defaultValue: 'Please fill everything.' });
+    const success = i18n.t('success', { defaultValue: 'Prayer edited.' });
 
     if (this.state.body) {
       editPrayer({ currentUserToken: this.state.currentUserToken,
@@ -45,9 +45,9 @@ export default class WritingCommentForm extends Component {
         prayerId: this.state.prayerId,
         navigation: this.props.navigation,
         commentId: this.state.commentId });
-      displayMessage(success, 'success')
+      displayMessage(success, 'success');
     } else {
-      displayMessage(fail, 'warning')
+      displayMessage(fail, 'warning');
     }
   }
 
@@ -57,21 +57,21 @@ export default class WritingCommentForm extends Component {
 
     i18n.translations = {
       fr: {
-            fail: 'Merci de remplir tous les champs pour ajouter votre prière.',
-            success: 'Votre prière a bien été modifiée.',
-            created: 'Votre prière a bien été créée.',
-            edit: 'Modifier',
-            publish: 'Publier',
-            placeholder: 'Écrivez votre prière..'
-          },
+        fail: 'Merci de remplir tous les champs pour ajouter votre prière.',
+        success: 'Votre prière a bien été modifiée.',
+        created: 'Votre prière a bien été créée.',
+        edit: 'Modifier',
+        publish: 'Publier',
+        placeholder: 'Écrivez votre prière..',
+      },
       en: {
-            fail: 'Please fill all required fields.',
-            success: 'Prayer successfully updated.',
-            created: 'Prayer successfully created.',
-            edit: 'Edit',
-            publish: 'Publish',
-            placeholder: 'Write you prayer..'
-          }
+        fail: 'Please fill all required fields.',
+        success: 'Prayer successfully updated.',
+        created: 'Prayer successfully created.',
+        edit: 'Edit',
+        publish: 'Publish',
+        placeholder: 'Write you prayer..',
+      },
     };
 
     const bodyEdition = this.state.body ? this.state.body : '';
@@ -80,12 +80,16 @@ export default class WritingCommentForm extends Component {
         <Text style={styles.prayer_title} >{ this.state.prayerTitle }</Text>
         { this.state.editPrayer ?
           <TouchableOpacity style={styles.publish_button}
-            onPress={(value) => { this.editrayer(this.state.prayerId); }}>
+            onPress={(value) => {
+              this.editrayer(this.state.prayerId);
+            }}>
             <Text style={styles.button_text}>{ i18n.t('edit', { defaultValue: 'Edit' }) }</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={styles.publish_button}
-            onPress={(value) => { this.addPrayer(this.state.prayerId); }}>
+            onPress={(value) => {
+              this.addPrayer(this.state.prayerId);
+            }}>
             <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
           </TouchableOpacity>
 
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     height: 1,
     marginLeft: '5%',
     position: 'relative',
-    top: 30
+    top: 30,
   },
   prayer_title: {
     textAlign: 'justify',

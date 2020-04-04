@@ -2,7 +2,7 @@ import React from 'react';
 import { Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as Localization from 'expo-localization';
 
@@ -77,7 +77,7 @@ export default class AudioRecorderForm extends React.Component {
         muted: status.isMuted,
         volume: status.volume,
         shouldCorrectPitch: status.shouldCorrectPitch,
-        isPlaybackAllowed: true
+        isPlaybackAllowed: true,
       });
     } else {
       this.setState({
@@ -124,7 +124,7 @@ export default class AudioRecorderForm extends React.Component {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true,
-      staysActiveInBackground: true
+      staysActiveInBackground: true,
     });
     if (this.recording !== null) {
       this.recording.setOnRecordingStatusUpdate(null);
@@ -300,13 +300,13 @@ export default class AudioRecorderForm extends React.Component {
 
     i18n.translations = {
       fr: {
-            publish: 'Publier',
-            authorization: 'Vous devez activer les autorisations audio pour enregistrer votre prière.'
-          },
+        publish: 'Publier',
+        authorization: 'Vous devez activer les autorisations audio pour enregistrer votre prière.',
+      },
       en: {
-            publish: 'Publish',
-            authorization: 'You have to authorize audio to record your prayer.'
-          }
+        publish: 'Publish',
+        authorization: 'You have to authorize audio to record your prayer.',
+      },
     };
 
     return !this.state.haveRecordingPermissions ?
@@ -375,9 +375,11 @@ export default class AudioRecorderForm extends React.Component {
 
                     underlayColor={BACKGROUND_COLOR}
                     style={styles.wrapper}
-                    onPress={() => { this.setState({ isPlaybackAllowed: false,
-                      recordingDuration: null,
-                      soundDuration: null }); } }
+                    onPress={() => {
+                      this.setState({ isPlaybackAllowed: false,
+                        recordingDuration: null,
+                        soundDuration: null });
+                    } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
 
                     <FontAwesomeIcon icon={ faRedoAlt } size={34} color={ '#49beb7' } />
@@ -385,7 +387,9 @@ export default class AudioRecorderForm extends React.Component {
                   <TouchableOpacity
 
                     style={styles.publish_button}
-                    onPress={() => { this.addPrayer(); } }
+                    onPress={() => {
+                      this.addPrayer();
+                    } }
                     disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
                     <Text style={styles.button_text}>{ i18n.t('publish', { defaultValue: 'Publish' }) }</Text>
                   </TouchableOpacity>

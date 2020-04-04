@@ -11,7 +11,7 @@ export function getPrayerRequest(prayerId) {
 export function createPrayerRequestAndRedirect(params) {
   const prayerId = params['prayerId'];
   const navigation = params['navigation'];
-  const category =  params['category'] ? params['category'] : 'Autres'
+  const category = params['category'] ? params['category'] : 'Autres';
   fetch(`${getApiUrl()}/prayers_requests`, {
     method: 'POST',
     headers: {
@@ -22,12 +22,12 @@ export function createPrayerRequestAndRedirect(params) {
       token: params['currentUserToken'],
       title: params['title'],
       body: params['body'],
-      category: category
+      category: category,
     }),
   }).then(response => response.json())
     .then(json => {
       navigation.navigate("Prayer", { prayerId: json.id,
-        currentUserToken: params['currentUserToken']
+        currentUserToken: params['currentUserToken'],
       });
     });
 }
@@ -54,7 +54,7 @@ export function destroyPrayerResquest(params) {
 export function editPrayerRequest(params) {
   const prayerRequestId = params['prayerRequestId'];
   const navigation = params['navigation'];
-  const category =  params['category'] ? params['category'] : 'Autres'
+  const category = params['category'] ? params['category'] : 'Autres';
   return fetch(`${getApiUrl()}/prayers_requests/${prayerRequestId}`, {
     method: 'PATCH',
     headers: {
@@ -66,10 +66,10 @@ export function editPrayerRequest(params) {
       title: params['title'],
       body: params['body'],
       prayer_request_id: prayerRequestId,
-      category: category
+      category: category,
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: true,  prayerRequestId: prayerRequestId});
+      navigation.navigate("Prayer", { editedPr: true, prayerRequestId: prayerRequestId });
     });
 }

@@ -18,17 +18,17 @@ i18n.fallbacks = true;
 
 i18n.translations = {
   fr: {
-        prayer: 'Prière',
-        editProfil: 'Modifier vos informations',
-        prayerRequest: 'Demande de prière',
-        audio: 'Prière audio'
-      },
+    prayer: 'Prière',
+    editProfil: 'Modifier vos informations',
+    prayerRequest: 'Demande de prière',
+    audio: 'Prière audio',
+  },
   en: {
-        prayer: 'Prayer',
-        editProfil: 'Edit your informations',
-        prayerRequest: 'Prayer request',
-        audio: 'Prayer audio'
-      }
+    prayer: 'Prayer',
+    editProfil: 'Edit your informations',
+    prayerRequest: 'Prayer request',
+    audio: 'Prayer audio',
+  },
 };
 
 const SearchStackNavigator = createStackNavigator(

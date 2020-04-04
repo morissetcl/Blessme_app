@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import PrayerRequestCard from './PrayerRequestCard';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions/PrayerRequest';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -18,7 +18,7 @@ class PrayerRequestList extends React.Component {
       profileFeed: this.props.profileFeed,
       userToken: this.props.userToken,
       loaded: false,
-      pr: []
+      pr: [],
     };
   }
 
@@ -28,15 +28,15 @@ class PrayerRequestList extends React.Component {
   }
 
   componentDidUpdate() {
-    const prAdded = ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded)
-    if (prAdded){
+    const prAdded = ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded);
+    if (prAdded) {
       this.setState({ loaded: true });
     }
   }
 
   _onRefresh = () => {
     this.setState({ loaded: false });
-    this.retrievePrayersRequests()
+    this.retrievePrayersRequests();
   }
 
   checkTokenToSearch() {
@@ -56,11 +56,16 @@ class PrayerRequestList extends React.Component {
     }
   }
 
+  selectData() {
+    if (this.state.profileFeed) {
+      return this.props.userData.user_prayers_requests;
+    }
+    return this.props.data.prayers_requests;
+  }
+
   render() {
     if (this.state.loaded) {
-      const selectData = this.state.profileFeed ? this.props.userData.user_prayers_requests : this.props.data.prayers_requests
-      const prayerRequests = selectData ? selectData : [];
-      const prayersRequestsList = prayerRequests.map((response, index) => {
+      const prayersRequestsList = this.selectData().map((response, index) => {
         return <PrayerRequestCard
           title={response.title}
           body={response.body}
@@ -74,18 +79,17 @@ class PrayerRequestList extends React.Component {
           createdAt={response.created_at}
           writingsCount={response.writings_count}
           audiosCount={response.audios_count}
-          prayerId={response.id}
           currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
           key={response.title}
           displayDeleteAction={ this.state.displayDeleteAction }
           needLink={true}
-          />;
+        />;
       });
 
       return (
-        <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.container_prayer_request_card_with_margin }>
+        <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.card_with_margin }>
           <NavigationEvents onDidFocus={ payload => this._onRefresh() } />
           { this.state.loaded ?
             <ScrollView refreshControl={
@@ -104,7 +108,7 @@ class PrayerRequestList extends React.Component {
     } else {
       return (
         <ActivityIndicator size="large" style = {styles.loader} />
-      )
+      );
     }
   }
 }
@@ -118,10 +122,10 @@ const styles = StyleSheet.create({
     top: 200,
     left: 150,
   },
-  container_prayer_request_card_with_margin: {
+  card_with_margin: {
     paddingBottom: '6%',
     backgroundColor: '#eaeaea',
-    height: hp('84%')
+    height: hp('84%'),
   },
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
@@ -133,8 +137,8 @@ function mapStateToProps(state) {
   return {
     loading: state.prayerRequest.dataReducer.loading,
     data: state.prayerRequest.dataReducer.data,
-    userData: state.prayerRequest.dataReducer.userData
-  }
+    userData: state.prayerRequest.dataReducer.userData,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
