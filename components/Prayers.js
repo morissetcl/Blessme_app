@@ -86,7 +86,7 @@ export default class Prayers extends Component {
               size={36} color={ '#FFFFFF' }
               style = {styles.add_prayer}
               onPress={(value) => {
-                this.state.navigation.navigate('PrayerRequestForm', { token: this.state.currentUserToken,
+                this.state.navigation.navigate('PrayerRequest', { token: this.state.currentUserToken,
                   prayerRequest: '' });
               }}
             />
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     borderTopColor: '#eaeaea',
   },
   container: {
-    height: '8%',
     flex: 1,
     width: Dimensions.get('window').width,
   },

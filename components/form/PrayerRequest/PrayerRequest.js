@@ -4,17 +4,18 @@ import { TouchableHighlight, TextInput, StyleSheet, View,
 import { Input, Divider, ButtonGroup } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../api/PrayerRequest';
-import { displayMessage } from "../shared/message";
-import { getCategories } from '../../api/Category';
+import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequest } from '../../../api/PrayerRequest';
+import { displayMessage } from "../../shared/message";
+import { getCategories } from '../../../api/Category';
 import { NavigationEvents } from 'react-navigation';
 
-import PublishButton from '../shared/buttons/PublishButton';
+import PublishButton from '../../shared/buttons/PublishButton';
+import { styles } from './Styles'
 
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
-export default class PrayerRequestForm extends Component {
+export default class PrayerRequest extends Component {
   constructor(props) {
     super(props);
     const params = props.navigation.state.params;
@@ -179,42 +180,3 @@ export default class PrayerRequestForm extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  divider: {
-    backgroundColor: '#dee0d9',
-    width: '90%',
-    height: 1,
-    marginLeft: '5%',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  input: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  titleInput: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    fontWeight: 'bold',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingTop: 30,
-  },
-  button_text: {
-    color: '#207dff',
-  },
-  pickerTitle: {
-    marginBottom: 10,
-    color: '#d3d3d3',
-  },
-  positionPublishButton: {
-    position: 'absolute',
-    right: '10%',
-    top: '4%',
-  },
-});
