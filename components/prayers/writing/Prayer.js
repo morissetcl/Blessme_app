@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity,
-  ActivityIndicator, Dimensions, Alert } from 'react-native';
-import { getPrayerRequest } from '../api/PrayerRequest';
-import { getPrayers, destroyPrayers } from '../api/Prayer';
+  ActivityIndicator, Alert } from 'react-native';
+import { getPrayerRequest } from '../../../api/PrayerRequest';
+import { getPrayers, destroyPrayers } from '../../../api/Prayer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import PrayerRequestCard from './PrayerRequestCard';
-import PrayerRequestButtonsActions from './prayer_request/PrayerRequestButtonsActions';
+import PrayerRequestCard from '../../PrayerRequestCard';
+import PrayerRequestButtonsActions from '../../prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
-import { displayMessage } from "./shared/message";
-import WritingComment from './form/WritingComment/WritingComment';
+import { displayMessage } from "../../shared/message";
+import WritingComment from '../../form/WritingComment/WritingComment';
 import * as Expo from 'expo';
-import AudioPrayer from './AudioPrayer';
+import AudioPrayer from '../audio/Prayer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { styles } from './Styles'
 
 export default class Prayer extends Component {
   constructor(props) {
@@ -107,7 +108,7 @@ export default class Prayer extends Component {
 
         return <View
           style={[this.commentFromOriginalPoster(response.user.username,
-            this.state.prayerRequestUsername) ? styles.comment_card_op : styles.comment_card]}
+            this.state.prayerRequestUsername) ? styles.commentCardOp : styles.commentCard]}
           key={response.created_at}
           id={index}>
           <Text
@@ -117,10 +118,10 @@ export default class Prayer extends Component {
             }}
           >{response.user.username}</Text>
           {(response.user.token === this.state.currentUserToken) ?
-            <View style={styles.actions_button}>
+            <View style={styles.actionsButton}>
               { !response.audio ?
                 <TouchableOpacity
-                  style={styles.publish_button}
+                  style={styles.publishButton}
                   onPress={(value) => {
                     this.state.navigation.navigate('WritingComment', { prayerRequest: this.state.prayerRequest,
                       currentUserToken: this.state.currentUserToken, prayerId: this.state.prayerId,
@@ -135,7 +136,7 @@ export default class Prayer extends Component {
                 <Text></Text>
               }
               <TouchableOpacity
-                style={styles.delete_button}
+                style={styles.deleteButton}
                 onPress={(value) => {
                   this._showAlert(response.id, index);
                 }}>
@@ -146,7 +147,7 @@ export default class Prayer extends Component {
               </TouchableOpacity>
             </View>
             :
-            <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
+            <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
           }
           { response.audio ?
             <View style={styles.playerAudio}>
@@ -192,9 +193,9 @@ export default class Prayer extends Component {
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />
         <ScrollView>
-          <View style={styles.prayer_card} >
+          <View style={styles.prayerCard} >
             { this.renderPrayerRequest() }
-            <View style={styles.prayer_list} >
+            <View style={styles.prayerList} >
               { this.state.prayersList }
             </View>
           </View>
@@ -212,80 +213,3 @@ export default class Prayer extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#eaeaea',
-  },
-  loader: {
-    color: "#0000ff",
-    flex: 1,
-    alignItems: 'center',
-    position: 'absolute',
-    top: Dimensions.get('window').height / 2,
-    left: Dimensions.get('window').width / 2,
-  },
-  prayer_list: {
-    paddingTop: 20,
-    paddingBottom: Dimensions.get('window').height / 12,
-  },
-  comment_card: {
-    padding: '2%',
-    marginBottom: '2%',
-    backgroundColor: 'white',
-    flex: 1,
-  },
-  comment_card_op: {
-    padding: '2%',
-    marginBottom: '2%',
-    backgroundColor: 'white',
-    flex: 1,
-    borderBottomWidth: 3,
-    borderBottomColor: "#ff8b6a",
-  },
-  username: {
-    fontWeight: 'bold',
-    color: '#63686e',
-    marginBottom: '2%',
-  },
-  publish_button: {
-    position: 'absolute',
-    right: 30,
-    top: '4%',
-    color: '#207dff',
-  },
-  delete_button: {
-    position: 'absolute',
-    right: 0,
-    top: '4%',
-  },
-  button_text: {
-    color: '#207dff',
-    fontSize: 12,
-  },
-  actions_button: {
-    position: 'relative',
-    bottom: 27,
-    right: 5,
-  },
-  playerAudio: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-    marginLeft: '5%',
-    marginRight: '5%',
-    width: '90%',
-  },
-  created_at: {
-    position: 'absolute',
-    top: 8,
-    right: 12,
-    fontSize: 12,
-    color: '#bbbbbb',
-  },
-  prayerBody: {
-    marginTop: 5,
-  },
-});

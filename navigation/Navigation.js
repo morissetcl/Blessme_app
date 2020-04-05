@@ -3,7 +3,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
-import Prayer from '../components/Prayer';
+import Prayer from '../components/prayers/writing/Prayer';
 import WritingComment from '../components/form/WritingComment/WritingComment';
 import UserProfile from '../components/form/UserProfile/UserProfile';
 import PrayerRequest from '../components/form/PrayerRequest/PrayerRequest';
