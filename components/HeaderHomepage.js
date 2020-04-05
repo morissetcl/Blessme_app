@@ -84,11 +84,11 @@ class HeaderHomepage extends Component {
           centerComponent={this.searchBar()}
           leftComponent={
             this.state.avatarUrl ?
-              <Avatar rounded source={{ uri: this.state.avatarUrl }} onPress={(value) => {
+              <Avatar containerStyle={{ marginBottom: 15, marginLeft: 8 }} rounded source={{ uri: this.state.avatarUrl }} onPress={(value) => {
                 this.openProfile();
               }} />
               :
-              <Avatar rounded title='?' onPress={(value) => {
+              <Avatar containerStyle={{ marginBottom: 15, marginLeft: 8 }} rounded title='?' onPress={(value) => {
                 this.openProfile();
               }} />
           }
@@ -100,10 +100,11 @@ class HeaderHomepage extends Component {
 
 const styles = StyleSheet.create({
   header: {
+    marginTop: -10,
     backgroundColor: '#49beb7',
   },
   container: {
-    height: '8%',
+    height: '6%',
   },
   inputStyle: {
     height: '80%',
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   containerStyle: {
-    paddingTop: '4%',
+    paddingTop: '2%',
     height: '100%',
     backgroundColor: '#49beb7',
     width: '100%',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
   },
   inputContainerStyle: {
-    height: '80%',
+    height: '10%',
     width: '100%',
     backgroundColor: 'white',
     borderRadius: 15,

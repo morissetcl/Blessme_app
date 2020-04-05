@@ -154,11 +154,6 @@ export default class PrayerRequest extends Component {
               value={this.state.title}
             />
             <Divider style={styles.divider} />
-            <KeyboardAvoidingView
-              style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}
-              behavior="padding"
-              enabled keyboardVerticalOffset={120}
-            >
               <ScrollView>
                 <TextInput
                   placeholder={ i18n.t('bodyTitle', { defaultValue: 'Body' }) }
@@ -171,7 +166,6 @@ export default class PrayerRequest extends Component {
                   selectTextOnFocus={true}
                 />
               </ScrollView>
-            </KeyboardAvoidingView>
           </View>
           :
           <ActivityIndicator size="large" style = {styles.loader} />

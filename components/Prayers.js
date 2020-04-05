@@ -57,7 +57,7 @@ export default class Prayers extends Component {
           currentUserToken={ this.state.currentUserToken }
           avatarUrl={ this.state.avatarUrl }
           username={ this.state.username }/>
-        <View style={styles.container}>
+        <View style={styles.containerPrayerRequest}>
           <Tabs>
             <View title= { i18n.t('request', { defaultValue: 'Requests' }) } style={styles.content}>
               <PrayerRequestList
@@ -117,7 +117,11 @@ const styles = StyleSheet.create({
     elevation: 1,
     borderWidth: 2,
     borderColor: 'transparent',
-    borderTopColor: '#eaeaea',
+    borderTopColor: '#eaeaea'
+  },
+  containerPrayerRequest: {
+    height:  Dimensions.get('window').height,
+    width: Dimensions.get('window').width
   },
   container: {
     flex: 1,

@@ -54,41 +54,25 @@ const SearchStackNavigator = createStackNavigator(
     WritingComment: {
       screen: WritingComment,
       navigationOptions: {
-        title: i18n.t('prayer'),
-        headerTintColor: '#FFFFFF',
-        headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+        header: null,
       },
     },
     UserProfile: {
       screen: UserProfile,
       navigationOptions: {
-        title: i18n.t('editProfil'),
-        headerTintColor: '#FFFFFF',
-        headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+        header: null,
       },
     },
     PrayerRequest: {
       screen: PrayerRequest,
       navigationOptions: {
-        title: i18n.t('prayerRequest'),
-        headerTintColor: '#FFFFFF',
-        headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+        header: null,
       },
     },
     Prayer: {
       screen: Prayer,
       navigationOptions: {
-        title: '',
-        headerTintColor: '#FFFFFF',
-        headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+        header: null,
       },
     },
     Prayers: {
@@ -106,11 +90,7 @@ const SearchStackNavigator = createStackNavigator(
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
-        title: i18n.t('audio'),
-        headerTintColor: '#FFFFFF',
-        headerStyle: {
-          backgroundColor: '#49beb7',
-        },
+        header: null,
       },
     },
   },
