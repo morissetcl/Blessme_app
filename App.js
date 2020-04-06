@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import Navigation from './navigation/Navigation';
 import FlashMessage from "react-native-flash-message";
 import { Provider } from 'react-redux';
@@ -12,7 +12,7 @@ export default class App extends React.Component {
     console.disableYellowBox=true;
     return (
       <Provider store={store}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginTop: - StatusBar.currentHeight }}>
           <Navigation/>
           <FlashMessage position="top" />
         </View>

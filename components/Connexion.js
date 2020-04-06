@@ -217,14 +217,14 @@ export default class Connexion extends React.Component {
     return (
       <View style={styles.container}>
         { this.state.firebaseCheck ?
-          <View>
+          <View style={styles.container}>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
                 email={ email }
                 username={this.state.username}/>
               :
-              <KeyboardAvoidingView style={styles.container} behavior="padding" >
+              <KeyboardAvoidingView style={styles.container} behavior="height" >
                 <ImageBackground source = {require('../assets/test_Fotor.jpg')} style = {styles.image} />
                 { !this.state.hideTagLine ?
                   <View style={styles.connexion_from}>
@@ -350,14 +350,11 @@ const styles = StyleSheet.create({
   },
   inscription_buttons: {
     position: 'absolute',
-    bottom: 30,
+    top:  Dimensions.get('window').height - (Dimensions.get('window').height / 35),
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
     right: 0,
-  },
-  connexion_from: {
-
   },
   image: {
     position: 'absolute',
@@ -380,7 +377,7 @@ const styles = StyleSheet.create({
     paddingBottom: '5%',
     margin: '12%',
     borderRadius: 10,
-    width: '100%',
+    width: Dimensions.get('window').width - 60,
   },
   bouton_transparent: {
     borderColor: '#01676b',
