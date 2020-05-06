@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions, KeyboardAvoidingView } from 'react-native';
 import PrayerRequestList from './PrayerRequestList';
 import PrayersList from './PrayersList';
 import HeaderHomepage from './HeaderHomepage';
@@ -81,15 +81,15 @@ export default class Prayers extends Component {
         </View>
         <View style = {styles.bottom_buttons}>
           <TouchableOpacity>
-            <FontAwesomeIcon
+              <FontAwesomeIcon
               icon={ faPlusCircle }
               size={36} color={ '#FFFFFF' }
               style = {styles.add_prayer}
               onPress={(value) => {
                 this.state.navigation.navigate('PrayerRequest', { token: this.state.currentUserToken,
                   prayerRequest: '' });
-              }}
-            />
+                }}
+                />
           </TouchableOpacity>
         </View>
       </View>
@@ -98,12 +98,20 @@ export default class Prayers extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#eaeaea',
+  },
   add_prayer: {
     borderRadius: 30,
     backgroundColor: '#ff8b6a',
     padding: 15,
   },
-  bottom_buttons: {
+ bottom_buttons: {
     backgroundColor: '#fafafa',
     display: 'flex',
     flexDirection: 'row',
@@ -112,19 +120,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     width: '100%',
-    height: '7%',
+    height:  Dimensions.get('window').height / 12,
     alignItems: 'center',
     elevation: 1,
     borderWidth: 2,
     borderColor: 'transparent',
     borderTopColor: '#eaeaea',
-  },
-  container: {
-    flex: 1,
-    width: Dimensions.get('window').width,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: '#eaeaea',
   },
 });

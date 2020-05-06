@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Dimensions } from 'react-native';
 import { Header, Avatar, SearchBar, Button } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 import { getUsers } from '../api/User';
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#49beb7',
   },
   container: {
-    height: '8%',
+    height: Dimensions.get('window').height / 13,
   },
   inputStyle: {
     height: '80%',

@@ -217,20 +217,20 @@ export default class Connexion extends React.Component {
     return (
       <View style={styles.container}>
         { this.state.firebaseCheck ?
-          <View>
+          <View style={styles.container}>
             { this.state.logged ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
                 email={ email }
                 username={this.state.username}/>
               :
-              <KeyboardAvoidingView style={styles.container} behavior="padding" >
+              <View style={styles.container} >
                 <ImageBackground source = {require('../assets/test_Fotor.jpg')} style = {styles.image} />
                 { !this.state.hideTagLine ?
                   <View style={styles.connexion_from}>
-                    <Text style={{ color: 'white', fontSize: 48, textAlign: 'center',
+                    <Text style={{ color: 'white', fontSize: Dimensions.get('window').height / 25 , textAlign: 'center',
                       margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
-                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'center',
+                    <Text style={{ color: 'white', fontSize: Dimensions.get('window').height / 50 , textAlign: 'center',
                       margin: Dimensions.get('window').height / 100 }}>
                       {i18n.t('tagLine', { defaultValue: 'Your faith is worthy.' })}
                     </Text>
@@ -245,8 +245,8 @@ export default class Connexion extends React.Component {
                 <View style={styles.form_wrapper}>
                   <Form>
                     { !this.state.signIn ?
-                      <Item floatingLabel>
-                        <Label>{i18n.t('pseudonyme', { defaultValue: 'Username' })}</Label>
+                      <Item floatingLabel >
+                        <Label style={{ fontSize: 16 }}>{i18n.t('pseudonyme', { defaultValue: 'Username' })}</Label>
                         <Input
                           autoCapitalize="none"
                           autoCorrect={false}
@@ -257,16 +257,16 @@ export default class Connexion extends React.Component {
                       <Text></Text>
                     }
 
-                    <Item floatingLabel>
-                      <Label>{i18n.t('email', { defaultValue: 'Email' })}</Label>
+                    <Item floatingLabel >
+                      <Label style={{ fontSize: 1 }}>{i18n.t('email', { defaultValue: 'Email' })}</Label>
                       <Input
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={email => this.setState({ email })}
                       />
                     </Item>
-                    <Item floatingLabel style={styles.connexion_input}>
-                      <Label>{i18n.t('password', { defaultValue: 'Mot de passe' })}</Label>
+                    <Item >
+                      <Label style={{ fontSize: 15 }}>{i18n.t('password', { defaultValue: 'Mot de passe' })}</Label>
                       <Input
                         secureTextEntry={true}
                         autoCapitalize="none"
@@ -308,7 +308,7 @@ export default class Connexion extends React.Component {
                     }
                   </Form>
                 </View>
-              </KeyboardAvoidingView>
+              </View>
             }
             <View style={styles.inscription_buttons}>
               { !this.state.signIn ?
@@ -350,14 +350,11 @@ const styles = StyleSheet.create({
   },
   inscription_buttons: {
     position: 'absolute',
-    bottom: 30,
+    top:  Dimensions.get('window').height - (Dimensions.get('window').height / 35),
     marginLeft: 'auto',
     marginRight: 'auto',
     left: 0,
     right: 0,
-  },
-  connexion_from: {
-
   },
   image: {
     position: 'absolute',
@@ -373,14 +370,14 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   form_wrapper: {
-    marginTop: '20%',
+    marginTop: '10%',
     backgroundColor: 'rgba(255,255,255, 0.8)',
     paddingLeft: '5%',
     paddingRight: '10%',
     paddingBottom: '5%',
     margin: '12%',
     borderRadius: 10,
-    width: '100%',
+    width: Dimensions.get('window').width - 60,
   },
   bouton_transparent: {
     borderColor: '#01676b',
@@ -393,6 +390,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 2,
   },
+  connexion_from: {
+    marginTop: Dimensions.get('window').height / 8
+  },
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
@@ -403,9 +403,6 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2,
-  },
-  connexion_input: {
-    marginBottom: '10%',
   },
   loader: {
     color: "#0000ff",

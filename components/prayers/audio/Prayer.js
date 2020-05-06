@@ -12,10 +12,9 @@ import { Asset, Font } from 'expo';
 import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { styles } from './Styles'
 
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
-
-export default class AudioPrayer extends Component {
+export default class Prayer extends Component {
   constructor(props) {
     super(props);
     this.playbackInstance = null;
@@ -171,17 +170,3 @@ export default class AudioPrayer extends Component {
      </View>;
    }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  coucou: {
-    width: '80%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-});

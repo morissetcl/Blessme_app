@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import AudioPrayer from './AudioPrayer';
+import AudioPrayer from './prayers/audio/Prayer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
