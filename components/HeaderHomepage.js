@@ -101,6 +101,7 @@ class HeaderHomepage extends Component {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#49beb7',
+    paddingLeft: 16 
   },
   container: {
     height: Dimensions.get('window').height / 13,

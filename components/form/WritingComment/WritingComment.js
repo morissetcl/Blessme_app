@@ -24,7 +24,7 @@ export default class WritingComment extends Component {
 
   addPrayer(prayerId) {
     const fail = i18n.t('fail');
-    const created = i18n.t('created', { defaultValue: 'Prayer created.' });
+    const created = i18n.t('created', { defaultValue: 'Prière ajoutée.' });
 
     if (this.state.body) {
       createPrayer({ currentUserToken: this.state.currentUserToken,
@@ -39,7 +39,7 @@ export default class WritingComment extends Component {
 
   editrayer(prayerId) {
     const fail = i18n.t('fail', { defaultValue: 'Please fill everything.' });
-    const success = i18n.t('success', { defaultValue: 'Prayer edited.' });
+    const success = i18n.t('success', { defaultValue: 'Prière modifiée.' });
 
     if (this.state.body) {
       editPrayer({ currentUserToken: this.state.currentUserToken,

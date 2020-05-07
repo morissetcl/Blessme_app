@@ -63,7 +63,7 @@ export default class PrayerRequestCard extends React.Component {
 
   checkCategoryLabel(category) {
     if (category !== undefined) {
-      return Localization.locale === 'fr' ? category.label : category.translation;
+      return Localization.locale === 'fr-FR' ? category.label : category.translation;
     }
   }
 
