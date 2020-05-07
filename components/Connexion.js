@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,
   ActivityIndicator, ImageBackground, Dimensions, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import * as Facebook from 'expo-facebook';
 import * as firebase from "firebase";
 import Prayers from './Prayers';
@@ -258,14 +259,14 @@ export default class Connexion extends React.Component {
                     }
 
                     <Item floatingLabel >
-                      <Label style={{ fontSize: 1 }}>{i18n.t('email', { defaultValue: 'Email' })}</Label>
+                      <Label style={{ fontSize: 16 }}>{i18n.t('email', { defaultValue: 'Email' })}</Label>
                       <Input
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={email => this.setState({ email })}
                       />
                     </Item>
-                    <Item >
+                    <Item floatingLabel>
                       <Label style={{ fontSize: 15 }}>{i18n.t('password', { defaultValue: 'Mot de passe' })}</Label>
                       <Input
                         secureTextEntry={true}
@@ -280,16 +281,18 @@ export default class Connexion extends React.Component {
                           onPress={ () => this.SignUp(this.state.email, this.state.password) } >
                           <Text style={{ color: 'white' }}>{ i18n.t('signUp') }</Text>
                         </TouchableOpacity>
-                        <Text>{i18n.t('fbChoice', { defaultValue: 'Connect with Facebook' })}</Text>
-                        <TouchableOpacity
-                          style={styles.bouton_fb}
-                          name="Facebook"
-                          onPress={() => this.handleFacebookButton()}
-                        >
-                          <Text style={styles.facebookButtonText}>
-                            Facebook
-                          </Text>
-                        </TouchableOpacity>
+                        <HideWithKeyboard style={styles.divbouton_fb}>
+                          <Text>{i18n.t('fbChoice', { defaultValue: 'Connect with Facebook' })}</Text>
+                          <TouchableOpacity
+                            style={styles.bouton_fb}
+                            name="Facebook"
+                            onPress={() => this.handleFacebookButton()}
+                          >
+                            <Text style={styles.facebookButtonText}>
+                              Facebook
+                            </Text>
+                          </TouchableOpacity>
+                        </HideWithKeyboard>
                       </View>
                       :
                       <View style={styles.boutons_wrapper}>
@@ -411,6 +414,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
+  },
+  divbouton_fb: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center'
   },
   bouton_fb: {
     marginTop: '5%',

@@ -12,7 +12,7 @@ export default class PublishButton extends Component {
   }
 
   buttonType() {
-    return this.props.buttonType ? this.props.buttonType : 'Publish';
+    return this.props.buttonType ? this.props.buttonType : 'Publier';
   }
 
   render() {

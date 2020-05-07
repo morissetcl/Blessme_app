@@ -84,7 +84,7 @@ export default class Prayer extends Component {
   }
 
   destroyActions(commentId, index) {
-    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prayer deleted' });
+    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prière supprimée' });
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {

@@ -43,9 +43,9 @@ export default class PrayerRequest extends Component {
         category: firstRowCategory[this.state.selectedIndex],
         navigation: this.props.navigation,
       });
-      displayMessage(i18n.t('prAdded', { defaultValue: 'Prayer request added.' }), 'success');
+      displayMessage(i18n.t('prAdded', { defaultValue: 'Demande de prière ajoutée.' }), 'success');
     } else {
-      displayMessage(i18n.t('missingField'), 'warning');
+      displayMessage(i18n.t('missingField', { defaultValue: 'Merci de remplir tous les champs pour ajouter votre demande.' }), 'warning');
     }
   }
 
