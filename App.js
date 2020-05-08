@@ -13,7 +13,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
       <StatusBar backgroundColor="#49beb7" barStyle="light-content" />
-        <View style={{ flex: 1, marginTop: - StatusBar.currentHeight }}>
+        <View style={{ flex: 1 }}>
           <Navigation/>
           <FlashMessage position="top" />
         </View>
