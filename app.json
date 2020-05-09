@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "android": {
@@ -24,7 +24,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.blessme.blessme",
-      "versionCode": 10,
+      "versionCode": 11,
       "permissions": [
         "USER_FACING_NOTIFICATIONS",
         "NOTIFICATIONS",
