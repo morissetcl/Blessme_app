@@ -3,12 +3,12 @@
     "name": "Bless Me",
     "slug": "Blessme_app",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "android": {
@@ -24,9 +24,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.blessme.blessme",
-      "versionCode": 11,
+      "versionCode": 12,
       "permissions": [
-        "USER_FACING_NOTIFICATIONS",
         "NOTIFICATIONS",
         "CAMERA",
         "RECORD_AUDIO",
