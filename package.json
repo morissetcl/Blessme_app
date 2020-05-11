@@ -22,7 +22,7 @@
     "eslint-plugin-jest": "^22.14.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
-    "expo": "^37.0.0",
+    "expo": "^36.0.0",
     "expo-av": "^8.0.0",
     "expo-facebook": "^8.0.0",
     "expo-file-system": "^8.0.0",
