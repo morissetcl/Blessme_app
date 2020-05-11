@@ -8,6 +8,14 @@ const PUSH_ENDPOINT = getApiUrl() + "/expo_tokens";
 let registerForNotifications;
 
 export default registerForNotifications = async (token) => {
+  const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  if (status !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      return;
+    }
+  }
+
   const expoToken = await Notifications.getExpoPushTokenAsync();
   fetch(PUSH_ENDPOINT, {
     method: 'POST',

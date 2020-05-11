@@ -12,6 +12,7 @@ export default class App extends React.Component {
     console.disableYellowBox=true;
     return (
       <Provider store={store}>
+        <StatusBar backgroundColor="#49beb7" barStyle="light-content" />
         <View style={{ flex: 1 }}>
           <Navigation/>
           <FlashMessage position="top" />
