@@ -116,13 +116,12 @@ export default class PrayerRequestCard extends React.Component {
     };
 
     const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
-    const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
-    const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
-    const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-
-    const checkDate = (isNaN(createdAtSince) || createdAtSince === -1) ? '-' : createdAtSince;
-    const trad = i18n.t('prayerDate', { createdAtSince: checkDate, defaultValue: '-' });
-    const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Email' });
+    const dateOfCreatedAt = Math.floor(Date.parse(this.state.createdAt)/8.64e7)
+    const now = Math.floor(Date.now()/8.64e7)
+    const checkDate = dateOfCreatedAt-now;
+    const goodDate = isNaN(checkDate) ? '-' : checkDate
+    const trad = `Il y a ${goodDate} jours`;
+    const formattedCreatedAtSince = (checkDate !== 0) ? trad : i18n.t('today', { defaultValue: "Aujourd'hui" });
 
     return (
       <TouchableOpacity activeOpacity={0.7}

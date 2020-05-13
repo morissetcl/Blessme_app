@@ -51,13 +51,14 @@ export default class PrayerRequest extends Component {
 
   prayerRequestUpdate(prayerRequestId) {
     const firstRowCategory = this.state.categories.slice(0, 6);
+    const category = (this.state.selectedIndex === undefined) ? this.state.prCategory : firstRowCategory[this.state.selectedIndex]
     if (this.state.title && this.state.body) {
       editPrayerRequest({ currentUserToken: this.state.currentUserToken,
         title: this.state.title,
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
-        category: firstRowCategory[this.state.selectedIndex],
+        category: category,
       });
       displayMessage(i18n.t('prEdited', { defaultValue: 'Prayer request updated.' }), 'success');
     } else {

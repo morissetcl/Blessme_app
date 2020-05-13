@@ -44,11 +44,11 @@ export default class ModalActions extends Component {
   _showAlert = () => {
     Alert.alert(
       this.state.title,
-      i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
+      i18n.t('areYouSurePr', { defaultValue: 'Que voulez vous faire avec cette demande ?' }),
       [
-        { text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this._deletePrayerRequest() },
-        { text: i18n.t('edit', { defaultValue: 'Edit' }), onPress: () => this._goToPrayerRequest() },
-        { text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('') },
+        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this._deletePrayerRequest() },
+        { text: i18n.t('edit', { defaultValue: 'Modifier' }), onPress: () => this._goToPrayerRequest() },
+        { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
       ],
       { onDismiss: () => {} },
     );

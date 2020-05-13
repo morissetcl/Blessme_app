@@ -8,10 +8,11 @@
       "ios",
       "android"
     ],
-    "version": "1.0.7",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "android": {
+      "googleServicesFile": "./google-services.json",
       "splash": {
         "icon": "./assets/blessme-logo.png",
         "ldpi": "./assets/blessme-logo.png",
@@ -24,7 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.blessme.blessme",
-      "versionCode": 13,
+      "versionCode": 15,
       "permissions": [
         "NOTIFICATIONS",
         "CAMERA",
