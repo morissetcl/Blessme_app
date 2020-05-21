@@ -89,7 +89,7 @@ export default class PrayerRequestCard extends React.Component {
 
   goToProfile(username) {
     this.state.navigation.navigate('Profile', { username: username,
-      userToken: this.state.userToken,
+      userToken: this.state.user.token,
       currentUserToken: this.state.currentUserToken,
     });
   }
@@ -118,12 +118,13 @@ export default class PrayerRequestCard extends React.Component {
     const avatar = this.state.avatarUrl ? this.state.avatarUrl : undefined;
     const dateOfCreatedAt = Math.floor(Date.parse(this.state.createdAt)/8.64e7)
     const now = Math.floor(Date.now()/8.64e7)
-    const checkDate = dateOfCreatedAt-now;
+    const checkDate = now - dateOfCreatedAt;
     const goodDate = isNaN(checkDate) ? '-' : checkDate
     const trad = `Il y a ${goodDate} jours`;
     const formattedCreatedAtSince = (checkDate !== 0) ? trad : i18n.t('today', { defaultValue: "Aujourd'hui" });
 
     return (
+
       <TouchableOpacity activeOpacity={0.7}
         onPress={(value) => {
           this.goToPrayer(this.state.prayerId);
@@ -158,13 +159,13 @@ export default class PrayerRequestCard extends React.Component {
             <View style = {styles.card_actions}>
               <TouchableOpacity>
                 <View style = {styles.comment_action_card_contenair}>
-                  <FontAwesomeIcon icon={ faComment } size={24} color={ '#ff8b6a' } style = {styles.button}/>
+                  <FontAwesomeIcon icon={ faComment } size={12} color={ '#ff8b6a' } style = {styles.button}/>
                   <Text style = {styles.number_of_comment}>{ this.state.numberOfWritingPrayer }</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity>
                 <View style = {styles.comment_action_card_contenair}>
-                  <FontAwesomeIcon icon={ faMicrophone } size={24} color={ '#ff8b6a' } style = {styles.button}/>
+                  <FontAwesomeIcon icon={ faMicrophone } size={12} color={ '#ff8b6a' } style = {styles.button}/>
                   <Text style = {styles.number_of_comment}>{ this.state.numberOfAudioPrayer }</Text>
                 </View>
               </TouchableOpacity>
