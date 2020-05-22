@@ -1,5 +1,6 @@
 // Navigation/Navigation.js
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { fadeIn, fromLeft } from 'react-navigation-transitions';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
@@ -30,6 +31,17 @@ i18n.translations = {
     audio: 'Prayer audio',
   },
 };
+
+const handleCustomTransition = ({ scenes }) => {
+  const prevScene = scenes[scenes.length - 2];
+  const nextScene = scenes[scenes.length - 1];
+
+  if (nextScene.route.routeName === 'Profile' &&
+  prevScene.route.routeName !== 'Prayers') {
+    return fromLeft(1000);
+  };
+  return fadeIn(500);
+}
 
 const SearchStackNavigator = createStackNavigator(
   {
@@ -116,6 +128,7 @@ const SearchStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Connexion',
+    transitionConfig: (nav) => handleCustomTransition(nav)
   },
 );
 

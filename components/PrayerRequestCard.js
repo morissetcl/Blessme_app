@@ -40,7 +40,8 @@ export default class PrayerRequestCard extends React.Component {
   componentDidMount() {
     this.setState({ loaded: false });
     if (this.props.navigation.state.routeName !== 'Connexion') {
-      getPrayerRequest(this.props.prayerId).then(data => {
+      const prayerRequestId = this.props.prayerId ? this.props.prayerId : this.props.navigation.state.params.prayerRequestId
+      getPrayerRequest(prayerRequestId).then(data => {
         this.setState({
           title: data.title,
           body: data.body,

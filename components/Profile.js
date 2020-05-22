@@ -45,6 +45,8 @@ export default class Profile extends Component {
   }
 
   _pickImage = async () => {
+    if (this.state.userToken) return;
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -131,27 +133,23 @@ export default class Profile extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveUser()} />
-        { this.state.avatarUrl !== '' ?
           <View>
             <Header
               containerStyle={styles.header}
               placement="center"
               rightComponent={
-                this.state.avatarLoaded === 'loaded' ?
-                  <Avatar
-                    containerStyle={styles.avatar}
-                    size="large"
-                    source={{
-                      uri:
-                        this.state.avatarUrl,
-                    }}
-                    rounded
-                    showEditButton={ allowsEditing }
-                    onEditPress={ this._pickImage }
-                    activeOpacity={0.7}
-                  />
-                  :
-                  <ActivityIndicator size="large" style = {styles.loader} />
+                <Avatar
+                  containerStyle={styles.avatar}
+                  size="large"
+                  source={{
+                    uri:
+                      this.state.avatarUrl,
+                  }}
+                  rounded
+                  showEditButton={ allowsEditing }
+                  activeOpacity={0.7}
+                  onPress={ this._pickImage }
+                />
               }
             />
             <View style={styles.user_informations}>
@@ -171,9 +169,6 @@ export default class Profile extends Component {
               }
             </View>
           </View>
-          :
-          null
-        }
         <View style={styles.container}>
           <Tabs>
             <View title={ i18n.t('request', { defaultValue: 'Requests' }) }>

@@ -38,19 +38,20 @@ export default class WritingComment extends Component {
   }
 
   editrayer(prayerId) {
-    const fail = i18n.t('fail', { defaultValue: 'Please fill everything.' });
+    const fail = i18n.t('fail', { defaultValue: 'Votre prière ne peut être vide.' });
     const success = i18n.t('success', { defaultValue: 'Prière modifiée.' });
+    const {currentUserToken, body, commentId} = this.state
+    if(!this.state.body) return displayMessage(fail, 'warning');
 
-    if (this.state.body) {
-      editPrayer({ currentUserToken: this.state.currentUserToken,
-        body: this.state.body,
-        prayerId: this.state.prayerId,
-        navigation: this.props.navigation,
-        commentId: this.state.commentId });
+    editPrayer({
+      currentUserToken: currentUserToken,
+      body: body,
+      prayerId: this.state.prayerId,
+      navigation: this.props.navigation,
+      commentId: commentId
+    }).then(() => {
       displayMessage(success, 'success');
-    } else {
-      displayMessage(fail, 'warning');
-    }
+    });
   }
 
   render() {
@@ -64,7 +65,7 @@ export default class WritingComment extends Component {
         created: 'Votre prière a bien été créée.',
         edit: 'Modifier',
         publish: 'Publier',
-        placeholder: 'Écrivez votre prière..',
+        placeholder: 'Écrivez votre prière…',
       },
       en: {
         fail: 'Please fill all required fields.',
@@ -72,7 +73,7 @@ export default class WritingComment extends Component {
         created: 'Prayer successfully created.',
         edit: 'Edit',
         publish: 'Publish',
-        placeholder: 'Write you prayer..',
+        placeholder: 'Write you prayer…',
       },
     };
 
@@ -89,7 +90,7 @@ export default class WritingComment extends Component {
         </View>
         <Divider style={styles.divider} />
         <TextInput
-          placeholder={ i18n.t('placeholder', { defaultValue: 'Your prayer..' }) }
+          placeholder={ i18n.t('placeholder', { defaultValue: 'Votre prière…' }) }
           inputStyle={{ width: '100%', color: 'black' }}
           underlineColorAndroid="transparent"
           multiline
