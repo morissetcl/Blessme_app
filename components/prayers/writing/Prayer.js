@@ -133,7 +133,7 @@ export default class Prayer extends Component {
                   />
                 </TouchableOpacity>
                 :
-                <Text></Text>
+                null
               }
               <TouchableOpacity
                 style={styles.deleteButton}

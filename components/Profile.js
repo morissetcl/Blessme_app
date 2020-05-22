@@ -132,48 +132,47 @@ export default class Profile extends Component {
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveUser()} />
         { this.state.avatarUrl !== '' ?
-          <Header
-            containerStyle={styles.header}
-            placement="center"
-            rightComponent={
-              this.state.avatarLoaded === 'loaded' ?
-                <Avatar
-                  containerStyle={styles.avatar}
-                  size="large"
-                  source={{
-                    uri:
-                      this.state.avatarUrl,
-                  }}
-                  rounded
-                  showEditButton={ allowsEditing }
-                  onEditPress={ this._pickImage }
-                  activeOpacity={0.7}
-                />
+          <View>
+            <Header
+              containerStyle={styles.header}
+              placement="center"
+              rightComponent={
+                this.state.avatarLoaded === 'loaded' ?
+                  <Avatar
+                    containerStyle={styles.avatar}
+                    size="large"
+                    source={{
+                      uri:
+                        this.state.avatarUrl,
+                    }}
+                    rounded
+                    showEditButton={ allowsEditing }
+                    onEditPress={ this._pickImage }
+                    activeOpacity={0.7}
+                  />
+                  :
+                  <ActivityIndicator size="large" style = {styles.loader} />
+              }
+            />
+            <View style={styles.user_informations}>
+              <View style={styles.top}>
+                <Text style={styles.bold} >{ this.state.username }</Text>
+                { allowsEditing ? this.editUser() : null }
+              </View>
+              <Text style={styles.since}>
+                { memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) }
+              </Text>
+              { this.state.biography ?
+                <Text style={styles.biography}>{ this.state.biography }</Text>
                 :
-                <ActivityIndicator size="large" style = {styles.loader} />
-            }
-          /> :
-          <Text></Text>
-        }
-        { this.state.avatarUrl !== '' ?
-          <View style={styles.user_informations}>
-            <View style={styles.top}>
-              <Text style={styles.bold} >{ this.state.username }</Text>
-              { allowsEditing ? this.editUser() : <Text></Text> }
+                allowsEditing ? <Text style={styles.noBiography}>
+                  { i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }
+                </Text> : null
+              }
             </View>
-            <Text style={styles.since}>
-              { memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) }
-            </Text>
-            { this.state.biography ?
-              <Text style={styles.biography}>{ this.state.biography }</Text>
-              :
-              allowsEditing ? <Text style={styles.noBiography}>
-                { i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }
-              </Text> : <Text></Text>
-            }
           </View>
           :
-          <Text></Text>
+          null
         }
         <View style={styles.container}>
           <Tabs>

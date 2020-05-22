@@ -240,7 +240,7 @@ export default class Connexion extends React.Component {
                     </Text>
                   </View>
                   :
-                  <Text></Text>
+                  null
                 }
 
                 <View style={styles.form_wrapper}>
@@ -255,7 +255,7 @@ export default class Connexion extends React.Component {
                         />
                       </Item>
                       :
-                      <Text></Text>
+                      null
                     }
 
                     <Item floatingLabel >

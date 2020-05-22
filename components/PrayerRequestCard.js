@@ -150,7 +150,7 @@ export default class PrayerRequestCard extends React.Component {
                 prayerId={ this.state.prayerId }
               />
               :
-              <Text></Text>
+              null
             }
 
             <Text style = {styles.card_title}> {this.state.title}</Text>
@@ -179,7 +179,7 @@ export default class PrayerRequestCard extends React.Component {
             </View>
           </Card>
           :
-          <Text></Text>
+          null
         }
 
       </TouchableOpacity>
