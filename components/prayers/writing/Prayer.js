@@ -44,10 +44,10 @@ export default class Prayer extends Component {
   _showAlert = (responId, index) => {
     Alert.alert(
       this.state.title,
-      i18n.t('areYouSurePr', { defaultValue: 'Are you sure ?' }),
+      i18n.t('areYouSurePr', { defaultValue: 'Êtes-vous sûr ?' }),
       [
-        { text: i18n.t('delete', { defaultValue: 'Delete' }), onPress: () => this.destroyActions(responId, index) },
-        { text: i18n.t('cancel', { defaultValue: 'Cancel' }), onPress: () => console.log('') },
+        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this.destroyActions(responId, index) },
+        { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
       ],
       { onDismiss: () => {} },
     );
