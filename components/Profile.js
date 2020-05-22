@@ -45,6 +45,8 @@ export default class Profile extends Component {
   }
 
   _pickImage = async () => {
+    if (this.state.userToken) return;
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -131,12 +133,11 @@ export default class Profile extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveUser()} />
-        { this.state.avatarUrl !== '' ?
-          <Header
-            containerStyle={styles.header}
-            placement="center"
-            rightComponent={
-              this.state.avatarLoaded === 'loaded' ?
+          <View>
+            <Header
+              containerStyle={styles.header}
+              placement="center"
+              rightComponent={
                 <Avatar
                   containerStyle={styles.avatar}
                   size="large"
@@ -146,35 +147,28 @@ export default class Profile extends Component {
                   }}
                   rounded
                   showEditButton={ allowsEditing }
-                  onEditPress={ this._pickImage }
                   activeOpacity={0.7}
+                  onPress={ this._pickImage }
                 />
+              }
+            />
+            <View style={styles.user_informations}>
+              <View style={styles.top}>
+                <Text style={styles.bold} >{ this.state.username }</Text>
+                { allowsEditing ? this.editUser() : null }
+              </View>
+              <Text style={styles.since}>
+                { memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) }
+              </Text>
+              { this.state.biography ?
+                <Text style={styles.biography}>{ this.state.biography }</Text>
                 :
-                <ActivityIndicator size="large" style = {styles.loader} />
-            }
-          /> :
-          <Text></Text>
-        }
-        { this.state.avatarUrl !== '' ?
-          <View style={styles.user_informations}>
-            <View style={styles.top}>
-              <Text style={styles.bold} >{ this.state.username }</Text>
-              { allowsEditing ? this.editUser() : <Text></Text> }
+                allowsEditing ? <Text style={styles.noBiography}>
+                  { i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }
+                </Text> : null
+              }
             </View>
-            <Text style={styles.since}>
-              { memberSince ? date : i18n.t('firstDay', { defaultValue: 'First day' }) }
-            </Text>
-            { this.state.biography ?
-              <Text style={styles.biography}>{ this.state.biography }</Text>
-              :
-              allowsEditing ? <Text style={styles.noBiography}>
-                { i18n.t('addSomeWords', { defaultValue: 'Add some words' }) }
-              </Text> : <Text></Text>
-            }
           </View>
-          :
-          <Text></Text>
-        }
         <View style={styles.container}>
           <Tabs>
             <View title={ i18n.t('request', { defaultValue: 'Requests' }) }>

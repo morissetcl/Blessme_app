@@ -22,8 +22,8 @@ export default class UserProfile extends Component {
   }
 
   editUser(email, avatar, username) {
-    const success = i18n.t('success', { defaultValue: 'Informations edited' });
-    const fail = i18n.t('fail', { defaultValue: 'Please fill everything' });
+    const success = i18n.t('success', { defaultValue: "Informations modifiées !" });
+    const fail = i18n.t('fail', { defaultValue: 'Merci de remplir tous les champs.' });
 
     if (this.state.username) {
       updateUser({ email: this.state.email,

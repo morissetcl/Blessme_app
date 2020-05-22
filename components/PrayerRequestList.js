@@ -67,23 +67,24 @@ class PrayerRequestList extends React.Component {
     if (this.state.loaded) {
       const prayerRequests = this.selectData() ? this.selectData() : [];
       const prayersRequestsList = prayerRequests.map((response, index) => {
+        const {title, body, user, id, category} = response
         return <PrayerRequestCard
-          title={response.title}
-          body={response.body}
-          user={response.user}
-          username={response.user.username}
-          avatarUrl={response.user.avatar}
-          prayerId={response.id}
+          title={title}
+          body={body}
+          user={user}
+          username={user.username}
+          avatarUrl={user.avatar}
+          prayerId={id}
           userToken={response.user.token}
-          categoryLabel={response.category}
-          categoryColor={response.category.color}
+          categoryLabel={category}
+          categoryColor={category.color}
           createdAt={response.created_at}
           writingsCount={response.writings_count}
           audiosCount={response.audios_count}
           currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
-          key={response.title}
+          key={title}
           displayDeleteAction={ this.state.displayDeleteAction }
           needLink={true}
         />;
@@ -91,19 +92,14 @@ class PrayerRequestList extends React.Component {
 
       return (
         <View style={ this.state.profileFeed ? styles.container_prayer_request_card : styles.card_with_margin }>
-          <NavigationEvents onDidFocus={ payload => this._onRefresh() } />
-          { this.state.loaded ?
-            <ScrollView refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh}
-              />}
-            >
-              { prayersRequestsList }
-            </ScrollView>
-            :
-            <ActivityIndicator size="large" style = {styles.loader} />
-          }
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />}
+        >
+          { prayersRequestsList }
+        </ScrollView>
         </View>
       );
     } else {
