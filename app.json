@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.11",
+    "version": "1.0.13",
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "android": {
@@ -25,7 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.blessme.blessme",
-      "versionCode": 17,
+      "versionCode": 19,
       "permissions": [
         "NOTIFICATIONS",
         "CAMERA",
@@ -37,7 +37,8 @@
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "notification": {
-      "icon": "./assets/blessme-logo.png"
+      "icon": "./assets/blessme-notification.png",
+      "color": "#49beb7"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
