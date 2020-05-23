@@ -37,7 +37,8 @@
     "orientation": "portrait",
     "icon": "./assets/blessme-logo.png",
     "notification": {
-      "icon": "./assets/blessme-logo.png"
+      "icon": "./assets/blessme-notification.png",
+      "color": "#49beb7"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
