@@ -139,9 +139,9 @@ export default class PrayerRequestCard extends React.Component {
             }} />}>
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
-
-            {((this.state.userToken === this.state.currentUserToken) && this.state.displayDeleteAction) ?
+            { this.state.displayDeleteAction ?
               <ModalActions
+                currentUserIstheOwner={ this.state.userToken === this.state.currentUserToken }
                 currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }
                 body={ this.state.body }

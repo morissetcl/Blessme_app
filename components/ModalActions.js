@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import { destroyPrayerResquest } from '../api/PrayerRequest';
+import { destroyPrayerResquest, signalPrayerRequest } from '../api/PrayerRequest';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { displayMessage } from "./shared/message";
@@ -29,6 +29,16 @@ export default class ModalActions extends Component {
     });
   }
 
+  _signalPrayerRequest = () => {
+    const trad = i18n.t('signalSuccess', { defaultValue: 'Signalée avec succès' });
+    signalPrayerRequest({
+      navigation: this.state.navigation,
+      prayerRequestId: this.state.prayerRequestId,
+      object: 'prayer_request'
+    })
+    displayMessage(trad, 'success');
+  }
+
   _goToPrayerRequest = () => {
     this.state.navigation.navigate('PrayerRequest', {
       currentUserToken: this.state.currentUserToken,
@@ -41,15 +51,30 @@ export default class ModalActions extends Component {
     });
   }
 
+  ownerActions() {
+    return [
+             { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this._deletePrayerRequest() },
+             { text: i18n.t('edit', { defaultValue: 'Modifier' }), onPress: () => this._goToPrayerRequest() },
+             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
+           ]
+  }
+
+  notOwnerActions() {
+    return [
+             { text: i18n.t('signal', { defaultValue: 'Signaler' }), onPress: () => this._signalPrayerRequest() },
+             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') }
+           ]
+  }
+
+  returnActions() {
+    return this.props.currentUserIstheOwner ? this.ownerActions() : this.notOwnerActions();
+  }
+
   _showAlert = () => {
     Alert.alert(
       this.state.title,
       i18n.t('areYouSurePr', { defaultValue: 'Que voulez vous faire avec cette demande ?' }),
-      [
-        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this._deletePrayerRequest() },
-        { text: i18n.t('edit', { defaultValue: 'Modifier' }), onPress: () => this._goToPrayerRequest() },
-        { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
-      ],
+      this.returnActions(),
       { onDismiss: () => {} },
     );
   }
@@ -60,6 +85,7 @@ export default class ModalActions extends Component {
 
     i18n.translations = {
       fr: {
+        signalSuccess: 'Merci, nos équipes vont contrôler le contenu.',
         areYouSurePr: 'Que voulez vous faire avec cette demande ?',
         edit: 'Modifier',
         delete: 'Supprimer',
@@ -67,6 +93,7 @@ export default class ModalActions extends Component {
         deleteSuccess: 'Votre demande a bien été supprimée.',
       },
       en: {
+        signalSuccess: 'Thanks for the report. We are going to check.',
         areYouSurePr: 'What do you want to do ?',
         edit: 'Edit',
         delete: 'Remove',
