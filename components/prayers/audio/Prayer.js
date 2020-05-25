@@ -39,7 +39,8 @@ export default class Prayer extends Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
+      volume: 1.0
     });
 
     this._loadNewPlaybackInstance(false);
@@ -75,7 +76,7 @@ export default class Prayer extends Component {
         isPlaying: status.isPlaying,
         isBuffering: status.isBuffering,
         rate: status.rate,
-        volume: status.volume,
+        volume: 1.0,
       });
       if (status.didJustFinish) {
         this.playbackInstance.stopAsync();

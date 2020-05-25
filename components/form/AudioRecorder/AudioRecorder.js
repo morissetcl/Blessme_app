@@ -42,7 +42,7 @@ export default class AudioRecorder extends React.Component {
       shouldCorrectPitch: true,
       volume: 1.0,
       rate: 1.0,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
       audioBase64: '',
       loading: false,
     };
@@ -125,7 +125,7 @@ export default class AudioRecorder extends React.Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
       staysActiveInBackground: true,
     });
     if (this.recording !== null) {
@@ -179,7 +179,7 @@ export default class AudioRecorder extends React.Component {
       playsInSilentLockedModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
     });
     const { sound, status } = await this.recording.createNewLoadedSoundAsync(
       {
