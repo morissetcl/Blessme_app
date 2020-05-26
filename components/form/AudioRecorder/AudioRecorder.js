@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Slider, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, ActivityIndicator, BackHandler } from 'react-native';
 
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
@@ -59,7 +59,18 @@ export default class AudioRecorder extends React.Component {
   componentDidMount() {
     Audio.setIsEnabledAsync(true);
     this._askForPermissions();
+    BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
+  }
+
+  onBackButtonPressAndroid = () => {
+    if (!this.sound) return;
+
+    this.sound.stopAsync();
+  };
 
   _askForPermissions = async () => {
     const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -146,6 +157,7 @@ export default class AudioRecorder extends React.Component {
 
   addPrayer() {
     this.setState({ loading: true });
+    this.sound.stopAsync();
     createPrayer({ currentUserToken: this.state.currentUserToken,
       soundDuration: this.state.soundDuration,
       audioUri: this.state.audioBase64,

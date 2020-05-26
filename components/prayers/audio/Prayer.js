@@ -7,11 +7,12 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  BackHandler
 } from 'react-native';
 import { Asset, Font } from 'expo';
 import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { styles } from './Styles'
 
 export default class Prayer extends Component {
@@ -44,7 +45,18 @@ export default class Prayer extends Component {
     });
 
     this._loadNewPlaybackInstance(false);
+    BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
+  }
+
+  onBackButtonPressAndroid = () => {
+    if (!this.playbackInstance) return;
+
+    this.playbackInstance.stopAsync();
+  };
 
   async _loadNewPlaybackInstance(playing) {
     if (this.playbackInstance !== null) {
