@@ -66,6 +66,7 @@ const SearchStackNavigator = createStackNavigator(
     WritingComment: {
       screen: WritingComment,
       navigationOptions: {
+        headerLeft: null,
         title: i18n.t('prayer'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -76,6 +77,7 @@ const SearchStackNavigator = createStackNavigator(
     UserProfile: {
       screen: UserProfile,
       navigationOptions: {
+        headerLeft: null,
         title: i18n.t('editProfil'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -86,6 +88,7 @@ const SearchStackNavigator = createStackNavigator(
     PrayerRequest: {
       screen: PrayerRequest,
       navigationOptions: {
+        headerLeft: null,
         title: i18n.t('prayerRequest'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -96,6 +99,7 @@ const SearchStackNavigator = createStackNavigator(
     Prayer: {
       screen: Prayer,
       navigationOptions: {
+        headerLeft: null,
         title: '',
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -118,6 +122,7 @@ const SearchStackNavigator = createStackNavigator(
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
+        headerLeft: null,
         title: i18n.t('audio'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
