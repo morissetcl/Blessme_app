@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import PrayerRequestCard from './PrayerRequestCard';
 import { bindActionCreators } from 'redux';
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     left: 150,
   },
   card_with_margin: {
-    paddingBottom: '6%',
+    paddingBottom: Dimensions.get('window').height / 11,
     backgroundColor: '#eaeaea',
     height: hp('84%'),
   },
