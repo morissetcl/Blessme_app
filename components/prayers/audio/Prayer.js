@@ -12,7 +12,7 @@ import {
 import { Asset, Font } from 'expo';
 import { Audio } from 'expo-av';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faMicrophone, faPlay, faStop, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { styles } from './Styles'
 
 export default class Prayer extends Component {

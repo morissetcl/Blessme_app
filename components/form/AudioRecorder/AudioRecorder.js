@@ -157,6 +157,7 @@ export default class AudioRecorder extends React.Component {
 
   addPrayer() {
     this.setState({ loading: true });
+    this.sound.stopAsync();
     createPrayer({ currentUserToken: this.state.currentUserToken,
       soundDuration: this.state.soundDuration,
       audioUri: this.state.audioBase64,
