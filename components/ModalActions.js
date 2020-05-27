@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import { destroyPrayerResquest, signalPrayerRequest } from '../api/PrayerRequest';
+import { StyleSheet, View, TouchableOpacity, Alert, Text } from 'react-native';
+import { destroyPrayerResquest } from '../api/PrayerRequest';
+import { createInnapropriateContent } from '../api/InnapropriateContent';
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { displayMessage } from "./shared/message";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
 export default class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      signal: props.signal,
       currentUserToken: props.currentUserToken,
       navigation: props.navigation,
       body: props.body,
@@ -21,6 +25,7 @@ export default class ModalActions extends Component {
   }
 
   _deletePrayerRequest = () => {
+    this._menu.hide();
     const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
@@ -31,15 +36,16 @@ export default class ModalActions extends Component {
 
   _signalPrayerRequest = () => {
     const trad = i18n.t('signalSuccess', { defaultValue: 'Signalée avec succès' });
-    signalPrayerRequest({
+    createInnapropriateContent({
       navigation: this.state.navigation,
-      prayerRequestId: this.state.prayerRequestId,
+      alertableId: this.state.prayerRequestId,
       object: 'prayer_request'
     })
     displayMessage(trad, 'success');
   }
 
-  _goToPrayerRequest = () => {
+  _editPrayerRequest = () => {
+    this._menu.hide();
     this.state.navigation.navigate('PrayerRequest', {
       currentUserToken: this.state.currentUserToken,
       body: this.state.body,
@@ -49,14 +55,6 @@ export default class ModalActions extends Component {
       editPrayer: true,
       prayerRequestId: this.state.prayerRequestId,
     });
-  }
-
-  ownerActions() {
-    return [
-             { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this._deletePrayerRequest() },
-             { text: i18n.t('edit', { defaultValue: 'Modifier' }), onPress: () => this._goToPrayerRequest() },
-             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
-           ]
   }
 
   notOwnerActions() {
@@ -70,14 +68,19 @@ export default class ModalActions extends Component {
     return this.props.currentUserIstheOwner ? this.ownerActions() : this.notOwnerActions();
   }
 
-  _showAlert = () => {
-    Alert.alert(
-      this.state.title,
-      i18n.t('areYouSurePr', { defaultValue: 'Que voulez vous faire avec cette demande ?' }),
-      this.returnActions(),
-      { onDismiss: () => {} },
-    );
-  }
+  _menu = null;
+
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
 
   render() {
     i18n.locale = Localization.locale;
@@ -104,9 +107,24 @@ export default class ModalActions extends Component {
 
     return (
       <TouchableOpacity
-        onPress={this._showAlert}
+        onPress={this.showMenu}
         style = {styles.menu} >
-        <FontAwesomeIcon icon={ faEllipsisV } size={16} color={ '#bbbbbb' }/>
+
+        <Menu
+          ref={this.setMenuRef}
+          button={<FontAwesomeIcon icon={ faEllipsisV } size={16} color={ '#bbbbbb' }/>}
+        >
+        { !this.props.signal ?
+          <View>
+            <MenuItem onPress={() => this._editPrayerRequest()}>Modifier</MenuItem>
+            <MenuItem onPress={() => this._deletePrayerRequest()}>Supprimer</MenuItem>
+          </View>
+        :
+          <View>
+            <MenuItem onPress={() => this._signalPrayerRequest()}>Signaler</MenuItem>
+          </View>
+        }
+        </Menu>
       </TouchableOpacity>
     );
   }

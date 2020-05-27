@@ -139,9 +139,23 @@ export default class PrayerRequestCard extends React.Component {
             }} />}>
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
-            { this.state.displayDeleteAction ?
+            { (this.state.userToken === this.state.currentUserToken) && this.state.displayDeleteAction ?
               <ModalActions
-                currentUserIstheOwner={ this.state.userToken === this.state.currentUserToken }
+                currentUserToken={ this.state.currentUserToken }
+                navigation={ this.state.navigation }
+                body={ this.state.body }
+                title={ this.state.title }
+                category={ this.state.categoryLabel }
+                username={ this.state.username }
+                prayerId={ this.state.prayerId }
+              />
+              :
+              null
+            }
+
+            { (this.state.userToken !== this.state.currentUserToken) && this.state.displayDeleteAction ?
+              <ModalActions
+                signal={true}
                 currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }
                 body={ this.state.body }
