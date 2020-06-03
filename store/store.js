@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-// import prayerRequest from './reducers/PrayerRequest/index'; //Import the reducer
 import prayerRequestReducer  from './reducers/prayerRequestReducer'; //Import the reducer
 
 const reducer = combineReducers({

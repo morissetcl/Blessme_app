@@ -9,6 +9,7 @@ import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { loadPrayersRequests } from '../store/actions/actionCreators'
+import { getPrayerRequests } from '../api/PrayerRequest'
 
 class HeaderHomepage extends Component {
   constructor(props) {
@@ -43,11 +44,9 @@ class HeaderHomepage extends Component {
     this.setState({
       search: e,
     }, () => {
-      const url = `https://blessme-serveur.herokuapp.com/api/v1/prayers_requests?keyword=${e}`;
-      return fetch(url)
-        .then((response) => response.json())
-        .then((data) => this.props.dispatch(loadPrayersRequests(data.prayers_requests)))
-        .catch((error) => console.error(error));
+      getPrayerRequests(e).then(response => {
+        this.props.dispatch(loadPrayersRequests(response.prayers_requests))
+      });
     });
   }
 
