@@ -9,6 +9,7 @@ import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { loadPrayersRequests } from '../store/actions/actionCreators'
 
 class HeaderHomepage extends Component {
   constructor(props) {
@@ -43,7 +44,11 @@ class HeaderHomepage extends Component {
     this.setState({
       search: e,
     }, () => {
-      this.props.getAllPrayersRequests(this.state.search);
+      const url = `https://blessme-serveur.herokuapp.com/api/v1/prayers_requests?keyword=${e}`;
+      return fetch(url)
+        .then((response) => response.json())
+        .then((data) => this.props.dispatch(loadPrayersRequests(data.prayers_requests)))
+        .catch((error) => console.error(error));
     });
   }
 
@@ -130,14 +135,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    loading: state.prayerRequest.dataReducer.loading,
-    data: state.prayerRequest.dataReducer.data,
-    userData: state.prayerRequest.dataReducer.userData,
+    allPrayersRequests: state.prayerRequestReducer
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderHomepage);

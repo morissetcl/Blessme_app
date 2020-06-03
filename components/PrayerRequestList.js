@@ -1,11 +1,13 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl, Dimensions } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
 import PrayerRequestCard from './PrayerRequestCard';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../store/actions/PrayerRequest';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { getPrayerRequests } from '../api/PrayerRequest';
+import { loadPrayersRequests, getUserPrayersRequests } from '../store/actions/actionCreators'
+import { NavigationEvents } from 'react-navigation';
 
 class PrayerRequestList extends React.Component {
   constructor(props) {
@@ -24,14 +26,6 @@ class PrayerRequestList extends React.Component {
 
   componentDidMount() {
     this.retrievePrayersRequests();
-    this.setState({ pr: this.props.data.prayers_requests });
-  }
-
-  componentDidUpdate() {
-    const prAdded = ((this.state.pr !== this.props.data.prayers_requests) && !this.state.loaded);
-    if (prAdded) {
-      this.setState({ loaded: true });
-    }
   }
 
   _onRefresh = () => {
@@ -42,25 +36,25 @@ class PrayerRequestList extends React.Component {
   checkTokenToSearch() {
     if (this.state.userToken !== undefined) {
       return this.state.userToken;
-    } else {
-      return this.state.currentUserToken;
-    }
+    };
+    return this.state.currentUserToken;
   }
 
   retrievePrayersRequests() {
-    if (this.state.profileFeed) {
-      this.setState({ loaded: true });
-      this.props.getUserPrayersRequests(this.checkTokenToSearch());
-    } else {
-      this.props.getAllPrayersRequests();
-    }
+    getPrayerRequests().then(prayerRequests => {
+      this.setState({ pr: prayerRequests.prayers_requests });
+      this.props.dispatch(
+        loadPrayersRequests(prayerRequests.prayers_requests)
+      );
+    })
+    this.setState({ loaded: true });
   }
 
   selectData() {
     if (this.state.profileFeed) {
-      return this.props.userData.user_prayers_requests;
+      return this.props.allPrayersRequests.filter(pr => pr.user.token === this.checkTokenToSearch())
     }
-    return this.props.data.prayers_requests;
+    return this.props.allPrayersRequests;
   }
 
   render() {
@@ -84,7 +78,7 @@ class PrayerRequestList extends React.Component {
           currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
-          key={title}
+          key={Math.random()}
           displayDeleteAction={ this.state.displayDeleteAction }
           needLink={true}
         />;
@@ -130,16 +124,14 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.prayerRequest.dataReducer.loading,
-    data: state.prayerRequest.dataReducer.data,
-    userData: state.prayerRequest.dataReducer.userData,
-  };
+    allPrayersRequests: state.prayerRequestReducer.data
+  }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestList);
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestList)

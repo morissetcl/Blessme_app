@@ -10,7 +10,11 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
-export default class ModalActions extends Component {
+import { deletePrayerRequest } from '../store/actions/actionCreators'
+
+import { connect } from 'react-redux'
+
+class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +34,9 @@ export default class ModalActions extends Component {
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation }).then(() => {
-      displayMessage(trad, 'success');
+        const {dispatch} = this.props
+        dispatch(deletePrayerRequest(this.state.prayerRequestId));
+        displayMessage(trad, 'success');
     });
   }
 
@@ -130,6 +136,7 @@ export default class ModalActions extends Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   menu: {
     position: 'absolute',
@@ -137,3 +144,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    prayerRequest: state.prayerRequest
+  }
+}
+
+export default connect(mapStateToProps)(ModalActions)
