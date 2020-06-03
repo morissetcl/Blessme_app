@@ -1,13 +1,15 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-import prayerRequest from './reducers/PrayerRequest/index'; //Import the reducer
-import prayerCounter from './reducers/PrayerRequest/prayerCounter'; //Import the reducer
+import prayerRequestReducer  from './reducers/prayerRequestReducer'; //Import the reducer
 
 const reducer = combineReducers({
-  prayerRequest: prayerRequest,
-  prayerCounter: prayerCounter,
+  prayerRequestReducer: prayerRequestReducer
 });
 
-// Connect our store to the reducers
-export default createStore(reducer, applyMiddleware(thunk));
+export default function configureStore() {
+  return createStore(
+    reducer,
+    applyMiddleware(thunk)
+  )
+}

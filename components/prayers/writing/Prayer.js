@@ -3,8 +3,9 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity,
   ActivityIndicator, Alert } from 'react-native';
 import { getPrayerRequest } from '../../../api/PrayerRequest';
 import { getPrayers, destroyPrayers } from '../../../api/Prayer';
+import { createInnapropriateContent } from '../../../api/InnapropriateContent';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrash, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import PrayerRequestCard from '../../PrayerRequestCard';
 import PrayerRequestButtonsActions from '../../prayer_request/PrayerRequestButtonsActions';
 import { NavigationEvents } from 'react-navigation';
@@ -93,6 +94,15 @@ export default class Prayer extends Component {
     });
   }
 
+  signalContent(alertableId) {
+    const trad = i18n.t('signalSuccess', { defaultValue: 'Signalé avec succès' });
+    createInnapropriateContent({
+      alertableId: alertableId,
+      object: 'prayer'
+    })
+    displayMessage(trad, 'success');
+  }
+
   retrieveAllPrayers(prayerId) {
     this.setState({ prayers: [] });
     getPrayers(prayerId).then(data => {
@@ -107,10 +117,18 @@ export default class Prayer extends Component {
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
 
         return <View
+
           style={[this.commentFromOriginalPoster(response.user.username,
             this.state.prayerRequestUsername) ? styles.commentCardOp : styles.commentCard]}
           key={response.created_at}
-          id={index}>
+          id={index}
+          >
+
+          <TouchableOpacity
+            onLongPress={(value) => {
+              this.signalContent(response.id);
+            }}
+          >
           <Text
             style={styles.username}
             onPress={(value) => {
@@ -156,6 +174,8 @@ export default class Prayer extends Component {
             :
             <Text style={styles.prayerBody}>{response.body}</Text>
           }
+          </TouchableOpacity>
+
         </View>;
       });
       this.setState({ prayersList: prayersList });

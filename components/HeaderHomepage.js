@@ -5,10 +5,11 @@ import { NavigationEvents } from 'react-navigation';
 import { getUsers } from '../api/User';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { loadPrayersRequests } from '../store/actions/actionCreators'
+import { getPrayerRequests } from '../api/PrayerRequest'
 
 class HeaderHomepage extends Component {
   constructor(props) {
@@ -43,7 +44,9 @@ class HeaderHomepage extends Component {
     this.setState({
       search: e,
     }, () => {
-      this.props.getAllPrayersRequests(this.state.search);
+      getPrayerRequests(e).then(response => {
+        this.props.dispatch(loadPrayersRequests(response.prayers_requests))
+      });
     });
   }
 
@@ -101,7 +104,7 @@ class HeaderHomepage extends Component {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#49beb7',
-    paddingLeft: 16 
+    paddingLeft: 16
   },
   container: {
     height: Dimensions.get('window').height / 13,
@@ -130,14 +133,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    loading: state.prayerRequest.dataReducer.loading,
-    data: state.prayerRequest.dataReducer.data,
-    userData: state.prayerRequest.dataReducer.userData,
+    allPrayersRequests: state.prayerRequestReducer
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderHomepage);

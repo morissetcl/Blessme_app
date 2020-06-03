@@ -3,9 +3,12 @@ import { Text, View, StatusBar } from 'react-native';
 import Navigation from './navigation/Navigation';
 import FlashMessage from "react-native-flash-message";
 import { Provider } from 'react-redux';
-import store from './store/store'; //Import the store
+import configureStore from './store/store'; //Import the store
+
 import { enableScreens } from 'react-native-screens';
 enableScreens();
+
+const store = configureStore();
 
 export default class App extends React.Component {
   render() {

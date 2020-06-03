@@ -1,6 +1,13 @@
 import Constants from 'expo-constants';
 import { getApiUrl } from './GetApiUrl';
 
+export function getPrayerRequests(keyword = '') {
+  const url = `${getApiUrl()}/prayers_requests?keyword=${keyword}`;
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
+}
+
 export function getPrayerRequest(prayerId) {
   const url = `${getApiUrl()}/prayers_requests/` + prayerId;
   return fetch(url)

@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Alert, Text } from 'react-native';
 import { destroyPrayerResquest } from '../api/PrayerRequest';
+import { createInnapropriateContent } from '../api/InnapropriateContent';
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { displayMessage } from "./shared/message";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
-export default class ModalActions extends Component {
+import { deletePrayerRequest } from '../store/actions/actionCreators'
+
+import { connect } from 'react-redux'
+
+class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      signal: props.signal,
       currentUserToken: props.currentUserToken,
       navigation: props.navigation,
       body: props.body,
@@ -21,15 +29,29 @@ export default class ModalActions extends Component {
   }
 
   _deletePrayerRequest = () => {
+    this._menu.hide();
     const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation }).then(() => {
-      displayMessage(trad, 'success');
+        const {dispatch} = this.props
+        dispatch(deletePrayerRequest(this.state.prayerRequestId));
+        displayMessage(trad, 'success');
     });
   }
 
-  _goToPrayerRequest = () => {
+  _signalPrayerRequest = () => {
+    const trad = i18n.t('signalSuccess', { defaultValue: 'Signalée avec succès' });
+    createInnapropriateContent({
+      navigation: this.state.navigation,
+      alertableId: this.state.prayerRequestId,
+      object: 'prayer_request'
+    })
+    displayMessage(trad, 'success');
+  }
+
+  _editPrayerRequest = () => {
+    this._menu.hide();
     this.state.navigation.navigate('PrayerRequest', {
       currentUserToken: this.state.currentUserToken,
       body: this.state.body,
@@ -41,18 +63,30 @@ export default class ModalActions extends Component {
     });
   }
 
-  _showAlert = () => {
-    Alert.alert(
-      this.state.title,
-      i18n.t('areYouSurePr', { defaultValue: 'Que voulez vous faire avec cette demande ?' }),
-      [
-        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this._deletePrayerRequest() },
-        { text: i18n.t('edit', { defaultValue: 'Modifier' }), onPress: () => this._goToPrayerRequest() },
-        { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
-      ],
-      { onDismiss: () => {} },
-    );
+  notOwnerActions() {
+    return [
+             { text: i18n.t('signal', { defaultValue: 'Signaler' }), onPress: () => this._signalPrayerRequest() },
+             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') }
+           ]
   }
+
+  returnActions() {
+    return this.props.currentUserIstheOwner ? this.ownerActions() : this.notOwnerActions();
+  }
+
+  _menu = null;
+
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
 
   render() {
     i18n.locale = Localization.locale;
@@ -60,6 +94,7 @@ export default class ModalActions extends Component {
 
     i18n.translations = {
       fr: {
+        signalSuccess: 'Merci, nos équipes vont contrôler le contenu.',
         areYouSurePr: 'Que voulez vous faire avec cette demande ?',
         edit: 'Modifier',
         delete: 'Supprimer',
@@ -67,6 +102,7 @@ export default class ModalActions extends Component {
         deleteSuccess: 'Votre demande a bien été supprimée.',
       },
       en: {
+        signalSuccess: 'Thanks for the report. We are going to check.',
         areYouSurePr: 'What do you want to do ?',
         edit: 'Edit',
         delete: 'Remove',
@@ -77,13 +113,29 @@ export default class ModalActions extends Component {
 
     return (
       <TouchableOpacity
-        onPress={this._showAlert}
+        onPress={this.showMenu}
         style = {styles.menu} >
-        <FontAwesomeIcon icon={ faEllipsisV } size={16} color={ '#bbbbbb' }/>
+
+        <Menu
+          ref={this.setMenuRef}
+          button={<FontAwesomeIcon icon={ faEllipsisV } size={16} color={ '#bbbbbb' }/>}
+        >
+        { !this.props.signal ?
+          <View>
+            <MenuItem onPress={() => this._editPrayerRequest()}>Modifier</MenuItem>
+            <MenuItem onPress={() => this._deletePrayerRequest()}>Supprimer</MenuItem>
+          </View>
+        :
+          <View>
+            <MenuItem onPress={() => this._signalPrayerRequest()}>Signaler</MenuItem>
+          </View>
+        }
+        </Menu>
       </TouchableOpacity>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   menu: {
@@ -92,3 +144,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    prayerRequest: state.prayerRequest
+  }
+}
+
+export default connect(mapStateToProps)(ModalActions)
