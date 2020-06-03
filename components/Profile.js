@@ -23,7 +23,7 @@ export default class Profile extends Component {
       currentUserToken: props.navigation.state.params.currentUserToken,
       userToken: props.navigation.state.params.userToken,
       avatarUrl: '',
-      avatarLoaded: 'loaded',
+      avatarLoaded: true,
       biography: '',
     };
   }
@@ -55,14 +55,14 @@ export default class Profile extends Component {
     });
 
     if (!result.cancelled) {
-      this.setState({ avatarLoaded: 'loading' });
+      this.setState({ avatarLoaded: false });
       const email = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
       updateUser({ email: email,
         avatar: result.base64,
         username: this.state.username,
         navigation: this.state.navigation }).then(() => {
         this.setState({ avatarUrl: result.uri });
-        this.setState({ avatarLoaded: 'loaded' });
+        this.setState({ avatarLoaded: true });
       });
     }
   };
@@ -138,18 +138,21 @@ export default class Profile extends Component {
               containerStyle={styles.header}
               placement="center"
               rightComponent={
-                <Avatar
-                  containerStyle={styles.avatar}
-                  size="large"
-                  source={{
-                    uri:
-                      this.state.avatarUrl,
-                  }}
-                  rounded
-                  showEditButton={ allowsEditing }
-                  activeOpacity={0.7}
-                  onPress={ this._pickImage }
-                />
+                this.state.avatarLoaded ?
+                  <Avatar
+                    containerStyle={styles.avatar}
+                    size="large"
+                    source={{
+                      uri:
+                        this.state.avatarUrl,
+                    }}
+                    rounded
+                    showEditButton={ allowsEditing }
+                    activeOpacity={0.7}
+                    onPress={ this._pickImage }
+                  />
+                :
+                <ActivityIndicator size="large" style = {styles.loader} />
               }
             />
             <View style={styles.user_informations}>
