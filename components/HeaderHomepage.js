@@ -5,7 +5,6 @@ import { NavigationEvents } from 'react-navigation';
 import { getUsers } from '../api/User';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions/PrayerRequest';
 import * as firebase from "firebase";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -106,7 +105,7 @@ class HeaderHomepage extends Component {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#49beb7',
-    paddingLeft: 16 
+    paddingLeft: 16
   },
   container: {
     height: Dimensions.get('window').height / 13,

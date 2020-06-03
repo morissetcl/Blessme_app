@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, View, ActivityIndicator, RefreshControl, Dimens
 import PrayerRequestCard from './PrayerRequestCard';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../store/actions/PrayerRequest';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getPrayerRequests } from '../api/PrayerRequest';
 import { loadPrayersRequests, getUserPrayersRequests } from '../store/actions/actionCreators'

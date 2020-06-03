@@ -8,7 +8,8 @@ function prayerRequestReducer(state = [], action)
       return { ...state, data: action.prayers_requests, loading: false };
 
     case DELETE_PRAYER_REQUEST:
-      return state.filter(t => t.id !== action.id);
+      return { data: state.data.filter(pr => pr.id !== action.id
+)}
 
     default:
       return state;
