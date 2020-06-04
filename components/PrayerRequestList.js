@@ -62,24 +62,13 @@ class PrayerRequestList extends React.Component {
       const prayersRequestsList = prayerRequests.map((response, index) => {
         const {title, body, user, id, category} = response
         return <PrayerRequestCard
-          title={title}
-          body={body}
-          user={user}
-          username={user.username}
-          avatarUrl={user.avatar}
-          prayerId={id}
-          userToken={response.user.token}
-          categoryLabel={category}
-          categoryColor={category.color}
-          createdAt={response.created_at}
-          writingsCount={response.writings_count}
-          audiosCount={response.audios_count}
+          prayerRequest={response}
           currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
-          key={Math.random()}
           displayDeleteAction={ this.state.displayDeleteAction }
           needLink={true}
+          key={Math.random()}
         />;
       });
 

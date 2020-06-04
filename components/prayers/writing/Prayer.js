@@ -21,7 +21,7 @@ export default class Prayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prayerId: props.navigation.state.params.prayerId,
+      prayerId: props.navigation.state.params.prayerRequest.id,
       loaded: false,
       prayerRequest: [],
       navigation: props.navigation,
@@ -141,9 +141,13 @@ export default class Prayer extends Component {
                 <TouchableOpacity
                   style={styles.publishButton}
                   onPress={(value) => {
-                    this.state.navigation.navigate('WritingComment', { prayerRequest: this.state.prayerRequest,
-                      currentUserToken: this.state.currentUserToken, prayerId: this.state.prayerId,
-                      body: response.body, commentId: response.id });
+                    this.state.navigation.navigate('WritingComment', {
+                      prayerRequest: this.state.prayerRequest,
+                      currentUserToken: this.state.currentUserToken,
+                      prayerId: this.state.prayerId,
+                      body: response.body,
+                      commentId: response.id
+                    });
                   }}>
                   <FontAwesomeIcon
                     icon={ faPenSquare }

@@ -13,52 +13,36 @@ import i18n from 'i18n-js';
 export default class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
+    const prayerRequest = this.props.prayerRequest;
     this.state = {
-      prayerId: this.props.prayerId,
-      title: this.props.title,
-      body: this.props.body,
-      user: this.props.user,
-      username: this.props.username,
-      avatarUrl: this.props.avatarUrl,
-      userToken: this.props.token,
-      categoryLabel: this.checkCategoryLabel(this.props.categoryLabel),
-      categoryColor: this.props.categoryColor,
-      createdAt: this.props.createdAt,
-      numberOfWritingPrayer: this.props.writingsCount,
-      numberOfAudioPrayer: this.props.audiosCount,
-      category_color: 'white',
+      title: this.findPrayerRequest().title,
+      body: this.findPrayerRequest().body,
+      user: this.findPrayerRequest().user,
+      username: this.findPrayerRequest().user.username,
+      avatarUrl: this.findPrayerRequest().user.avatar,
+      categoryLabel: this.checkCategoryLabel(this.findPrayerRequest().category),
+      categoryColor: this.findPrayerRequest().category.color,
+      userToken: this.findPrayerRequest().user.token,
+      createdAt: this.findPrayerRequest().created_at,
+      numberOfAudioPrayer: this.findPrayerRequest().audios_count,
+      numberOfWritingPrayer: this.findPrayerRequest().writings_count,
+      prayerId: this.findPrayerRequest().id,
+      currentUserToken: this.props.currentUserToken,
       navigation: this.props.navigation,
       numberOfLines: this.props.numberOfLines,
-      needLink: this.props.needLink,
-      currentUserToken: this.props.currentUserToken,
       displayDeleteAction: this.props.displayDeleteAction,
+      needLink: this.props.needLink,
       prayerRequest: [],
       loaded: false,
     };
   }
 
+  findPrayerRequest() {
+    return this.props.prayerRequest ? this.props.prayerRequest : this.props.navigation.state.params.prayerRequest
+  }
+
   componentDidMount() {
     this.setState({ loaded: false });
-    if (this.props.navigation.state.routeName !== 'Connexion') {
-      const prayerRequestId = this.props.prayerId ? this.props.prayerId : this.props.navigation.state.params.prayerRequestId
-      getPrayerRequest(prayerRequestId).then(data => {
-        this.setState({
-          title: data.title,
-          body: data.body,
-          user: data.user,
-          username: data.user.username,
-          avatarUrl: data.user.avatar,
-          prayerId: data.id,
-          userToken: data.user.token,
-          categoryLabel: this.checkCategoryLabel(data.category),
-          categoryColor: data.category.color,
-          createdAt: data.created_at,
-          numberOfWritingPrayer: data.writings_count,
-          numberOfAudioPrayer: data.audios_count,
-        }, function () {});
-      });
-    }
-
     this.setState({ loaded: true });
   }
 
@@ -81,7 +65,8 @@ export default class PrayerRequestCard extends React.Component {
 
   goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', { prayerId: this.props.prayerId,
+      this.state.navigation.navigate('Prayer', {
+        prayerRequest: this.props.prayerRequest,
         currentUserToken: this.state.currentUserToken,
         prayerRequestUsername: this.state.username,
       });

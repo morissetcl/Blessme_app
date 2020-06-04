@@ -39,7 +39,6 @@ export default class PrayersList extends React.Component {
           const goodDate = isNaN(checkDate) ? '-' : checkDate
           const trad = `Il y a ${goodDate} jours`;
           const formattedCreatedAtSince = (checkDate !== 0) ? trad : i18n.t('today', { defaultValue: "Aujourd'hui" });
-
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}

@@ -27,7 +27,8 @@ export default class WritingComment extends Component {
     const created = i18n.t('created', { defaultValue: 'Prière ajoutée.' });
 
     if (this.state.body) {
-      createPrayer({ currentUserToken: this.state.currentUserToken,
+      createPrayer({
+        currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation });
