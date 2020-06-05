@@ -76,7 +76,7 @@ export function editPrayerRequest(params) {
       category: category,
     }),
   }).then(response => response.json())
-    .then(json => {
-      navigation.navigate("Prayer", { editedPr: true, prayerRequestId: prayerRequestId });
+    .then(prayerRequest => {
+      navigation.navigate("Prayer", { editedPr: true, prayerRequest: prayerRequest });
     });
 }

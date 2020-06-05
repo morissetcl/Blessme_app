@@ -7,6 +7,7 @@ import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequ
 import { displayMessage } from "../../shared/message";
 import { getCategories } from '../../../api/Category';
 import { NavigationEvents } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
@@ -14,7 +15,9 @@ import { styles } from './Styles'
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
-export default class PrayerRequest extends Component {
+import { updatePrayerRequest } from '../../../store/actions/actionCreators'
+
+class PrayerRequest extends Component {
   constructor(props) {
     super(props);
     const params = props.navigation.state.params;
@@ -48,20 +51,33 @@ export default class PrayerRequest extends Component {
     }
   }
 
+
   prayerRequestUpdate(prayerRequestId) {
+    const colorDictionnary = {
+                                Finance: '#6ce99a',
+                                Autres: '#196eef',
+                                Famille: '#79b8c5',
+                                Couple: '#ff7567',
+                                Santé: '#88d1d6',
+                                Travail: '#0684d3'
+                            };
     const firstRowCategory = this.state.categories.slice(0, 6);
     const category = (this.state.selectedIndex === undefined) ? this.state.prCategory : firstRowCategory[this.state.selectedIndex]
+    const color = colorDictionnary[category]
     if (this.state.title && this.state.body) {
-      editPrayerRequest({ currentUserToken: this.state.currentUserToken,
+      editPrayerRequest({
+        currentUserToken: this.state.currentUserToken,
         title: this.state.title,
         body: this.state.body,
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
         category: category,
+      }).then(() => {
+        this.props.dispatch(updatePrayerRequest(this.state.prayerRequestId, this.state.title, this.state.body, category, color));
+        displayMessage(i18n.t('prEdited', { defaultValue: 'Demande de prière mise à jour !' }), 'success');
       });
-      displayMessage(i18n.t('prEdited', { defaultValue: 'Prayer request updated.' }), 'success');
     } else {
-      displayMessage(i18n.t('missingField', { defaultValue: 'Please fill everything.' }), 'warning');
+      displayMessage(i18n.t('missingField', { defaultValue: 'Merci de remplir tous les champs.' }), 'warning');
     }
   }
 
@@ -174,3 +190,9 @@ export default class PrayerRequest extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+export default connect(null, mapDispatchToProps)(PrayerRequest)
