@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 class Prayer extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       prayerId: props.navigation.state.params.prayerRequest.id,
       loaded: false,
