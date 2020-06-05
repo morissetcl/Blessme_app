@@ -7,6 +7,7 @@ import { createPrayerRequestAndRedirect, retrievePrayerRequestId, editPrayerRequ
 import { displayMessage } from "../../shared/message";
 import { getCategories } from '../../../api/Category';
 import { NavigationEvents } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
@@ -14,7 +15,9 @@ import { styles } from './Styles'
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
-export default class PrayerRequest extends Component {
+import { updatePrayerRequest } from '../../../store/actions/actionCreators'
+
+class PrayerRequest extends Component {
   constructor(props) {
     super(props);
     const params = props.navigation.state.params;
@@ -58,6 +61,8 @@ export default class PrayerRequest extends Component {
         prayerRequestId: this.state.prayerRequestId,
         navigation: this.props.navigation,
         category: category,
+      }).then(() => {
+        this.props.dispatch(updatePrayerRequest(this.state.prayerRequestId, this.state.title, this.state.body));
       });
       displayMessage(i18n.t('prEdited', { defaultValue: 'Prayer request updated.' }), 'success');
     } else {
@@ -174,3 +179,9 @@ export default class PrayerRequest extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+export default connect(null, mapDispatchToProps)(PrayerRequest)

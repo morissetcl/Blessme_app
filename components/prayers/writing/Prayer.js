@@ -15,9 +15,10 @@ import * as Expo from 'expo';
 import AudioPrayer from '../audio/Prayer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import { styles } from './Styles'
+import { styles } from './Styles';
+import { connect } from 'react-redux';
 
-export default class Prayer extends Component {
+class Prayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,9 +56,12 @@ export default class Prayer extends Component {
   }
 
   renderPrayerRequest() {
-    if (this.props.navigation.state.params.editedPr) {
+    if (this.props.navigation.state.params.editedPr && this.props.allPrayersRequests) {
+      const pr = this.props.allPrayersRequests.filter(pr => pr.id === this.state.prayerId)
+
       const keyNumber = Math.floor(Math.random() * 100) + 1;
       return <PrayerRequestCard
+        prayerRequest={pr[0]}
         displayDeleteAction={true}
         key={ keyNumber }
         currentUserToken={ this.state.currentUserToken }
@@ -237,3 +241,11 @@ export default class Prayer extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    allPrayersRequests: state.prayerRequestReducer.data
+  }
+}
+
+export default connect(mapStateToProps)(Prayer)
