@@ -20,7 +20,7 @@ export default class PrayerRequestCard extends React.Component {
       user: this.findPrayerRequest().user,
       username: this.findPrayerRequest().user.username,
       avatarUrl: this.findPrayerRequest().user.avatar,
-      categoryLabel: this.checkCategoryLabel(this.findPrayerRequest().category),
+      categoryLabel: this.findPrayerRequest().category.label,
       categoryColor: this.findPrayerRequest().category.color,
       userToken: this.findPrayerRequest().user.token,
       createdAt: this.findPrayerRequest().created_at,

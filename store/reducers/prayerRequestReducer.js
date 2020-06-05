@@ -13,7 +13,7 @@ function prayerRequestReducer(state = [], action)
     case EDIT_PRAYER_REQUEST:
       const index = state.data.findIndex(pr => pr.id === action.id);
       const prayersRequests = [...state.data];
-      prayersRequests[index] = {...prayersRequests[index], body: action.body, title: action.title };  
+      prayersRequests[index] = {...prayersRequests[index], body: action.body, title: action.title, category: { label: action.category, color: action.color } };
       return { data: prayersRequests }
 
     default:
