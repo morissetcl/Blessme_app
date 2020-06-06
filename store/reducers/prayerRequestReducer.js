@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { DELETE_PRAYER_REQUEST, ALL_PRAYERS_REQUESTS_AVAILABLE, EDIT_PRAYER_REQUEST } from '../actions/actionTypes'
+import { DELETE_PRAYER_REQUEST, ALL_PRAYERS_REQUESTS_AVAILABLE, EDIT_PRAYER_REQUEST, EDIT_USER_AVATAR } from '../actions/actionTypes'
 
 function prayerRequestReducer(state = [], action)
 {
@@ -15,6 +15,10 @@ function prayerRequestReducer(state = [], action)
       const prayersRequests = [...state.data];
       prayersRequests[index] = {...prayersRequests[index], body: action.body, title: action.title, category: { label: action.category, color: action.color } };
       return { data: prayersRequests }
+
+    case EDIT_USER_AVATAR:
+      const prayersRequestsToUpdate = state.data.find(pr => pr.user.token === action.userToken);
+      console.log(prayersRequestsToUpdate)
 
     default:
       return state;

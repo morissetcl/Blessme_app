@@ -26,7 +26,8 @@ export default class UserProfile extends Component {
     const fail = i18n.t('fail', { defaultValue: 'Merci de remplir tous les champs.' });
 
     if (this.state.username) {
-      updateUser({ email: this.state.email,
+      updateUser({
+        email: this.state.email,
         username: this.state.username,
         biography: this.state.biography,
         navigation: this.props.navigation,

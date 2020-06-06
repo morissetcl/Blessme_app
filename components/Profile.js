@@ -12,8 +12,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { connect } from 'react-redux';
+import { editUserAvatar } from '../store/actions/actionCreators.js'
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,8 +63,9 @@ export default class Profile extends Component {
         avatar: result.base64,
         username: this.state.username,
         navigation: this.state.navigation }).then(() => {
-        this.setState({ avatarUrl: result.uri });
-        this.setState({ avatarLoaded: true });
+          this.props.dispatch(editUserAvatar(result.uri, this.state.currentUserToken))
+          this.setState({ avatarUrl: result.uri });
+          this.setState({ avatarLoaded: true });
       });
     }
   };
@@ -234,3 +237,9 @@ const styles = StyleSheet.create({
     color: "#bbbbbb",
   },
 });
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+export default connect(null, mapDispatchToProps)(Profile)
