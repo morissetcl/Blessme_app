@@ -15,6 +15,7 @@ class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
     const prayerRequest = this.props.prayerRequest;
+    console.log("bouyaaaaaa")
     this.state = {
       title: this.findPrayerRequest().title,
       body: this.findPrayerRequest().body,

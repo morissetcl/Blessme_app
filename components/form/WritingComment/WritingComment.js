@@ -7,9 +7,11 @@ import { displayMessage } from "../../shared/message";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import PublishButton from '../../shared/buttons/PublishButton';
+import { connect } from 'react-redux';
 import { styles } from './Styles'
+import { updateCounter } from '../../../store/actions/actionCreators'
 
-export default class WritingComment extends Component {
+class WritingComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +33,10 @@ export default class WritingComment extends Component {
         currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         prayerId: this.state.prayerId,
-        navigation: this.props.navigation });
+        navigation: this.props.navigation }).then(() => {
+          this.props.dispatch(updateCounter(this.state.prayerId, 'writing'));
+        });
+
       displayMessage(created, 'success');
     } else {
       displayMessage(fail, 'warning');
@@ -103,3 +108,9 @@ export default class WritingComment extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+export default connect(null, mapDispatchToProps)(WritingComment)
