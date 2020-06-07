@@ -167,7 +167,7 @@ class AudioRecorder extends React.Component {
       prayerId: this.state.prayerId,
       navigation: this.props.navigation,
     }).then(() => {
-      this.props.dispatch(updateCounter(this.state.prayerId, 'audio'))
+      this.props.dispatch(updateCounter(this.state.prayerId, 'audio', true))
     });
   }
 

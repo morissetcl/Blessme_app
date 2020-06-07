@@ -17,6 +17,7 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { styles } from './Styles';
 import { connect } from 'react-redux';
+import { updateCounter } from '../../../store/actions/actionCreators'
 
 class Prayer extends Component {
   constructor(props) {
@@ -42,12 +43,12 @@ class Prayer extends Component {
     }
   }
 
-  _showAlert = (responId, index) => {
+  _showAlert = (responId, index, audio) => {
     Alert.alert(
       this.state.title,
       i18n.t('areYouSurePr', { defaultValue: 'Êtes-vous sûr ?' }),
       [
-        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this.destroyActions(responId, index) },
+        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this.destroyActions(responId, index, audio) },
         { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
       ],
       { onDismiss: () => {} },
@@ -84,11 +85,13 @@ class Prayer extends Component {
     return (username1 === username2);
   }
 
-  destroyActions(commentId, index) {
+  destroyActions(commentId, index, audio) {
+    const typeOfPrayer = audio ? 'audio' : 'writing'
     const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prière supprimée' });
     destroyPrayers({ prayerId: this.state.prayerId,
       commentId: commentId,
       navigation: this.state.navigation }).then(() => {
+      this.props.dispatch(updateCounter(this.state.prayerId, typeOfPrayer, false));
       displayMessage(destroyPrayer, 'success');
       this.retrieveAllPrayers(this.state.prayerId);
     });
@@ -160,7 +163,7 @@ class Prayer extends Component {
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={(value) => {
-                  this._showAlert(response.id, index);
+                  this._showAlert(response.id, index, response.audio);
                 }}>
                 <FontAwesomeIcon
                   icon={ faTrash }
@@ -238,6 +241,10 @@ class Prayer extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
 const mapStateToProps = (state) => {
   return {
     allPrayersRequests: state.prayerRequestReducer.data,
@@ -245,4 +252,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Prayer)
+export default connect(mapStateToProps, mapDispatchToProps)(Prayer)

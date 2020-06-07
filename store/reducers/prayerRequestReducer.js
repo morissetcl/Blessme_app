@@ -21,9 +21,11 @@ function prayerRequestReducer(state = [], action)
       const prayerRequest = [...state.data];
       const pr = state.data.filter(pr => pr.id === action.id)[0];
       if (action.typeOfPrayer == 'writing') {
-        prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], writings_count: pr.writings_count + 1 };
+        const operation = action.increment ? (pr.writings_count + 1) : (pr.writings_count - 1)
+        prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], writings_count: operation };
       } else {
-        prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], audios_count: pr.audios_count + 1 };
+        const operation = action.increment ? (pr.writings_count + 1) : (pr.audios_count - 1)
+        prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], audios_count: operation };
       }
       return { data: prayerRequest }
 

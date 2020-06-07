@@ -15,7 +15,6 @@ class PrayerRequestCard extends React.Component {
   constructor(props) {
     super(props);
     const prayerRequest = this.props.prayerRequest;
-    console.log("bouyaaaaaa")
     this.state = {
       title: this.findPrayerRequest().title,
       body: this.findPrayerRequest().body,
@@ -81,12 +80,6 @@ class PrayerRequestCard extends React.Component {
     });
   }
 
-  counter() {
-    if (!this.needLink) {
-      return <NavigationEvents onDidFocus={ payload => this.updateCounter(this.state.prayerId) } />;
-    }
-  }
-
   render() {
     i18n.locale = Localization.locale;
     i18n.fallbacks = true;
@@ -116,7 +109,6 @@ class PrayerRequestCard extends React.Component {
           this.goToPrayer(this.state.prayerId);
         }}
         style = {styles.space_between_card}>
-        { this.counter() }
         { this.state.loaded ?
           <Card containerStyle={{ width: '100%', marginLeft: 0 }} title={<Avatar rounded source={{ uri: avatar }}
             onPress={() => {

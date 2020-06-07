@@ -34,7 +34,7 @@ class WritingComment extends Component {
         body: this.state.body,
         prayerId: this.state.prayerId,
         navigation: this.props.navigation }).then(() => {
-          this.props.dispatch(updateCounter(this.state.prayerId, 'writing'));
+          this.props.dispatch(updateCounter(this.state.prayerId, 'writing', true));
         });
 
       displayMessage(created, 'success');
