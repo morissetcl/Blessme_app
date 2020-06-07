@@ -23,8 +23,10 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { setCurrentUser } from '../store/actions/actionCreators'
+import { connect } from 'react-redux';
 
-export default class Connexion extends React.Component {
+class Connexion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,14 +72,25 @@ export default class Connexion extends React.Component {
   };
 
   initializeUser(e) {
-    createUser({ email: this.state.email, username: this.state.username, token: e['user']['uid'] });
+    createUser({
+      email: this.state.email,
+      username: this.state.username,
+      token: e['user']['uid']
+    }).then(() => {
+      this.props.dispatch(setCurrentUser(e['user']['uid']))
+    });
     registerForNotifications(e['user']['uid']);
 
     this.setState({ logged: true, token: e['user']['uid'] });
   }
 
   initializeFbUser(response) {
-    createUser({ email: response.user.email, token: response.user.uid });
+    createUser({
+      email: response.user.email,
+      token: response.user.uid
+    }).then(() => {
+      this.props.dispatch(setCurrentUser(response.user.uid))
+    });
     registerForNotifications(response.user.uid);
 
     this.setState({ logged: true, token: response.user.uid });
@@ -119,9 +132,11 @@ export default class Connexion extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ logged: true, token: user.uid });
+        this.props.dispatch(setCurrentUser(user.uid))
       }
       this.setState({ firebaseCheck: true });
     });
+
 
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -219,7 +234,7 @@ export default class Connexion extends React.Component {
       <View style={styles.container}>
         { this.state.firebaseCheck ?
           <View style={styles.container}>
-            { this.state.logged ?
+            { this.state.logged && this.props.currentUser ?
               <Prayers navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
                 email={ email }
@@ -438,3 +453,16 @@ const styles = StyleSheet.create({
     height: 17,
   },
 });
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.userReducer.data
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Connexion)

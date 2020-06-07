@@ -15,10 +15,12 @@ import { createPrayer } from '../../../api/Prayer';
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
 
+import { connect } from 'react-redux';
+
 const DISABLED_OPACITY = 0.5;
 const BACKGROUND_COLOR = '#eaeaea';
 
-export default class AudioRecorder extends React.Component {
+class AudioRecorder extends React.Component {
   constructor(props) {
     super(props);
     this.recording = null;
@@ -27,7 +29,6 @@ export default class AudioRecorder extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.state = {
       prayerId: props.navigation.state.params.prayerId,
-      currentUserToken: props.navigation.state.params.currentUserToken,
       fontLoaded: true,
       haveRecordingPermissions: false,
       isLoading: false,
@@ -158,7 +159,8 @@ export default class AudioRecorder extends React.Component {
   addPrayer() {
     this.setState({ loading: true });
     this.sound.stopAsync();
-    createPrayer({ currentUserToken: this.state.currentUserToken,
+    createPrayer({
+      currentUserToken: this.props.currentUser,
       soundDuration: this.state.soundDuration,
       audioUri: this.state.audioBase64,
       prayerId: this.state.prayerId,
@@ -430,3 +432,11 @@ export default class AudioRecorder extends React.Component {
         </View>;
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    currentUser: state.userReducer.data
+  }
+}
+
+export default connect(mapStateToProps)(AudioRecorder)

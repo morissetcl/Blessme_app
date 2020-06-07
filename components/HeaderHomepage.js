@@ -16,7 +16,6 @@ class HeaderHomepage extends Component {
     super(props);
     this.state = {
       navigation: props.navigation,
-      currentUserToken: this.props.currentUserToken,
       username: this.props.username,
       avatarUrl: undefined,
       search: '',
@@ -24,11 +23,11 @@ class HeaderHomepage extends Component {
   }
 
   componentDidMount() {
-    this.retrieveUser(this.state.currentUserToken);
+    this.retrieveUser(this.props.currentUser);
   }
 
-  retrieveUser(userToken) {
-    getUsers(userToken).then(data => {
+  retrieveUser() {
+    getUsers(this.props.currentUser).then(data => {
       if (data !== undefined) {
         this.setState({ avatarUrl: data.avatar });
       }
@@ -36,8 +35,10 @@ class HeaderHomepage extends Component {
   }
 
   openProfile(prayerId) {
-    this.state.navigation.navigate('Profile', { currentUserToken: this.state.currentUserToken,
-      username: this.state.username });
+    this.state.navigation.navigate('Profile', {
+      currentUserToken: this.props.currentUser,
+      username: this.state.username
+    });
   }
 
   updateSearch(e) {
@@ -80,7 +81,7 @@ class HeaderHomepage extends Component {
 
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={payload => this.retrieveUser(this.state.currentUserToken)} />
+        <NavigationEvents onDidFocus={payload => this.retrieveUser(this.props.currentUser)} />
         <Header
           containerStyle={styles.header}
           placement="left"
@@ -133,7 +134,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    allPrayersRequests: state.prayerRequestReducer
+    allPrayersRequests: state.prayerRequestReducer,
+    currentUser: state.userReducer.data
   };
 }
 

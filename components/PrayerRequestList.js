@@ -14,7 +14,6 @@ class PrayerRequestList extends React.Component {
     this.state = {
       displayDeleteAction: this.props.displayDeleteAction,
       navigation: this.props.navigation,
-      currentUserToken: this.props.currentUserToken,
       refreshing: false,
       profileFeed: this.props.profileFeed,
       userToken: this.props.userToken,
@@ -36,7 +35,7 @@ class PrayerRequestList extends React.Component {
     if (this.state.userToken !== undefined) {
       return this.state.userToken;
     };
-    return this.state.currentUserToken;
+    return this.props.currentUser;
   }
 
   retrievePrayersRequests() {
@@ -63,7 +62,6 @@ class PrayerRequestList extends React.Component {
         const {title, body, user, id, category} = response
         return <PrayerRequestCard
           prayerRequest={response}
-          currentUserToken={ this.state.currentUserToken }
           navigation={ this.state.navigation }
           numberOfLines={7}
           displayDeleteAction={ this.state.displayDeleteAction }
@@ -118,7 +116,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    allPrayersRequests: state.prayerRequestReducer.data
+    allPrayersRequests: state.prayerRequestReducer.data,
+    currentUser: state.userReducer.data
   }
 }
 

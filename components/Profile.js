@@ -12,15 +12,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { connect } from 'react-redux';
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       navigation: props.navigation,
       username: '',
       createdAt: '',
-      currentUserToken: props.navigation.state.params.currentUserToken,
       userToken: props.navigation.state.params.userToken,
       avatarUrl: '',
       avatarLoaded: true,
@@ -33,7 +33,7 @@ export default class Profile extends Component {
   }
 
   retrieveUser() {
-    const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
+    const token = this.state.userToken ? this.state.userToken : this.props.currentUser;
     getUsers(token).then(data => {
       if (data !== undefined) {
         this.setState({ createdAt: data.created_at,
@@ -56,8 +56,9 @@ export default class Profile extends Component {
 
     if (!result.cancelled) {
       this.setState({ avatarLoaded: false });
-      const email = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
-      updateUser({ email: email,
+      const token = this.state.userToken ? this.state.userToken : this.props.currentUser;
+      updateUser({
+        email: token,
         avatar: result.base64,
         username: this.state.username,
         navigation: this.state.navigation }).then(() => {
@@ -68,9 +69,10 @@ export default class Profile extends Component {
   };
 
   goToEditUser() {
-    this.state.navigation.navigate('UserProfile', { username: this.state.username,
+    this.state.navigation.navigate('UserProfile', {
+      username: this.state.username,
       avatarUrl: this.state.avatarUrl,
-      email: this.state.currentUserToken,
+      email: this.props.currentUser,
       navigation: this.state.navigation,
       biography: this.state.biography });
   }
@@ -94,7 +96,7 @@ export default class Profile extends Component {
         displayDeleteAction={true}
         navigation={this.state.navigation}
         userToken={ this.state.userToken}
-        currentUserToken={ this.state.currentUserToken }
+        currentUserToken={ this.props.currentUser }
         username={ this.state.username}
         profileFeed={ true }/>
     );
@@ -127,7 +129,7 @@ export default class Profile extends Component {
     const unformattedMemberDateSince = Date.now() - Date.parse(this.state.createdAt);
     const memberSince = Math.floor(unformattedMemberDateSince/8.64e7);
     const allowsEditing = this.state.userToken ? false : true;
-    const token = this.state.userToken ? this.state.userToken : this.state.currentUserToken;
+    const token = this.state.userToken ? this.state.userToken : this.props.currentUser;
     const date = `${i18n.t('memberSince', { defaultValue: '' })} ${memberSince} ${i18n.t('days')}`;
 
     return (
@@ -180,7 +182,6 @@ export default class Profile extends Component {
             <View title={ i18n.t('intercession', { defaultValue: 'Intercessions' }) }>
               <PrayersList
                 navigation={this.state.navigation}
-                currentUserToken={ this.state.currentUserToken }
                 username={ this.state.username }
                 profileFeed={ true }
                 requestApi={ getUserPrayers(token) }/>
@@ -234,3 +235,12 @@ const styles = StyleSheet.create({
     color: "#bbbbbb",
   },
 });
+
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.userReducer.data
+  };
+}
+
+export default connect(mapStateToProps)(Profile);

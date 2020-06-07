@@ -24,7 +24,8 @@ export default class PrayerRequestButtonsActions extends Component {
             size={34} color={ '#49beb7' }
             style = {styles.add_prayer}
             onPress={(value) => {
-              this.state.navigation.navigate('WritingComment', { prayerRequest: this.state.prayerRequest,
+              this.state.navigation.navigate('WritingComment', {
+                prayerRequest: this.state.prayerRequest,
                 currentUserToken: this.state.currentUserToken,
                 prayerId: this.state.prayerId });
             }}
@@ -36,8 +37,9 @@ export default class PrayerRequestButtonsActions extends Component {
             size={34}
             color={ '#49beb7' }
             onPress={(value) => {
-              this.state.navigation.navigate('AudioRecorder', { prayerId: this.state.prayerId,
-                currentUserToken: this.state.currentUserToken });
+              this.state.navigation.navigate('AudioRecorder', {
+                prayerId: this.state.prayerId
+              });
             }}
           />
         </TouchableOpacity>

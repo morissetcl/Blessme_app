@@ -19,12 +19,11 @@ class ModalActions extends Component {
     super(props);
     this.state = {
       signal: props.signal,
-      currentUserToken: props.currentUserToken,
       navigation: props.navigation,
       body: props.body,
       title: props.title,
       category: props.category,
-      prayerRequestId: props.prayerId,
+      prayerRequestId: props.prayerId
     };
   }
 
@@ -53,7 +52,7 @@ class ModalActions extends Component {
   _editPrayerRequest = () => {
     this._menu.hide();
     this.state.navigation.navigate('PrayerRequest', {
-      currentUserToken: this.state.currentUserToken,
+      currentUserToken: this.props.currentUser,
       body: this.state.body,
       title: this.state.title,
       category: this.state.category,
@@ -61,17 +60,6 @@ class ModalActions extends Component {
       editPrayer: true,
       prayerRequestId: this.state.prayerRequestId,
     });
-  }
-
-  notOwnerActions() {
-    return [
-             { text: i18n.t('signal', { defaultValue: 'Signaler' }), onPress: () => this._signalPrayerRequest() },
-             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') }
-           ]
-  }
-
-  returnActions() {
-    return this.props.currentUserIstheOwner ? this.ownerActions() : this.notOwnerActions();
   }
 
   _menu = null;
@@ -110,7 +98,6 @@ class ModalActions extends Component {
         deleteSuccess: 'Prayer request deleted with success.',
       },
     };
-
     return (
       <TouchableOpacity
         onPress={this.showMenu}
@@ -147,7 +134,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    prayerRequest: state.prayerRequest
+    prayerRequest: state.prayerRequest,
+    currentUser: state.userReducer.data
   }
 }
 
