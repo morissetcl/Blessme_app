@@ -23,7 +23,6 @@ class PrayerRequest extends Component {
     const params = props.navigation.state.params;
     this.state = {
       username: params.username,
-      currentUserToken: params.token,
       editPrayer: params.editPrayer,
       body: params.body,
       title: params.title,
@@ -40,7 +39,7 @@ class PrayerRequest extends Component {
     if (this.state.title && this.state.body) {
       createPrayerRequestAndRedirect({
         username: this.state.username,
-        currentUserToken: this.state.currentUserToken,
+        currentUserToken: this.props.currentUser,
         body: this.state.body,
         title: this.state.title,
         category: firstRowCategory[this.state.selectedIndex],
@@ -52,7 +51,7 @@ class PrayerRequest extends Component {
          this.props.navigation.navigate("Prayer", {
            newPrayer: true,
            prayerRequest: prayerRequest,
-           currentUserToken: this.state.currentUserToken
+           currentUserToken: this.props.currentUser
          });
        })
       displayMessage(i18n.t('prAdded', { defaultValue: 'Demande de prière ajoutée.' }), 'success');
@@ -74,10 +73,9 @@ class PrayerRequest extends Component {
     const firstRowCategory = this.state.categories.slice(0, 6);
     const category = (this.state.selectedIndex === undefined) ? this.state.prCategory : firstRowCategory[this.state.selectedIndex]
     const color = colorDictionnary[category]
-    console.log(this.props)
     if (this.state.title && this.state.body) {
       editPrayerRequest({
-        currentUserToken: this.state.currentUserToken,
+        currentUserToken: this.props.currentUser,
         title: this.state.title,
         body: this.state.body,
         prayerRequestId: this.props.navigation.state.params.prayerRequestId,
@@ -205,4 +203,10 @@ const mapDispatchToProps = dispatch => ({
    dispatch
 });
 
-export default connect(null, mapDispatchToProps)(PrayerRequest)
+const mapStateToProps = (state, ownProps) => {
+  return {
+    currentUser: state.userReducer.data
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequest)

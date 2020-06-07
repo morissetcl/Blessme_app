@@ -27,7 +27,6 @@ class Prayer extends Component {
       prayerRequest: [],
       navigation: props.navigation,
       username: props.navigation.state.params.username,
-      currentUserToken: props.navigation.state.params.currentUserToken,
       prayers: [],
       prayersList: [],
       flashMessage: true,
@@ -61,7 +60,6 @@ class Prayer extends Component {
       return <PrayerRequestCard
         prayerRequest={pr[0]}
         key={ Math.random() }
-        currentUserToken={ this.state.currentUserToken }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
@@ -71,7 +69,6 @@ class Prayer extends Component {
         key={ Math.random() }
         prayerRequest={pr[0]}
         newPrayer={this.props.navigation.state.params.newPrayer}
-        currentUserToken={ this.state.currentUserToken }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
@@ -138,7 +135,7 @@ class Prayer extends Component {
               this.goToProfile(response.user.token);
             }}
           >{response.user.username}</Text>
-          {(response.user.token === this.state.currentUserToken) ?
+          {(response.user.token === this.props.currentUser) ?
             <View style={styles.actionsButton}>
               { !response.audio ?
                 <TouchableOpacity
@@ -146,7 +143,7 @@ class Prayer extends Component {
                   onPress={(value) => {
                     this.state.navigation.navigate('WritingComment', {
                       prayerRequest: this.state.prayerRequest,
-                      currentUserToken: this.state.currentUserToken,
+                      currentUserToken: this.props.currentUser,
                       prayerId: this.state.prayerId,
                       body: response.body,
                       commentId: response.id
@@ -231,7 +228,7 @@ class Prayer extends Component {
           <PrayerRequestButtonsActions
             prayerRequest={ this.state.prayerRequest }
             prayerId={ this.state.prayerId }
-            currentUserToken={ this.state.currentUserToken }
+            currentUserToken={ this.props.currentUser }
             navigation={ this.state.navigation }/>
           :
           <ActivityIndicator size="large" style = {styles.loader} />
@@ -243,7 +240,8 @@ class Prayer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    allPrayersRequests: state.prayerRequestReducer.data
+    allPrayersRequests: state.prayerRequestReducer.data,
+    currentUser: state.userReducer.data
   }
 }
 

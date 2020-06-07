@@ -11,20 +11,20 @@ import { getAllPrayers } from '../api/Prayer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { connect } from 'react-redux';
 
-export default class Prayers extends Component {
+class Prayers extends Component {
   constructor(props) {
     super(props);
     this.state = {
       navigation: this.props.navigation,
-      currentUserToken: this.props.currentUserToken,
       username: this.props.username,
       avatarUrl: '',
     };
   }
 
   retrieveUser() {
-    getUsers(this.state.currentUserToken).then(data => {
+    getUsers(this.props.currentUser).then(data => {
       if (data !== undefined) {
         this.setState({ avatarUrl: data.avatar });
       }
@@ -54,7 +54,6 @@ export default class Prayers extends Component {
       <View style={styles.container}>
         <HeaderHomepage
           navigation={this.state.navigation}
-          currentUserToken={ this.state.currentUserToken }
           avatarUrl={ this.state.avatarUrl }
           username={ this.state.username }/>
         <View style={styles.container}>
@@ -63,7 +62,7 @@ export default class Prayers extends Component {
               <PrayerRequestList
                 displayDeleteAction={false}
                 navigation={this.state.navigation}
-                currentUserToken={ this.state.currentUserToken }
+                currentUserToken={ this.props.currentUser }
                 token={ this.state.token }
                 username={ this.state.username }
                 profileFeed={ false }/>
@@ -71,7 +70,7 @@ export default class Prayers extends Component {
             <View title= { i18n.t('intercession', { defaultValue: 'Intercessions' }) } style={styles.content}>
               <PrayersList
                 navigation={this.state.navigation}
-                currentUserToken={ this.state.currentUserToken }
+                currentUserToken={ this.props.currentUser }
                 token={ this.state.token }
                 username={ this.state.username }
                 profileFeed={ false }
@@ -87,7 +86,7 @@ export default class Prayers extends Component {
               style = {styles.add_prayer}
               onPress={(value) => {
                 this.state.navigation.navigate('PrayerRequest', {
-                  token: this.state.currentUserToken,
+                  token: this.props.currentUser,
                   prayerRequest: ''
                 });
                 }}
@@ -130,3 +129,12 @@ const styles = StyleSheet.create({
     borderTopColor: '#eaeaea',
   },
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    allPrayersRequests: state.prayerRequestReducer.data,
+    currentUser: state.userReducer.data
+  }
+}
+
+export default connect(mapStateToProps)(Prayers)
