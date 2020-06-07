@@ -15,7 +15,7 @@ import { styles } from './Styles'
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
-import { updatePrayerRequest } from '../../../store/actions/actionCreators'
+import { updatePrayerRequest, newPrayerRequest } from '../../../store/actions/actionCreators'
 
 class PrayerRequest extends Component {
   constructor(props) {
@@ -31,20 +31,30 @@ class PrayerRequest extends Component {
       prayerRequestId: params.prayerRequestId,
       categories: [],
       selectedIndex: undefined,
-      loaded: false,
+      loaded: false
     };
   }
 
   addPrayerRequest() {
     const firstRowCategory = this.state.categories.slice(0, 6);
     if (this.state.title && this.state.body) {
-      createPrayerRequestAndRedirect({ username: this.state.username,
+      createPrayerRequestAndRedirect({
+        username: this.state.username,
         currentUserToken: this.state.currentUserToken,
         body: this.state.body,
         title: this.state.title,
         category: firstRowCategory[this.state.selectedIndex],
-        navigation: this.props.navigation,
-      });
+        navigation: this.props.navigation
+      }).then(response => {
+         return response.json()
+       }).then(prayerRequest => {
+         this.props.dispatch(newPrayerRequest(prayerRequest))
+         this.props.navigation.navigate("Prayer", {
+           newPrayer: true,
+           prayerRequest: prayerRequest,
+           currentUserToken: this.state.currentUserToken
+         });
+       })
       displayMessage(i18n.t('prAdded', { defaultValue: 'Demande de prière ajoutée.' }), 'success');
     } else {
       displayMessage(i18n.t('missingField', { defaultValue: 'Merci de remplir tous les champs pour ajouter votre demande.' }), 'warning');
@@ -64,16 +74,17 @@ class PrayerRequest extends Component {
     const firstRowCategory = this.state.categories.slice(0, 6);
     const category = (this.state.selectedIndex === undefined) ? this.state.prCategory : firstRowCategory[this.state.selectedIndex]
     const color = colorDictionnary[category]
+    console.log(this.props)
     if (this.state.title && this.state.body) {
       editPrayerRequest({
         currentUserToken: this.state.currentUserToken,
         title: this.state.title,
         body: this.state.body,
-        prayerRequestId: this.state.prayerRequestId,
+        prayerRequestId: this.props.navigation.state.params.prayerRequestId,
         navigation: this.props.navigation,
         category: category,
       }).then(() => {
-        this.props.dispatch(updatePrayerRequest(this.state.prayerRequestId, this.state.title, this.state.body, category, color));
+        this.props.dispatch(updatePrayerRequest(this.props.navigation.state.params.prayerRequestId, this.state.title, this.state.body, category, color));
         displayMessage(i18n.t('prEdited', { defaultValue: 'Demande de prière mise à jour !' }), 'success');
       });
     } else {
@@ -145,11 +156,10 @@ class PrayerRequest extends Component {
 
     const categoryChoices = this.state.categories.slice(0, 6);
     const index = categoryChoices.indexOf(this.state.prCategory);
-
     return (
       <View style={styles.container} >
         <View style={styles.positionPublishButton} >
-          { this.state.editPrayer ?
+          { (this.state.editPrayer || this.props.navigation.state.params.editPrayer) ?
             <PublishButton onPress={ () => this.prayerRequestUpdate() } />
             :
             <PublishButton onPress={ () => this.addPrayerRequest() } />

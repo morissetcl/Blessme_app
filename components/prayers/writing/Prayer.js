@@ -21,7 +21,6 @@ import { connect } from 'react-redux';
 class Prayer extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       prayerId: props.navigation.state.params.prayerRequest.id,
       loaded: false,
@@ -57,14 +56,11 @@ class Prayer extends Component {
   }
 
   renderPrayerRequest() {
+    const pr = this.props.allPrayersRequests.filter(pr => pr.id === this.state.prayerId)
     if (this.props.navigation.state.params.editedPr && this.props.allPrayersRequests) {
-      const pr = this.props.allPrayersRequests.filter(pr => pr.id === this.state.prayerId)
-
-      const keyNumber = Math.floor(Math.random() * 100) + 1;
       return <PrayerRequestCard
         prayerRequest={pr[0]}
-        displayDeleteAction={true}
-        key={ keyNumber }
+        key={ Math.random() }
         currentUserToken={ this.state.currentUserToken }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
@@ -72,7 +68,9 @@ class Prayer extends Component {
         showView={true} />;
     } else {
       return <PrayerRequestCard
-        displayDeleteAction={true}
+        key={ Math.random() }
+        prayerRequest={pr[0]}
+        newPrayer={this.props.navigation.state.params.newPrayer}
         currentUserToken={ this.state.currentUserToken }
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }

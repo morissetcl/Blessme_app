@@ -19,24 +19,19 @@ export function createPrayerRequestAndRedirect(params) {
   const prayerId = params['prayerId'];
   const navigation = params['navigation'];
   const category = params['category'] ? params['category'] : 'Autres';
-  fetch(`${getApiUrl()}/prayers_requests`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: params['currentUserToken'],
-      title: params['title'],
-      body: params['body'],
-      category: category,
-    }),
-  }).then(response => response.json())
-    .then(json => {
-      navigation.navigate("Prayer", { prayerId: json.id,
-        currentUserToken: params['currentUserToken'],
-      });
-    });
+  return fetch(`${getApiUrl()}/prayers_requests`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              token: params['currentUserToken'],
+              title: params['title'],
+              body: params['body'],
+              category: category,
+            }),
+          })
 }
 
 export function destroyPrayerResquest(params) {
@@ -59,6 +54,7 @@ export function destroyPrayerResquest(params) {
 }
 
 export function editPrayerRequest(params) {
+
   const prayerRequestId = params['prayerRequestId'];
   const navigation = params['navigation'];
   const category = params['category'] ? params['category'] : 'Autres';

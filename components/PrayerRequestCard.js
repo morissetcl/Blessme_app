@@ -108,7 +108,6 @@ export default class PrayerRequestCard extends React.Component {
     const goodDate = isNaN(checkDate) ? '-' : checkDate
     const trad = `Il y a ${goodDate} jours`;
     const formattedCreatedAtSince = (checkDate !== 0) ? trad : i18n.t('today', { defaultValue: "Aujourd'hui" });
-
     return (
 
       <TouchableOpacity activeOpacity={0.7}
@@ -124,7 +123,7 @@ export default class PrayerRequestCard extends React.Component {
             }} />}>
             <Text style = {styles.username} > {this.state.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
-            { (this.state.userToken === this.state.currentUserToken) && this.state.displayDeleteAction ?
+            { (this.state.userToken === this.state.currentUserToken) ?
               <ModalActions
                 currentUserToken={ this.state.currentUserToken }
                 navigation={ this.state.navigation }
@@ -133,12 +132,13 @@ export default class PrayerRequestCard extends React.Component {
                 category={ this.state.categoryLabel }
                 username={ this.state.username }
                 prayerId={ this.state.prayerId }
+                newPrayer={ this.props.newPrayer }
               />
               :
               null
             }
 
-            { (this.state.userToken !== this.state.currentUserToken) && this.state.displayDeleteAction ?
+            { (this.state.userToken !== this.state.currentUserToken) ?
               <ModalActions
                 signal={true}
                 currentUserToken={ this.state.currentUserToken }

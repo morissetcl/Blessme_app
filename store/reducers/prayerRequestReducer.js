@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { DELETE_PRAYER_REQUEST, ALL_PRAYERS_REQUESTS_AVAILABLE, EDIT_PRAYER_REQUEST } from '../actions/actionTypes'
+import { DELETE_PRAYER_REQUEST, ALL_PRAYERS_REQUESTS_AVAILABLE, EDIT_PRAYER_REQUEST, ADD_PRAYER_REQUEST } from '../actions/actionTypes'
 
 function prayerRequestReducer(state = [], action)
 {
@@ -9,6 +9,12 @@ function prayerRequestReducer(state = [], action)
 
     case DELETE_PRAYER_REQUEST:
       return { data: state.data.filter(pr => pr.id !== action.id )}
+
+    case ADD_PRAYER_REQUEST:
+      return {
+        ...state,
+        data: [...state.data, action.prayerRequest]
+      }
 
     case EDIT_PRAYER_REQUEST:
       const index = state.data.findIndex(pr => pr.id === action.id);

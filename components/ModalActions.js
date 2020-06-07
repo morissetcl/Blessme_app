@@ -63,17 +63,6 @@ class ModalActions extends Component {
     });
   }
 
-  notOwnerActions() {
-    return [
-             { text: i18n.t('signal', { defaultValue: 'Signaler' }), onPress: () => this._signalPrayerRequest() },
-             { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') }
-           ]
-  }
-
-  returnActions() {
-    return this.props.currentUserIstheOwner ? this.ownerActions() : this.notOwnerActions();
-  }
-
   _menu = null;
 
   setMenuRef = ref => {
@@ -110,7 +99,6 @@ class ModalActions extends Component {
         deleteSuccess: 'Prayer request deleted with success.',
       },
     };
-
     return (
       <TouchableOpacity
         onPress={this.showMenu}
