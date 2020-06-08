@@ -110,7 +110,9 @@ class PrayerRequestCard extends React.Component {
         }}
         style = {styles.space_between_card}>
         { this.state.loaded ?
-          <Card containerStyle={{ width: '100%', marginLeft: 0 }} title={<Avatar rounded source={{ uri: avatar }}
+          <Card
+            containerStyle={{ width: '100%', marginLeft: 0 }}
+            title={<Avatar rounded source={{ uri: avatar }}
             onPress={() => {
               this.goToProfile(this.state.username);
             }} />}>

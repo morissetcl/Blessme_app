@@ -3,7 +3,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { fadeIn, fromLeft } from 'react-navigation-transitions';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
-import Prayers from '../components/Prayers';
+import Feed from '../components/Feed';
 import Prayer from '../components/prayers/writing/Prayer';
 import WritingComment from '../components/form/WritingComment/WritingComment';
 import UserProfile from '../components/form/UserProfile/UserProfile';
@@ -37,7 +37,7 @@ const handleCustomTransition = ({ scenes }) => {
   const nextScene = scenes[scenes.length - 1];
 
   if (nextScene.route.routeName === 'Profile' &&
-  prevScene.route.routeName !== 'Prayers') {
+  prevScene.route.routeName !== 'Feed') {
     return fromLeft(1000);
   };
   return fadeIn(500);
@@ -107,8 +107,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    Prayers: {
-      screen: Prayers,
+    Feed: {
+      screen: Feed,
       navigationOptions: {
         header: null,
       },

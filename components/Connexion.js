@@ -5,7 +5,7 @@ import { Item, Form, Input, Label } from "native-base";
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import * as Facebook from 'expo-facebook';
 import * as firebase from "firebase";
-import Prayers from './Prayers';
+import Feed from './Feed';
 import { displayMessage } from "./shared/message";
 import registerForNotifications from '../services/notifications';
 import { createUser } from '../api/User';
@@ -235,7 +235,7 @@ class Connexion extends React.Component {
         { this.state.firebaseCheck ?
           <View style={styles.container}>
             { this.state.logged && this.props.currentUser ?
-              <Prayers navigation={ this.props.navigation }
+              <Feed navigation={ this.props.navigation }
                 currentUserToken={ this.state.token }
                 email={ email }
                 username={this.state.username}/>

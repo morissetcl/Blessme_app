@@ -13,7 +13,7 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { connect } from 'react-redux';
 
-class Prayers extends Component {
+class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,4 +137,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(Prayers)
+export default connect(mapStateToProps)(Feed)

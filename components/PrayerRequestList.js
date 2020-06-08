@@ -39,6 +39,7 @@ class PrayerRequestList extends React.Component {
   }
 
   retrievePrayersRequests() {
+    this.setState({ loaded: false });
     getPrayerRequests().then(prayerRequests => {
       this.setState({ pr: prayerRequests.prayers_requests });
       this.props.dispatch(
