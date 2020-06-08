@@ -16,6 +16,7 @@ import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles'
 
 import { connect } from 'react-redux';
+import { updateCounter } from '../../../store/actions/actionCreators'
 
 const DISABLED_OPACITY = 0.5;
 const BACKGROUND_COLOR = '#eaeaea';
@@ -165,6 +166,8 @@ class AudioRecorder extends React.Component {
       audioUri: this.state.audioBase64,
       prayerId: this.state.prayerId,
       navigation: this.props.navigation,
+    }).then(() => {
+      this.props.dispatch(updateCounter(this.state.prayerId, 'audio', true))
     });
   }
 
@@ -433,10 +436,14 @@ class AudioRecorder extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+   dispatch
+});
+
 const mapStateToProps = (state, ownProps) => {
   return {
     currentUser: state.userReducer.data
   }
 }
 
-export default connect(mapStateToProps)(AudioRecorder)
+export default connect(mapStateToProps, mapDispatchToProps)(AudioRecorder)
