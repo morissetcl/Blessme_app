@@ -99,8 +99,7 @@ const SearchStackNavigator = createStackNavigator(
     Prayer: {
       screen: Prayer,
       navigationOptions: {
-        headerLeft: null,
-        title: '',
+        header: null,
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
