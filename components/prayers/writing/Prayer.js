@@ -13,6 +13,8 @@ import { displayMessage } from "../../shared/message";
 import WritingComment from '../../form/WritingComment/WritingComment';
 import * as Expo from 'expo';
 import AudioPrayer from '../audio/Prayer';
+import Answer from '../../Answer';
+
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { styles } from './Styles';
@@ -118,7 +120,6 @@ class Prayer extends Component {
         const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
 
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
-
         return <View
 
           style={[this.commentFromOriginalPoster(response.user.username,
@@ -182,7 +183,15 @@ class Prayer extends Component {
             <Text style={styles.prayerBody}>{response.body}</Text>
           }
           </TouchableOpacity>
-
+          <View>
+          </View>
+          { response.answers.map((answer, index) => {
+            <Answer
+              index={index}
+              answer={answer}
+            />
+           })
+         }
         </View>;
       });
       this.setState({ prayersList: prayersList });
