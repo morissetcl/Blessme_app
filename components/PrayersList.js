@@ -22,8 +22,8 @@ export default class PrayersList extends React.Component {
     this.retrieveAllPrayers();
   }
 
-  goToPrayerRequest(prayerId) {
-    this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserToken: this.state.currentUserToken });
+  goToPrayerRequest(prayerRequest) {
+    this.state.navigation.navigate('Prayer', { prayerRequest: prayerRequest, currentUserToken: this.state.currentUserToken });
   }
 
   retrieveAllPrayers() {
@@ -47,7 +47,7 @@ export default class PrayersList extends React.Component {
             <TouchableOpacity>
               { response.body ?
                 <Text onPress={(value) => {
-                  this.goToPrayerRequest(response.prayer_request.id);
+                  this.goToPrayerRequest(response.prayer_request);
                 }}>
                   {response.body}
                 </Text>
