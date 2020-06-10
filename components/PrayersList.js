@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import AudioPrayer from './prayers/audio/Prayer';
 import * as Localization from 'expo-localization';
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   container_prayer_request_card_with_margin: {
     paddingTop: '2%',
     paddingBottom: '6%',
-    height: '100%',
+    height: Dimensions.get('window').height - Dimensions.get('window').height / 5
   },
   comment_card: {
     padding: '2%',
