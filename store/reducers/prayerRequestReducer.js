@@ -5,7 +5,7 @@ function prayerRequestReducer(state = [], action)
 {
   switch(action.type) {
     case ALL_PRAYERS_REQUESTS_AVAILABLE:
-      return { ...state, data: action.prayers_requests, loading: false };
+      return { ...state, data: action.prayersRequests, loading: false };
 
     case DELETE_PRAYER_REQUEST:
       return { data: state.data.filter(pr => pr.id !== action.id )}
