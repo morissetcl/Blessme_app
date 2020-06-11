@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import AudioPrayer from './prayers/audio/Prayer';
 import * as Localization from 'expo-localization';
@@ -22,8 +22,8 @@ export default class PrayersList extends React.Component {
     this.retrieveAllPrayers();
   }
 
-  goToPrayerRequest(prayerId) {
-    this.state.navigation.navigate('Prayer', { prayerId: prayerId, currentUserToken: this.state.currentUserToken });
+  goToPrayerRequest(prayerRequest) {
+    this.state.navigation.navigate('Prayer', { prayerRequest: prayerRequest, currentUserToken: this.state.currentUserToken });
   }
 
   retrieveAllPrayers() {
@@ -47,7 +47,7 @@ export default class PrayersList extends React.Component {
             <TouchableOpacity>
               { response.body ?
                 <Text onPress={(value) => {
-                  this.goToPrayerRequest(response.prayer_request.id);
+                  this.goToPrayerRequest(response.prayer_request);
                 }}>
                   {response.body}
                 </Text>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   container_prayer_request_card_with_margin: {
     paddingTop: '2%',
     paddingBottom: '6%',
-    height: '100%',
+    height: Dimensions.get('window').height - Dimensions.get('window').height / 5
   },
   comment_card: {
     padding: '2%',

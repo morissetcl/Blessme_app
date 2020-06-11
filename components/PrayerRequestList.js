@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   card_with_margin: {
     paddingBottom: Dimensions.get('window').height / 11,
     backgroundColor: '#eaeaea',
-    height: hp('84%'),
+    height: Dimensions.get('window').height - Dimensions.get('window').height / 11
   },
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
