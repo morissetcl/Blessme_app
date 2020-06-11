@@ -24,6 +24,7 @@
     "eslint-plugin-react": "^7.14.3",
     "expo": "^36.0.0",
     "expo-av": "^8.0.0",
+    "expo-cli": "^3.21.5",
     "expo-facebook": "^8.0.0",
     "expo-file-system": "^8.0.0",
     "expo-image-picker": "^8.0.0",
@@ -33,7 +34,8 @@
     "i18n-js": "^3.5.1",
     "lodash.update": "^4.10.2",
     "native-base": "^2.12.1",
-    "react": "16.8.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
     "react-native-flash-message": "^0.1.13",
@@ -60,12 +62,30 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-native-fontawesome": "^0.2.0",
     "babel-preset-expo": "^5.0.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-airbnb": "^18.1.0",
     "jest-expo": "^34.0.0",
-    "metro-react-native-babel-preset": "^0.54.0"
+    "metro-react-native-babel-preset": "^0.54.0",
+    "redux-mock-store": "^1.5.4"
   },
   "jest": {
-    "preset": "jest-expo"
+    "globals": {
+      "__DEV__": true
+    },
+    "setupFiles": [
+      "./jestSetup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|expo-constants|@unimodules|@jest|invariant)/)"
+    ],
+    "roots": [
+      "__tests__"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ]
   },
   "private": true
 }
