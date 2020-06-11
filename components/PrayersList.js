@@ -4,6 +4,7 @@ import { NavigationEvents } from 'react-navigation';
 import AudioPrayer from './prayers/audio/Prayer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class PrayersList extends React.Component {
   constructor(props) {
@@ -103,14 +104,12 @@ const styles = StyleSheet.create({
     paddingTop: '2%',
   },
   container_prayer_request_card_with_margin: {
-    paddingTop: '2%',
     paddingBottom: '6%',
-    height: Dimensions.get('window').height - Dimensions.get('window').height / 5
   },
   comment_card: {
     padding: '2%',
     backgroundColor: 'white',
-    marginBottom: '2%',
+    marginTop: '2%',
   },
   username: {
     fontWeight: 'bold',
