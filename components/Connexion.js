@@ -73,6 +73,18 @@ class Connexion extends React.Component {
     this.setState({ hideTagLine: false });
   }
 
+
+  changeForm(value, text) {
+    return <TouchableOpacity onPress={ () => this.setState({ signIn: value }) } >
+             <Text style={{
+               color: 'white',
+               textAlign: 'center',
+             }}>
+              { text }
+             </Text>
+           </TouchableOpacity>
+  }
+
   render() {
     const email = firebase.auth().currentUser ? firebase.auth().currentUser.email : '';
     return (
@@ -90,10 +102,8 @@ class Connexion extends React.Component {
                 <ImageBackground source = {require('../assets/test_Fotor.jpg')} style = {styles.image} />
                 { !this.state.hideTagLine ?
                   <View style={styles.connexion_from}>
-                    <Text style={{ color: 'white', fontSize: Dimensions.get('window').height / 25 , textAlign: 'center',
-                      margin: Dimensions.get('window').height / 100 }}>Bless Me.</Text>
-                    <Text style={{ color: 'white', fontSize: Dimensions.get('window').height / 50 , textAlign: 'center',
-                      margin: Dimensions.get('window').height / 100 }}>
+                    <Text style={styles.title}>Bless Me.</Text>
+                    <Text style={styles.tagLine}>
                       Votre foi est précieuse, partagez-la.
                     </Text>
                     <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', position: 'relative', top: 10 }}>
@@ -109,14 +119,7 @@ class Connexion extends React.Component {
                       firebase={firebase}
                       logged={false}
                     />
-                    <TouchableOpacity onPress={ () => this.setState({ signIn: true }) } >
-                      <Text style={{
-                        color: 'white',
-                        textAlign: 'center' }}
-                      >
-                        Déja membre ?
-                      </Text>
-                    </TouchableOpacity>
+                    { this.changeForm(true, 'Déja membre ?') }
                   </View>
                   :
                   <View>
@@ -125,14 +128,7 @@ class Connexion extends React.Component {
                     logged={false}
                     navigation={ this.props.navigation }
                   />
-                    <TouchableOpacity onPress={ () => this.setState({ signIn: false }) } >
-                      <Text style={{
-                        color: 'white',
-                        textAlign: 'center',
-                      }}>
-                        Pas encore inscrit ?
-                      </Text>
-                    </TouchableOpacity>
+                    { this.changeForm(false, 'Pas encore inscrit ?') }
                   </View>
                 }
              </View>
@@ -170,6 +166,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
+  },
+  title: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: Dimensions.get('window').height / 25,
+    margin: Dimensions.get('window').height / 100
+  },
+  tagLine: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: Dimensions.get('window').height / 50,
+    margin: Dimensions.get('window').height / 100
   }
 });
 

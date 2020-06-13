@@ -7,7 +7,6 @@ import { StyleSheet,
        } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
-import Connexion from './Connexion';
 import { displayMessage } from "./shared/message";
 
 export default class SignIn extends React.Component {
@@ -53,16 +52,16 @@ export default class SignIn extends React.Component {
   render() {
     return (
       <View style={styles.form_wrapper}>
-        <Item floatingLabel >
-          <Label style={{ fontSize: 16 }}>Email</Label>
+        <Item floatingLabel style={{ marginTop: 14 }} >
+          <Label style={{ fontSize: 14 }}>Email</Label>
           <Input
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={email => this.setState({ email })}
           />
         </Item>
-        <Item floatingLabel>
-          <Label style={{ fontSize: 15 }}>Mot de passe</Label>
+        <Item floatingLabel style={{ marginTop: 14 }} >
+          <Label style={{ fontSize: 14 }}>Mot de passe</Label>
           <Input
             secureTextEntry={true}
             autoCapitalize="none"
@@ -95,20 +94,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inscription_buttons: {
-    position: 'absolute',
-    top:  Dimensions.get('window').height - 30,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    left: 0,
-    right: 0,
-  },
-  image: {
-    position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 100,
-    resizeMode: 'cover',
-  },
   boutons_wrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -126,20 +111,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: Dimensions.get('window').width - 60,
   },
-  bouton_transparent: {
-    borderColor: '#01676b',
-    backgroundColor: 'transparent',
-    padding: 15,
-    display: 'flex',
-    alignItems: 'center',
-    width: Dimensions.get('window').width - '20%',
-    marginBottom: '2%',
-    borderRadius: 30,
-    borderWidth: 2,
-  },
-  connexion_from: {
-    marginTop: Dimensions.get('window').height / 8
-  },
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
@@ -150,35 +121,5 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2,
-  },
-  loader: {
-    color: "#0000ff",
-    flex: 1,
-    alignItems: 'center',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-  },
-  divbouton_fb: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  bouton_fb: {
-    marginTop: '5%',
-    borderColor: 'transparent',
-    padding: 10,
-    display: 'flex',
-    alignItems: 'center',
-    width: '80%',
-    borderRadius: 30,
-    borderWidth: 2,
-    backgroundColor: '#3B5998',
-  },
-  facebookButtonText: {
-    color: '#fff',
-  },
-  space: {
-    height: 17,
-  },
+  }
 });

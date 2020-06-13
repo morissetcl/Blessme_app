@@ -109,24 +109,24 @@ class SignUp extends React.Component {
   render() {
     return (
       <View style={styles.form_wrapper}>
-        <Item floatingLabel >
-          <Label style={{ fontSize: 16 }}>Pseudonyme</Label>
+        <Item floatingLabel style={{ marginTop: 14 }} >
+          <Label style={{ fontSize: 14 }}>Pseudonyme</Label>
           <Input
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={ username => this.setState({ username: username })}
           />
         </Item>
-        <Item floatingLabel >
-          <Label style={{ fontSize: 16 }}>Email</Label>
+        <Item floatingLabel style={{ marginTop: 14 }} >
+          <Label style={{ fontSize: 14 }}>Email</Label>
           <Input
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={email => this.setState({ email })}
           />
         </Item>
-        <Item floatingLabel>
-          <Label style={{ fontSize: 15 }}>Mot de passe</Label>
+        <Item floatingLabel style={{ marginTop: 14 }} >
+          <Label style={{ fontSize: 14 }}>Mot de passe</Label>
           <Input
             secureTextEntry={true}
             autoCapitalize="none"
@@ -160,26 +160,6 @@ class SignUp extends React.Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inscription_buttons: {
-    position: 'absolute',
-    bottom: -100,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    left: 0,
-    right: 0,
-  },
-  image: {
-    position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 100,
-    resizeMode: 'cover',
-  },
   boutons_wrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -193,6 +173,7 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '10%',
     paddingBottom: '5%',
+    paddingTop: '2%',
     margin: '12%',
     borderRadius: 10,
     width: Dimensions.get('window').width - 60,
@@ -208,9 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 2,
   },
-  connexion_from: {
-    marginTop: Dimensions.get('window').height / 8
-  },
   bouton: {
     borderColor: 'transparent',
     backgroundColor: '#ff8b6a',
@@ -221,14 +199,6 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     borderRadius: 30,
     borderWidth: 2,
-  },
-  loader: {
-    color: "#0000ff",
-    flex: 1,
-    alignItems: 'center',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
   },
   divbouton_fb: {
     width: '100%',
@@ -248,10 +218,7 @@ const styles = StyleSheet.create({
   },
   facebookButtonText: {
     color: '#fff',
-  },
-  space: {
-    height: 17,
-  },
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
