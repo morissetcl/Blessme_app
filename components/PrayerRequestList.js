@@ -100,13 +100,12 @@ const styles = StyleSheet.create({
     left: 150,
   },
   card_with_margin: {
-    paddingBottom: Dimensions.get('window').height / 11,
     backgroundColor: '#eaeaea',
-    height: hp('84%')
+    paddingBottom: 50
   },
   container_prayer_request_card: {
     backgroundColor: '#eaeaea',
-    height: '100%',
+    height: '100%'
   },
 });
 

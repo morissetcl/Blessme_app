@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     width: '100%',
-    height:  Dimensions.get('window').height / 12,
+    height: 60,
     alignItems: 'center',
     elevation: 1,
     borderWidth: 2,
