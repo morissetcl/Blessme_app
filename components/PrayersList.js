@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   container_prayer_request_card_with_margin: {
     paddingBottom: '6%',
+    height: '100%'
   },
   comment_card: {
     padding: '2%',
