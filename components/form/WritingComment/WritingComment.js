@@ -39,7 +39,7 @@ class WritingComment extends Component {
 
       displayMessage(created, 'success');
     } else {
-      displayMessage(fail, 'warning');
+      displayMessage('Votre prière ne peut pas être vide', 'warning');
     }
   }
 

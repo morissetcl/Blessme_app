@@ -31,7 +31,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderBottomColor: "#ff8b6a",
   },
-  username: {
+  usernameOp: {
+    fontWeight: 'bold',
+    color: '#ff8b6a',
+    marginBottom: '2%',
+  },
+  usernameNotOp: {
     fontWeight: 'bold',
     color: '#63686e',
     marginBottom: '2%',
@@ -71,6 +76,9 @@ const styles = StyleSheet.create({
   prayerBody: {
     marginTop: 5,
   },
+  answer: {
+    paddingTop: 10
+  }
 });
 
 export { styles }

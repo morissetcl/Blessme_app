@@ -10,25 +10,24 @@ export default class Answer extends Component {
     };
   }
 
-  commentFromOriginalPoster(username1, username2) {
-    return (username1 === username2);
+  commentFromOriginalPoster() {
+    return (this.props.currentUser === this.state.user.token);
   }
 
   render() {
     return (
       <View
-        style={[this.commentFromOriginalPoster(this.state.user.username,
-          this.state.prayerRequestUsername) ? styles.commentCardOp : styles.commentCard]}
-        key={answer.created_at}
+        style={styles.commentCard}
+        key={this.props.created_at}
         id={this.props.index}
       >
         <TouchableOpacity>
           <Text
-            style={styles.username}
+          style={[this.commentFromOriginalPoster() ? styles.usernameOp : styles.username]}
           >{this.state.user.username}
           </Text>
           <Text style={styles.prayerBody}>{ this.state.body }</Text>
-        <TouchableOpacity/>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -51,22 +50,31 @@ const styles = StyleSheet.create({
     paddingBottom: Dimensions.get('window').height / 12,
   },
   commentCard: {
-    padding: '2%',
+    borderLeftWidth: 2,
+    borderLeftColor: '#63686e',
+    marginLeft: '5%',
+    paddingLeft: '2%',
     marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
   },
   commentCardOp: {
-    padding: '2%',
+    borderLeftWidth: 2,
+    borderLeftColor: '#ff8b6a',
+    marginLeft: '5%',
+    paddingLeft: '2%',
     marginBottom: '2%',
     backgroundColor: 'white',
     flex: 1,
-    borderBottomWidth: 3,
-    borderBottomColor: "#ff8b6a",
   },
   username: {
     fontWeight: 'bold',
     color: '#63686e',
+    marginBottom: '2%',
+  },
+  usernameOp: {
+    fontWeight: 'bold',
+    color: 'red',
     marginBottom: '2%',
   },
   publishButton: {

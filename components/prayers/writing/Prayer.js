@@ -118,81 +118,85 @@ class Prayer extends Component {
         const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
         const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
-
+        console.log(response.answers)
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
-        return <View
+        return <View>
+                 <View
+                  style={styles.commentCard}
+                  key={response.created_at}
+                  id={index}
+                  >
 
-          style={[this.commentFromOriginalPoster(response.user.username,
-            this.state.prayerRequestUsername) ? styles.commentCardOp : styles.commentCard]}
-          key={response.created_at}
-          id={index}
-          >
-
-          <TouchableOpacity
-            onLongPress={(value) => {
-              this.signalContent(response.id);
-            }}
-          >
-          <Text
-            style={styles.username}
-            onPress={(value) => {
-              this.goToProfile(response.user.token);
-            }}
-          >{response.user.username}</Text>
-          {(response.user.token === this.props.currentUser) ?
-            <View style={styles.actionsButton}>
-              { !response.audio ?
-                <TouchableOpacity
-                  style={styles.publishButton}
-                  onPress={(value) => {
-                    this.state.navigation.navigate('WritingComment', {
-                      prayerRequest: this.state.prayerRequest,
-                      currentUserToken: this.props.currentUser,
-                      prayerId: this.state.prayerId,
-                      body: response.body,
-                      commentId: response.id
-                    });
-                  }}>
-                  <FontAwesomeIcon
-                    icon={ faPenSquare }
-                    size={18} color={ '#bbbbbb' }
-                  />
-                </TouchableOpacity>
-                :
-                null
-              }
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={(value) => {
-                  this._showAlert(response.id, index, response.audio);
-                }}>
-                <FontAwesomeIcon
-                  icon={ faTrash }
-                  size={16} color={ '#bbbbbb' }
-                />
-              </TouchableOpacity>
-            </View>
-            :
-            <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
-          }
-          { response.audio ?
-            <View style={styles.playerAudio}>
-              <AudioPrayer audio={response.audio} duration={response.audio_duration} />
-            </View>
-            :
-            <Text style={styles.prayerBody}>{response.body}</Text>
-          }
-          </TouchableOpacity>
-          <View>
-          </View>
-          { response.answers.map((answer, index) => {
-            <Answer
-              index={index}
-              answer={answer}
-            />
-           })
-         }
-        </View>;
+                    <TouchableOpacity
+                      onLongPress={(value) => {
+                        this.signalContent(response.id);
+                      }}
+                    >
+                    <Text
+                      style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
+                      onPress={(value) => {
+                        this.goToProfile(response.user.token);
+                      }}
+                    >
+                    {response.user.username}
+                    </Text>
+                    {(response.user.token === this.props.currentUser) ?
+                      <View style={styles.actionsButton}>
+                        { !response.audio ?
+                          <TouchableOpacity
+                            style={styles.publishButton}
+                            onPress={(value) => {
+                              this.state.navigation.navigate('WritingComment', {
+                                prayerRequest: this.state.prayerRequest,
+                                currentUserToken: this.props.currentUser,
+                                prayerId: this.state.prayerId,
+                                body: response.body,
+                                commentId: response.id
+                              });
+                            }}>
+                            <FontAwesomeIcon
+                              icon={ faPenSquare }
+                              size={18} color={ '#bbbbbb' }
+                            />
+                          </TouchableOpacity>
+                          :
+                          null
+                        }
+                        <TouchableOpacity
+                          style={styles.deleteButton}
+                          onPress={(value) => {
+                            this._showAlert(response.id, index, response.audio);
+                          }}>
+                          <FontAwesomeIcon
+                            icon={ faTrash }
+                            size={16} color={ '#bbbbbb' }
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      :
+                      <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
+                    }
+                    { response.audio ?
+                      <View style={styles.playerAudio}>
+                        <AudioPrayer audio={response.audio} duration={response.audio_duration} />
+                      </View>
+                      :
+                      <Text style={styles.prayerBody}>{response.body}</Text>
+                    }
+                    </TouchableOpacity>
+                  <View style={styles.answer}>
+                    { response.answers.map((answer, index) => {
+                      return <Answer
+                                key={ Math.random() }
+                                index={index}
+                                answer={answer}
+                                currentUser={this.props.currentUser}
+                              />
+                      })
+                    }
+                  </View>
+                </View>
+              </View>
       });
       this.setState({ prayersList: prayersList });
       this.setState({ loaded: true });
