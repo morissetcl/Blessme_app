@@ -125,6 +125,7 @@ class PrayerRequestCard extends React.Component {
                 username={ this.state.username }
                 prayerId={ this.state.prayerId }
                 newPrayer={ this.props.newPrayer }
+                actionType={'editPrayerRequest'}
               />
               :
               null
@@ -139,6 +140,7 @@ class PrayerRequestCard extends React.Component {
                 category={ this.state.categoryLabel }
                 username={ this.state.username }
                 prayerId={ this.state.prayerId }
+                actionType={'signal'}
               />
               :
               null

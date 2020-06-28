@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     paddingBottom: Dimensions.get('window').height / 12,
   },
   commentCard: {
-    borderLeftWidth: 2,
+    borderLeftWidth: 1,
     borderLeftColor: '#63686e',
     marginLeft: '5%',
     paddingLeft: '2%',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   usernameOp: {
     fontWeight: 'bold',
-    color: 'red',
+    color: '#ff8b6a',
     marginBottom: '2%',
   },
   publishButton: {

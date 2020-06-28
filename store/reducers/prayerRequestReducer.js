@@ -24,7 +24,7 @@ function prayerRequestReducer(state = [], action)
         const operation = action.increment ? (pr.writings_count + 1) : (pr.writings_count - 1)
         prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], writings_count: operation };
       } else {
-        const operation = action.increment ? (pr.writings_count + 1) : (pr.audios_count - 1)
+        const operation = action.increment ? (pr.audios_count + 1) : (pr.audios_count - 1)
         prayerRequest[prayerIndex] = {...prayerRequest[prayerIndex], audios_count: operation };
       }
       return { data: prayerRequest }

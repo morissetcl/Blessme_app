@@ -14,6 +14,7 @@ import WritingComment from '../../form/WritingComment/WritingComment';
 import * as Expo from 'expo';
 import AudioPrayer from '../audio/Prayer';
 import Answer from '../../Answer';
+import ModalActions from '../../ModalActions';
 
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -38,9 +39,8 @@ class Prayer extends Component {
   }
 
   componentDidUpdate() {
-    const success = i18n.t('success', { defaultValue: 'Prayer added' });
-    if (this.props.navigation.state.params.formFrom && this.state.flashMessage) {
-      displayMessage(success, 'success');
+    if (this.props.navigation.state.params.destroyPrayer && this.state.flashMessage) {
+      this.retrieveAllPrayers(this.state.prayerId);
       this.setState({ flashMessage: false });
     }
   }
@@ -118,8 +118,8 @@ class Prayer extends Component {
         const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
         const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
         const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
-        console.log(response.answers)
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
+
         return <View>
                  <View
                   style={styles.commentCard}
@@ -142,36 +142,17 @@ class Prayer extends Component {
                     </Text>
                     {(response.user.token === this.props.currentUser) ?
                       <View style={styles.actionsButton}>
-                        { !response.audio ?
-                          <TouchableOpacity
-                            style={styles.publishButton}
-                            onPress={(value) => {
-                              this.state.navigation.navigate('WritingComment', {
-                                prayerRequest: this.state.prayerRequest,
-                                currentUserToken: this.props.currentUser,
-                                prayerId: this.state.prayerId,
-                                body: response.body,
-                                commentId: response.id
-                              });
-                            }}>
-                            <FontAwesomeIcon
-                              icon={ faPenSquare }
-                              size={18} color={ '#bbbbbb' }
-                            />
-                          </TouchableOpacity>
-                          :
-                          null
-                        }
-                        <TouchableOpacity
-                          style={styles.deleteButton}
-                          onPress={(value) => {
-                            this._showAlert(response.id, index, response.audio);
-                          }}>
-                          <FontAwesomeIcon
-                            icon={ faTrash }
-                            size={16} color={ '#bbbbbb' }
-                          />
-                        </TouchableOpacity>
+                        <ModalActions
+                          prayerRequest={this.state.prayerRequest}
+                          navigation={this.state.navigation}
+                          body={response.body}
+                          username={this.state.username}
+                          prayerId={this.state.prayerId}
+                          commentId={response.id}
+                          actionType={'editPrayer'}
+                          isAudioPrayer={response.audio}
+                          newPrayer={false}
+                        />
                       </View>
                       :
                       <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
@@ -228,7 +209,6 @@ class Prayer extends Component {
         areYouSurePr: 'Remove you prayer ?',
       },
     };
-
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.retrieveAllPrayers(this.state.prayerId)} />

@@ -81,6 +81,6 @@ export function destroyPrayers(params) {
     }),
   }).then(response => response)
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: false });
+      navigation.navigate("Prayer", { editedPr: false, destroyPrayer: true });
     });
 }
