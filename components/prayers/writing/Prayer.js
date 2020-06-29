@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity,
-  ActivityIndicator, Alert } from 'react-native';
-import { getPrayerRequest } from '../../../api/PrayerRequest';
-import { getPrayers, destroyPrayers } from '../../../api/Prayer';
-import { createInnapropriateContent } from '../../../api/InnapropriateContent';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenSquare, faTrash, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import PrayerRequestCard from '../../PrayerRequestCard';
-import PrayerRequestButtonsActions from '../../prayer_request/PrayerRequestButtonsActions';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
+
+import { getPrayerRequest } from '../../../api/PrayerRequest';
+import { getPrayers } from '../../../api/Prayer';
+import { createInnapropriateContent } from '../../../api/InnapropriateContent';
 import { displayMessage } from "../../shared/message";
-import WritingComment from '../../form/WritingComment/WritingComment';
+import { styles } from './Styles';
+import { connect } from 'react-redux';
+import { updateCounter } from '../../../store/actions/actionCreators'
+
 import * as Expo from 'expo';
+import * as Localization from 'expo-localization';
+
+import PrayerRequestCard from '../../PrayerRequestCard';
+import PrayerRequestButtonsActions from '../../prayerRequest/PrayerRequestButtonsActions';
+import WritingComment from '../../form/WritingComment/WritingComment';
 import AudioPrayer from '../audio/Prayer';
 import Answer from '../../Answer';
 import ModalActions from '../../ModalActions';
 
-import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import { styles } from './Styles';
-import { connect } from 'react-redux';
-import { updateCounter } from '../../../store/actions/actionCreators'
+
 
 class Prayer extends Component {
   constructor(props) {
@@ -45,24 +46,12 @@ class Prayer extends Component {
     }
   }
 
-  _showAlert = (responId, index, audio) => {
-    Alert.alert(
-      this.state.title,
-      i18n.t('areYouSurePr', { defaultValue: 'Êtes-vous sûr ?' }),
-      [
-        { text: i18n.t('delete', { defaultValue: 'Supprimer' }), onPress: () => this.destroyActions(responId, index, audio) },
-        { text: i18n.t('cancel', { defaultValue: 'Annuler' }), onPress: () => console.log('') },
-      ],
-      { onDismiss: () => {} },
-    );
-  }
-
   renderPrayerRequest() {
     const pr = this.props.allPrayersRequests.filter(pr => pr.id === this.state.prayerId)
     if (this.props.navigation.state.params.editedPr && this.props.allPrayersRequests) {
       return <PrayerRequestCard
-        prayerRequest={pr[0]}
         key={ Math.random() }
+        prayerRequest={pr[0]}
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
@@ -71,10 +60,10 @@ class Prayer extends Component {
       return <PrayerRequestCard
         key={ Math.random() }
         prayerRequest={pr[0]}
-        newPrayer={this.props.navigation.state.params.newPrayer}
         numberOfLines={ 1000 }
         navigation={ this.state.navigation }
         prayerId={ this.props.navigation.state.params.prayerId }
+        newPrayer={this.props.navigation.state.params.newPrayer}
       />;
     }
   }
@@ -83,20 +72,8 @@ class Prayer extends Component {
     this.state.navigation.navigate('Profile', { username: this.state.username, userToken: token });
   }
 
-  commentFromOriginalPoster(username1, username2) {
-    return (username1 === username2);
-  }
-
-  destroyActions(commentId, index, audio) {
-    const typeOfPrayer = audio ? 'audio' : 'writing'
-    const destroyPrayer = i18n.t('destroyPrayer', { defaultValue: 'Prière supprimée' });
-    destroyPrayers({ prayerId: this.state.prayerId,
-      commentId: commentId,
-      navigation: this.state.navigation }).then(() => {
-      this.props.dispatch(updateCounter(this.state.prayerId, typeOfPrayer, false));
-      displayMessage(destroyPrayer, 'success');
-      this.retrieveAllPrayers(this.state.prayerId);
-    });
+  commentFromOriginalPoster(username) {
+    return (username === this.state.prayerRequestUsername);
   }
 
   signalContent(alertableId) {
@@ -133,7 +110,7 @@ class Prayer extends Component {
                       }}
                     >
                     <Text
-                      style={[this.commentFromOriginalPoster(response.user.username, this.state.prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
+                      style={[this.commentFromOriginalPoster(response.user.username) ? styles.usernameOp : styles.usernameNotOp]}
                       onPress={(value) => {
                         this.goToProfile(response.user.token);
                       }}
