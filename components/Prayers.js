@@ -85,7 +85,7 @@ class Prayers extends Component {
               size={36} color={ '#FFFFFF' }
               style = {styles.add_prayer}
               onPress={(value) => {
-                this.state.navigation.navigate('PrayerRequest', {
+                this.state.navigation.navigate('PrayerRequestForm', {
                   token: this.props.currentUser,
                   prayerRequest: ''
                 });

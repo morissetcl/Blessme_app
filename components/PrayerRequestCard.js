@@ -65,7 +65,7 @@ class PrayerRequestCard extends React.Component {
 
   goToPrayer() {
     if (this.state.needLink) {
-      this.state.navigation.navigate('Prayer', {
+      this.state.navigation.navigate('PrayerRequest', {
         prayerRequest: this.props.prayerRequest,
         currentUserToken: this.props.currentUser,
         prayerRequestUsername: this.state.username,

@@ -4,10 +4,10 @@ import { fadeIn, fromLeft } from 'react-navigation-transitions';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
-import Prayer from '../components/prayers/writing/Prayer';
+import PrayerRequest from '../components/prayerRequest/PrayerRequest';
 import WritingComment from '../components/form/WritingComment/WritingComment';
 import UserProfile from '../components/form/UserProfile/UserProfile';
-import PrayerRequest from '../components/form/PrayerRequest/PrayerRequest';
+import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequest';
 import Profile from '../components/Profile';
 import AudioRecorder from '../components/form/AudioRecorder/AudioRecorder';
 import ResetPassword from '../components/form/ResetPassword/ResetPassword';
@@ -85,8 +85,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    PrayerRequest: {
-      screen: PrayerRequest,
+    PrayerRequestForm: {
+      screen: PrayerRequestForm,
       navigationOptions: {
         headerLeft: null,
         title: i18n.t('prayerRequest'),
@@ -96,8 +96,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    Prayer: {
-      screen: Prayer,
+    PrayerRequest: {
+      screen: PrayerRequest,
       navigationOptions: {
         headerLeft: null,
         headerTintColor: '#FFFFFF',

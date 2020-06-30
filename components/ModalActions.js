@@ -65,7 +65,7 @@ class ModalActions extends Component {
 
   _editPrayerRequest = () => {
     this._menu.hide();
-    this.state.navigation.navigate('PrayerRequest', {
+    this.state.navigation.navigate('PrayerRequestForm', {
       currentUserToken: this.props.currentUser,
       body: this.state.body,
       title: this.state.title,
