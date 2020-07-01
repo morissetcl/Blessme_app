@@ -8,6 +8,7 @@ import { StyleSheet,
        } from 'react-native';
 import { Item, Form, Input, Label } from "native-base";
 import * as Facebook from 'expo-facebook';
+import * as firebase from "firebase";
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import { displayMessage } from "./shared/message";
 import { createUser } from '../api/User';
