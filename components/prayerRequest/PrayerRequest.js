@@ -15,7 +15,10 @@ import * as Localization from 'expo-localization';
 
 import PrayerRequestCard from '../PrayerRequestCard';
 import PrayerRequestButtonsActions from '../prayerRequest/PrayerRequestButtonsActions';
+
 import WritingComment from '../form/WritingComment/WritingComment';
+import WritingPrayer from '../prayers/writing/Prayer';
+
 import AudioPrayer from '../prayers/audio/Prayer';
 import Answer from '../Answer';
 import ModalActions from '../ModalActions';
@@ -67,14 +70,6 @@ class PrayerRequest extends Component {
     }
   }
 
-  goToProfile(token) {
-    this.state.navigation.navigate('Profile', { username: this.state.username, userToken: token });
-  }
-
-  commentFromOriginalPoster(username) {
-    return (username === this.state.prayerRequestUsername);
-  }
-
   signalContent(alertableId) {
     const trad = i18n.t('signalSuccess', { defaultValue: 'Signalé avec succès' });
     createInnapropriateContent({
@@ -97,62 +92,16 @@ class PrayerRequest extends Component {
         const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
 
         return <View key={Math.random()}>
-                 <View
-                  style={styles.commentCard}
-                  key={response.created_at}
-                  id={index}
-                  >
-
-                    <TouchableOpacity
-                      onLongPress={(value) => {
-                        this.signalContent(response.id);
-                      }}
-                    >
-                    <Text
-                      style={[this.commentFromOriginalPoster(response.user.username) ? styles.usernameOp : styles.usernameNotOp]}
-                      onPress={(value) => {
-                        this.goToProfile(response.user.token);
-                      }}
-                    >
-                    {response.user.username}
-                    </Text>
-                    {(response.user.token === this.props.currentUser) ?
-                      <View style={styles.actionsButton}>
-                        <ModalActions
-                          prayerRequest={this.state.prayerRequest}
-                          navigation={this.state.navigation}
-                          body={response.body}
-                          username={this.state.username}
-                          prayerId={this.state.prayerId}
-                          commentId={response.id}
-                          actionType={'editPrayer'}
-                          isAudioPrayer={response.audio}
-                          newPrayer={false}
-                        />
-                      </View>
-                      :
-                      <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
-                    }
-                    { response.audio ?
-                      <View style={styles.playerAudio}>
-                        <AudioPrayer audio={response.audio} duration={response.audio_duration} />
-                      </View>
-                      :
-                      <Text style={styles.prayerBody}>{response.body}</Text>
-                    }
-                    </TouchableOpacity>
-                  <View style={styles.answer}>
-                    { response.answers.map((answer, index) => {
-                      return <Answer
-                                key={ Math.random() }
-                                index={index}
-                                answer={answer}
-                                currentUser={this.props.currentUser}
-                              />
-                      })
-                    }
-                  </View>
-                </View>
+                 <WritingPrayer
+                   index={index}
+                   response={response}
+                   currentUser={this.props.currentUser}
+                   navigation={this.state.navigation}
+                   username={this.state.username}
+                   prayerId={this.state.prayerId}
+                   prayerRequest={this.state.prayerRequest}
+                   prayerRequestUsername={this.state.prayerRequestUsername}
+                 />
               </View>
       });
       this.setState({ prayersList: prayersList });
