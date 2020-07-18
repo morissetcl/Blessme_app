@@ -21,7 +21,6 @@ class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signal: props.signal,
       navigation: props.navigation,
       body: props.body,
       title: props.title,
@@ -51,17 +50,35 @@ class ModalActions extends Component {
         dispatch(deletePrayerRequest(this.state.prayerRequestId));
         displayMessage(trad, 'success');
     });
-  }
+  };
 
-  _signalPrayerRequest = () => {
+  _signalContent = () => {
     const trad = i18n.t('signalSuccess', { defaultValue: 'Signalée avec succès' });
     createInnapropriateContent({
       navigation: this.state.navigation,
-      alertableId: this.state.prayerRequestId,
-      object: 'prayer_request'
+      alertableId: this.alertableId(),
+      object: this.alertableType()
     })
     displayMessage(trad, 'success');
-  }
+  };
+
+  alertableId() {
+    if (this.isSignalPrayer()) {
+      return this.state.commentId
+    };
+    return this.state.prayerRequestId
+  };
+
+  alertableType() {
+    if (this.isSignalPrayer()) {
+      return 'prayer'
+    };
+    return 'prayer_request'
+  };
+
+  isSignalPrayer() {
+    return this.props.actionType === 'signalPrayer'
+  };
 
   _editPrayerRequest = () => {
     this._menu.hide();
@@ -130,12 +147,10 @@ class ModalActions extends Component {
                  <MenuItem onPress={() => this._editPrayerRequest()}>Modifier</MenuItem>
                  <MenuItem onPress={() => this._deletePrayerRequest()}>Supprimer</MenuItem>
               </View>
-      case 'signal':
-        return <View>
-                 <MenuItem onPress={() => this._signalPrayerRequest()}>Signaler</MenuItem>
-              </View>
       default:
-        return 'foo';
+        return <View>
+                 <MenuItem onPress={() => this._signalContent()}>Signaler</MenuItem>
+              </View>
     }
   }
 

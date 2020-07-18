@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   createdAt: {
     position: 'absolute',
     top: 8,
-    right: 12,
+    right: 30,
     fontSize: 12,
     color: '#bbbbbb',
   },

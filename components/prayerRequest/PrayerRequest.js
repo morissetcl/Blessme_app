@@ -19,10 +19,6 @@ import PrayerRequestButtonsActions from '../prayerRequest/PrayerRequestButtonsAc
 import WritingComment from '../form/WritingComment/WritingComment';
 import WritingPrayer from '../prayers/writing/Prayer';
 
-import AudioPrayer from '../prayers/audio/Prayer';
-import Answer from '../Answer';
-import ModalActions from '../ModalActions';
-
 import i18n from 'i18n-js';
 
 class PrayerRequest extends Component {

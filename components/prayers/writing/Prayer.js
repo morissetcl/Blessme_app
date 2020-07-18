@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import Answer from '../../Answer';
+import ModalActions from '../../ModalActions';
 import { NavigationEvents } from 'react-navigation';
 import { styles } from './Styles';
 import i18n from 'i18n-js';
 
 const Prayer = props => {
   const { index, response, currentUser, navigation, username, prayerId, prayerRequest, prayerRequestUsername } = props;
-
 
   const formattedDate = new Date(Date.parse(response.created_at) * 1000);
   const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
@@ -33,23 +33,31 @@ const Prayer = props => {
            >
              {response.user.username}
            </Text>
-          {(response.user.token === currentUser.token) ?
-             <View style={styles.actionsButton}>
-               <ModalActions
-                 prayerRequest={prayerRequest}
-                 navigation={navigation}
-                 body={response.body}
-                 username={username}
-                 prayerId={prayerId}
-                 commentId={response.id}
-                 actionType={'editPrayer'}
-                 isAudioPrayer={response.audio}
-                 newPrayer={false}
-               />
-             </View>
-             :
+           <View style={styles.actionsButton}>
              <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
-           }
+              {(response.user.token === currentUser) ?
+                 <ModalActions
+                   navigation={navigation}
+                   body={response.body}
+                   username={username}
+                   prayerId={prayerId}
+                   commentId={response.id}
+                   actionType={'editPrayer'}
+                   isAudioPrayer={response.audio}
+                   newPrayer={false}
+                   prayerRequest={prayerRequest}
+                 />
+                 :
+                 <ModalActions
+                   navigation={navigation}
+                   body={response.body}
+                   username={username}
+                   prayerId={prayerId}
+                   commentId={response.id}
+                   actionType={'signalPrayer'}
+                 />
+               }
+           </View>
            { response.audio ?
               <View style={styles.playerAudio}>
                 <AudioPrayer audio={response.audio} duration={response.audio_duration} />
