@@ -12,8 +12,8 @@ const Prayer = props => {
   const formattedDate = new Date(Date.parse(response.created_at) * 1000);
   const unformattedCreatedDateSince = Date.now() - Date.parse(response.created_at);
   const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
-  const trad = i18n.t('prayerDate', { createdAtSince: createdAtSince, defaultValue: '-' });
-  const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : i18n.t('today', { defaultValue: 'Today' });
+  const trad = `il y a ${createdAtSince} jours`
+  const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : "Aujourd'hui";
 
   return <View
          style={styles.commentCard}
