@@ -16,8 +16,6 @@ export default class Answer extends Component {
   }
 
   render() {
-    console.log(this.props.answer)
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
     const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
     const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);

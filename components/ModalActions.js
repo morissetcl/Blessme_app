@@ -107,7 +107,6 @@ class ModalActions extends Component {
   _addAnswer = () => {
     this._menu.hide();
     this.state.navigation.navigate('AnswerForm', {
-      prayerRequestId: this.state.prayerRequestId,
       prayerId: this.state.commentId,
       userId: this.props.currentUser,
       prayerBody: this.state.body,

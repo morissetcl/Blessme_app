@@ -1,17 +1,12 @@
 import { getApiUrl } from './GetApiUrl';
 
 export function createAnswer(params) {
-  const prayerRequestId = params['prayerRequestId'];
   const prayerId = params['prayerId'];
   const body = params['body'];
   const userId = params['userId'];
   const navigation = params['navigation'];
-  console.log(prayerRequestId)
-  console.log(prayerId)
-  console.log(body['body'])
-  console.log(userId)
-  console.log('$$$$$$$$$$$$$$$$$$$$')
-  return fetch(`${getApiUrl()}/prayers_requests/${prayerRequestId}/prayers/${prayerId}/answers`, {
+
+  return fetch(`${getApiUrl()}/prayers/${prayerId}/answers`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
