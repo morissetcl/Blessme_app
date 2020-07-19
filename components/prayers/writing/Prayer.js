@@ -20,19 +20,17 @@ const Prayer = props => {
          key={response.created_at}
          id={index}
          >
-         <TouchableOpacity
-            onLongPress={(value) => {
-              this.signalContent(response.id);
-            }}
-          >
-          <Text
-          style={[(response.user.username === prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
-             onPress={(value) => {
-               navigation.navigate('Profile', { username: username, userToken: response.user.token });
-             }}
-           >
-             {response.user.username}
-           </Text>
+           <TouchableOpacity>
+             <Text
+               style={[(response.user.username === prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
+               onPress={(value) => {
+                 navigation.navigate('Profile', { username: username, userToken: response.user.token });
+               }}
+              >
+               {response.user.username}
+              </Text>
+           </TouchableOpacity>
+
            <View style={styles.actionsButton}>
              <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
               {(response.user.token === currentUser) ?
@@ -77,7 +75,6 @@ const Prayer = props => {
                })
              }
            </View>
-          </TouchableOpacity>
          </View>
 };
 

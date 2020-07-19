@@ -104,6 +104,17 @@ class ModalActions extends Component {
     });
   }
 
+  _addAnswer = () => {
+    this._menu.hide();
+    this.state.navigation.navigate('AnswerForm', {
+      prayerRequestId: this.state.prayerRequestId,
+      prayerId: this.state.commentId,
+      userId: this.props.currentUser,
+      prayerBody: this.state.body,
+      navigation: this.state.navigation
+    });
+  }
+
   _menu = null;
 
   setMenuRef = ref => {
@@ -149,6 +160,7 @@ class ModalActions extends Component {
               </View>
       default:
         return <View>
+                 <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
                  <MenuItem onPress={() => this._signalContent()}>Signaler</MenuItem>
               </View>
     }

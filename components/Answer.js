@@ -5,6 +5,7 @@ export default class Answer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      createdAt: props.answer.created_at,
       body: props.answer.body,
       user: props.answer.user
     };
@@ -15,19 +16,26 @@ export default class Answer extends Component {
   }
 
   render() {
+    console.log(this.props.answer)
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    const formattedDate = new Date(Date.parse(this.state.createdAt) * 1000);
+    const unformattedCreatedDateSince = Date.now() - Date.parse(this.state.createdAt);
+    const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
+    const trad = `il y a ${createdAtSince} jours`
+    const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : "Aujourd'hui";
+
     return (
       <View
         style={styles.commentCard}
         key={this.props.created_at}
         id={this.props.index}
       >
-        <TouchableOpacity>
-          <Text
-          style={[this.commentFromOriginalPoster() ? styles.usernameOp : styles.username]}
-          >{this.state.user.username}
-          </Text>
-          <Text style={styles.prayerBody}>{ this.state.body }</Text>
-        </TouchableOpacity>
+        <Text
+        style={[this.commentFromOriginalPoster() ? styles.usernameOp : styles.username]}
+        >{this.state.user.username}
+        </Text>
+        <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
+        <Text style={styles.prayerBody}>{ this.state.body }</Text>
       </View>
     );
   }

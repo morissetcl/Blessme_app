@@ -11,6 +11,7 @@ import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequest';
 import Profile from '../components/Profile';
 import AudioRecorder from '../components/form/AudioRecorder/AudioRecorder';
 import ResetPassword from '../components/form/ResetPassword/ResetPassword';
+import AnswerForm from '../components/form/Answer/Answer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -90,6 +91,17 @@ const SearchStackNavigator = createStackNavigator(
       navigationOptions: {
         headerLeft: null,
         title: i18n.t('prayerRequest'),
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7',
+        },
+      },
+    },
+    AnswerForm: {
+      screen: AnswerForm,
+      navigationOptions: {
+        headerLeft: null,
+        title: 'Répondre',
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
