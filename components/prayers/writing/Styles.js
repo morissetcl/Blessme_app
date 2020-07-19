@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
   },
   answer: {
     paddingTop: 10
+  },
+  displayAnswers: {
+    textAlign: 'center',
+    color: "#49beb7"
   }
 });
 

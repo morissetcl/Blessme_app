@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import ModalActions from './ModalActions';
 
 export default class Answer extends Component {
   constructor(props) {
@@ -33,40 +34,28 @@ export default class Answer extends Component {
         >{this.state.user.username}
         </Text>
         <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
+        <ModalActions
+          navigation={this.props.navigation}
+          body={this.state.body}
+          username={this.state.user.username}
+          answerId={this.props.answer.id}
+          actionType={'signalAnswer'}
+          newPrayer={false}
+        />
         <Text style={styles.prayerBody}>{ this.state.body }</Text>
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eaeaea',
   },
-  loader: {
-    color: "#0000ff",
-    flex: 1,
-    alignItems: 'center',
-    position: 'absolute',
-    top: Dimensions.get('window').height / 2,
-    left: Dimensions.get('window').width / 2,
-  },
-  prayerList: {
-    paddingTop: 20,
-    paddingBottom: Dimensions.get('window').height / 12,
-  },
   commentCard: {
     borderLeftWidth: 1,
-    borderLeftColor: '#63686e',
-    marginLeft: '5%',
-    paddingLeft: '2%',
-    marginBottom: '2%',
-    backgroundColor: 'white',
-    flex: 1,
-  },
-  commentCardOp: {
-    borderLeftWidth: 2,
-    borderLeftColor: '#ff8b6a',
+    borderLeftColor: '#bbbbbb',
     marginLeft: '5%',
     paddingLeft: '2%',
     marginBottom: '2%',
@@ -83,39 +72,14 @@ const styles = StyleSheet.create({
     color: '#ff8b6a',
     marginBottom: '2%',
   },
-  publishButton: {
-    position: 'absolute',
-    right: 30,
-    top: '4%',
-    color: '#207dff',
-  },
-  deleteButton: {
-    position: 'absolute',
-    right: 0,
-    top: '4%',
-  },
-  actionsButton: {
-    position: 'relative',
-    bottom: 27,
-    right: 5,
-  },
-  playerAudio: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-    marginLeft: '5%',
-    marginRight: '5%',
-    width: '90%',
+  prayerBody: {
+    marginTop: 5,
   },
   createdAt: {
     position: 'absolute',
     top: 8,
-    right: 12,
+    right: 40,
     fontSize: 12,
     color: '#bbbbbb',
-  },
-  prayerBody: {
-    marginTop: 5,
-  },
+  }
 });

@@ -5,6 +5,9 @@ import ModalActions from '../../ModalActions';
 import { NavigationEvents } from 'react-navigation';
 import { styles } from './Styles';
 import i18n from 'i18n-js';
+import AudioPrayer from '../audio/Prayer';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 const Prayer = props => {
   const { index, response, currentUser, navigation, username, prayerId, prayerRequest, prayerRequestUsername } = props;
@@ -14,6 +17,8 @@ const Prayer = props => {
   const createdAtSince = Math.floor(unformattedCreatedDateSince/8.64e7);
   const trad = `il y a ${createdAtSince} jours`
   const formattedCreatedAtSince = (createdAtSince !== 0) ? trad : "Aujourd'hui";
+
+  const [hideAnswer, setHideAnswer] = useState(true);
 
   return <View
          style={styles.commentCard}
@@ -64,17 +69,37 @@ const Prayer = props => {
               <Text style={styles.prayerBody}>{response.body}</Text>
             }
 
-           <View style={styles.answer}>
-             { response.answers.map((answer, i) => {
-               return <Answer
-                         key={ Math.random() }
-                         index={i}
-                         answer={answer}
-                         currentUser={currentUser}
-                       />
-               })
-             }
-           </View>
+            { response.answers.length > 0 ?
+               hideAnswer ?
+                  <Text
+                    onPress={() => setHideAnswer(false)}
+                    style={styles.displayAnswers}
+                    >
+                      <FontAwesomeIcon icon={faAngleDown} color={'#bbbbbb'} size={24} />
+                    </Text>
+                 :
+                   <View style={styles.answer}>
+                     <Text
+                       onPress={() => setHideAnswer(true)}
+                       style={styles.displayAnswers}
+                     >
+                      <FontAwesomeIcon icon={faAngleUp} color={'#bbbbbb'} size={24} />
+                     </Text>
+                     { response.answers.map((answer, i) => {
+                       return <Answer
+                                 key={ Math.random() }
+                                 index={i}
+                                 answer={answer}
+                                 currentUser={currentUser}
+                                 navigation={navigation}
+                               />
+                       })
+                     }
+                   </View>
+              :
+              null
+            }
+
          </View>
 };
 

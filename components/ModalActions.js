@@ -29,7 +29,8 @@ class ModalActions extends Component {
       commentId: props.commentId,
       prayerRequest: this.findPrayerRequest(),
       actionType: props.actionType,
-      isAudioPrayer: props.isAudioPrayer
+      isAudioPrayer: props.isAudioPrayer,
+      answerId: props.answerId
     };
   }
 
@@ -45,7 +46,8 @@ class ModalActions extends Component {
     const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
-      navigation: this.state.navigation }).then(() => {
+      navigation: this.state.navigation
+    }).then(() => {
         const {dispatch} = this.props
         dispatch(deletePrayerRequest(this.state.prayerRequestId));
         displayMessage(trad, 'success');
@@ -63,21 +65,29 @@ class ModalActions extends Component {
   };
 
   alertableId() {
-    if (this.isSignalPrayer()) {
-      return this.state.commentId
-    };
-    return this.state.prayerRequestId
+    switch(this.props.actionType) {
+      case 'signalPrayer':
+        return this.state.commentId;
+      case 'signalPrayerRequest':
+        return this.state.prayerRequestId;
+      case 'signalAnswer':
+        return this.state.answerId;
+      default:
+        return ''
+    }
   };
 
   alertableType() {
-    if (this.isSignalPrayer()) {
-      return 'prayer'
-    };
-    return 'prayer_request'
-  };
-
-  isSignalPrayer() {
-    return this.props.actionType === 'signalPrayer'
+    switch(this.props.actionType) {
+      case 'signalPrayer':
+        return 'prayer';
+      case 'signalPrayerRequest':
+        return 'prayer_request';
+      case 'signalAnswer':
+        return 'answer';
+      default:
+        return ''
+    }
   };
 
   _editPrayerRequest = () => {
@@ -91,7 +101,7 @@ class ModalActions extends Component {
       editPrayer: true,
       prayerRequestId: this.state.prayerRequestId,
     });
-  }
+  };
 
   _editPrayer = () => {
     this._menu.hide();
@@ -102,7 +112,7 @@ class ModalActions extends Component {
       body: this.state.body,
       commentId: this.state.commentId
     });
-  }
+  };
 
   _addAnswer = () => {
     this._menu.hide();
@@ -112,7 +122,7 @@ class ModalActions extends Component {
       prayerBody: this.state.body,
       navigation: this.state.navigation
     });
-  }
+  };
 
   _menu = null;
 
@@ -138,7 +148,7 @@ class ModalActions extends Component {
       this.props.dispatch(updateCounter(this.state.prayerRequestId, typeOfPrayer, false));
       displayMessage('Prière supprimée avec succès', 'success');
     });
-  }
+  };
 
   renderSwitchActions() {
     switch(this.state.actionType) {
@@ -150,7 +160,6 @@ class ModalActions extends Component {
                  :
                    null
                   }
-
               </View>
       case 'editPrayerRequest':
         return <View>
@@ -159,18 +168,23 @@ class ModalActions extends Component {
               </View>
       default:
         return <View>
-                 <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
+                 { this.props.actionType !== 'signalAnswer' ?
+                  <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
+                 :
+                   null
+                  }
                  <MenuItem onPress={() => this._signalContent()}>Signaler</MenuItem>
               </View>
-    }
-  }
+    };
+  };
 
   render() {
 
     return (
       <TouchableOpacity
         onPress={this.showMenu}
-        style = {styles.menu} >
+        style={[this.state.answerId ? styles.menuAnswer : styles.menu]}>
+
 
         <Menu
           ref={this.setMenuRef}
@@ -180,8 +194,8 @@ class ModalActions extends Component {
         </Menu>
       </TouchableOpacity>
     );
-  }
-}
+  };
+};
 
 
 const styles = StyleSheet.create({
@@ -190,6 +204,11 @@ const styles = StyleSheet.create({
     top: 8,
     right: 0,
   },
+  menuAnswer: {
+    position: 'absolute',
+    top: 8,
+    right: 10,
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -201,6 +220,6 @@ const mapStateToProps = (state) => {
     prayerRequest: state.prayerRequest,
     currentUser: state.userReducer.data
   }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalActions)

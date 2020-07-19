@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { styles } from './Styles'
 
-export default class Prayer extends Component {
+export default class AudioPrayer extends Component {
   constructor(props) {
     super(props);
     this.playbackInstance = null;
