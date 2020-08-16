@@ -18,7 +18,7 @@ export function createPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: false });
+      navigation.navigate("PrayerRequest", { editedPr: false });
     });
 }
 
@@ -40,7 +40,7 @@ export function editPrayer(params) {
     }),
   }).then(response => response.json())
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: false });
+      navigation.navigate("PrayerRequest", { editedPr: false });
     });
 }
 
@@ -81,6 +81,6 @@ export function destroyPrayers(params) {
     }),
   }).then(response => response)
     .then(json => {
-      navigation.navigate("Prayer", { editedPr: false });
+      navigation.navigate("PrayerRequest", { editedPr: false, destroyPrayer: true });
     });
 }

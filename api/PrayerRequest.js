@@ -73,6 +73,6 @@ export function editPrayerRequest(params) {
     }),
   }).then(response => response.json())
     .then(prayerRequest => {
-      navigation.navigate("Prayer", { editedPr: true, prayerRequest: prayerRequest });
+      navigation.navigate("PrayerRequest", { editedPr: true, prayerRequest: prayerRequest });
     });
 }

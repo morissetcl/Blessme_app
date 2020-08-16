@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert, Text } from 'react-native';
 import { destroyPrayerResquest } from '../api/PrayerRequest';
+import { destroyPrayers } from '../api/Prayer';
+
 import { createInnapropriateContent } from '../api/InnapropriateContent';
+import { updateCounter } from '../store/actions/actionCreators'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -18,40 +21,78 @@ class ModalActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signal: props.signal,
       navigation: props.navigation,
       body: props.body,
       title: props.title,
       category: props.category,
-      prayerRequestId: props.prayerId
+      prayerRequestId: props.prayerId,
+      commentId: props.commentId,
+      prayerRequest: this.findPrayerRequest(),
+      actionType: props.actionType,
+      isAudioPrayer: props.isAudioPrayer,
+      answerId: props.answerId
     };
   }
+
+  findPrayerRequest() {
+    if (this.props.navigation.state.params) {
+      return this.props.navigation.state.params.prayerRequest
+    };
+    return this.props.prayerRequest;
+  };
 
   _deletePrayerRequest = () => {
     this._menu.hide();
     const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
-      navigation: this.state.navigation }).then(() => {
+      navigation: this.state.navigation
+    }).then(() => {
         const {dispatch} = this.props
         dispatch(deletePrayerRequest(this.state.prayerRequestId));
         displayMessage(trad, 'success');
     });
-  }
+  };
 
-  _signalPrayerRequest = () => {
+  _signalContent = () => {
     const trad = i18n.t('signalSuccess', { defaultValue: 'Signalée avec succès' });
     createInnapropriateContent({
       navigation: this.state.navigation,
-      alertableId: this.state.prayerRequestId,
-      object: 'prayer_request'
+      alertableId: this.alertableId(),
+      object: this.alertableType()
     })
     displayMessage(trad, 'success');
-  }
+  };
+
+  alertableId() {
+    switch(this.props.actionType) {
+      case 'signalPrayer':
+        return this.state.commentId;
+      case 'signalPrayerRequest':
+        return this.state.prayerRequestId;
+      case 'signalAnswer':
+        return this.state.answerId;
+      default:
+        return ''
+    }
+  };
+
+  alertableType() {
+    switch(this.props.actionType) {
+      case 'signalPrayer':
+        return 'prayer';
+      case 'signalPrayerRequest':
+        return 'prayer_request';
+      case 'signalAnswer':
+        return 'answer';
+      default:
+        return ''
+    }
+  };
 
   _editPrayerRequest = () => {
     this._menu.hide();
-    this.state.navigation.navigate('PrayerRequest', {
+    this.state.navigation.navigate('PrayerRequestForm', {
       currentUserToken: this.props.currentUser,
       body: this.state.body,
       title: this.state.title,
@@ -60,7 +101,28 @@ class ModalActions extends Component {
       editPrayer: true,
       prayerRequestId: this.state.prayerRequestId,
     });
-  }
+  };
+
+  _editPrayer = () => {
+    this._menu.hide();
+    this.state.navigation.navigate('WritingComment', {
+      prayerRequest: this.state.prayerRequest,
+      currentUserToken: this.props.currentUser,
+      prayerId: this.state.prayerId,
+      body: this.state.body,
+      commentId: this.state.commentId
+    });
+  };
+
+  _addAnswer = () => {
+    this._menu.hide();
+    this.state.navigation.navigate('AnswerForm', {
+      prayerId: this.state.commentId,
+      userId: this.props.currentUser,
+      prayerBody: this.state.body,
+      navigation: this.state.navigation
+    });
+  };
 
   _menu = null;
 
@@ -76,52 +138,64 @@ class ModalActions extends Component {
     this._menu.show();
   };
 
-  render() {
-    i18n.locale = Localization.locale;
-    i18n.fallbacks = true;
+  _deletePrayer = () => {
+    const typeOfPrayer = this.state.isAudioPrayer ? 'audio' : 'writing'
+    destroyPrayers({
+      prayerId: this.state.prayerRequestId,
+      commentId: this.state.commentId,
+      navigation: this.state.navigation
+    }).then(() => {
+      this.props.dispatch(updateCounter(this.state.prayerRequestId, typeOfPrayer, false));
+      displayMessage('Prière supprimée avec succès', 'success');
+    });
+  };
 
-    i18n.translations = {
-      fr: {
-        signalSuccess: 'Merci, nos équipes vont contrôler le contenu.',
-        areYouSurePr: 'Que voulez vous faire avec cette demande ?',
-        edit: 'Modifier',
-        delete: 'Supprimer',
-        cancel: 'Annuler',
-        deleteSuccess: 'Votre demande a bien été supprimée.',
-      },
-      en: {
-        signalSuccess: 'Thanks for the report. We are going to check.',
-        areYouSurePr: 'What do you want to do ?',
-        edit: 'Edit',
-        delete: 'Remove',
-        cancel: 'Cancel',
-        deleteSuccess: 'Prayer request deleted with success.',
-      },
+  renderSwitchActions() {
+    switch(this.state.actionType) {
+      case 'editPrayer':
+        return <View>
+                 <MenuItem onPress={() => this._deletePrayer()}>Supprimer</MenuItem>
+                 { !this.state.isAudioPrayer ?
+                   <MenuItem onPress={() => this._editPrayer()}>Modifier</MenuItem>
+                 :
+                   null
+                  }
+              </View>
+      case 'editPrayerRequest':
+        return <View>
+                 <MenuItem onPress={() => this._editPrayerRequest()}>Modifier</MenuItem>
+                 <MenuItem onPress={() => this._deletePrayerRequest()}>Supprimer</MenuItem>
+              </View>
+      default:
+        return <View>
+                 { this.props.actionType !== 'signalAnswer' ?
+                  <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
+                 :
+                   null
+                  }
+                 <MenuItem onPress={() => this._signalContent()}>Signaler</MenuItem>
+              </View>
     };
+  };
+
+  render() {
+
     return (
       <TouchableOpacity
         onPress={this.showMenu}
-        style = {styles.menu} >
+        style={[this.state.answerId ? styles.menuAnswer : styles.menu]}>
+
 
         <Menu
           ref={this.setMenuRef}
           button={<FontAwesomeIcon icon={ faEllipsisV } size={16} color={ '#bbbbbb' }/>}
         >
-        { !this.props.signal ?
-          <View>
-            <MenuItem onPress={() => this._editPrayerRequest()}>Modifier</MenuItem>
-            <MenuItem onPress={() => this._deletePrayerRequest()}>Supprimer</MenuItem>
-          </View>
-        :
-          <View>
-            <MenuItem onPress={() => this._signalPrayerRequest()}>Signaler</MenuItem>
-          </View>
-        }
+        { this.renderSwitchActions() }
         </Menu>
       </TouchableOpacity>
     );
-  }
-}
+  };
+};
 
 
 const styles = StyleSheet.create({
@@ -130,6 +204,15 @@ const styles = StyleSheet.create({
     top: 8,
     right: 0,
   },
+  menuAnswer: {
+    position: 'absolute',
+    top: 8,
+    right: 10,
+  }
+});
+
+const mapDispatchToProps = dispatch => ({
+   dispatch
 });
 
 const mapStateToProps = (state) => {
@@ -137,6 +220,6 @@ const mapStateToProps = (state) => {
     prayerRequest: state.prayerRequest,
     currentUser: state.userReducer.data
   }
-}
+};
 
-export default connect(mapStateToProps)(ModalActions)
+export default connect(mapStateToProps, mapDispatchToProps)(ModalActions)

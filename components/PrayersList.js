@@ -24,7 +24,7 @@ export default class PrayersList extends React.Component {
   }
 
   goToPrayerRequest(prayerRequest) {
-    this.state.navigation.navigate('Prayer', { prayerRequest: prayerRequest, currentUserToken: this.state.currentUserToken });
+    this.state.navigation.navigate('PrayerRequest', { prayerRequest: prayerRequest, currentUserToken: this.state.currentUserToken });
   }
 
   retrieveAllPrayers() {

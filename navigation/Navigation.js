@@ -4,13 +4,14 @@ import { fadeIn, fromLeft } from 'react-navigation-transitions';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
-import Prayer from '../components/prayers/writing/Prayer';
+import PrayerRequest from '../components/prayerRequest/PrayerRequest';
 import WritingComment from '../components/form/WritingComment/WritingComment';
 import UserProfile from '../components/form/UserProfile/UserProfile';
-import PrayerRequest from '../components/form/PrayerRequest/PrayerRequest';
+import PrayerRequestForm from '../components/form/PrayerRequest/PrayerRequest';
 import Profile from '../components/Profile';
 import AudioRecorder from '../components/form/AudioRecorder/AudioRecorder';
 import ResetPassword from '../components/form/ResetPassword/ResetPassword';
+import AnswerForm from '../components/form/Answer/Answer';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -85,8 +86,8 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    PrayerRequest: {
-      screen: PrayerRequest,
+    PrayerRequestForm: {
+      screen: PrayerRequestForm,
       navigationOptions: {
         headerLeft: null,
         title: i18n.t('prayerRequest'),
@@ -96,8 +97,19 @@ const SearchStackNavigator = createStackNavigator(
         },
       },
     },
-    Prayer: {
-      screen: Prayer,
+    AnswerForm: {
+      screen: AnswerForm,
+      navigationOptions: {
+        headerLeft: null,
+        title: 'Répondre',
+        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#49beb7',
+        },
+      },
+    },
+    PrayerRequest: {
+      screen: PrayerRequest,
       navigationOptions: {
         headerLeft: null,
         headerTintColor: '#FFFFFF',

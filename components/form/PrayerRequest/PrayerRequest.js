@@ -48,7 +48,7 @@ class PrayerRequest extends Component {
          return response.json()
        }).then(prayerRequest => {
          this.props.dispatch(newPrayerRequest(prayerRequest))
-         this.props.navigation.navigate("Prayer", {
+         this.props.navigation.navigate("PrayerRequest", {
            newPrayer: true,
            prayerRequest: prayerRequest,
            currentUserToken: this.props.currentUser

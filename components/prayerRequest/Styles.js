@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaeaea',
+    backgroundColor: '#eaeaea'
   },
   loader: {
     color: "#0000ff",
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   createdAt: {
     position: 'absolute',
     top: 8,
-    right: 30,
+    right: 12,
     fontSize: 12,
     color: '#bbbbbb',
   },
@@ -78,10 +78,6 @@ const styles = StyleSheet.create({
   },
   answer: {
     paddingTop: 10
-  },
-  displayAnswers: {
-    textAlign: 'center',
-    color: "#49beb7"
   }
 });
 
