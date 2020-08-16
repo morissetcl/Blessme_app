@@ -5,10 +5,10 @@ import { NavigationEvents } from 'react-navigation';
 import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles';
 import i18n from 'i18n-js';
-import { createAnswer } from '../../../api/Answer'
+import { createAnswer, updateAnswer } from '../../../api/Answer'
 
 const AnswerForm = props => {
-  const { prayerBody, prayerId, userId, navigation } = props.navigation.state.params;
+  const { prayerBody, prayerId, userId, navigation, actionType, answer } = props.navigation.state.params;
   const [body, setBody] = useState('');
 
   function publishAnswer() {
@@ -19,10 +19,22 @@ const AnswerForm = props => {
                 });
   }
 
+  function editAnswer() {
+    updateAnswer({ prayerId: answer.prayer_id,
+                   answerId: answer.id,
+                   body: body,
+                   navigation: navigation
+                });
+  }
+
   return <View style={styles.container} >
             <Text style={styles.prayerTitle} >{ prayerBody }</Text>
             <View style={styles.positionPublishButton} >
+            { actionType == 'edit' ?
+              <PublishButton onPress={ () => editAnswer() } />
+              :
               <PublishButton onPress={ () => publishAnswer() } />
+            }
             </View>
             <Divider style={styles.divider} />
             <TextInput

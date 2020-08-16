@@ -47,6 +47,7 @@ const Prayer = props => {
                    commentId={response.id}
                    actionType={'editPrayer'}
                    isAudioPrayer={response.audio}
+                   answer={response.answer}
                    newPrayer={false}
                    prayerRequest={prayerRequest}
                  />
