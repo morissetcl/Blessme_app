@@ -38,7 +38,7 @@ export default class Answer extends Component {
           navigation={this.props.navigation}
           body={this.state.body}
           username={this.state.user.username}
-          answerId={this.props.answer.id}
+          answer={this.props.answer}
           actionType={'signalAnswer'}
           newPrayer={false}
         />

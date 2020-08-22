@@ -25,7 +25,6 @@ export default class SignIn extends React.Component {
   }
 
   Login = (email, password) => {
-    console.log(email)
     try {
       this.props.firebase
         .auth()

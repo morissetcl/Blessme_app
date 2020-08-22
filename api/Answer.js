@@ -22,3 +22,22 @@ export function createAnswer(params) {
       navigation.navigate("PrayerRequest", { editedPr: false });
     });
 }
+
+export function updateAnswer(params) {
+  const body = params['body'];
+  const prayerId = params['prayerId'];
+  const answerId = params['answerId'];
+  const navigation = params['navigation'];
+  return fetch(`${getApiUrl()}/prayers/${prayerId}/answers/${answerId}`, {
+    method: 'PATCH',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      body: body
+    })
+  }).then(() => {
+    navigation.navigate("PrayerRequest", { editedPr: false });
+  });
+}

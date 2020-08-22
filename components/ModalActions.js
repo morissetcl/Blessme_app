@@ -30,7 +30,7 @@ class ModalActions extends Component {
       prayerRequest: this.findPrayerRequest(),
       actionType: props.actionType,
       isAudioPrayer: props.isAudioPrayer,
-      answerId: props.answerId
+      answer: props.answer
     };
   }
 
@@ -71,7 +71,7 @@ class ModalActions extends Component {
       case 'signalPrayerRequest':
         return this.state.prayerRequestId;
       case 'signalAnswer':
-        return this.state.answerId;
+        return this.state.answer ? this.state.answer.id : null;
       default:
         return ''
     }
@@ -124,6 +124,15 @@ class ModalActions extends Component {
     });
   };
 
+  _editAnswer = () => {
+    this._menu.hide();
+    this.state.navigation.navigate('AnswerForm', {
+      actionType: 'edit',
+      answer: this.state.answer,
+      navigation: this.state.navigation
+    });
+  };
+
   _menu = null;
 
   setMenuRef = ref => {
@@ -169,10 +178,15 @@ class ModalActions extends Component {
       default:
         return <View>
                  { this.props.actionType !== 'signalAnswer' ?
-                  <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
+                   <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
                  :
                    null
                   }
+                   { this.state.answer && (this.props.currentUser == this.state.answer.user.token) ?
+                    <MenuItem onPress={() => this._editAnswer()}>Modifier</MenuItem>
+                   :
+                     null
+                   }
                  <MenuItem onPress={() => this._signalContent()}>Signaler</MenuItem>
               </View>
     };
@@ -183,7 +197,7 @@ class ModalActions extends Component {
     return (
       <TouchableOpacity
         onPress={this.showMenu}
-        style={[this.state.answerId ? styles.menuAnswer : styles.menu]}>
+        style={[this.state.answer ? styles.menuAnswer : styles.menu]}>
 
 
         <Menu
