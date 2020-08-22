@@ -125,9 +125,6 @@ class ModalActions extends Component {
   };
 
   _editAnswer = () => {
-    console.log(this.state.commentId)
-    console.log(this.state.answer)
-    console.log('booooooooooooo')
     this._menu.hide();
     this.state.navigation.navigate('AnswerForm', {
       actionType: 'edit',

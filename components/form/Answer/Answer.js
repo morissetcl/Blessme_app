@@ -6,6 +6,7 @@ import PublishButton from '../../shared/buttons/PublishButton';
 import { styles } from './Styles';
 import i18n from 'i18n-js';
 import { createAnswer, updateAnswer } from '../../../api/Answer'
+import { displayMessage } from "../../shared/message";
 
 const AnswerForm = props => {
   const { prayerBody, prayerId, userId, navigation, actionType, answer } = props.navigation.state.params;
@@ -16,6 +17,8 @@ const AnswerForm = props => {
                    body: body,
                    userId: userId,
                    navigation: navigation
+                }).then(() => {
+                  displayMessage('Commentaire ajouté', 'success');
                 });
   }
 
@@ -24,7 +27,17 @@ const AnswerForm = props => {
                    answerId: answer.id,
                    body: body,
                    navigation: navigation
+                }).then(() => {
+                  displayMessage('Commentaire modifié', 'success');
                 });
+  }
+
+  function initialValue() {
+    if (answer && body.length == 0) {
+      return answer.body
+    } else {
+      return body
+    }
   }
 
   return <View style={styles.container} >
@@ -42,7 +55,8 @@ const AnswerForm = props => {
               placeholder={ 'Écrivez votre réponse…' }
               underlineColorAndroid="transparent"
               multiline
-              onChangeText={(body) => setBody({ body })}
+              value={initialValue()}
+              onChangeText={(body) => setBody(body)}
               style={styles.commentInput}
             />
           </View>

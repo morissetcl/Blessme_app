@@ -35,8 +35,8 @@ export function updateAnswer(params) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      body: body['body'],
-    }),
+      body: body
+    })
   }).then(() => {
     navigation.navigate("PrayerRequest", { editedPr: false });
   });
