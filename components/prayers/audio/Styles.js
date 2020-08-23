@@ -6,7 +6,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  coucou: {
+  player: {
+    marginTop: 10,
+    marginBottom: -5,
     width: '80%',
     display: 'flex',
     flexDirection: 'row',

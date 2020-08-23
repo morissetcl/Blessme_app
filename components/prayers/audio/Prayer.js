@@ -145,7 +145,7 @@ export default class AudioPrayer extends Component {
 
    render() {
      return <View style={styles.container}>
-       <View style={styles.coucou}>
+       <View style={styles.player}>
          {this.state.isPlaying ? (
            <FontAwesomeIcon
              icon={faPlay}
