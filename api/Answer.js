@@ -14,7 +14,7 @@ export function createAnswer(params) {
     },
     body: JSON.stringify({
       prayer_id: prayerId,
-      body: body['body'],
+      body: body,
       user_id: userId
     }),
   }).then(response => response.json())
