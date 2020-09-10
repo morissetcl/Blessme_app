@@ -163,12 +163,13 @@ class ModalActions extends Component {
     switch(this.state.actionType) {
       case 'editPrayer':
         return <View>
-                 <MenuItem onPress={() => this._deletePrayer()}>Supprimer</MenuItem>
                  { !this.state.isAudioPrayer ?
                    <MenuItem onPress={() => this._editPrayer()}>Modifier</MenuItem>
                  :
                    null
                   }
+                  <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
+                  <MenuItem onPress={() => this._deletePrayer()}>Supprimer</MenuItem>
               </View>
       case 'editPrayerRequest':
         return <View>
@@ -177,7 +178,7 @@ class ModalActions extends Component {
               </View>
       default:
         return <View>
-                 { this.props.actionType !== 'signalAnswer' ?
+                 { ((this.props.actionType !== 'signalAnswer') && !this.state.title) ?
                    <MenuItem onPress={() => this._addAnswer()}>Répondre</MenuItem>
                  :
                    null
