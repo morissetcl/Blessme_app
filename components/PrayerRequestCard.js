@@ -19,11 +19,11 @@ class PrayerRequestCard extends React.Component {
       title: this.findPrayerRequest().title,
       body: this.findPrayerRequest().body,
       user: this.findPrayerRequest().user,
-      username: this.findPrayerRequest().user.username,
-      avatarUrl: this.findPrayerRequest().user.avatar,
+      username: this.findPrayerRequest().user?.username,
+      avatarUrl: this.findPrayerRequest().user?.avatar,
       categoryLabel: this.findPrayerRequest().category.label,
       categoryColor: this.findPrayerRequest().category.color,
-      userToken: this.findPrayerRequest().user.token,
+      userToken: this.findPrayerRequest().user?.token,
       createdAt: this.findPrayerRequest().created_at,
       numberOfAudioPrayer: this.findPrayerRequest().audios_count,
       numberOfWritingPrayer: this.findPrayerRequest().writings_count,
@@ -75,7 +75,7 @@ class PrayerRequestCard extends React.Component {
 
   goToProfile(username) {
     this.state.navigation.navigate('Profile', { username: username,
-      userToken: this.state.user.token,
+      userToken: this.state.user?.token,
       currentUserToken: this.props.currentUser
     });
   }

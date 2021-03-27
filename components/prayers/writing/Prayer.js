@@ -27,18 +27,18 @@ const Prayer = props => {
          >
            <TouchableOpacity>
              <Text
-               style={[(response.user.username === prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
+               style={[(response.user?.username === prayerRequestUsername) ? styles.usernameOp : styles.usernameNotOp]}
                onPress={(value) => {
-                 navigation.navigate('Profile', { username: username, userToken: response.user.token });
+                 navigation.navigate('Profile', { username: username, userToken: response.user?.token });
                }}
               >
-               {response.user.username}
+               {response.user?.username}
               </Text>
            </TouchableOpacity>
 
            <View style={styles.actionsButton}>
              <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
-              {(response.user.token === currentUser) ?
+              {(response.user?.token === currentUser) ?
                  <ModalActions
                    navigation={navigation}
                    body={response.body}

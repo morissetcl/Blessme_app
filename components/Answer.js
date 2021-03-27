@@ -13,7 +13,7 @@ export default class Answer extends Component {
   }
 
   commentFromOriginalPoster() {
-    return (this.props.currentUser === this.state.user.token);
+    return (this.props.currentUser === this.state.user?.token);
   }
 
   render() {
@@ -31,13 +31,13 @@ export default class Answer extends Component {
       >
         <Text
         style={[this.commentFromOriginalPoster() ? styles.usernameOp : styles.username]}
-        >{this.state.user.username}
+        >{this.state.user?.username}
         </Text>
         <Text style = {styles.createdAt}>{ formattedCreatedAtSince }</Text>
         <ModalActions
           navigation={this.props.navigation}
           body={this.state.body}
-          username={this.state.user.username}
+          username={this.state.user?.username}
           answer={this.props.answer}
           actionType={'signalAnswer'}
           newPrayer={false}

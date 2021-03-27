@@ -70,14 +70,14 @@ class SignUp extends React.Component {
 
   initializeFbUser(response) {
     createUser({
-      email: response.user.email,
-      token: response.user.uid
+      email: response.user?.email,
+      token: response.user?.uid
     }).then(() => {
-      this.props.dispatch(setCurrentUser(response.user.uid))
+      this.props.dispatch(setCurrentUser(response.user?.uid))
     });
-    registerForNotifications(response.user.uid);
+    registerForNotifications(response.user?.uid);
 
-    this.setState({ logged: true, token: response.user.uid });
+    this.setState({ logged: true, token: response.user?.uid });
   }
 
   async handleFacebookButton() {

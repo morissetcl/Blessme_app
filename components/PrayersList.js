@@ -43,7 +43,7 @@ export default class PrayersList extends React.Component {
           return <View style={styles.comment_card} key={index} id={index}>
             <Text
               style={styles.username}
-            >{response.user.username}</Text>
+            >{response.user?.username}</Text>
             <Text style = {styles.created_at}>{ formattedCreatedAtSince }</Text>
             <TouchableOpacity>
               { response.body ?

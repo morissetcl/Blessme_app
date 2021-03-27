@@ -50,7 +50,8 @@ class PrayerRequestList extends React.Component {
 
   selectData() {
     if (this.state.profileFeed) {
-      return this.props.allPrayersRequests.filter(pr => pr.user.token === this.checkTokenToSearch())
+
+      return this.props.allPrayersRequests.filter(pr => pr.user?.token === this.checkTokenToSearch())
     }
     return this.props.allPrayersRequests;
   }

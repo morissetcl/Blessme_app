@@ -183,7 +183,7 @@ class ModalActions extends Component {
                  :
                    null
                   }
-                   { this.state.answer && (this.props.currentUser == this.state.answer.user.token) ?
+                   { this.state.answer && (this.props.currentUser == this.state.answer.user?.token) ?
                     <MenuItem onPress={() => this._editAnswer()}>Modifier</MenuItem>
                    :
                      null
