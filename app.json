@@ -3,7 +3,6 @@
     "name": "Bless Me",
     "slug": "Blessme_app",
     "privacy": "public",
-    "sdkVersion": "38.0.0",
     "platforms": [
       "ios",
       "android"
@@ -34,8 +33,6 @@
         "READ_CONTACTS"
       ]
     },
-    "orientation": "portrait",
-    "icon": "./assets/blessme-logo.png",
     "notification": {
       "icon": "./assets/blessme-notification.png",
       "color": "#49beb7"

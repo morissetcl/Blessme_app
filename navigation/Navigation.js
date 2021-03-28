@@ -1,6 +1,6 @@
 // Navigation/Navigation.js
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { fadeIn, fromLeft } from 'react-navigation-transitions';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator, TransitionPresets } from 'react-navigation-stack'
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
 import Prayers from '../components/Prayers';
