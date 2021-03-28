@@ -49,8 +49,8 @@ class Connexion extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ logged: true, token: user.uid });
-        this.props.dispatch(setCurrentUser(user.uid))
+        this.setState({ logged: true, token: user?.uid });
+        this.props.dispatch(setCurrentUser(user?.uid))
       }
       this.setState({ firebaseCheck: true });
     });

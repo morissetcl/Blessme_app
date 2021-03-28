@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 
-import { getPrayerRequest } from '../../api/PrayerRequest';
 import { getPrayers } from '../../api/Prayer';
 import { createInnapropriateContent } from '../../api/InnapropriateContent';
 import { displayMessage } from "../shared/message";
