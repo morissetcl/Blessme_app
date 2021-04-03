@@ -43,7 +43,7 @@ class ModalActions extends Component {
 
   _deletePrayerRequest = () => {
     this._menu.hide();
-    const trad = i18n.t('deleteSuccess', { defaultValue: 'Deleted' });
+    const trad = i18n.t('deleteSuccess', { defaultValue: 'Supprimé' });
     destroyPrayerResquest({
       prayerRequestId: this.state.prayerRequestId,
       navigation: this.state.navigation

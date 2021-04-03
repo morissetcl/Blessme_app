@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Alert, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 
 import { getPrayerRequest } from '../../api/PrayerRequest';
@@ -45,8 +45,8 @@ class PrayerRequest extends Component {
   }
 
   renderPrayerRequest() {
-    const pr = this.props.allPrayersRequests.filter(pr => pr.id === this.state.prayerId)
-    if (this.props.navigation.state.params.editedPr && this.props.allPrayersRequests) {
+    const pr = this.props.allPrayersRequests.filter(pr => pr?.id === this.state?.prayerId)
+    if (this.props.navigation?.state?.params?.editedPr && this.props?.allPrayersRequests) {
       return <PrayerRequestCard
         key={ Math.random() }
         prayerRequest={pr[0]}
@@ -141,14 +141,27 @@ class PrayerRequest extends Component {
             </View>
           </View>
         </ScrollView>
+        <PrayerRequestButtonsActions
+          prayerRequest={ this.state.prayerRequest }
+          prayerId={ this.state.prayerId }
+          currentUserToken={ this.props.currentUser }
+          navigation={ this.state.navigation }/>
         { this.state.loaded ?
-          <PrayerRequestButtonsActions
-            prayerRequest={ this.state.prayerRequest }
-            prayerId={ this.state.prayerId }
-            currentUserToken={ this.props.currentUser }
-            navigation={ this.state.navigation }/>
+          null
           :
-          <ActivityIndicator size="large" style = {styles.loader} />
+          <ActivityIndicator
+          size="large"
+          color="#49beb7"
+          style={
+            {
+              flex: 1,
+              alignItems: 'center',
+              position: 'absolute',
+              top: Dimensions.get('window').height / 2,
+              left: Dimensions.get('window').width / 2,
+            }
+          }
+          />
         }
       </View>
     );

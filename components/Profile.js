@@ -154,7 +154,7 @@ class Profile extends Component {
                     onPress={ this._pickImage }
                   />
                 :
-                <ActivityIndicator size="large" style = {styles.loader} />
+                <ActivityIndicator size="large" color="white" />
               }
             />
             <View style={styles.user_informations}>
