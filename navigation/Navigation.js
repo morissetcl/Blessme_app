@@ -1,5 +1,6 @@
 // Navigation/Navigation.js
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { fadeIn, fromLeft } from 'react-navigation-transitions';
 import Homepage from '../components/Homepage';
 import Connexion from '../components/Connexion';
@@ -49,25 +50,25 @@ const SearchStackNavigator = createStackNavigator(
     Homepage: {
       screen: Homepage,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     Connexion: {
       screen: Connexion,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     ResetPassword: {
       screen: ResetPassword,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     WritingComment: {
       screen: WritingComment,
       navigationOptions: {
-        headerLeft: null,
+        headerLeft: () => null,
         title: i18n.t('prayer'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -78,7 +79,7 @@ const SearchStackNavigator = createStackNavigator(
     UserProfile: {
       screen: UserProfile,
       navigationOptions: {
-        headerLeft: null,
+        headerLeft: () => null,
         title: i18n.t('editProfil'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -89,7 +90,7 @@ const SearchStackNavigator = createStackNavigator(
     PrayerRequestForm: {
       screen: PrayerRequestForm,
       navigationOptions: {
-        headerLeft: null,
+        headerLeft: () => null,
         title: i18n.t('prayerRequest'),
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -100,7 +101,7 @@ const SearchStackNavigator = createStackNavigator(
     AnswerForm: {
       screen: AnswerForm,
       navigationOptions: {
-        headerLeft: null,
+        headerLeft: () => null,
         title: 'Répondre',
         headerTintColor: '#FFFFFF',
         headerStyle: {
@@ -111,7 +112,8 @@ const SearchStackNavigator = createStackNavigator(
     PrayerRequest: {
       screen: PrayerRequest,
       navigationOptions: {
-        headerLeft: null,
+        title: null,
+        headerLeft: () => null,
         headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#49beb7',
@@ -121,19 +123,19 @@ const SearchStackNavigator = createStackNavigator(
     Prayers: {
       screen: Prayers,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     Profile: {
       screen: Profile,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     AudioRecorder: {
       screen: AudioRecorder,
       navigationOptions: {
-        headerLeft: null,
+        headerLeft: () => null,
         title: i18n.t('audio'),
         headerTintColor: '#FFFFFF',
         headerStyle: {

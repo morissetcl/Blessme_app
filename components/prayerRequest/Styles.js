@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eaeaea'
   },
   loader: {
-    color: "#0000ff",
+    color: "#49beb7",
     flex: 1,
     alignItems: 'center',
     position: 'absolute',
